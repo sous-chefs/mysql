@@ -61,7 +61,7 @@ package node['mysql']['package_name'] do
   action :install
 end
 
-directory "#{node['mysql']['conf_dir']}/mysql/conf.d" do
+directory "#{node['mysql']['confd_dir']}" do
   owner "mysql"
   group "mysql"
   action :create
@@ -106,7 +106,7 @@ unless Chef::Config[:solo]
   end
 end
 
-# set the root password on platforms 
+# set the root password on platforms
 # that don't support pre-seeding
 unless platform?(%w{debian ubuntu})
 

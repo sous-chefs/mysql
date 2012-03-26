@@ -30,6 +30,7 @@ when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
   default['mysql']['mysql_bin']               = "/usr/bin/mysql"
 
   set['mysql']['conf_dir']                    = '/etc'
+  set['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
   set['mysql']['socket']                      = "/var/lib/mysql/mysql.sock"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 1
@@ -44,6 +45,7 @@ when "freebsd"
   default['mysql']['mysql_bin']               = "/usr/local/bin/mysql"
 
   set['mysql']['conf_dir']                    = '/usr/local/etc'
+  set['mysql']['confd_dir']                   = '/usr/local/etc/mysql/conf.d'
   set['mysql']['socket']                      = "/tmp/mysqld.sock"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 0
@@ -58,6 +60,7 @@ else
   default['mysql']['mysql_bin']               = "/usr/bin/mysql"
 
   set['mysql']['conf_dir']                    = '/etc/mysql'
+  set['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
   set['mysql']['socket']                      = "/var/run/mysqld/mysqld.sock"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 0
