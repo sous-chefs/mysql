@@ -106,7 +106,7 @@ unless Chef::Config[:solo]
   end
 end
 
-# set the root password on platforms 
+# set the root password on platforms
 # that don't support pre-seeding
 unless platform?(%w{debian ubuntu})
 
@@ -137,4 +137,5 @@ execute "mysql-install-privileges" do
   command "#{node['mysql']['mysql_bin']} -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < #{grants_path}"
   action :nothing
   subscribes :run, resources("template[#{grants_path}]"), :immediately
+  ignore_failure true # "Can't connect to mysql" hackfix
 end
