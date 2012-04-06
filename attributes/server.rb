@@ -48,6 +48,13 @@ when "freebsd"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 0
   set['mysql']['grants_path']                 = "/var/db/mysql/grants.sql"
+when "mac_os_x"
+  default['mysql']['package_name']            = "mysql"
+  default['mysql']['basedir']                 = "/usr/local/Cellar"
+  default['mysql']['data_dir']                = "/usr/local/var/mysql"
+  default['mysql']['root_group']              = "admin"
+  default['mysql']['mysqladmin_bin']          = "/usr/local/bin/mysqladmin"
+  default['mysql']['mysql_bin']               = "/usr/local/bin/mysql"
 else
   default['mysql']['package_name']            = "mysql-server"
   default['mysql']['service_name']            = "mysql"
