@@ -11,12 +11,14 @@ Platform
 
 * Debian, Ubuntu
 * CentOS, Red Hat, Fedora
+* Mac OS X (Using homebrew)
 
 Tested on:
 
 * Debian 5.0
 * Ubuntu 10.04
 * CentOS 5.5
+* Mac OS X 10.7.2
 
 Cookbooks
 ---------
@@ -24,6 +26,8 @@ Cookbooks
 Requires Opscode's openssl cookbook for secure password generation. See _Attributes_ and _Usage_ for more information.
 
 Requires a C compiler and Ruby development package in order to build mysql gem with native extensions. On Debian and Ubuntu systems this is satisfied by installing the "build-essential" and "ruby-dev" packages before running Chef. See USAGE below for information on how to handle this during a Chef run.
+
+Requires homebrew cookbook on Mac OS X.
 
 Resources and Providers
 =======================
