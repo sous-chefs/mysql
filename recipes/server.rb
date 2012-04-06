@@ -61,40 +61,44 @@ package node['mysql']['package_name'] do
   action :install
 end
 
-directory "#{node['mysql']['conf_dir']}/mysql/conf.d" do
-  owner "mysql"
-  group "mysql"
-  action :create
-  recursive true
-end
+unless platform?(%w{mac_os_x})
 
-service "mysql" do
-  service_name node['mysql']['service_name']
-  if (platform?("ubuntu") && node.platform_version.to_f >= 10.04)
-    restart_command "restart mysql"
-    stop_command "stop mysql"
-    start_command "start mysql"
+  directory "#{node['mysql']['conf_dir']}/mysql/conf.d" do
+    owner "mysql"
+    group "mysql"
+    action :create
+    recursive true
   end
-  supports :status => true, :restart => true, :reload => true
-  action :nothing
-end
 
-skip_federated = case node['platform']
-                 when 'fedora', 'ubuntu', 'amazon'
-                   true
-                 when 'centos', 'redhat', 'scientific'
-                   node['platform_version'].to_f < 6.0
-                 else
-                   false
-                 end
+  service "mysql" do
+    service_name node['mysql']['service_name']
+    if (platform?("ubuntu") && node.platform_version.to_f >= 10.04)
+      restart_command "restart mysql"
+      stop_command "stop mysql"
+      start_command "start mysql"
+    end
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
+  end
 
-template "#{node['mysql']['conf_dir']}/my.cnf" do
-  source "my.cnf.erb"
-  owner "root"
-  group node['mysql']['root_group']
-  mode "0644"
-  notifies :restart, resources(:service => "mysql"), :immediately
-  variables :skip_federated => skip_federated
+  skip_federated = case node['platform']
+                   when 'fedora', 'ubuntu', 'amazon'
+                     true
+                   when 'centos', 'redhat', 'scientific'
+                     node['platform_version'].to_f < 6.0
+                   else
+                     false
+                   end
+
+  template "#{node['mysql']['conf_dir']}/my.cnf" do
+    source "my.cnf.erb"
+    owner "root"
+    group node['mysql']['root_group']
+    mode "0644"
+    notifies :restart, resources(:service => "mysql"), :immediately
+    variables :skip_federated => skip_federated
+  end
+
 end
 
 unless Chef::Config[:solo]
@@ -118,23 +122,35 @@ unless platform?(%w{debian ubuntu})
 
 end
 
-grants_path = node['mysql']['grants_path']
+# Homebrew has its own way to do databases
+if platform?(%w{mac_os_x})
 
-begin
-  t = resources("template[#{grants_path}]")
-rescue
-  Chef::Log.info("Could not find previously defined grants.sql resource")
-  t = template grants_path do
-    source "grants.sql.erb"
-    owner "root"
-    group node['mysql']['root_group']
-    mode "0600"
-    action :create
+  execute "mysql-install-db" do
+    command "mysql_install_db --verbose --user=`whoami` --basedir=\"$(brew --prefix mysql)\" --datadir=#{node['mysql']['data_dir']} --tmpdir=/tmp"
+    environment('TMPDIR' => nil)
+    action :run
+    creates "#{node['mysql']['data_dir']}/mysql"
   end
-end
 
-execute "mysql-install-privileges" do
-  command "#{node['mysql']['mysql_bin']} -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < #{grants_path}"
-  action :nothing
-  subscribes :run, resources("template[#{grants_path}]"), :immediately
+else
+  grants_path = node['mysql']['grants_path']
+
+  begin
+    t = resources("template[#{grants_path}]")
+  rescue
+    Chef::Log.info("Could not find previously defined grants.sql resource")
+    t = template grants_path do
+      source "grants.sql.erb"
+      owner "root"
+      group node['mysql']['root_group']
+      mode "0600"
+      action :create
+    end
+  end
+
+  execute "mysql-install-privileges" do
+    command "#{node['mysql']['mysql_bin']} -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < #{grants_path}"
+    action :nothing
+    subscribes :run, resources("template[#{grants_path}]"), :immediately
+  end
 end
