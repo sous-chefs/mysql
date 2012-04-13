@@ -1,0 +1,34 @@
+require File.expand_path('../helpers', __FILE__)
+
+describe 'mysql::server' do
+
+  include Helpers::Mysql
+
+  it 'has a secure operating system password' do
+    assert_secure_password(:debian)
+  end
+  it 'has a secure root password' do
+    assert_secure_password(:root)
+  end
+  it 'has a secure replication password' do
+    assert_secure_password(:repl)
+  end
+  it 'installs the mysql package' do
+    package(node['mysql']['package_name']).must_be_installed
+  end
+  it 'has a config directory' do
+    directory(node['mysql']['confd_dir']).must_exist.with(:owner, 'mysql').and(:group, 'mysql')
+  end
+  it 'runs as a daemon' do
+    service(node['mysql']['service_name']).must_be_running
+  end
+  it 'creates a my.cnf' do
+    file("#{node['mysql']['conf_dir']}/my.cnf").must_exist
+  end
+  describe 'debian' do
+    it 'creates a config file for service control' do
+      skip unless ['debian', 'ubuntu'].include?(node[:platform])
+      file("#{node['mysql']['conf_dir']}/debian.cnf").must_exist
+    end
+  end
+end
