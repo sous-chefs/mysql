@@ -89,6 +89,7 @@ License and Author
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: AJ Christensen (<aj@opscode.com>)
 Author:: Seth Chisamore (<schisamo@opscode.com>)
+Author:: Brian Bianco (<brian.bianco@gmail.com>)
 
 Copyright:: 2009-2011 Opscode, Inc
 
