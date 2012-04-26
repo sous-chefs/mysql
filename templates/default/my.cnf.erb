@@ -106,6 +106,7 @@ log-queries-not-using-indexes
 #server-id              = 1
 <%- if node['mysql']['tunable']['log_bin'] %>
 log_bin = <%= node['mysql']['tunable']['log_bin'] %>
+log_slave_updates       = <%= node['mysql']['tunable']['log_slave_updates'] %>
 <%- end %>
 <%- if node['mysql']['tunable']['log_bin_trust_function_creators'] %>
 log_bin_trust_function_creators
@@ -117,7 +118,6 @@ max_binlog_size         = <%= node['mysql']['tunable']['max_binlog_size'] %>
 <%- if node['mysql']['tunable']['relay_log'] %>
 relay-log               = <%= node['mysql']['tunable']['relay_log'] %>
 <%- end %>
-log_slave_updates       = <%= node['mysql']['tunable']['log_slave_updates'] %>
 sync_binlog             = <%= node['mysql']['tunable']['sync_binlog'] %>
 <%- if node['mysql']['tunable']['skip_slave_start'] %>
 skip_slave_start
