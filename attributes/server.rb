@@ -74,7 +74,7 @@ else
   default['mysql']['mysqladmin_bin']          = "/usr/bin/mysqladmin"
   default['mysql']['mysql_bin']               = "/usr/bin/mysql"
 
-  set['mysql']['conf_dir']                    = '/etc'
+  set['mysql']['conf_dir']                    = '/etc/mysql'
   set['mysql']['socket']                      = "/var/run/mysqld/mysqld.sock"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 0
