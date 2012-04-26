@@ -89,8 +89,8 @@ query_cache_size        = <%= node['mysql']['tunable']['query_cache_size'] %>
 #log            = /var/log/mysql/mysql.log
 #
 # Error logging goes to syslog. This is a Debian improvement :)
-<%- if node['mysql']['log_error'] %>
-log-error = <%= node['mysql']['log_error'] %>
+<%- if node['mysql']['tunable']['log_error'] %>
+log-error = <%= node['mysql']['tunable']['log_error'] %>
 <%- end %>
 #
 # Here you can see queries with especially long duration
