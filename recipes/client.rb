@@ -35,6 +35,8 @@ if platform? "windows"
   end
 end
 
+mysql_packages = node['mysql']['client']['package_names']
+
 mysql_packages.each do |mysql_pack|
   package mysql_pack do
     action :install
