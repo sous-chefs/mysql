@@ -14,7 +14,10 @@ recipe            "mysql::server_ec2", "Performs EC2-specific mountpoint manipul
 end
 
 depends "openssl"
-depends "windows"
+
+if platform? "windows"
+  depends "windows"
+end
 
 attribute "mysql/server_root_password",
   :display_name => "MySQL Server Root Password",
