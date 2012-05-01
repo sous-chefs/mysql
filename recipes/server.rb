@@ -45,6 +45,10 @@ if platform?(%w{debian ubuntu})
     owner "root"
     group node['mysql']['root_group']
     mode "0600"
+    variables(
+      :pkg_full => node['mysql']['package_name']
+      :pkg_short => node['mysql']['package_name'].gsub(/-\d\.\d$/, "")
+    )
     notifies :run, resources(:execute => "preseed mysql-server"), :immediately
   end
 
