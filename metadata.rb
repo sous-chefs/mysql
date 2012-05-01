@@ -15,7 +15,7 @@ end
 
 depends "openssl"
 
-if platform? "windows"
+case node['platform'] == "windows"
   depends "windows"
 end
 
