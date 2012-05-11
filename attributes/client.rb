@@ -34,19 +34,4 @@ when "windows"
   default['mysql']['client']['ruby_dir']     = RbConfig::CONFIG['bindir']
 end
 
-default['mysql']['client']['package_names'] = case node['platform']
-when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
-  %w{mysql mysql-devel}
-when "ubuntu","debian"
-  if debian_before_squeeze? || ubuntu_before_lucid?
-    %w{mysql-client libmysqlclient15-dev}
-  else
-    %w{mysql-client libmysqlclient-dev}
-  end
-when "freebsd"
-  %w{mysql55-client}
-when "windows"
-  [ "MySQL Connector C #{mysql['client']['version']}" ]
-else
-  %w{mysql-client libmysqlclient-dev}
-end
+default['mysql']['client']['package_names'] = ['mysql-client','libmysqlclient16-dev']
