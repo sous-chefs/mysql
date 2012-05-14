@@ -41,18 +41,7 @@ Attributes
 * `mysql['conf_dir']` - Location for mysql conf directory, default is "/etc/mysql"
 * `mysql['ec2_path']` - location of mysql data_dir on EC2 nodes, default "/mnt/mysql"
 
-Performance tuning attributes, each corresponds to the same-named parameter in my.cnf; default values listed
-
-* `mysql['tunable']['key_buffer']`          = "250M"
-* `mysql['tunable']['max_connections']`     = "800"
-* `mysql['tunable']['wait_timeout']`        = "180"
-* `mysql['tunable']['net_write_timeout']`   = "30"
-* `mysql['tunable']['net_write_timeout']`   = "30"
-* `mysql['tunable']['back_log']`            = "128"
-* `mysql['tunable']['table_cache']`         = "128"
-* `mysql['tunable']['max_heap_table_size']` = "32M"
-* `mysql['tunable']['expire_logs_days']`    = "10"
-* `mysql['tunable']['max_binlog_size']`     = "100M"
+See `attributes/server.rb` for performance tuning attributes.
 
 Usage
 =====
