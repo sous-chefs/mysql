@@ -129,3 +129,6 @@ default['mysql']['tunable']['collation_server']               = 'utf8_general_ci
 
 # you probably don't want MyISAM
 default['mysql']['tunable']['default_storage_engine']         = 'INNODB'
+
+# could be ANSI or PIPES_AS_CONCAT, for example
+default['mysql']['tunable']['sql_mode']                       = ''
