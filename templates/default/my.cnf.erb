@@ -78,6 +78,7 @@ max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 
 character_set_server           = <%= node['mysql']['tunable']['character_set_server'] %>
 collation_server               = <%= node['mysql']['tunable']['collation_server'] %>
+default_storage_engine         = <%= node['mysql']['tunable']['default_storage_engine'] %>
 innodb_flush_log_at_trx_commit = <%= node['mysql']['tunable']['innodb_flush_log_at_trx_commit'] %>
 innodb_file_per_table          = <%= node['mysql']['tunable']['innodb_file_per_table'] %>
 #

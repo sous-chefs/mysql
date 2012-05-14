@@ -126,3 +126,6 @@ default['mysql']['tunable']['innodb_file_per_table']          = 1
 # utf-8 is pretty standard these days
 default['mysql']['tunable']['character_set_server']           = 'utf8'
 default['mysql']['tunable']['collation_server']               = 'utf8_general_ci'
+
+# you probably don't want MyISAM
+default['mysql']['tunable']['default_storage_engine']         = 'INNODB'
