@@ -122,3 +122,7 @@ default['mysql']['tunable']['innodb_buffer_pool_size']  = "256M"
 default['mysql']['tunable']['innodb_flush_log_at_trx_commit'] = 1
 # not the mysql default, but usually makes sense
 default['mysql']['tunable']['innodb_file_per_table']          = 1
+
+# utf-8 is pretty standard these days
+default['mysql']['tunable']['character_set_server']           = 'utf8'
+default['mysql']['tunable']['collation_server']               = 'utf8_general_ci'
