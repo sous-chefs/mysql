@@ -59,3 +59,5 @@ innodb_log_buffer_size          = 1M
 innodb_buffer_pool_size         = <%= node['mysql']['tunable']['innodb_buffer_pool_size'] %>
 innodb_log_file_size            = 10M
 innodb_thread_concurrency       = 8
+innodb_flush_log_at_trx_commit = <%= node['mysql']['tunable']['innodb_flush_log_at_trx_commit'] %>
+innodb_file_per_table          = <%= node['mysql']['tunable']['innodb_file_per_table'] %>

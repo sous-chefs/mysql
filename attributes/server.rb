@@ -116,4 +116,9 @@ default['mysql']['tunable']['long_query_time']      = 2
 default['mysql']['tunable']['expire_logs_days']     = 10
 default['mysql']['tunable']['max_binlog_size']      = "100M"
 
+# considered by many to be the most important performance tunable
 default['mysql']['tunable']['innodb_buffer_pool_size']  = "256M"
+# set to 0 for better write performance at some safety cost
+default['mysql']['tunable']['innodb_flush_log_at_trx_commit'] = 1
+# not the mysql default, but usually makes sense
+default['mysql']['tunable']['innodb_file_per_table']          = 1

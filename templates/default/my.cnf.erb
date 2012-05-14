@@ -76,6 +76,8 @@ back_log                = <%= node['mysql']['tunable']['back_log'] %>
 table_cache             = <%= node['mysql']['tunable']['table_cache'] %>
 max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 
+innodb_flush_log_at_trx_commit = <%= node['mysql']['tunable']['innodb_flush_log_at_trx_commit'] %>
+innodb_file_per_table          = <%= node['mysql']['tunable']['innodb_file_per_table'] %>
 #
 # * Query Cache Configuration
 #
