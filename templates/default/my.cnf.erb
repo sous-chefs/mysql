@@ -62,6 +62,10 @@ key_buffer              = <%= node['mysql']['tunable']['key_buffer'] %>
 max_allowed_packet      = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 thread_stack            = <%= node['mysql']['tunable']['thread_stack'] %>
 thread_cache_size       = <%= node['mysql']['tunable']['thread_cache_size'] %>
+
+auto-increment-increment = <%= node['mysql']['auto-increment-increment'] %>
+auto-increment-offset    = <%= node['mysql']['auto-increment-offset'] %>
+
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
 myisam-recover          = BACKUP

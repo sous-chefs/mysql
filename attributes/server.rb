@@ -90,6 +90,9 @@ if attribute?('ec2')
   default['mysql']['ebs_vol_size'] = 50
 end
 
+default['mysql']['auto-increment-increment']        = 1
+default['mysql']['auto-increment-offset']           = 1
+
 default['mysql']['allow_remote_root']               = false
 default['mysql']['tunable']['back_log']             = "128"
 default['mysql']['tunable']['key_buffer']           = "256M"
