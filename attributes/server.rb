@@ -93,6 +93,7 @@ end
 default['mysql']['use_upstart'] = platform?("ubuntu") && node.platform_version.to_f >= 10.04
 
 default['mysql']['allow_remote_root']               = false
+default['mysql']['root_network_acl']                = default['mysql']['bind_address']
 default['mysql']['tunable']['back_log']             = "128"
 default['mysql']['tunable']['key_buffer']           = "256M"
 default['mysql']['tunable']['max_allowed_packet']   = "16M"

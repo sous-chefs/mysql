@@ -40,6 +40,7 @@ Attributes
 * `mysql['data_dir']` - Location for mysql data directory, default is "/var/lib/mysql"
 * `mysql['conf_dir']` - Location for mysql conf directory, default is "/etc/mysql"
 * `mysql['ec2_path']` - location of mysql data_dir on EC2 nodes, default "/mnt/mysql"
+* `mysql['root_network_acl']` - Set define the network the root user will be able to login from, default is the bind_address
 
 Performance tuning attributes, each corresponds to the same-named parameter in my.cnf; default values listed
 
