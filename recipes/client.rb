@@ -32,9 +32,6 @@ when "ubuntu","debian"
   end
 when "freebsd"
   %w{mysql55-client}
-when "mac_os_x"
-  include_recipe 'homebrew'
-  %w{mysql-connector-c}
 else
   %w{mysql-client libmysqlclient-dev}
 end
