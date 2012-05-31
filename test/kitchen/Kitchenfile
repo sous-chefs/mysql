@@ -1,0 +1,3 @@
+cookbook "mysql" do
+  configuration "server"
+end
