@@ -46,8 +46,8 @@ if platform?(%w{debian ubuntu})
     group node['mysql']['root_group']
     mode "0600"
     variables(
-      :pkg_full => node['mysql']['package_name'],
-      :pkg_short => node['mysql']['package_name'].gsub(/-\d\.\d$/, "")
+      :pkg_full => node['mysql']['server_package'],
+      :pkg_short => node['mysql']['server_package'].gsub(/-\d\.\d$/, "")
     )
     notifies :run, resources(:execute => "preseed mysql-server"), :immediately
   end
@@ -69,7 +69,7 @@ if platform? 'windows'
     not_if { File.exists? "#{Chef::Config[:file_cache_path]}/#{package_file}" }
   end
 
-  windows_package node['mysql']['package_name'] do
+  windows_package node['mysql']['server_package'] do
     source "#{Chef::Config[:file_cache_path]}/#{package_file}"
   end
 
@@ -78,7 +78,7 @@ if platform? 'windows'
   end
 end
 
-package node['mysql']['package_name'] do
+package node['mysql']['server_package'] do
   action :install
 end
 

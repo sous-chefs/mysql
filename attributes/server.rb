@@ -17,11 +17,15 @@
 # limitations under the License.
 #
 
-default['mysql']['bind_address']               = attribute?('cloud') ? cloud['local_ipv4'] : ipaddress
+if node.mysql.attribute?("package_name")
+  default['mysql']['server_package'] = default['mysql']['package_name']
+end
+
+default['mysql']['bind_address']              = attribute?('cloud') ? cloud['local_ipv4'] : ipaddress
 
 case node["platform"]
 when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
-  default['mysql']['package_name']            = "mysql-server"
+  default['mysql']['server_package']          = node['mysql']['package_name'] ||= "mysql-server"
   default['mysql']['service_name']            = "mysqld"
   default['mysql']['basedir']                 = "/usr"
   default['mysql']['data_dir']                = "/var/lib/mysql"
@@ -36,7 +40,7 @@ when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
   set['mysql']['old_passwords']               = 1
   set['mysql']['grants_path']                 = "/etc/mysql_grants.sql"
 when "freebsd"
-  default['mysql']['package_name']            = "mysql55-server"
+  default['mysql']['server_package']          = "mysql55-server"
   default['mysql']['service_name']            = "mysql-server"
   default['mysql']['basedir']                 = "/usr/local"
   default['mysql']['data_dir']                = "/var/db/mysql"
@@ -51,14 +55,14 @@ when "freebsd"
   set['mysql']['old_passwords']               = 0
   set['mysql']['grants_path']                 = "/var/db/mysql/grants.sql"
 when "windows"
-  default['mysql']['package_name']            = "MySQL Server 5.5"
+  default['mysql']['server_package']          = "MySQL Server 5.5"
   default['mysql']['version']                 = '5.5.21'
   default['mysql']['arch']                    = 'win32'
   default['mysql']['package_file']            = "mysql-#{mysql['version']}-#{mysql['arch']}.msi"
   default['mysql']['url']                     = "http://www.mysql.com/get/Downloads/MySQL-5.5/#{mysql['package_file']}/from/http://mysql.mirrors.pair.com/"
 
   default['mysql']['service_name']            = "mysql"
-  default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['package_name']}"
+  default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['server_package']}"
   default['mysql']['data_dir']                = "#{mysql['basedir']}\\Data"
   default['mysql']['bin_dir']                 = "#{mysql['basedir']}\\bin"
   default['mysql']['mysqladmin_bin']          = "#{mysql['bin_dir']}\\mysqladmin"
@@ -68,7 +72,7 @@ when "windows"
   default['mysql']['old_passwords']           = 0
   default['mysql']['grants_path']             = "#{mysql['conf_dir']}\\grants.sql"
 else
-  default['mysql']['package_name']            = "mysql-server"
+  default['mysql']['server_package']          = "mysql-server"
   default['mysql']['service_name']            = "mysql"
   default['mysql']['basedir']                 = "/usr"
   default['mysql']['data_dir']                = "/var/lib/mysql"

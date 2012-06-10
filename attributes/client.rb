@@ -34,7 +34,7 @@ when "windows"
   default['mysql']['client']['ruby_dir']     = RbConfig::CONFIG['bindir']
 end
 
-default['mysql']['client']['package_names'] = case node['platform']
+default['mysql']['client_packages'] = case node['platform']
 when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
   %w{mysql mysql-devel}
 when "ubuntu","debian"
