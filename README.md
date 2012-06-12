@@ -6,6 +6,8 @@ Installs and configures MySQL client or server.
 Requirements
 ============
 
+* Chef 0.10.10
+
 Platform
 --------
 
