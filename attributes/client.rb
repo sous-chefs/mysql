@@ -1,8 +1,10 @@
 #
 # Cookbook Name:: mysql
-# Attributes:: server
+# Attributes:: client
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Author:: Jamie Winsor (<jamie@vialstudios.com>)
+#
+# Copyright 2008-2012, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+default['mysql']['chef_gem_binary'] = nil
 
 case node["platform"]
 when "windows"
