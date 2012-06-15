@@ -67,6 +67,13 @@ when "windows"
   default['mysql']['conf_dir']                = "#{mysql['basedir']}"
   default['mysql']['old_passwords']           = 0
   default['mysql']['grants_path']             = "#{mysql['conf_dir']}\\grants.sql"
+when "mac_os_x"
+  default['mysql']['package_name']            = "mysql"
+  default['mysql']['basedir']                 = "/usr/local/Cellar"
+  default['mysql']['data_dir']                = "/usr/local/var/mysql"
+  default['mysql']['root_group']              = "admin"
+  default['mysql']['mysqladmin_bin']          = "/usr/local/bin/mysqladmin"
+  default['mysql']['mysql_bin']               = "/usr/local/bin/mysql"
 else
   default['mysql']['package_name']            = "mysql-server"
   default['mysql']['service_name']            = "mysql"
@@ -89,6 +96,8 @@ if attribute?('ec2')
   default['mysql']['ebs_vol_dev'] = "/dev/sdi"
   default['mysql']['ebs_vol_size'] = 50
 end
+
+default['mysql']['use_upstart'] = platform?("ubuntu") && node.platform_version.to_f >= 10.04
 
 default['mysql']['allow_remote_root']               = false
 default['mysql']['tunable']['back_log']             = "128"
@@ -126,6 +135,7 @@ default['mysql']['tunable']['innodb_data_file_path']           = "ibdata1:10M:au
 default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "1"
 default['mysql']['tunable']['innodb_flush_method']             = "fdatasync"
 default['mysql']['tunable']['innodb_log_buffer_size']          = "8M"
+default['mysql']['tunable']['innodb_adaptive_flushing']        = "true"
 
 default['mysql']['tunable']['query_cache_limit']    = "1M"
 default['mysql']['tunable']['query_cache_size']     = "16M"

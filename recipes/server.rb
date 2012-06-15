@@ -78,53 +78,56 @@ package node['mysql']['package_name'] do
   action :install
 end
 
-directory node['mysql']['confd_dir'] do
-  owner "mysql" unless platform? 'windows'
-  group "mysql" unless platform? 'windows'
-  action :create
-  recursive true
-end
+unless platform?(%w{mac_os_x})
 
-if platform? 'windows'
-  require 'win32/service'
-
-  windows_path node['mysql']['bin_dir'] do
-    action :add
+  directory node['mysql']['confd_dir'] do
+    owner "mysql" unless platform? 'windows'
+    group "mysql" unless platform? 'windows'
+    action :create
+    recursive true
   end
 
-  windows_batch "install mysql service" do
-    command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
-    not_if { Win32::Service.exists?(node['mysql']['service_name']) }
+  if platform? 'windows'
+    require 'win32/service'
+
+    windows_path node['mysql']['bin_dir'] do
+      action :add
+    end
+
+    windows_batch "install mysql service" do
+      command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
+      not_if { Win32::Service.exists?(node['mysql']['service_name']) }
+    end
   end
-end
 
-service "mysql" do
-  service_name node['mysql']['service_name']
-  if (platform?("ubuntu") && node.platform_version.to_f >= 10.04)
-    restart_command "restart mysql"
-    stop_command "stop mysql"
-    start_command "start mysql"
+  service "mysql" do
+    service_name node['mysql']['service_name']
+    if node['mysql']['use_upstart']
+      restart_command "restart mysql"
+      stop_command "stop mysql"
+      start_command "start mysql"
+    end
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
   end
-  supports :status => true, :restart => true, :reload => true
-  action :nothing
-end
 
-skip_federated = case node['platform']
-                 when 'fedora', 'ubuntu', 'amazon'
-                   true
-                 when 'centos', 'redhat', 'scientific'
-                   node['platform_version'].to_f < 6.0
-                 else
-                   false
-                 end
+  skip_federated = case node['platform']
+                   when 'fedora', 'ubuntu', 'amazon'
+                     true
+                   when 'centos', 'redhat', 'scientific'
+                     node['platform_version'].to_f < 6.0
+                   else
+                     false
+                   end
 
-template "#{node['mysql']['conf_dir']}/my.cnf" do
-  source "my.cnf.erb"
-  owner "root" unless platform? 'windows'
-  group node['mysql']['root_group'] unless platform? 'windows'
-  mode "0644"
-  notifies :restart, resources(:service => "mysql"), :immediately
-  variables :skip_federated => skip_federated
+  template "#{node['mysql']['conf_dir']}/my.cnf" do
+    source "my.cnf.erb"
+    owner "root" unless platform? 'windows'
+    group node['mysql']['root_group'] unless platform? 'windows'
+    mode "0644"
+    notifies :restart, resources(:service => "mysql"), :immediately
+    variables :skip_federated => skip_federated
+  end
 end
 
 unless Chef::Config[:solo]
@@ -148,31 +151,42 @@ unless platform?(%w{debian ubuntu})
 
 end
 
-grants_path = node['mysql']['grants_path']
+# Homebrew has its own way to do databases
+if platform?(%w{mac_os_x})
 
-begin
-  t = resources("template[#{grants_path}]")
-rescue
-  Chef::Log.info("Could not find previously defined grants.sql resource")
-  t = template grants_path do
-    source "grants.sql.erb"
-    owner "root" unless platform? 'windows'
-    group node['mysql']['root_group'] unless platform? 'windows'
-    mode "0600"
-    action :create
+  execute "mysql-install-db" do
+    command "mysql_install_db --verbose --user=`whoami` --basedir=\"$(brew --prefix mysql)\" --datadir=#{node['mysql']['data_dir']} --tmpdir=/tmp"
+    environment('TMPDIR' => nil)
+    action :run
+    creates "#{node['mysql']['data_dir']}/mysql"
   end
-end
 
-if platform? 'windows'
-  windows_batch "mysql-install-privileges" do
-    command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
-    action :nothing
-    subscribes :run, resources("template[#{grants_path}]"), :immediately
-  end
 else
-  execute "mysql-install-privileges" do
-    command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
-    action :nothing
-    subscribes :run, resources("template[#{grants_path}]"), :immediately
+  grants_path = node['mysql']['grants_path']
+  begin
+    t = resources("template[#{grants_path}]")
+  rescue
+    Chef::Log.info("Could not find previously defined grants.sql resource")
+    t = template grants_path do
+      source "grants.sql.erb"
+      owner "root" unless platform? 'windows'
+      group node['mysql']['root_group'] unless platform? 'windows'
+      mode "0600"
+      action :create
+    end
+  end
+
+  if platform? 'windows'
+    windows_batch "mysql-install-privileges" do
+      command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
+      action :nothing
+      subscribes :run, resources("template[#{grants_path}]"), :immediately
+    end
+  else
+    execute "mysql-install-privileges" do
+      command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
+      action :nothing
+      subscribes :run, resources("template[#{grants_path}]"), :immediately
+    end
   end
 end

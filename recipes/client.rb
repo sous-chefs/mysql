@@ -49,6 +49,9 @@ when "windows"
     windows_package(*args, &blk)
   end
   [node['mysql']['client']['package_name']]
+when "mac_os_x"
+  include_recipe 'homebrew'
+  %w{mysql-connector-c}
 else
   %w{mysql-client libmysqlclient-dev}
 end

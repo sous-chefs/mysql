@@ -1,3 +1,11 @@
+## v1.2.6:
+
+* [COOK-1113] - Use an attribute to determine if upstart is used
+* [COOK-1121] - Add support for Windows
+* [COOK-1140] - Fix conf.d on Debian
+* [COOK-1151] - Fix server_ec2 handling /var/lib/mysql bind mount
+* [COOK-1321] - Document setting password attributes for solo
+
 ## v1.2.4
 
 * [COOK-992] - fix FATAL nameerror
