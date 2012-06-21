@@ -85,6 +85,7 @@ unless platform?(%w{mac_os_x})
     group "mysql" unless platform? 'windows'
     action :create
     recursive true
+    retries 1
   end
 
   if platform? 'windows'
