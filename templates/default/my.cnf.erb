@@ -140,7 +140,10 @@ innodb_additional_mem_pool_size = <%= node['mysql']['tunable']['innodb_additiona
 innodb_data_file_path   = <%= node['mysql']['tunable']['innodb_data_file_path'] %>
 innodb_file_per_table
 innodb_flush_log_at_trx_commit = <%= node['mysql']['tunable']['innodb_flush_log_at_trx_commit'] %>
-innodb_flush_method     = <%= node['mysql']['tunable']['innodb_flush_method'] %>
+
+<% if node['mysql']['tunable']['innodb_flush_method'] != "" %>
+  innodb_flush_method     = <%= node['mysql']['tunable']['innodb_flush_method'] %>
+<% end %>
 innodb_log_buffer_size  = <%= node['mysql']['tunable']['innodb_log_buffer_size'] %>
 innodb_adaptive_flushing  = <%= node['mysql']['tunable']['innodb_adaptive_flushing'] %>
 
