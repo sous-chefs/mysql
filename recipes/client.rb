@@ -59,17 +59,12 @@ end
 mysql_packages.each do |mysql_pack|
   package mysql_pack do
     action :install
-  end
+  end.run_action(:install)
 end
 
-if platform?(%w{ redhat centos fedora suse scientific amazon })
-  package 'ruby-mysql'
-elsif platform?(%w{ debian ubuntu })
-  package "libmysql-ruby"
-else
-  gem_package "mysql" do
-    action :install
-  end
+chef_gem "mysql" do
+  gem_binary node['mysql']['chef_gem_binary']
+  action :install
 end
 
 if platform? 'windows'
