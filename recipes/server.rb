@@ -125,7 +125,14 @@ unless platform?(%w{mac_os_x})
     owner "root" unless platform? 'windows'
     group node['mysql']['root_group'] unless platform? 'windows'
     mode "0644"
-    notifies :restart, resources(:service => "mysql"), :immediately
+    case node['mysql']['reload_action']
+    when 'restart'
+      notifies :restart, resources(:service => "mysql"), :immediately
+    when 'reload'
+      notifies :reload, resources(:service => "mysql"), :immediately
+    else
+      Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
+    end
     variables :skip_federated => skip_federated
   end
 end
