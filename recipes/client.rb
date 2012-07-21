@@ -63,6 +63,7 @@ mysql_packages.each do |mysql_pack|
 end
 
 if platform?(%w{ redhat centos fedora suse scientific amazon })
+  include_recipe "yum::epel"
   package 'ruby-mysql'
 elsif platform?(%w{ debian ubuntu })
   package "libmysql-ruby"
