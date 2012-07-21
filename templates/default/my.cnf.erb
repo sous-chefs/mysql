@@ -142,7 +142,9 @@ innodb_file_per_table
 innodb_flush_log_at_trx_commit = <%= node['mysql']['tunable']['innodb_flush_log_at_trx_commit'] %>
 innodb_flush_method     = <%= node['mysql']['tunable']['innodb_flush_method'] %>
 innodb_log_buffer_size  = <%= node['mysql']['tunable']['innodb_log_buffer_size'] %>
+<%- unless ["centos", "redhat", "scientific" ].include?(node[:platform]) %>
 innodb_adaptive_flushing  = <%= node['mysql']['tunable']['innodb_adaptive_flushing'] %>
+<%- end %>
 
 <% if @skip_federated %>
 #
