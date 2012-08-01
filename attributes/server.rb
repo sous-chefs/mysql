@@ -35,6 +35,8 @@ when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 1
   set['mysql']['grants_path']                 = "/etc/mysql_grants.sql"
+  # RHEL/CentOS mysql package does not support this option.
+  set['mysql']['tunable']['innodb_adaptive_flushing'] = false
 when "freebsd"
   default['mysql']['package_name']            = "mysql55-server"
   default['mysql']['service_name']            = "mysql-server"
