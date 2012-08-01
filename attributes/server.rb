@@ -35,6 +35,8 @@ when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 1
   set['mysql']['grants_path']                 = "/etc/mysql_grants.sql"
+  # RHEL/CentOS mysql package does not support this option.
+  set['mysql']['tunable']['innodb_adaptive_flushing'] = false
 when "freebsd"
   default['mysql']['package_name']            = "mysql55-server"
   default['mysql']['service_name']            = "mysql-server"
@@ -136,7 +138,7 @@ default['mysql']['tunable']['innodb_buffer_pool_size']         = "128M"
 default['mysql']['tunable']['innodb_additional_mem_pool_size'] = "8M"
 default['mysql']['tunable']['innodb_data_file_path']           = "ibdata1:10M:autoextend"
 default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "1"
-default['mysql']['tunable']['innodb_flush_method']             = "fdatasync"
+default['mysql']['tunable']['innodb_flush_method']             = false
 default['mysql']['tunable']['innodb_log_buffer_size']          = "8M"
 default['mysql']['tunable']['innodb_adaptive_flushing']        = "true"
 
