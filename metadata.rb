@@ -41,6 +41,11 @@ attribute "mysql/ec2_path",
   :description => "Location of mysql directory on EC2 instance EBS volumes",
   :default => "/mnt/mysql"
 
+attribute "mysql/reload_action",
+  :display_name => "MySQL conf file reload action",
+  :description => "Action to take when mysql conf files are modified",
+  :default => "reload"
+
 attribute "mysql/tunable",
   :display_name => "MySQL Tunables",
   :description => "Hash of MySQL tunable attributes",
