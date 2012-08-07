@@ -44,7 +44,7 @@ Attributes
 * `mysql['data_dir']` - Location for mysql data directory, default is "/var/lib/mysql"
 * `mysql['conf_dir']` - Location for mysql conf directory, default is "/etc/mysql"
 * `mysql['ec2_path']` - location of mysql data_dir on EC2 nodes, default "/mnt/mysql"
-* `mysql['reload_action']` - Action to take when mysql conf files are modified, default "reload". Also allows "restart" and "none".
+* `mysql['reload_action']` - Action to take when mysql conf files are modified, default "restart". Also allows "reload" and "none".
 
 
 Performance tuning attributes, each corresponds to the same-named parameter in my.cnf; default values listed

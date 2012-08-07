@@ -100,7 +100,7 @@ if attribute?('ec2')
   default['mysql']['ebs_vol_size'] = 50
 end
 
-default['mysql']['reload_action'] = "reload" # or "restart" or "none"
+default['mysql']['reload_action'] = "restart" # or "reload" or "none"
 
 default['mysql']['use_upstart'] = platform?("ubuntu") && node.platform_version.to_f >= 10.04
 
