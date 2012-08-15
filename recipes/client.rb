@@ -48,16 +48,6 @@ node['mysql']['client']['packages'].each do |mysql_pack|
   end
 end
 
-if platform?(%w{ redhat centos fedora suse scientific amazon })
-  package 'ruby-mysql'
-elsif platform?(%w{ debian ubuntu })
-  package "libmysql-ruby"
-else
-  gem_package "mysql" do
-    action :install
-  end
-end
-
 if platform? 'windows'
   ruby_block "copy libmysql.dll into ruby path" do
     block do
