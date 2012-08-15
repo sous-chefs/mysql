@@ -1,0 +1,1 @@
+chef_gem "mysql"
