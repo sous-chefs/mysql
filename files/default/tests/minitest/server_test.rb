@@ -13,8 +13,10 @@ describe 'mysql::server' do
   it 'has a secure replication password' do
     assert_secure_password(:repl)
   end
-  it 'installs the mysql package' do
-    package(node['mysql']['package_name']).must_be_installed
+  it 'installs the mysql packages' do
+    node['mysql']['server']['packages'].each do |package_name|
+      package(package_name).must_be_installed
+    end
   end
   it 'has a config directory' do
     directory(node['mysql']['confd_dir']).must_exist.with(:owner, 'mysql').and(:group, 'mysql')
