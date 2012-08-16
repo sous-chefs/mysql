@@ -1,3 +1,36 @@
+## v1.3.0:
+
+**Important note for this release**
+
+This version no longer installs Ruby bindings in the client recipe by
+default. Use the ruby recipe if you'd like the RubyGem. If you'd like
+packages from your distribution, use them in your application's
+specific cookbook/recipe, or modify the client packages attribute.
+This resolves the following tickets:
+
+* COOK-932
+* COOK-1009
+* COOK-1384
+
+Additionally, this cookbook now has tests (COOK-1439) for use under
+test-kitchen.
+
+The following issues are also addressed in this release.
+
+* [COOK-1443] - MySQL (>= 5.1.24) does not support `innodb_flush_method`
+  = fdatasync
+* [COOK-1175] - Add Mac OS X support
+* [COOK-1289] - handle additional tunable attributes
+* [COOK-1305] - add auto-increment-increment and auto-increment-offset
+  attributes
+* [COOK-1397] - make the port an attribute
+* [COOK-1439] - Add MySQL cookbook tests for test-kitchen support
+* [COOK-1236] - Move package names into attributes to allow percona to
+  free-ride
+* [COOK-934] - remove deprecated mysql/libraries/database.rb, use the
+  database cookbook instead.
+* [COOK-1475] - fix restart on config change
+
 ## v1.2.6:
 
 * [COOK-1113] - Use an attribute to determine if upstart is used
