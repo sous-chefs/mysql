@@ -14,7 +14,7 @@ describe 'mysql::server' do
     assert_secure_password(:repl)
   end
   it 'installs the mysql packages' do
-    node['mysql']['packages'].each do |package_name|
+    node['mysql']['server']['packages'].each do |package_name|
       package(package_name).must_be_installed
     end
   end

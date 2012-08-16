@@ -16,6 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Include Opscode helper in Node class to get access
+# to debian_before_squeeze? and ubuntu_before_lucid?
+::Chef::Node.send(:include, Opscode::Mysql::Helpers)
 
 case node['platform']
 when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
