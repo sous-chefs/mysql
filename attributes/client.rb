@@ -35,7 +35,7 @@ when "windows"
   default['mysql']['client']['url']          = "http://www.mysql.com/get/Downloads/Connector-C/#{mysql['client']['package_file']}/from/http://mysql.mirrors.pair.com/"
   default['mysql']['client']['packages']     = ["MySQL Connector C #{mysql['client']['version']}"]
 
-  default['mysql']['client']['basedir']      = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['client']['package_names'].first}"
+  default['mysql']['client']['basedir']      = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['client']['packages'].first}"
   default['mysql']['client']['lib_dir']      = "#{mysql['client']['basedir']}\\lib/opt"
   default['mysql']['client']['bin_dir']      = "#{mysql['client']['basedir']}\\bin"
   default['mysql']['client']['ruby_dir']     = RbConfig::CONFIG['bindir']
