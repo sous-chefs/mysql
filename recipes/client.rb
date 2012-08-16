@@ -29,7 +29,7 @@ when "windows"
     not_if { File.exists? "#{Chef::Config[:file_cache_path]}/#{package_file}" }
   end
 
-  windows_package node['mysql']['client']['package_names'].first do
+  windows_package node['mysql']['client']['packages'].first do
     source "#{Chef::Config[:file_cache_path]}/#{package_file}"
   end
   windows_path node['mysql']['client']['bin_dir'] do
