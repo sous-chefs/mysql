@@ -22,7 +22,7 @@ default['mysql']['port']                       = 3306
 
 case node["platform"]
 when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
-  default['mysql']['package_name']            = "mysql-server"
+  default['mysql']['server']['packages']      = %w{mysql-server}
   default['mysql']['service_name']            = "mysqld"
   default['mysql']['basedir']                 = "/usr"
   default['mysql']['data_dir']                = "/var/lib/mysql"
@@ -39,7 +39,7 @@ when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
   # RHEL/CentOS mysql package does not support this option.
   set['mysql']['tunable']['innodb_adaptive_flushing'] = false
 when "freebsd"
-  default['mysql']['package_name']            = "mysql55-server"
+  default['mysql']['server']['packages']      = %w{mysql55-server}
   default['mysql']['service_name']            = "mysql-server"
   default['mysql']['basedir']                 = "/usr/local"
   default['mysql']['data_dir']                = "/var/db/mysql"
@@ -54,14 +54,14 @@ when "freebsd"
   set['mysql']['old_passwords']               = 0
   set['mysql']['grants_path']                 = "/var/db/mysql/grants.sql"
 when "windows"
-  default['mysql']['package_name']            = "MySQL Server 5.5"
+  default['mysql']['server']['packages']      = ["MySQL Server 5.5"]
   default['mysql']['version']                 = '5.5.21'
   default['mysql']['arch']                    = 'win32'
   default['mysql']['package_file']            = "mysql-#{mysql['version']}-#{mysql['arch']}.msi"
   default['mysql']['url']                     = "http://www.mysql.com/get/Downloads/MySQL-5.5/#{mysql['package_file']}/from/http://mysql.mirrors.pair.com/"
 
   default['mysql']['service_name']            = "mysql"
-  default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['package_name']}"
+  default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['packages'].first}"
   default['mysql']['data_dir']                = "#{mysql['basedir']}\\Data"
   default['mysql']['bin_dir']                 = "#{mysql['basedir']}\\bin"
   default['mysql']['mysqladmin_bin']          = "#{mysql['bin_dir']}\\mysqladmin"
@@ -71,14 +71,14 @@ when "windows"
   default['mysql']['old_passwords']           = 0
   default['mysql']['grants_path']             = "#{mysql['conf_dir']}\\grants.sql"
 when "mac_os_x"
-  default['mysql']['package_name']            = "mysql"
+  default['mysql']['server']['packages']      = %w{mysql}
   default['mysql']['basedir']                 = "/usr/local/Cellar"
   default['mysql']['data_dir']                = "/usr/local/var/mysql"
   default['mysql']['root_group']              = "admin"
   default['mysql']['mysqladmin_bin']          = "/usr/local/bin/mysqladmin"
   default['mysql']['mysql_bin']               = "/usr/local/bin/mysql"
 else
-  default['mysql']['package_name']            = "mysql-server"
+  default['mysql']['server']['packages']      = %w{mysql-server}
   default['mysql']['service_name']            = "mysql"
   default['mysql']['basedir']                 = "/usr"
   default['mysql']['data_dir']                = "/var/lib/mysql"

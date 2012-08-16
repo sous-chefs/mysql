@@ -65,7 +65,7 @@ if platform? 'windows'
     not_if { File.exists? "#{Chef::Config[:file_cache_path]}/#{package_file}" }
   end
 
-  windows_package node['mysql']['package_name'] do
+  windows_package node['mysql']['server']['packages'].first do
     source "#{Chef::Config[:file_cache_path]}/#{package_file}"
   end
 
@@ -74,8 +74,10 @@ if platform? 'windows'
   end
 end
 
-package node['mysql']['package_name'] do
-  action :install
+node['mysql']['server']['packages'].each do |package_name|
+  package package_name do
+    action :install
+  end
 end
 
 unless platform?(%w{mac_os_x})

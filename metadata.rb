@@ -1,3 +1,4 @@
+name		  "mysql"
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
@@ -14,6 +15,7 @@ recipe            "mysql::server_ec2", "Performs EC2-specific mountpoint manipul
 end
 
 depends "openssl"
+depends "build-essential"
 suggests "homebrew"
 suggests "windows"
 
