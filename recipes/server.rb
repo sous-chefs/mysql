@@ -124,6 +124,9 @@ unless platform?(%w{mac_os_x})
 
   template "#{node['mysql']['conf_dir']}/my.cnf" do
     source "my.cnf.erb"
+    if node['mysql']['cookbook'] 
+      cookbook node['mysql']['cookbook']
+    end
     owner "root" unless platform? 'windows'
     group node['mysql']['root_group'] unless platform? 'windows'
     mode "0644"
