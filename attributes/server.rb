@@ -61,7 +61,7 @@ when "windows"
   default['mysql']['url']                     = "http://www.mysql.com/get/Downloads/MySQL-5.5/#{mysql['package_file']}/from/http://mysql.mirrors.pair.com/"
 
   default['mysql']['service_name']            = "mysql"
-  default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['packages'].first}"
+  default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['server']['packages'].first}"
   default['mysql']['data_dir']                = "#{mysql['basedir']}\\Data"
   default['mysql']['bin_dir']                 = "#{mysql['basedir']}\\bin"
   default['mysql']['mysqladmin_bin']          = "#{mysql['bin_dir']}\\mysqladmin"
