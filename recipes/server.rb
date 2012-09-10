@@ -24,7 +24,7 @@ include_recipe "mysql::client"
 # generate all passwords
 # use loop rather than set_unless, because set_unless messes up chef-solo in some cases
 %w{server_debian_password server_root_password server_repl_password}.each do |pass_key|
-  if(node['mysql'][pass_key]).empty?
+  if not defined? node['mysql'][pass_key]
     node['mysql'][pass_key] = secure_password
   end
 end
