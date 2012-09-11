@@ -45,6 +45,7 @@ end
 node['mysql']['client']['packages'].each do |mysql_pack|
   package mysql_pack do
     action :install
+    version node['mysql']['client']['package_versions'][mysql_pack] if node['mysql']['client']['package_versions'][mysql_pack]
   end
 end
 
