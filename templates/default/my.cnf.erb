@@ -50,6 +50,7 @@ port            = <%= node['mysql']['port'] %>
 basedir         = <%= node['mysql']['basedir'] %>
 datadir         = <%= node['mysql']['data_dir'] %>
 tmpdir          = <%= node['mysql']['tmpdir'].join(':') %>
+
 skip-external-locking
 <%- if node['mysql']['tunable']['skip-name-resolve'] %>
 skip-name-resolve
@@ -125,6 +126,15 @@ log_error = <%= node['mysql']['tunable']['log_error'] %>
 <%- if node['mysql']['tunable']['log_warnings'] %>
 log_warnings
 <%- end %>
+<%- if node['mysql']['tunable']['log_warnings'] %>
+log_warnings
+<%- end %>
+#
+# * Replication
+#
+read_only = <%= node['mysql']['read_only'] %>
+
+
 #
 # * Replication
 #
@@ -171,6 +181,7 @@ relay_log_index         = <%= node['mysql']['tunable']['relay_log_index'] %>
 <%- end %>
 
 sync_binlog             = <%= node['mysql']['tunable']['sync_binlog'] %>
+binlog_format           = <%= node['mysql']['tunable']['binlog_format'] %>
 <%- if node['mysql']['tunable']['skip_slave_start'] %>
 skip_slave_start
 <%- end %>
