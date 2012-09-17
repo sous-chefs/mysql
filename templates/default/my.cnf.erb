@@ -49,7 +49,7 @@ socket          = <%= node['mysql']['socket'] %>
 port            = <%= node['mysql']['port'] %>
 basedir         = <%= node['mysql']['basedir'] %>
 datadir         = <%= node['mysql']['data_dir'] %>
-tmpdir          = <%= node['mysql']['tmpdir'] %>
+tmpdir          = <%= node['mysql']['tmpdir'].join(':') %>
 skip-external-locking
 <%- if node['mysql']['tunable']['skip-name-resolve'] %>
 skip-name-resolve
