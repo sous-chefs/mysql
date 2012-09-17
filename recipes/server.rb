@@ -89,13 +89,13 @@ if platform? 'windows'
   end
 end
 
-node['mysql']['server']['packages'].each do |package_name|
-  package package_name do
-    action :install
-  end
-end
-
 unless platform?(%w{mac_os_x})
+  directory node['mysql']['confd_dir'] do
+    owner "mysql" unless platform? 'windows'
+    group "mysql" unless platform? 'windows'
+    action :create
+    recursive true
+  end
 
   directory node['mysql']['confd_dir'] do
     owner "mysql" unless platform? 'windows'
@@ -103,6 +103,45 @@ unless platform?(%w{mac_os_x})
     action :create
     recursive true
   end
+
+  directory node['mysql']['log_dir'] do
+    owner "mysql" unless platform? 'windows'
+    group "mysql" unless platform? 'windows'
+    action :create
+    recursive true
+  end
+
+  directory node['mysql']['data_dir'] do
+    owner "mysql" unless platform? 'windows'
+    group "mysql" unless platform? 'windows'
+    action :create
+    recursive true
+  end
+
+  template "#{node['mysql']['conf_dir']}/my.cnf" do
+    source "my.cnf.erb"
+    owner "root" unless platform? 'windows'
+    group node['mysql']['root_group'] unless platform? 'windows'
+    mode "0644"
+    case node['mysql']['reload_action']
+    when 'restart'
+      notifies :restart, resources(:service => "mysql"), :immediately
+    when 'reload'
+      notifies :reload, resources(:service => "mysql"), :immediately
+    else
+      Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
+    end
+    variables :skip_federated => skip_federated
+  end
+end
+
+node['mysql']['server']['packages'].each do |package_name|
+  package package_name do
+    action :install
+  end
+end
+
+unless platform?(%w{mac_os_x})
 
   if platform? 'windows'
     require 'win32/service'
@@ -136,22 +175,6 @@ unless platform?(%w{mac_os_x})
                    else
                      false
                    end
-
-  template "#{node['mysql']['conf_dir']}/my.cnf" do
-    source "my.cnf.erb"
-    owner "root" unless platform? 'windows'
-    group node['mysql']['root_group'] unless platform? 'windows'
-    mode "0644"
-    case node['mysql']['reload_action']
-    when 'restart'
-      notifies :restart, resources(:service => "mysql"), :immediately
-    when 'reload'
-      notifies :reload, resources(:service => "mysql"), :immediately
-    else
-      Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
-    end
-    variables :skip_federated => skip_federated
-  end
 end
 
 unless Chef::Config[:solo]
