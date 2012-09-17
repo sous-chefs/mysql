@@ -90,6 +90,62 @@ if platform? 'windows'
   end
 end
 
+unless platform?(%w{mac_os_x})
+<<<<<<< HEAD
+  directory File.dirname(node['mysql']['pid_file']) do
+=======
+  directory node['mysql']['confd_dir'] do
+>>>>>>> 4433fc1... Write my.cnf and directories before installing packages
+    owner "mysql" unless platform? 'windows'
+    group "mysql" unless platform? 'windows'
+    action :create
+    recursive true
+  end
+
+  directory node['mysql']['confd_dir'] do
+    owner "mysql" unless platform? 'windows'
+    group "mysql" unless platform? 'windows'
+    action :create
+    recursive true
+  end
+
+<<<<<<< HEAD
+  directory node['mysql']['confd_dir'] do
+=======
+  directory node['mysql']['log_dir'] do
+>>>>>>> 4433fc1... Write my.cnf and directories before installing packages
+    owner "mysql" unless platform? 'windows'
+    group "mysql" unless platform? 'windows'
+    action :create
+    recursive true
+  end
+<<<<<<< HEAD
+=======
+
+  directory node['mysql']['data_dir'] do
+    owner "mysql" unless platform? 'windows'
+    group "mysql" unless platform? 'windows'
+    action :create
+    recursive true
+  end
+
+  template "#{node['mysql']['conf_dir']}/my.cnf" do
+    source "my.cnf.erb"
+    owner "root" unless platform? 'windows'
+    group node['mysql']['root_group'] unless platform? 'windows'
+    mode "0644"
+    case node['mysql']['reload_action']
+    when 'restart'
+      notifies :restart, resources(:service => "mysql"), :immediately
+    when 'reload'
+      notifies :reload, resources(:service => "mysql"), :immediately
+    else
+      Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
+    end
+    variables :skip_federated => skip_federated
+  end
+end
+
 node['mysql']['server']['packages'].each do |package_name|
   package package_name do
     action :install
@@ -97,26 +153,14 @@ node['mysql']['server']['packages'].each do |package_name|
 end
 
 unless platform?(%w{mac_os_x})
-  directory File.dirname(node['mysql']['pid_file']) do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
 
-  directory node['mysql']['confd_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
+  if platform? 'windows'
+    require 'win32/service'
 
-  directory node['mysql']['confd_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
+    windows_path node['mysql']['bin_dir'] do
+      action :add
+    end
+>>>>>>> 4433fc1... Write my.cnf and directories before installing packages
 
   directory node['mysql']['log_dir'] do
     owner "mysql" unless platform? 'windows'
@@ -140,6 +184,29 @@ unless platform?(%w{mac_os_x})
                    else
                      false
                    end
+<<<<<<< HEAD
+=======
+end
+
+unless Chef::Config[:solo]
+  ruby_block "save node data" do
+    block do
+      node.save
+    end
+    action :create
+  end
+end
+
+# set the root password on platforms
+# that don't support pre-seeding
+unless platform?(%w{debian ubuntu})
+
+  execute "assign-root-password" do
+    command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
+    action :run
+    only_if "\"#{node['mysql']['mysql_bin']}\" -u root -e 'show databases;'"
+  end
+>>>>>>> 4433fc1... Write my.cnf and directories before installing packages
 
 end
 
