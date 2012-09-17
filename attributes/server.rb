@@ -200,7 +200,6 @@ default['mysql']['tunable']['expire_logs_days']     = 10
 default['mysql']['tunable']['max_binlog_size']      = "100M"
 default['mysql']['tunable']['binlog_cache_size']    = "32K"
 
-
 default['mysql']['tmpdir'] = ["/tmp"]
 default['mysql']['read_only'] = false
 
