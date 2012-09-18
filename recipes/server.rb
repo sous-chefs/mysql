@@ -91,11 +91,8 @@ if platform? 'windows'
 end
 
 unless platform?(%w{mac_os_x})
-<<<<<<< HEAD
+
   directory File.dirname(node['mysql']['pid_file']) do
-=======
-  directory node['mysql']['confd_dir'] do
->>>>>>> 4433fc1... Write my.cnf and directories before installing packages
     owner "mysql" unless platform? 'windows'
     group "mysql" unless platform? 'windows'
     action :create
@@ -109,18 +106,12 @@ unless platform?(%w{mac_os_x})
     recursive true
   end
 
-<<<<<<< HEAD
-  directory node['mysql']['confd_dir'] do
-=======
   directory node['mysql']['log_dir'] do
->>>>>>> 4433fc1... Write my.cnf and directories before installing packages
     owner "mysql" unless platform? 'windows'
     group "mysql" unless platform? 'windows'
     action :create
     recursive true
   end
-<<<<<<< HEAD
-=======
 
   directory node['mysql']['data_dir'] do
     owner "mysql" unless platform? 'windows'
@@ -128,6 +119,15 @@ unless platform?(%w{mac_os_x})
     action :create
     recursive true
   end
+
+  skip_federated = case node['platform']
+                   when 'fedora', 'ubuntu', 'amazon'
+                     true
+                   when 'centos', 'redhat', 'scientific'
+                     node['platform_version'].to_f < 6.0
+                   else
+                     false
+                   end
 
   template "#{node['mysql']['conf_dir']}/my.cnf" do
     source "my.cnf.erb"
@@ -160,32 +160,6 @@ unless platform?(%w{mac_os_x})
     windows_path node['mysql']['bin_dir'] do
       action :add
     end
->>>>>>> 4433fc1... Write my.cnf and directories before installing packages
-
-  directory node['mysql']['log_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
-
-  directory node['mysql']['data_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
-
-  skip_federated = case node['platform']
-                   when 'fedora', 'ubuntu', 'amazon'
-                     true
-                   when 'centos', 'redhat', 'scientific'
-                     node['platform_version'].to_f < 6.0
-                   else
-                     false
-                   end
-<<<<<<< HEAD
-=======
 end
 
 unless Chef::Config[:solo]
@@ -200,14 +174,11 @@ end
 # set the root password on platforms
 # that don't support pre-seeding
 unless platform?(%w{debian ubuntu})
-
   execute "assign-root-password" do
     command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
     action :run
     only_if "\"#{node['mysql']['mysql_bin']}\" -u root -e 'show databases;'"
   end
->>>>>>> 4433fc1... Write my.cnf and directories before installing packages
-
 end
 
 # Homebrew has its own way to do databases
