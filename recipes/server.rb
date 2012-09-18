@@ -127,6 +127,17 @@ unless platform?(%w{mac_os_x})
                      false
                    end
 
+  service "mysql" do
+    service_name node['mysql']['service_name']
+    if node['mysql']['use_upstart']
+      restart_command "restart mysql"
+      stop_command "stop mysql"
+      start_command "start mysql"
+    end
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
+  end
+
   template "#{node['mysql']['conf_dir']}/my.cnf" do
     source "my.cnf.erb"
     owner "root" unless platform? 'windows'
@@ -142,6 +153,7 @@ unless platform?(%w{mac_os_x})
     end
     variables :skip_federated => skip_federated
   end
+
 end
 
 node['mysql']['server']['packages'].each do |package_name|
@@ -163,17 +175,6 @@ unless platform?(%w{mac_os_x})
       command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
       not_if { Win32::Service.exists?(node['mysql']['service_name']) }
     end
-  end
-
-  service "mysql" do
-    service_name node['mysql']['service_name']
-    if node['mysql']['use_upstart']
-      restart_command "restart mysql"
-      stop_command "stop mysql"
-      start_command "start mysql"
-    end
-    supports :status => true, :restart => true, :reload => true
-    action :enable
   end
 
 end
