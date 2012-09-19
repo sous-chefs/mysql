@@ -129,6 +129,27 @@ unless platform?(%w{mac_os_x})
                      false
                    end
 
+end
+
+node['mysql']['server']['packages'].each do |package_name|
+  package package_name do
+    action :install
+  end
+end
+
+unless platform?(%w{mac_os_x})
+  execute 'mysql-install-db' do
+    command "mysql_install_db"
+    action :run
+
+    not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.fym') }
+  end
+
+  execute 'chown db' do
+    command 'chown -R mysql /db/'
+    action :run
+  end
+
   service "mysql" do
     service_name node['mysql']['service_name']
     if node['mysql']['use_upstart']
@@ -155,16 +176,6 @@ unless platform?(%w{mac_os_x})
     end
     variables :skip_federated => skip_federated
   end
-
-end
-
-node['mysql']['server']['packages'].each do |package_name|
-  package package_name do
-    action :install
-  end
-end
-
-unless platform?(%w{mac_os_x})
 
   if platform? 'windows'
     require 'win32/service'

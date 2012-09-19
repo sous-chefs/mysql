@@ -181,7 +181,6 @@ relay_log_index         = <%= node['mysql']['tunable']['relay_log_index'] %>
 <%- end %>
 
 sync_binlog             = <%= node['mysql']['tunable']['sync_binlog'] %>
-binlog_format           = <%= node['mysql']['tunable']['binlog_format'] %>
 <%- if node['mysql']['tunable']['skip_slave_start'] %>
 skip_slave_start
 <%- end %>
