@@ -184,6 +184,7 @@ default['mysql']['tunable']['innodb_commit_concurrency']       = "#{(Integer(nod
 default['mysql']['tunable']['innodb_read_io_threads']          = "#{(Integer(node['cpu']['total'])) * 2}"
 default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "#{(Integer(node['cpu']['total'])) * 2}"
 default['mysql']['tunable']['innodb_support_xa']               = true
+default['mysql']['tunable']['innodb_table_locks']              = true
 default['mysql']['tunable']['skip-innodb-doublewrite']         = false
 
 default['mysql']['tunable']['transaction-isolation'] = nil
@@ -192,6 +193,8 @@ default['mysql']['tunable']['query_cache_limit']    = "1M"
 default['mysql']['tunable']['query_cache_size']     = "16M"
 
 default['mysql']['tunable']['log_slow_queries']     = "/var/log/mysql/slow.log"
+default['mysql']['tunable']['slow_query_log']       = node['mysql']['tunable']['log_slow_queries'] # log_slow_queries is deprecated
+                                                                                                   # in favor of slow_query_log
 default['mysql']['tunable']['long_query_time']      = 2
 
 default['mysql']['tunable']['expire_logs_days']     = 10

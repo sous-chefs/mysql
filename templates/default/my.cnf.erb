@@ -133,9 +133,14 @@ read_only = <%= node['mysql']['read_only'] %>
 
 #
 # Here you can see queries with especially long duration
-log_slow_queries        = <%= node['mysql']['tunable']['log_slow_queries'] %>
+<%- if node['mysql']['version'].to_f >= 5.5 %>
+slow_query_log          = <%= node['mysql']['tunable']['slow_query_log'] %>
+<% else %>
+log_slow_queries        = <%= node['mysql']['tunable']['slow_query_log'] %>
+<% end %>
+
 long_query_time         = <%= node['mysql']['tunable']['long_query_time'] %>
-<%- if node['mysql']['tunable']['log_queries_not_using_index'] %>
+<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['slow_query_log']  %>
 log-queries-not-using-indexes
 <%- end %>
 #
@@ -145,6 +150,9 @@ log-queries-not-using-indexes
 #server-id              = 1
 <%- if node['mysql']['tunable']['log_bin'] %>
 log_bin = <%= node['mysql']['tunable']['log_bin'] %>
+<%- if node['mysql']['tunable']['log_bin'] %>
+binlog_format           = <%= node['mysql']['tunable']['binlog_format'] %>
+<%- end %>
 log_slave_updates       = <%= node['mysql']['tunable']['log_slave_updates'] %>
 <%- end %>
 <%- if node['mysql']['tunable']['log_bin_trust_function_creators'] %>
@@ -163,7 +171,6 @@ relay_log_index         = <%= node['mysql']['tunable']['relay_log_index'] %>
 <%- end %>
 
 sync_binlog             = <%= node['mysql']['tunable']['sync_binlog'] %>
-binlog_format           = <%= node['mysql']['tunable']['binlog_format'] %>
 <%- if node['mysql']['tunable']['skip_slave_start'] %>
 skip_slave_start
 <%- end %>
