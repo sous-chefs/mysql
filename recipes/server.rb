@@ -137,81 +137,6 @@ node['mysql']['server']['packages'].each do |package_name|
   end
 end
 
-unless platform?(%w{mac_os_x})
-  execute 'mysql-install-db' do
-    command "mysql_install_db"
-    action :run
-
-    not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.fym') }
-  end
-
-  execute 'chown db' do
-    command 'chown -R mysql /db/'
-    action :run
-  end
-
-  service "mysql" do
-    service_name node['mysql']['service_name']
-    if node['mysql']['use_upstart']
-      restart_command "restart mysql"
-      stop_command "stop mysql"
-      start_command "start mysql"
-    end
-    supports :status => true, :restart => true, :reload => true
-    action :nothing
-  end
-
-  template "#{node['mysql']['conf_dir']}/my.cnf" do
-    source "my.cnf.erb"
-    owner "root" unless platform? 'windows'
-    group node['mysql']['root_group'] unless platform? 'windows'
-    mode "0644"
-    case node['mysql']['reload_action']
-    when 'restart'
-      notifies :restart, resources(:service => "mysql"), :immediately
-    when 'reload'
-      notifies :reload, resources(:service => "mysql"), :immediately
-    else
-      Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
-    end
-    variables :skip_federated => skip_federated
-  end
-
-  if platform? 'windows'
-    require 'win32/service'
-
-    windows_path node['mysql']['bin_dir'] do
-      action :add
-    end
-
-    windows_batch "install mysql service" do
-      command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
-      not_if { Win32::Service.exists?(node['mysql']['service_name']) }
-    end
-  end
-
-end
-
-unless Chef::Config[:solo]
-  ruby_block "save node data" do
-    block do
-      node.save
-    end
-    action :create
-  end
-end
-
-# set the root password on platforms
-# that don't support pre-seeding
-unless platform?(%w{debian ubuntu})
-  execute "assign-root-password" do
-    command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
-    action :run
-    only_if "\"#{node['mysql']['mysql_bin']}\" -u root -e 'show databases;'"
-  end
-end
-
-# Homebrew has its own way to do databases
 if platform?(%w{mac_os_x})
   execute "mysql-install-db" do
     command "mysql_install_db --verbose --user=`whoami` --basedir=\"$(brew --prefix mysql)\" --datadir=#{node['mysql']['data_dir']} --tmpdir=/tmp"
@@ -238,10 +163,12 @@ end
 
 # set the root password for situations that don't support pre-seeding.
 # (eg. platforms other than debian/ubuntu & drop-in mysql replacements)
-execute "assign-root-password" do
-  command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
-  action :run
-  only_if "\"#{node['mysql']['mysql_bin']}\" -u root -e 'show databases;'"
+unless platform?(%w{debian ubuntu})
+  execute "assign-root-password" do
+    command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
+    action :run
+    only_if "\"#{node['mysql']['mysql_bin']}\" -u root -e 'show databases;'"
+  end
 end
 
 unless platform?(%w{mac_os_x})
