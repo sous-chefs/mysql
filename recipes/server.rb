@@ -160,12 +160,10 @@ else
   service "mysql" do
     service_name node['mysql']['service_name']
     if node['mysql']['use_upstart']
-      restart_command "restart mysql"
-      stop_command "stop mysql"
-      start_command "start mysql"
+      provider Chef::Provider::Service::Upstart
     end
     supports :status => true, :restart => true, :reload => true
-    action :start
+    action [:start, :enabled]
   end
 end
 
