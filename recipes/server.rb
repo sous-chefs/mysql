@@ -142,6 +142,7 @@ node['mysql']['server']['packages'].each do |package_name|
   end
 end
 
+# Homebrew has its own way to do databases
 if platform?(%w{mac_os_x})
   execute "mysql-install-db" do
     command "mysql_install_db --verbose --user=`whoami` --basedir=\"$(brew --prefix mysql)\" --datadir=#{node['mysql']['data_dir']} --tmpdir=/tmp"
