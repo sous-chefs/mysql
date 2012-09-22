@@ -90,6 +90,12 @@ if platform? 'windows'
   end
 end
 
+node['mysql']['server']['packages'].each do |package_name|
+  package package_name do
+    action :install
+  end
+end
+
 unless platform?(%w{mac_os_x})
 
   directory File.dirname(node['mysql']['pid_file']) do
@@ -129,12 +135,6 @@ unless platform?(%w{mac_os_x})
                      false
                    end
 
-end
-
-node['mysql']['server']['packages'].each do |package_name|
-  package package_name do
-    action :install
-  end
 end
 
 # Homebrew has its own way to do databases
