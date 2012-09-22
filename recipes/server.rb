@@ -89,6 +89,12 @@ if platform? 'windows'
   end
 end
 
+node['mysql']['server']['packages'].each do |package_name|
+  package package_name do
+    action :install
+  end
+end
+
 unless platform?(%w{mac_os_x})
   directory File.dirname(node['mysql']['pid_file']) do
     owner "mysql" unless platform? 'windows'
@@ -136,12 +142,6 @@ unless platform?(%w{mac_os_x})
 
 end
 
-node['mysql']['server']['packages'].each do |package_name|
-  package package_name do
-    action :install
-  end
-end
-
 # Homebrew has its own way to do databases
 if platform?(%w{mac_os_x})
   execute "mysql-install-db" do
@@ -163,7 +163,7 @@ else
       provider Chef::Provider::Service::Upstart
     end
     supports :status => true, :restart => true, :reload => true
-    action [:start, :enabled]
+    action [:start, :enable]
   end
 end
 
