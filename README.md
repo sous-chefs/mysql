@@ -41,7 +41,7 @@ Resources and Providers
 
 The LWRP that used to ship as part of this cookbook has been
 refactored into the
-[database](https://github.com/opscode/cookbooks/tree/master/database)
+[database](https://github.com/opscode-cookbooks/database)
 cookbook. Please see the README for details on updated usage.
 
 Attributes
