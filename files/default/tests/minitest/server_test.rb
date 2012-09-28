@@ -1,4 +1,4 @@
-require File.expand_path('../helpers', __FILE__)
+require File.expand_path('../support/helpers.rb', __FILE__)
 
 describe 'mysql::server' do
 
