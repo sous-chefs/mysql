@@ -194,4 +194,8 @@ else
       subscribes :run, resources("template[#{grants_path}]"), :immediately
     end
   end
+
+  service "mysql" do
+    action :start
+  end
 end
