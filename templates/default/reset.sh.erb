@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# RHEL, Fedora, or CentOS Linux
+/etc/init.d/mysqld stop
+# optional method
+service mysqld stop
+
+# reset pass with the reset file
+mysqld_safe --init-file=/tmp/mysql-reset/reset.sql &
+
+# RHEL, Fedora, or CentOS Linux
+/etc/init.d/mysqld restart
+# optional method
+service mysqld restart
+
+

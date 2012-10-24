@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Debian or Ubuntu Linux
+/etc/init.d/mysql stop
+# optional method
+service mysql stop
+
+# reset pass with the reset file
+mysqld_safe --init-file=/tmp/mysql-reset/reset.sql &
+
+# Debian or Ubuntu Linux
+/etc/init.d/mysql restart
+# optional method
+service mysql restart
+
+
