@@ -1,0 +1,2 @@
+UPDATE mysql.user SET Password=PASSWORD('<%= node['mysql']['server_root_password'] %>') WHERE User='root';
+FLUSH PRIVILEGES;
