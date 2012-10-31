@@ -102,7 +102,7 @@ end
 
 default['mysql']['reload_action'] = "restart" # or "reload" or "none"
 
-default['mysql']['use_upstart'] = platform?("ubuntu") && node.platform_version.to_f >= 10.04
+default['mysql']['use_upstart'] = node.platform?("ubuntu") && node.platform_version.to_f >= 10.04
 
 default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1
