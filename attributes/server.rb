@@ -124,8 +124,11 @@ default['mysql']['tunable']['thread_concurrency']   = 10
 default['mysql']['tunable']['thread_stack']         = "256K"
 default['mysql']['tunable']['wait_timeout']         = "180"
 
+
+default['mysql']['tunable']['server_id']                       = nil
 default['mysql']['tunable']['log_bin']                         = nil
 default['mysql']['tunable']['log_bin_trust_function_creators'] = false
+default['mysql']['tunable']['binlog_format']                   = "statement"
 default['mysql']['tunable']['relay_log']                       =  nil
 default['mysql']['tunable']['log_slave_updates']               = false
 default['mysql']['tunable']['sync_binlog']                     = 0
