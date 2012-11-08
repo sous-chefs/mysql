@@ -81,6 +81,13 @@ table_cache             = <%= node['mysql']['tunable']['table_cache'] %>
 max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 
 #
+# * Encoding and collation
+#
+
+default-character-set   = <%= node['mysql']['tunable']['default-character-set'] %>
+default-collation       = <%= node['mysql']['tunable']['default-collation'] %>
+
+#
 # * Query Cache Configuration
 #
 query_cache_limit       = <%= node['mysql']['tunable']['query_cache_limit'] %>
