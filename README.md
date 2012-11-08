@@ -58,6 +58,13 @@ platform and version.
   that should be installed on "server" systems. This can be modified,
   e.g., to specify packages for Percona.
 
+* `node['mysql']['client']['package-versions']` - An hash tying
+  package names to particular versions that should be installed on
+  client systems. If not specified, the latest version is installed.
+* `node['mysql']['server']['package-versions']` - An hash tying
+  package names to particular versions that should be installed on
+  server systems. If not specified, the latest version is installed.
+
 * `node['mysql']['auto-increment-increment']` -
   auto-increment-increment value in my.cnf
 * `node['mysql']['auto-increment-offset]` - auto-increment-offset

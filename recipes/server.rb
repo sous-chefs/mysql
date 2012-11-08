@@ -92,6 +92,7 @@ end
 node['mysql']['server']['packages'].each do |package_name|
   package package_name do
     action :install
+    version node['mysql']['server']['package_versions'][package_name] if node['mysql']['server']['package_versions'][package_name]
   end
 end
 
