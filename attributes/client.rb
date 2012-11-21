@@ -22,11 +22,7 @@
 
 case node['platform']
 when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
-  default['mysql']['client']['packages'] = if node["mysql"]["client"]["version"].to_f >= 5.5
-                                             %w{MySQL-client MySQL-devel MySQL-shared}
-                                           else
-                                             %w{mysql mysql-devel}
-                                           end
+  default['mysql']['client']['packages'] = %w{mysql mysql-devel}
 when "ubuntu","debian"
   if debian_before_squeeze? || ubuntu_before_lucid?
     default['mysql']['client']['packages'] = %w{mysql-client libmysqlclient15-dev}

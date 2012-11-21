@@ -140,7 +140,6 @@ unless platform?(%w{mac_os_x})
                    else
                      false
                    end
-
 end
 
 # Homebrew has its own way to do databases
