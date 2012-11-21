@@ -23,13 +23,8 @@ default['mysql']['nice']                       = 0
 
 case node["platform"]
 when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
-  if node["mysql"]["version"].to_f >= 5.5
-    default['mysql']['service_name']            = "mysql"
-    set['mysql']['pid_file']                    = "/var/run/mysql/mysql.pid"
-  else
-    default['mysql']['service_name']            = "mysqld"
-    set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
-  end
+  default['mysql']['service_name']            = "mysqld"
+  set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   default['mysql']['server']['packages']      = %w{mysql-server}
   default['mysql']['basedir']                 = "/usr"
   default['mysql']['data_dir']                = "/var/lib/mysql"
