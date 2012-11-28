@@ -20,10 +20,10 @@
 # to debian_before_squeeze? and ubuntu_before_lucid?
 ::Chef::Node.send(:include, Opscode::Mysql::Helpers)
 
-case node['platform']
-when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
+case node['platform_family']
+when "rhel", "suse", "fedora"
   default['mysql']['client']['packages'] = %w{mysql mysql-devel}
-when "ubuntu","debian"
+when "debian"
   if debian_before_squeeze? || ubuntu_before_lucid?
     default['mysql']['client']['packages'] = %w{mysql-client libmysqlclient15-dev}
   else

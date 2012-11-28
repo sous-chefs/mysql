@@ -191,8 +191,8 @@ key_buffer              = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 # [MYSQL_CLUSTER]
 # ndb-connectstring=127.0.0.1
 
-<% case node['platform'] -%>
-<% when "centos", "redhat", "fedora", "suse", "scientific", "amazon"-%>
+<% case node['platform_family'] -%>
+<% when "rhel", "fedora", "suse" -%>
 #
 # * BerkeleyDB
 #

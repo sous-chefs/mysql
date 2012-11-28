@@ -29,7 +29,7 @@ describe 'mysql::server' do
   end
   describe 'debian' do
     it 'creates a config file for service control' do
-      skip unless ['debian', 'ubuntu'].include?(node[:platform])
+      skip unless ['debian'].include?(node['platform_family'])
       file("#{node['mysql']['conf_dir']}/debian.cnf").must_exist
     end
   end

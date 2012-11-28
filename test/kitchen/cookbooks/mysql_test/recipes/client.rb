@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe "yum::epel" if platform?('centos')
+include_recipe "yum::epel" if platform_family?('rhel')
