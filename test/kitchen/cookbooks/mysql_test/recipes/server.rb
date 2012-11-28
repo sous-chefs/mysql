@@ -17,21 +17,11 @@
 # limitations under the License.
 #
 
-case node.platform
-  when 'ubuntu'
-    %w{mysql-client libmysqlclient-dev}
-  when 'centos'
-    %w{mysql mysql-devel}
-end.each do |pkg|
-  package pkg do
-    action :nothing
-  end.run_action(:install)
-end
+node.set['mysql']['server_debian_password'] = "ilikerandompasswords"
+node.set['mysql']['server_root_password']   = "ilikerandompasswords"
+node.set['mysql']['server_repl_password']   = "ilikerandompasswords"
 
-gem_package "mysql" do
-  action :nothing
-end.run_action(:install)
-
+include_recipe "mysql::ruby"
 include_recipe "yum::epel" if platform?('centos')
 
 file "/etc/sysconfig/network" do
