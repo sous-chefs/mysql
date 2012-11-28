@@ -36,7 +36,7 @@ when "debian"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 0
   set['mysql']['grants_path']                 = "/etc/mysql/grants.sql"
-when "rhel", "fedora", "suse",
+when "rhel", "fedora", "suse"
   default['mysql']['server']['packages']      = %w{mysql-server}
   default['mysql']['service_name']            = "mysqld"
   default['mysql']['basedir']                 = "/usr"
