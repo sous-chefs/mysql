@@ -139,12 +139,14 @@ default['mysql']['tunable']['thread_concurrency']   = 10
 default['mysql']['tunable']['thread_stack']         = "256K"
 default['mysql']['tunable']['wait_timeout']         = "180"
 
+default['mysql']['tunable']['enable_binary_log']               = false
 default['mysql']['tunable']['log_bin']                         = nil
 default['mysql']['tunable']['log_bin_trust_function_creators'] = false
 default['mysql']['tunable']['relay_log']                       =  nil
 default['mysql']['tunable']['log_slave_updates']               = false
 default['mysql']['tunable']['sync_binlog']                     = 0
 default['mysql']['tunable']['skip_slave_start']                = false
+default['mysql']['tunable']['server_id']                       = nil
 
 default['mysql']['tunable']['log_error']                       = nil
 default['mysql']['tunable']['log_queries_not_using_index']     = true
