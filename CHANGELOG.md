@@ -1,3 +1,7 @@
+## v2.0.2:
+
+* [COOK-1967] - mysql: trailing comma in server.rb platform family
+
 ## v2.0.0:
 
 **Important note for this release**
