@@ -107,7 +107,12 @@ log-queries-not-using-indexes
 # The following can be used as easy to replay backup logs or for replication.
 # note: if you are setting up a replication slave, see README.Debian about
 #       other settings you may need to change.
-#server-id              = 1
+<%- if node['mysql']['tunable']['server_id'] %>
+server-id = <%= node['mysql']['tunable']['server_id'] %>
+<% end %>
+
+binlog_format = <%= node['mysql']['tunable']['binlog_format'] %>
+
 <%- if node['mysql']['tunable']['log_bin'] %>
 log_bin = <%= node['mysql']['tunable']['log_bin'] %>
 log_slave_updates       = <%= node['mysql']['tunable']['log_slave_updates'] %>
@@ -191,8 +196,8 @@ key_buffer              = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 # [MYSQL_CLUSTER]
 # ndb-connectstring=127.0.0.1
 
-<% case node['platform'] -%>
-<% when "centos", "redhat", "fedora", "suse", "scientific", "amazon"-%>
+<% case node['platform_family'] -%>
+<% when "rhel", "fedora", "suse" -%>
 #
 # * BerkeleyDB
 #

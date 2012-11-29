@@ -41,7 +41,7 @@ else
   node.set_unless['mysql']['server_repl_password']   = secure_password
 end
 
-if platform?(%w{debian ubuntu})
+if platform_family?(%w{debian})
 
   directory "/var/cache/local/preseeding" do
     owner "root"
@@ -72,7 +72,7 @@ if platform?(%w{debian ubuntu})
 
 end
 
-if platform? 'windows'
+if platform_family?('windows')
   package_file = node['mysql']['package_file']
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{package_file}" do
@@ -104,15 +104,16 @@ node['mysql']['server']['packages'].each do |package_name|
   end
 end
 
-unless platform?(%w{mac_os_x})
+unless platform_family?(%w{mac_os_x})
+
   directory node['mysql']['confd_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
+    owner "mysql" unless platform_family? 'windows'
+    group "mysql" unless platform_family? 'windows'
     action :create
     recursive true
   end
 
-  if platform? 'windows'
+  if platform_family? 'windows'
     require 'win32/service'
 
     windows_path node['mysql']['bin_dir'] do
@@ -147,8 +148,8 @@ unless platform?(%w{mac_os_x})
 
   template "#{node['mysql']['conf_dir']}/my.cnf" do
     source "my.cnf.erb"
-    owner "root" unless platform? 'windows'
-    group node['mysql']['root_group'] unless platform? 'windows'
+    owner "root" unless platform_family? 'windows'
+    group node['mysql']['root_group'] unless platform_family? 'windows'
     mode "0644"
     case node['mysql']['reload_action']
     when 'restart'
@@ -180,7 +181,7 @@ execute "assign-root-password" do
 end
 
 # Homebrew has its own way to do databases
-if platform?(%w{mac_os_x})
+if platform_family?(%w{mac_os_x})
 
   execute "mysql-install-db" do
     command "mysql_install_db --verbose --user=`whoami` --basedir=\"$(brew --prefix mysql)\" --datadir=#{node['mysql']['data_dir']} --tmpdir=/tmp"
@@ -197,14 +198,14 @@ else
     Chef::Log.info("Could not find previously defined grants.sql resource")
     t = template grants_path do
       source "grants.sql.erb"
-      owner "root" unless platform? 'windows'
-      group node['mysql']['root_group'] unless platform? 'windows'
+      owner "root" unless platform_family? 'windows'
+      group node['mysql']['root_group'] unless platform_family? 'windows'
       mode "0600"
       action :create
     end
   end
 
-  if platform? 'windows'
+  if platform_family? 'windows'
     windows_batch "mysql-install-privileges" do
       command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
       action :nothing
