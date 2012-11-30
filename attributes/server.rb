@@ -137,7 +137,8 @@ default['mysql']['tunable']['thread_cache']         = "128"
 default['mysql']['tunable']['thread_cache_size']    = 8
 default['mysql']['tunable']['thread_concurrency']   = 10
 default['mysql']['tunable']['thread_stack']         = "256K"
-default['mysql']['tunable']['wait_timeout']         = "180"
+default['mysql']['tunable']['wait_timeout']         = "28800"
+default['mysql']['tunable']['interactive_timeout']  = "180"
 
 
 default['mysql']['tunable']['server_id']                       = nil
