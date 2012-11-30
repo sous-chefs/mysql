@@ -74,6 +74,7 @@ myisam-recover          = BACKUP
 #thread_concurrency     = 10
 max_connections         = <%= node['mysql']['tunable']['max_connections'] %>
 wait_timeout            = <%= node['mysql']['tunable']['wait_timeout'] %>
+interactive_timeout     = <%= node['mysql']['tunable']['interactive_timeout'] %>
 net_read_timeout        = <%= node['mysql']['tunable']['net_read_timeout'] %>
 net_write_timeout       = <%= node['mysql']['tunable']['net_write_timeout'] %>
 back_log                = <%= node['mysql']['tunable']['back_log'] %>
