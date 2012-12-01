@@ -21,11 +21,11 @@ module Opscode
     module Helpers
 
       def debian_before_squeeze?
-        platform?("debian") && (node.platform_version.to_f < 6.0)
+        (node.platform == "debian") && (node.platform_version.to_f < 6.0)
       end
 
       def ubuntu_before_lucid?
-        platform?("ubuntu") && (node.platform_version.to_f < 10.0)
+        (node.platform == "ubuntu") && (node.platform_version.to_f < 10.0)
       end
 
     end
