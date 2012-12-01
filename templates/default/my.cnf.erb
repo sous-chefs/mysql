@@ -131,6 +131,9 @@ sync_binlog             = <%= node['mysql']['tunable']['sync_binlog'] %>
 <%- if node['mysql']['tunable']['skip_slave_start'] %>
 skip_slave_start
 <%- end %>
+<%- if node['mysql']['tunable']['read_only'] %>
+read_only = 1
+<%- end %>
 
 #
 # * InnoDB

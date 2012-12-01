@@ -148,6 +148,7 @@ default['mysql']['tunable']['relay_log']                       =  nil
 default['mysql']['tunable']['log_slave_updates']               = false
 default['mysql']['tunable']['sync_binlog']                     = 0
 default['mysql']['tunable']['skip_slave_start']                = false
+default['mysql']['tunable']['read_only']                       = false
 
 default['mysql']['tunable']['log_error']                       = nil
 default['mysql']['tunable']['log_queries_not_using_index']     = true
