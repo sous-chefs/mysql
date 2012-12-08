@@ -97,39 +97,17 @@ node['mysql']['server']['packages'].each do |package_name|
 end
 
 unless platform?(%w{mac_os_x})
-  directory File.dirname(node['mysql']['pid_file']) do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
-
-  directory node['mysql']['confd_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
-
-  directory node['mysql']['confd_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
-
-  directory node['mysql']['log_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
-  end
-
-  directory node['mysql']['data_dir'] do
-    owner "mysql" unless platform? 'windows'
-    group "mysql" unless platform? 'windows'
-    action :create
-    recursive true
+  [File.dirname(node['mysql']['pid_file']), 
+   node['mysql']['confd_dir'],
+   node['mysql']['confd_dir'],
+   node['mysql']['log_dir'],
+   node['mysql']['data_dir']].each do |directory_path|
+    directory directory_path do
+      owner "mysql" unless platform? 'windows'
+      group "mysql" unless platform? 'windows'
+      action :create
+      recursive true
+    end
   end
 
   skip_federated = case node['platform']
