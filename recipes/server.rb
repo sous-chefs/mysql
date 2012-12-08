@@ -235,13 +235,3 @@ unless platform?(%w{mac_os_x})
   end
 
 end
-
-unless Chef::Config[:solo]
-  ruby_block "save node data" do
-    block do
-      node.save
-    end
-    action :create
-  end
-end
-
