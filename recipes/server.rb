@@ -212,9 +212,9 @@ unless platform?(%w{mac_os_x})
     mode "0644"
     case node['mysql']['reload_action']
     when 'restart'
-      notifies :restart, resources(:service => "mysql"), :immediately
+      notifies :restart, "service[mysql]", :immediately
     when 'reload'
-      notifies :reload, resources(:service => "mysql"), :immediately
+      notifies :reload, "service[mysql]", :immediately
     else
       Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
     end
