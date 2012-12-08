@@ -61,7 +61,7 @@ if platform?(%w{debian ubuntu})
     owner "root"
     group node['mysql']['root_group']
     mode "0600"
-    notifies :run, resources(:execute => "preseed mysql-server"), :immediately
+    notifies :run, "execute[preseed mysql-server]", :immediately
   end
 
   template "#{node['mysql']['conf_dir']}/debian.cnf" do
