@@ -31,19 +31,19 @@ when "debian"
   default['mysql']['mysqladmin_bin']          = "/usr/bin/mysqladmin"
   default['mysql']['mysql_bin']               = "/usr/bin/mysql"
 
-  set['mysql']['conf_dir']                    = '/etc/mysql'
-  set['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
-  set['mysql']['socket']                      = "/var/run/mysqld/mysqld.sock"
-  set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
-  set['mysql']['old_passwords']               = 0
-  set['mysql']['grants_path']                 = "/etc/mysql/grants.sql"
+  default['mysql']['conf_dir']                    = '/etc/mysql'
+  default['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
+  default['mysql']['socket']                      = "/var/run/mysqld/mysqld.sock"
+  default['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
+  default['mysql']['old_passwords']               = 0
+  default['mysql']['grants_path']                 = "/etc/mysql/grants.sql"
 when "rhel", "fedora", "suse"
   if node["mysql"]["version"].to_f >= 5.5
     default['mysql']['service_name']            = "mysql"
-    set['mysql']['pid_file']                    = "/var/run/mysql/mysql.pid"
+    default['mysql']['pid_file']                    = "/var/run/mysql/mysql.pid"
   else
     default['mysql']['service_name']            = "mysqld"
-    set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
+    default['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   end
   default['mysql']['server']['packages']      = %w{mysql-server}
   default['mysql']['basedir']                 = "/usr"
@@ -52,13 +52,13 @@ when "rhel", "fedora", "suse"
   default['mysql']['mysqladmin_bin']          = "/usr/bin/mysqladmin"
   default['mysql']['mysql_bin']               = "/usr/bin/mysql"
 
-  set['mysql']['conf_dir']                    = '/etc'
-  set['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
-  set['mysql']['socket']                      = "/var/lib/mysql/mysql.sock"
-  set['mysql']['old_passwords']               = 1
-  set['mysql']['grants_path']                 = "/etc/mysql_grants.sql"
+  default['mysql']['conf_dir']                    = '/etc'
+  default['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
+  default['mysql']['socket']                      = "/var/lib/mysql/mysql.sock"
+  default['mysql']['old_passwords']               = 1
+  default['mysql']['grants_path']                 = "/etc/mysql_grants.sql"
   # RHEL/CentOS mysql package does not support this option.
-  set['mysql']['tunable']['innodb_adaptive_flushing'] = false
+  default['mysql']['tunable']['innodb_adaptive_flushing'] = false
 when "freebsd"
   default['mysql']['server']['packages']      = %w{mysql55-server}
   default['mysql']['service_name']            = "mysql-server"
@@ -68,12 +68,12 @@ when "freebsd"
   default['mysql']['mysqladmin_bin']          = "/usr/local/bin/mysqladmin"
   default['mysql']['mysql_bin']               = "/usr/local/bin/mysql"
 
-  set['mysql']['conf_dir']                    = '/usr/local/etc'
-  set['mysql']['confd_dir']                   = '/usr/local/etc/mysql/conf.d'
-  set['mysql']['socket']                      = "/tmp/mysqld.sock"
-  set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
-  set['mysql']['old_passwords']               = 0
-  set['mysql']['grants_path']                 = "/var/db/mysql/grants.sql"
+  default['mysql']['conf_dir']                    = '/usr/local/etc'
+  default['mysql']['confd_dir']                   = '/usr/local/etc/mysql/conf.d'
+  default['mysql']['socket']                      = "/tmp/mysqld.sock"
+  default['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
+  default['mysql']['old_passwords']               = 0
+  default['mysql']['grants_path']                 = "/var/db/mysql/grants.sql"
 when "windows"
   default['mysql']['server']['packages']      = ["MySQL Server 5.5"]
   default['mysql']['version']                 = '5.5.21'
@@ -83,14 +83,14 @@ when "windows"
 
   default['mysql']['service_name']            = "mysql"
   default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['server']['packages'].first}"
-  default['mysql']['data_dir']                = "#{mysql['basedir']}\\Data"
-  default['mysql']['bin_dir']                 = "#{mysql['basedir']}\\bin"
-  default['mysql']['mysqladmin_bin']          = "#{mysql['bin_dir']}\\mysqladmin"
-  default['mysql']['mysql_bin']               = "#{mysql['bin_dir']}\\mysql"
+  default['mysql']['data_dir']                = "#{node['mysql']['basedir']}\\Data"
+  default['mysql']['bin_dir']                 = "#{node['mysql']['basedir']}\\bin"
+  default['mysql']['mysqladmin_bin']          = "#{node['mysql']['bin_dir']}\\mysqladmin"
+  default['mysql']['mysql_bin']               = "#{node['mysql']['bin_dir']}\\mysql"
 
-  default['mysql']['conf_dir']                = "#{mysql['basedir']}"
+  default['mysql']['conf_dir']                = node['mysql']['basedir']
   default['mysql']['old_passwords']           = 0
-  default['mysql']['grants_path']             = "#{mysql['conf_dir']}\\grants.sql"
+  default['mysql']['grants_path']             = "#{node['mysql']['conf_dir']}\\grants.sql"
 when "mac_os_x"
   default['mysql']['server']['packages']      = %w{mysql}
   default['mysql']['basedir']                 = "/usr/local/Cellar"
@@ -107,12 +107,12 @@ else
   default['mysql']['mysqladmin_bin']          = "/usr/bin/mysqladmin"
   default['mysql']['mysql_bin']               = "/usr/bin/mysql"
 
-  set['mysql']['conf_dir']                    = '/etc/mysql'
-  set['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
-  set['mysql']['socket']                      = "/var/run/mysqld/mysqld.sock"
-  set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
-  set['mysql']['old_passwords']               = 0
-  set['mysql']['grants_path']                 = "/etc/mysql/grants.sql"
+  default['mysql']['conf_dir']                    = '/etc/mysql'
+  default['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
+  default['mysql']['socket']                      = "/var/run/mysqld/mysqld.sock"
+  default['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
+  default['mysql']['old_passwords']               = 0
+  default['mysql']['grants_path']                 = "/etc/mysql/grants.sql"
 end
 
 if attribute?('ec2')
@@ -123,7 +123,7 @@ end
 
 default['mysql']['reload_action'] = "restart" # or "reload" or "none"
 
-default['mysql']['use_upstart'] = node.platform == "ubuntu" && node['platform_version'].to_f >= 10.04
+default['mysql']['use_upstart'] = node['platform'] == "ubuntu" && node['platform_version'].to_f >= 10.04
 
 default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1
@@ -131,7 +131,6 @@ default['mysql']['auto-increment-offset']           = 1
 default['mysql']['allow_remote_root']               = false
 default['mysql']['tunable']['character-set-server'] = "utf8"
 default['mysql']['tunable']['collation-server']     = "utf8_general_ci"
-default['mysql']['tunable']['event_scheduler']      = 0
 default['mysql']['tunable']['back_log']             = "128"
 default['mysql']['tunable']['key_buffer']           = "256M"
 default['mysql']['tunable']['myisam_sort_buffer_size']   = "8M"
@@ -150,7 +149,7 @@ default['mysql']['tunable']['myisam_recover']       = "BACKUP"
 default['mysql']['tunable']['net_read_timeout']     = "30"
 default['mysql']['tunable']['net_write_timeout']    = "30"
 default['mysql']['tunable']['table_cache']          = "128"
-default['mysql']['tunable']['table_open_cache']     = "128"
+
 default['mysql']['tunable']['thread_cache']         = "128"
 default['mysql']['tunable']['thread_cache_size']    = 8
 default['mysql']['tunable']['thread_concurrency']   = 10
@@ -172,11 +171,11 @@ default['mysql']['tunable']['skip-name-resolve']                   = false
 default['mysql']['tunable']['server_id']                       = nil
 default['mysql']['tunable']['log_bin']                         = nil
 default['mysql']['tunable']['log_bin_trust_function_creators'] = false
-default['mysql']['tunable']['binlog_format']                   = "statement"
+
 default['mysql']['tunable']['relay_log']                       = nil
 default['mysql']['tunable']['relay_log_index']                 = nil
 default['mysql']['tunable']['log_slave_updates']               = false
-default['mysql']['tunable']['binlog_format']                   = "MIXED"
+
 default['mysql']['tunable']['sync_binlog']                     = 0
 default['mysql']['tunable']['skip_slave_start']                = false
 
@@ -231,3 +230,10 @@ default['mysql']['read_only'] = false
 default['mysql']['log_dir'] = node['mysql']['data_dir']
 default['mysql']['log_files_in_group'] = false
 default['mysql']['innodb_status_file'] = false
+
+unless node['platform_family'] && node['platform_version'].to_i < 6
+  # older RHEL platforms don't support these options
+  default['mysql']['tunable']['event_scheduler']  = 0
+  default['mysql']['tunable']['table_open_cache'] = "128"
+  default['mysql']['tunable']['binlog_format']    = "statement" if node['mysql']['tunable']['log_bin']
+end

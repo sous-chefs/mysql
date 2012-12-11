@@ -93,12 +93,14 @@ end
 node['mysql']['server']['packages'].each do |package_name|
   package package_name do
     action :install
+    notifies :start, "service[mysql]", :immediately
   end
 end
 
 unless platform_family?(%w{mac_os_x})
 
   [File.dirname(node['mysql']['pid_file']),
+    File.dirname(node['mysql']['tunable']['slow_query_log']),
     node['mysql']['confd_dir'],
     node['mysql']['confd_dir'],
     node['mysql']['log_dir'],
@@ -121,15 +123,6 @@ unless platform_family?(%w{mac_os_x})
     windows_batch "install mysql service" do
       command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
       not_if { Win32::Service.exists?(node['mysql']['service_name']) }
-    end
-  end
-
-  service "mysql" do
-    service_name node['mysql']['service_name']
-    if node['mysql']['use_upstart']
-      restart_command "restart mysql"
-      stop_command "stop mysql"
-      start_command "start mysql"
     end
   end
 
@@ -164,7 +157,7 @@ else
       provider Chef::Provider::Service::Upstart
     end
     supports :status => true, :restart => true, :reload => true
-    action [:start, :enable]
+    action :enable
   end
 end
 
@@ -220,5 +213,9 @@ unless platform_family?(%w{mac_os_x})
       Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
     end
     variables :skip_federated => skip_federated
+  end
+
+  service "mysql" do
+    action :start
   end
 end

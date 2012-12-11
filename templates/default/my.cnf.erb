@@ -58,7 +58,9 @@ skip-name-resolve
 # Charset and Collation
 character-set-server = <%= node['mysql']['tunable']['character-set-server'] %>
 collation-server     = <%= node['mysql']['tunable']['collation-server'] %>
+<%- if node['mysql']['tunable']['event_scheduler'] %>
 event_scheduler      = <%= node['mysql']['tunable']['event_scheduler'] %>
+<%- end %>
 <%- if node['mysql']['tunable']['skip-character-set-client-handshake'] %>
 skip-character-set-client-handshake
 <%- end %>
@@ -94,7 +96,9 @@ net_read_timeout        = <%= node['mysql']['tunable']['net_read_timeout'] %>
 net_write_timeout       = <%= node['mysql']['tunable']['net_write_timeout'] %>
 back_log                = <%= node['mysql']['tunable']['back_log'] %>
 table_cache             = <%= node['mysql']['tunable']['table_cache'] %>
+<%- if node['mysql']['tunable']['table_open_cache'] %>
 table_open_cache        = <%= node['mysql']['tunable']['table_open_cache'] %>
+<%- end %>
 tmp_table_size          = <%= node['mysql']['tunable']['tmp_table_size'] %>
 max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 bulk_insert_buffer_size = <%= node['mysql']['tunable']['bulk_insert_buffer_size'] %>
@@ -150,9 +154,11 @@ log-queries-not-using-indexes
 <%- if node['mysql']['tunable']['server_id'] %>
 server-id = <%= node['mysql']['tunable']['server_id'] %>
 <% end %>
+<%- if node['mysql']['tunable']['binlog_format'] %>
 
 binlog_format = <%= node['mysql']['tunable']['binlog_format'] %>
 
+<%- end %>
 <%- if node['mysql']['tunable']['log_bin'] %>
 log_bin = <%= node['mysql']['tunable']['log_bin'] %>
 <%- if node['mysql']['tunable']['log_bin'] %>
