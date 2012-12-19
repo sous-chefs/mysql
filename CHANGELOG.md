@@ -1,3 +1,16 @@
+## v2.1.0:
+
+* [COOK-1669] - Using platform("ubuntu") in default attributes always
+  returns true
+* [COOK-1694] - Added additional my.cnf fields and reorganized
+  cookbook to avoid race conditions with mysql startup and sql script
+  execution
+* [COOK-1851] - Support server-id and binlog_format settings
+* [COOK-1929] - Update msyql server attributes file because setting
+  attributes without specifying a precedence is deprecated
+* [COOK-1999] - Add read_only tunable useful for replication slave
+  servers
+
 ## v2.0.2:
 
 * [COOK-1967] - mysql: trailing comma in server.rb platform family
