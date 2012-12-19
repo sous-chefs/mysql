@@ -129,8 +129,8 @@ default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1
 
 default['mysql']['allow_remote_root']               = false
-default['mysql']['tunable']['character-set-server'] = "utf8"
-default['mysql']['tunable']['collation-server']     = "utf8_general_ci"
+default['mysql']['tunable']['character_set_server'] = "utf8"
+default['mysql']['tunable']['collation_server']     = "utf8_general_ci"
 default['mysql']['tunable']['back_log']             = "128"
 default['mysql']['tunable']['key_buffer']           = "256M"
 default['mysql']['tunable']['myisam_sort_buffer_size']   = "8M"
@@ -159,8 +159,8 @@ default['mysql']['tunable']['read_buffer_size']     = "128k"
 default['mysql']['tunable']['read_rnd_buffer_size'] = "256k"
 default['mysql']['tunable']['join_buffer_size']     = "128k"
 default['mysql']['tunable']['wait_timeout']         = "180"
-default['mysql']['tunable']['open-files-limit']     = "8192"
-default['mysql']['tunable']['open-files']           = "1024"
+default['mysql']['tunable']['open_files_limit']     = "8192"
+default['mysql']['tunable']['open_files']           = "1024"
 
 default['mysql']['tunable']['sql_mode'] = nil
 
