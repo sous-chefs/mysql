@@ -154,11 +154,6 @@ log-queries-not-using-indexes
 <%- if node['mysql']['tunable']['server_id'] %>
 server-id = <%= node['mysql']['tunable']['server_id'] %>
 <% end %>
-<%- if node['mysql']['tunable']['binlog_format'] %>
-
-binlog_format = <%= node['mysql']['tunable']['binlog_format'] %>
-
-<%- end %>
 <%- if node['mysql']['tunable']['log_bin'] %>
 log_bin = <%= node['mysql']['tunable']['log_bin'] %>
 <%- if node['mysql']['tunable']['log_bin'] %>
