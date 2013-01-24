@@ -64,6 +64,8 @@ event_scheduler      = <%= node['mysql']['tunable']['event_scheduler'] %>
 <%- if node['mysql']['tunable']['skip-character-set-client-handshake'] %>
 skip-character-set-client-handshake
 <%- end %>
+lc_messages_dir	    = <%= node['mysql']['lc_messages_dir'] %>
+lc_messages	    = <%= node['mysql']['lc_messages'] %>
 
 #
 # Instead of skip-networking the default is now to listen only on
