@@ -26,7 +26,6 @@ when "debian"
   default['mysql']['server']['packages']      = %w{mysql-server}
   default['mysql']['service_name']            = "mysql"
   default['mysql']['basedir']                 = "/usr"
-  default['mysql']['lc_messages_dir']	      = "/usr/share/mysql"
   default['mysql']['data_dir']                = "/var/lib/mysql"
   default['mysql']['root_group']              = "root"
   default['mysql']['mysqladmin_bin']          = "/usr/bin/mysqladmin"
@@ -48,7 +47,6 @@ when "rhel", "fedora", "suse"
   end
   default['mysql']['server']['packages']      = %w{mysql-server}
   default['mysql']['basedir']                 = "/usr"
-  default['mysql']['lc_messages_dir']	      = "/usr/share/mysql"
   default['mysql']['data_dir']                = "/var/lib/mysql"
   default['mysql']['root_group']              = "root"
   default['mysql']['mysqladmin_bin']          = "/usr/bin/mysqladmin"
@@ -65,7 +63,6 @@ when "freebsd"
   default['mysql']['server']['packages']      = %w{mysql55-server}
   default['mysql']['service_name']            = "mysql-server"
   default['mysql']['basedir']                 = "/usr/local"
-  default['mysql']['lc_messages_dir']	      = "/usr/share/mysql"
   default['mysql']['data_dir']                = "/var/db/mysql"
   default['mysql']['root_group']              = "wheel"
   default['mysql']['mysqladmin_bin']          = "/usr/local/bin/mysqladmin"
@@ -97,7 +94,6 @@ when "windows"
 when "mac_os_x"
   default['mysql']['server']['packages']      = %w{mysql}
   default['mysql']['basedir']                 = "/usr/local/Cellar"
-  default['mysql']['lc_messages_dir']	      = "/usr/local/share/mysql"
   default['mysql']['data_dir']                = "/usr/local/var/mysql"
   default['mysql']['root_group']              = "admin"
   default['mysql']['mysqladmin_bin']          = "/usr/local/bin/mysqladmin"
@@ -106,7 +102,6 @@ else
   default['mysql']['server']['packages']      = %w{mysql-server}
   default['mysql']['service_name']            = "mysql"
   default['mysql']['basedir']                 = "/usr"
-  default['mysql']['lc_messages_dir']	      = "/usr/share/mysql"
   default['mysql']['data_dir']                = "/var/lib/mysql"
   default['mysql']['root_group']              = "root"
   default['mysql']['mysqladmin_bin']          = "/usr/bin/mysqladmin"
@@ -134,7 +129,6 @@ default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1
 
 default['mysql']['allow_remote_root']               = false
-default['mysql']['lc_messages']			    = "en_US"
 default['mysql']['tunable']['character-set-server'] = "utf8"
 default['mysql']['tunable']['collation-server']     = "utf8_general_ci"
 default['mysql']['tunable']['back_log']             = "128"
