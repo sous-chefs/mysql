@@ -1,3 +1,8 @@
+## v2.1.2:
+
+* [COOK-2172] - Mysql cookbook duplicates `binlog_format`
+  configuration
+
 ## v2.1.0:
 
 * [COOK-1669] - Using platform("ubuntu") in default attributes always
