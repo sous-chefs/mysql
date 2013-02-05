@@ -49,7 +49,7 @@ case node['platform']
     arch = node['kernel']['machine']
     arch = "i386" unless arch == "x86_64"
     pversion = node['platform_version']
-    yum_repository "percona"
+    yum_repository "percona" do
       repo_name "Percona"
       description "Percona Repo"
       url "http://repo.percona.com/centos/#{pversion}/os/#{arch}/"
