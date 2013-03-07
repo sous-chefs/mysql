@@ -224,6 +224,7 @@ default['mysql']['tunable']['long_query_time']      = 2
 default['mysql']['tunable']['expire_logs_days']     = 10
 default['mysql']['tunable']['max_binlog_size']      = "100M"
 default['mysql']['tunable']['binlog_cache_size']    = "32K"
+default['mysql']['tunable']['skip-bdb']             = false
 
 default['mysql']['tmpdir'] = ["/tmp"]
 default['mysql']['read_only'] = false
