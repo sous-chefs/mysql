@@ -303,8 +303,9 @@ skip-bdb
 # Default to using old password format for compatibility with mysql 3.x
 # clients (those using the mysqlclient10 compatibility package).
 old_passwords           = <%= node['mysql']['old_passwords'] %>
+<% end -%>
 
-<% else -%>
+<% if node['mysql']['confd_dir'] -%>
 #
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
