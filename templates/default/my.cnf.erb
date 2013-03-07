@@ -304,8 +304,10 @@ skip-bdb
 # clients (those using the mysqlclient10 compatibility package).
 old_passwords           = <%= node['mysql']['old_passwords'] %>
 
+<% if node['mysql']['confd_dir'] -%>
 #
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
 !includedir <%= node['mysql']['confd_dir'] %>/
+<% end -%>
