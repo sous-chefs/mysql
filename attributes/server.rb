@@ -38,14 +38,21 @@ when "debian"
   default['mysql']['old_passwords']               = 0
   default['mysql']['grants_path']                 = "/etc/mysql/grants.sql"
 when "rhel", "fedora", "suse"
-  if node["mysql"]["version"].to_f >= 5.5
+  if node["platform_family"] == "suse"
+    default['mysql']['service_name']            = "mysql"
+    default['mysql']['pid_file']                    = "/var/run/mysql/mysql.pid"
+  elsif node["mysql"]["version"].to_f >= 5.5
     default['mysql']['service_name']            = "mysql"
     default['mysql']['pid_file']                    = "/var/run/mysql/mysql.pid"
   else
     default['mysql']['service_name']            = "mysqld"
     default['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   end
-  default['mysql']['server']['packages']      = %w{mysql-server}
+  if node["platform_family"] == "suse"
+    default['mysql']['server']['packages']      = %w{mysql}
+  else
+    default['mysql']['server']['packages']      = %w{mysql-server}
+  end
   default['mysql']['basedir']                 = "/usr"
   default['mysql']['data_dir']                = "/var/lib/mysql"
   default['mysql']['root_group']              = "root"
