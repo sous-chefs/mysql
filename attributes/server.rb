@@ -40,7 +40,7 @@ when "debian"
 when "rhel", "fedora", "suse"
   if node["platform_family"] == "suse"
     default['mysql']['service_name']            = "mysql"
-    default['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
+    default['mysql']['pid_file']                    = "/var/run/mysql/mysql.pid"
   elsif node["mysql"]["version"].to_f >= 5.5
     default['mysql']['service_name']            = "mysql"
     default['mysql']['pid_file']                    = "/var/run/mysql/mysql.pid"
