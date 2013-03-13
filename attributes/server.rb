@@ -167,6 +167,7 @@ default['mysql']['tunable']['sql_mode'] = nil
 default['mysql']['tunable']['skip-character-set-client-handshake'] = false
 default['mysql']['tunable']['skip-name-resolve']                   = false
 
+default['mysql']['tunable']['slave_compressed_protocol']       = 0
 
 default['mysql']['tunable']['server_id']                       = nil
 default['mysql']['tunable']['log_bin']                         = nil
@@ -226,7 +227,6 @@ default['mysql']['tunable']['max_binlog_size']      = "100M"
 default['mysql']['tunable']['binlog_cache_size']    = "32K"
 
 default['mysql']['tmpdir'] = ["/tmp"]
-default['mysql']['read_only'] = false
 
 default['mysql']['log_dir'] = node['mysql']['data_dir']
 default['mysql']['log_files_in_group'] = false
