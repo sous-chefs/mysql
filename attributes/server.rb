@@ -129,6 +129,8 @@ default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1
 
 default['mysql']['allow_remote_root']               = false
+default['mysql']['remove_anonymous_users']          = false
+default['mysql']['remove_test_database']            = false
 default['mysql']['tunable']['character-set-server'] = "utf8"
 default['mysql']['tunable']['collation-server']     = "utf8_general_ci"
 default['mysql']['tunable']['back_log']             = "128"
@@ -238,3 +240,9 @@ unless node['platform_family'] && node['platform_version'].to_i < 6
   default['mysql']['tunable']['table_open_cache'] = "128"
   default['mysql']['tunable']['binlog_format']    = "statement" if node['mysql']['tunable']['log_bin']
 end
+
+default['mysql']['delete_anonymous_users']          =  true
+default['mysql']['delete_passwordless_users']       =  true
+
+default['mysql']['drop_test_db'] = true
+
