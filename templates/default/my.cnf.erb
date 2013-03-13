@@ -87,8 +87,13 @@ read_buffer_size        = <%= node['mysql']['tunable']['read_buffer_size'] %>
 read_rnd_buffer_size    = <%= node['mysql']['tunable']['read_rnd_buffer_size'] %>
 join_buffer_size        = <%= node['mysql']['tunable']['join_buffer_size'] %>
 
+default_storage_engine   = <%= node['mysql']['default_storage_engine'] %>
 auto-increment-increment = <%= node['mysql']['auto-increment-increment'] %>
 auto-increment-offset    = <%= node['mysql']['auto-increment-offset'] %>
+
+# * Full text search
+ft_min_word_len         = <%= node['mysql']['tunable']['ft_min_word_len'] %>
+ft_max_word_len         = <%= node['mysql']['tunable']['ft_max_word_len'] %>
 
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
@@ -102,6 +107,7 @@ net_read_timeout        = <%= node['mysql']['tunable']['net_read_timeout'] %>
 net_write_timeout       = <%= node['mysql']['tunable']['net_write_timeout'] %>
 back_log                = <%= node['mysql']['tunable']['back_log'] %>
 table_cache             = <%= node['mysql']['tunable']['table_cache'] %>
+table_definition_cache  = <%= node['mysql']['tunable']['table_definition_cache'] %>
 <%- if node['mysql']['tunable']['table_open_cache'] %>
 table_open_cache        = <%= node['mysql']['tunable']['table_open_cache'] %>
 <%- end %>
@@ -110,7 +116,8 @@ max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 bulk_insert_buffer_size = <%= node['mysql']['tunable']['bulk_insert_buffer_size'] %>
 open-files-limit        = <%= node['mysql']['tunable']['open-files-limit'] %>
 open-files              = <%= node['mysql']['tunable']['open-files'] %>
-
+group_concat_max_len    = <%= node['mysql']['tunable']['group_concat_max_len'] %>
+optimizer_search_depth  = <%= node['mysql']['tunable']['optimizer_search_depth'] %>
 # Default Table Settings
 <%- if node['mysql']['tunable']['sql_mode'] %>
 sql_mode                = "<%= node['mysql']['tunable']['sql_mode'] %>"
@@ -149,7 +156,7 @@ log_slow_queries        = <%= node['mysql']['tunable']['slow_query_log'] %>
 <% end %>
 
 long_query_time         = <%= node['mysql']['tunable']['long_query_time'] %>
-<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['slow_query_log']  %>
+<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['tunable']['slow_query_log']  %>
 log-queries-not-using-indexes
 <%- end %>
 #
@@ -229,6 +236,8 @@ innodb_lock_wait_timeout        = <%= node['mysql']['tunable']['innodb_lock_wait
 innodb_thread_concurrency       = <%= node['mysql']['tunable']['innodb_thread_concurrency'] %>
 innodb_commit_concurrency       = <%= node['mysql']['tunable']['innodb_commit_concurrency'] %>
 innodb_support_xa               = <%= node['mysql']['tunable']['innodb_support_xa'] %>
+innodb_max_dirty_pages_pct      = <%= node['mysql']['tunable']['innodb_max_dirty_pages_pct'] %>
+innodb_sync_spin_loops          = <%= node['mysql']['tunable']['innodb_sync_spin_loops'] %>
 <%- if node['mysql']['tunable']['skip-innodb-doublewrite'] %>
 skip-innodb-doublewrite
 <%- end %>
@@ -237,7 +246,6 @@ innodb_buffer_pool_size = <%= node['mysql']['tunable']['innodb_buffer_pool_size'
 innodb_log_file_size    = <%= node['mysql']['tunable']['innodb_log_file_size'] %>
 innodb_additional_mem_pool_size = <%= node['mysql']['tunable']['innodb_additional_mem_pool_size'] %>
 innodb_data_file_path   = <%= node['mysql']['tunable']['innodb_data_file_path'] %>
-innodb_file_per_table
 innodb_flush_log_at_trx_commit = <%= node['mysql']['tunable']['innodb_flush_log_at_trx_commit'] %>
 <%- if node['mysql']['tunable']['innodb_flush_method'] %>
 innodb_flush_method     = <%= node['mysql']['tunable']['innodb_flush_method'] %>
@@ -246,6 +254,8 @@ innodb_log_buffer_size  = <%= node['mysql']['tunable']['innodb_log_buffer_size']
 <%- if node['mysql']['tunable']['innodb_adaptive_flushing'] %>
 innodb_adaptive_flushing  = <%= node['mysql']['tunable']['innodb_adaptive_flushing'] %>
 <%- end %>
+
+myisam_sort_buffer_size   = <%= node['mysql']['tunable']['myisam_sort_buffer_size'] %>
 
 <% if @skip_federated %>
 #
