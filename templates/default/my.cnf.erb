@@ -193,6 +193,9 @@ read_only = 1
 transaction-isolation = <%= node['mysql']['tunable']['transaction-isolation'] %>
 <%- end %>
 
+<%- if node['mysql']['tunable']['slave_compressed_protocol'] %>
+slave_compressed_protocol = <%= node['mysql']['tunable']['slave_compressed_protocol'] %>
+<%- end %>
 #
 # * InnoDB
 #
