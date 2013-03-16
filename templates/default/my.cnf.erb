@@ -109,7 +109,6 @@ tmp_table_size          = <%= node['mysql']['tunable']['tmp_table_size'] %>
 max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 bulk_insert_buffer_size = <%= node['mysql']['tunable']['bulk_insert_buffer_size'] %>
 open-files-limit        = <%= node['mysql']['tunable']['open-files-limit'] %>
-open-files              = <%= node['mysql']['tunable']['open-files'] %>
 
 # Default Table Settings
 <%- if node['mysql']['tunable']['sql_mode'] %>
