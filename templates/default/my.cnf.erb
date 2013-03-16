@@ -92,7 +92,7 @@ auto-increment-offset    = <%= node['mysql']['auto-increment-offset'] %>
 
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
-myisam-recover          = BACKUP
+myisam-recover          = <%= node['mysql']['tunable']['myisam-recover'] %>
 max_connections         = <%= node['mysql']['tunable']['max_connections'] %>
 max_connect_errors      = <%= node['mysql']['tunable']['max_connect_errors'] %>
 concurrent_insert       = <%= node['mysql']['tunable']['concurrent_insert'] %>
@@ -282,7 +282,7 @@ key_buffer                = <%= node['mysql']['tunable']['max_allowed_packet'] %
 myisam_sort_buffer_size   = <%= node['mysql']['tunable']['myisam_sort_buffer_size'] %>
 myisam_max_sort_file_size = <%= node['mysql']['tunable']['myisam_max_sort_file_size'] %>
 myisam_repair_threads     = <%= node['mysql']['tunable']['myisam_repair_threads'] %>
-myisam_recover            = <%= node['mysql']['tunable']['myisam_recover'] %>
+myisam-recover            = <%= node['mysql']['tunable']['myisam-recover'] %>
 
 #
 # * NDB Cluster
