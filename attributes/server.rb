@@ -164,7 +164,6 @@ default['mysql']['tunable']['net_read_timeout']     = "30"
 default['mysql']['tunable']['net_write_timeout']    = "30"
 default['mysql']['tunable']['table_cache']          = "128"
 
-default['mysql']['tunable']['thread_cache']         = "128"
 default['mysql']['tunable']['thread_cache_size']    = 8
 default['mysql']['tunable']['thread_concurrency']   = 10
 default['mysql']['tunable']['thread_stack']         = "256K"
