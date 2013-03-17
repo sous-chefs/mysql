@@ -276,7 +276,7 @@ max_allowed_packet      = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 [mysql]
 #no-auto-rehash # faster start of mysql but no tab completition
 
-[isamchk]
+[myisamchk]
 key_buffer                = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 
 myisam_sort_buffer_size   = <%= node['mysql']['tunable']['myisam_sort_buffer_size'] %>
