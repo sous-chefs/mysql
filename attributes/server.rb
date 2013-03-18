@@ -145,6 +145,7 @@ default['mysql']['auto-increment-offset']           = 1
 default['mysql']['allow_remote_root']               = false
 default['mysql']['remove_anonymous_users']          = false
 default['mysql']['remove_test_database']            = false
+default['mysql']['root_network_acl']                = nil
 default['mysql']['tunable']['character-set-server'] = "utf8"
 default['mysql']['tunable']['collation-server']     = "utf8_general_ci"
 default['mysql']['tunable']['back_log']             = "128"
