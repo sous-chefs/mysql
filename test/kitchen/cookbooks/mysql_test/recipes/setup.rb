@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mysql_test
-# Recipe:: client
+# Recipe:: setup
 #
 # Copyright 2012, Opscode, Inc.
 #
@@ -17,4 +17,16 @@
 # limitations under the License.
 #
 
-include_recipe "yum::epel" if platform_family?('rhel')
+node.set['rvm']['user_installs'] = [
+  { 'user'          => 'vagrant',
+    'default_ruby'  => 'ruby-1.9.3-p327',
+    'rubies'        => ['1.9.3']
+  }
+]
+
+node.set['rvm']['gems'] = {
+  "ruby-1.9.3-p327" => [
+    { 'name' => 'bundler' }
+  ]
+}
+include_recipe "rvm::user"

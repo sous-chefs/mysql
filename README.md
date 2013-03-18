@@ -41,7 +41,7 @@ Resources and Providers
 
 The LWRP that used to ship as part of this cookbook has been
 refactored into the
-[database](https://github.com/opscode/cookbooks/tree/master/database)
+[database](http://community.opscode.com/cookbooks/database)
 cookbook. Please see the README for details on updated usage.
 
 Attributes
@@ -170,21 +170,6 @@ The recipe will perform a `node.save` unless it is run under
 `chef-solo` after the password attributes are used to ensure that in
 the event of a failed run, the saved attributes would be used.
 
-**Chef Solo Note**: These node attributes are stored on the Chef
-  server when using `chef-client`. Because `chef-solo` does not
-  connect to a server or save the node object at all, to have the same
-  passwords persist across `chef-solo` runs, you must specify them in
-  the `json_attribs` file used. For example:
-
-    {
-      "mysql": {
-        "server_root_password": "iloverandompasswordsbutthiswilldo",
-        "server_repl_password": "iloverandompasswordsbutthiswilldo",
-        "server_debian_password": "iloverandompasswordsbutthiswilldo"
-      },
-      "run_list":["recipe[mysql::server]"]
-    }
-
 On EC2 nodes, use the `server_ec2` recipe and the mysql data dir will
 be set up in the ephmeral storage.
 
@@ -198,6 +183,24 @@ The client recipe is already included by server and 'default' recipes.
 For more infromation on the compile vs execution phase of a Chef run:
 
 * http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run
+
+Chef Solo Note
+==============
+
+These node attributes are stored on the Chef
+server when using `chef-client`. Because `chef-solo` does not
+connect to a server or save the node object at all, to have the same
+passwords persist across `chef-solo` runs, you must specify them in
+the `json_attribs` file used. For example:
+
+    {
+      "mysql": {
+        "server_root_password": "iloverandompasswordsbutthiswilldo",
+        "server_repl_password": "iloverandompasswordsbutthiswilldo",
+        "server_debian_password": "iloverandompasswordsbutthiswilldo"
+      },
+      "run_list":["recipe[mysql::server]"]
+    }
 
 License and Author
 ==================
