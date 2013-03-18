@@ -58,6 +58,9 @@ skip-name-resolve
 # Charset and Collation
 character-set-server = <%= node['mysql']['tunable']['character-set-server'] %>
 collation-server     = <%= node['mysql']['tunable']['collation-server'] %>
+<%- if node['mysql']['tunable']['lower_case_table_names'] %>
+lower_case_table_names = <%= node['mysql']['tunable']['lower_case_table_names'] %>
+<%- end %>
 <%- if node['mysql']['tunable']['event_scheduler'] %>
 event_scheduler      = <%= node['mysql']['tunable']['event_scheduler'] %>
 <%- end %>

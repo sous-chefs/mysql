@@ -145,6 +145,7 @@ default['mysql']['auto-increment-offset']           = 1
 default['mysql']['allow_remote_root']               = false
 default['mysql']['tunable']['character-set-server'] = "utf8"
 default['mysql']['tunable']['collation-server']     = "utf8_general_ci"
+default['mysql']['tunable']['lower_case_table_names']  = nil
 default['mysql']['tunable']['back_log']             = "128"
 default['mysql']['tunable']['key_buffer']           = "256M"
 default['mysql']['tunable']['myisam_sort_buffer_size']   = "8M"
