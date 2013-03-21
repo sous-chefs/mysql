@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+# To comment out (disable) bind-address in my.cnf, overrides bind_address with an empty string or nil.
 default['mysql']['bind_address']               = attribute?('cloud') ? cloud['local_ipv4'] : ipaddress
 default['mysql']['port']                       = 3306
 default['mysql']['nice']                       = 0
