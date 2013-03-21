@@ -139,6 +139,7 @@ default['mysql']['reload_action'] = "restart" # or "reload" or "none"
 
 default['mysql']['use_upstart'] = node['platform'] == "ubuntu" && node['platform_version'].to_f >= 10.04
 
+default['mysql']['default_storage_engine'] = "InnoDB"
 default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1
 
@@ -163,6 +164,7 @@ default['mysql']['tunable']['myisam_recover']       = "BACKUP"
 default['mysql']['tunable']['net_read_timeout']     = "30"
 default['mysql']['tunable']['net_write_timeout']    = "30"
 default['mysql']['tunable']['table_cache']          = "128"
+default['mysql']['tunable']['table_definition_cache'] = "400"
 
 default['mysql']['tunable']['thread_cache']         = "128"
 default['mysql']['tunable']['thread_cache_size']    = 8
@@ -175,6 +177,8 @@ default['mysql']['tunable']['join_buffer_size']     = "128k"
 default['mysql']['tunable']['wait_timeout']         = "180"
 default['mysql']['tunable']['open-files-limit']     = "8192"
 default['mysql']['tunable']['open-files']           = "1024"
+default['mysql']['tunable']['group_concat_max_len'] = "1024"
+default['mysql']['tunable']['optimizer_search_depth'] = "62"
 
 default['mysql']['tunable']['sql_mode'] = nil
 
@@ -211,6 +215,8 @@ default['mysql']['tunable']['innodb_write_io_threads']         = "4"
 default['mysql']['tunable']['innodb_io_capacity']              = "200"
 default['mysql']['tunable']['innodb_file_per_table']           = true
 default['mysql']['tunable']['innodb_lock_wait_timeout']        = "60"
+default['mysql']['tunable']['innodb_max_dirty_pages_pct']      = "75"
+default['mysql']['tunable']['innodb_sync_spin_loops']          = "30"
 if node['cpu'].nil? or node['cpu']['total'].nil?
   default['mysql']['tunable']['innodb_thread_concurrency']       = "8"
   default['mysql']['tunable']['innodb_commit_concurrency']       = "8"
@@ -239,6 +245,9 @@ default['mysql']['tunable']['long_query_time']      = 2
 default['mysql']['tunable']['expire_logs_days']     = 10
 default['mysql']['tunable']['max_binlog_size']      = "100M"
 default['mysql']['tunable']['binlog_cache_size']    = "32K"
+
+default['mysql']['tunable']['ft_min_word_len']      = "4"
+default['mysql']['tunable']['ft_max_word_len']      = "84"
 
 default['mysql']['tmpdir'] = ["/tmp"]
 
