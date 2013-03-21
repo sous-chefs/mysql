@@ -25,7 +25,7 @@ when "ubuntu", "debian"
     uri "http://repo.percona.com/apt"
     distribution node['lsb']['codename']
     components [ "main" ]
-    keyserver "kyes.gnupg.net"
+    keyserver "keys.gnupg.net"
     key node['mysql']['percona']['key_id']
     action :add
   end
