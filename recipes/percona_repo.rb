@@ -22,11 +22,11 @@ case node['platform']
 when "ubuntu", "debian"
   include_recipe "apt"
   apt_repository "percona" do
-    uri "http://repo.percona.com/apt"
+    uri node['mysql']['percona']['apt_uri']
     distribution node['lsb']['codename']
     components [ "main" ]
-    keyserver "kyes.gnupg.net"
-    key node['mysql']['percona']['key_id']
+    keyserver node['mysql']['percona']['apt_keyserver'] 
+    key node['mysql']['percona']['apt_key_id']
     action :add
   end
 when "centos", "amazon", "redhat"
