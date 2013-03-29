@@ -232,8 +232,8 @@ default['mysql']['tunable']['query_cache_limit']    = "1M"
 default['mysql']['tunable']['query_cache_size']     = "16M"
 
 default['mysql']['tunable']['log_slow_queries']     = "/var/log/mysql/slow.log"
-default['mysql']['tunable']['slow_query_log']       = node['mysql']['tunable']['log_slow_queries'] # log_slow_queries is deprecated
-                                                                                                   # in favor of slow_query_log
+default['mysql']['tunable']['slow_query_log_file']  = node['mysql']['tunable']['log_slow_queries']
+default['mysql']['tunable']['slow_query_log']       = 0
 default['mysql']['tunable']['long_query_time']      = 2
 
 default['mysql']['tunable']['expire_logs_days']     = 10
