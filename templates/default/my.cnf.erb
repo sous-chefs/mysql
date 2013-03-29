@@ -144,8 +144,9 @@ log_warnings
 # Here you can see queries with especially long duration
 <%- if node['mysql']['version'].to_f >= 5.5 %>
 slow_query_log          = <%= node['mysql']['tunable']['slow_query_log'] %>
+slow_query_log_file     = <%= node['mysql']['tunable']['slow_query_log_file'] %>
 <% else %>
-log_slow_queries        = <%= node['mysql']['tunable']['slow_query_log'] %>
+log_slow_queries        = <%= node['mysql']['tunable']['slow_query_log_file'] %>
 <% end %>
 
 long_query_time         = <%= node['mysql']['tunable']['long_query_time'] %>
