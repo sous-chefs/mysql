@@ -101,7 +101,7 @@ unless platform_family?(%w{mac_os_x})
 
   [File.dirname(node['mysql']['pid_file']),
     File.dirname(node['mysql']['tunable']['slow_query_log']),
-    node['mysql']['confd_dir'],
+    node['mysql']['conf_dir'],
     node['mysql']['confd_dir'],
     node['mysql']['log_dir'],
     node['mysql']['data_dir']].each do |directory_path|
