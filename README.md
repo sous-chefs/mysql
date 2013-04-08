@@ -84,6 +84,7 @@ platform and version.
 * `node['mysql']['socket']` - Path to the mysqld.sock file
 * `node['mysql']['use_upstart']` - Whether to use upstart for the
   service provider
+* `mysql['root_network_acl']` - Set define the network the root user will be able to login from, default is nil
 
 Performance and other "tunable" attributes are under the
 `node['mysql']['tunable']` attribute, corresponding to the same-named
