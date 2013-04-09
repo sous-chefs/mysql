@@ -105,7 +105,7 @@ ensures that someone cannot guess at the root password from the network.
 
 By default, MySQL comes with a database named 'test' that anyone can
 access.  This is also intended only for testing, and should be removed
-before moving into a production environment. This will also drop any user privliges to the test databae and any DB named test_% .
+before moving into a production environment. This will also drop any user privileges to the test databae and any DB named test_% .
 
 * `node['mysql']['remove_test_database']` - Delete the test database and access to it.
 
