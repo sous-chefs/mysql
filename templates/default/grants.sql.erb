@@ -11,5 +11,18 @@ GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' identified by '<%= node['mysql']['s
 # Set the server root password. This should be preseeded by the package installation.
 <% if node['mysql']['allow_remote_root'] -%>
 GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '<%= node['mysql']['server_root_password'] %>' WITH GRANT OPTION;
+<% else %>
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 <% end -%>
-SET PASSWORD FOR 'root'@'localhost' = PASSWORD('<%= node['mysql']['server_root_password'] %>');
+UPDATE mysql.user SET Password=PASSWORD('<%= node['mysql']['server_root_password'] %>') WHERE User='root';
+
+# Remove anonymous users
+<% if node['mysql']['remove_anonymous_users'] -%>
+DELETE FROM mysql.user WHERE User='';
+<% end -%>
+
+# Remove test database and access to it
+<% if node['mysql']['remove_test_database']  -%>
+DROP DATABASE test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
+<% end -%>
