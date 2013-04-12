@@ -175,8 +175,7 @@ default['mysql']['tunable']['read_buffer_size']     = "128k"
 default['mysql']['tunable']['read_rnd_buffer_size'] = "256k"
 default['mysql']['tunable']['join_buffer_size']     = "128k"
 default['mysql']['tunable']['wait_timeout']         = "180"
-default['mysql']['tunable']['open-files-limit']     = "8192"
-default['mysql']['tunable']['open-files']           = "1024"
+default['mysql']['tunable']['open-files-limit']     = "1024"
 
 default['mysql']['tunable']['sql_mode'] = nil
 
