@@ -37,7 +37,7 @@ when "centos", "amazon", "redhat"
   end
   arch = node['kernel']['machine']
   arch = "i386" unless arch == "x86_64"
-  pversion = node['platform_version']
+  pversion = node['platform_version'].split('.').first
   yum_repository "percona" do
     repo_name "Percona"
     description "Percona Repo"
