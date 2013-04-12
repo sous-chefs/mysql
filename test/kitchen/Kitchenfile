@@ -1,7 +1,0 @@
-cookbook "mysql" do
-  configuration "client"
-  configuration "ruby"
-  configuration "server"
-  # the syntax in attributes/server.rb#105 is perfectly valid
-  lint(:ignore => ['FC028'])
-end
