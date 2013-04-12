@@ -22,6 +22,9 @@ Tested on:
 * CentOS 5.5-5.8, 6.2-6.3
 * Mac OS X 10.7.2
 
+See TESTING.md for information about running tests in Opscode's Test
+Kitchen.
+
 Cookbooks
 ---------
 
@@ -232,7 +235,7 @@ License and Author
 - Author:: Jesse Howarth (<him@jessehowarth.com>)
 - Author:: Andrew Crump (<andrew@kotirisoftware.com>)
 
-Copyright:: 2009-2012 Opscode, Inc
+Copyright:: 2009-2013 Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
