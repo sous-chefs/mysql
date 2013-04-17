@@ -58,6 +58,9 @@ skip-name-resolve
 # Charset and Collation
 character-set-server = <%= node['mysql']['tunable']['character-set-server'] %>
 collation-server     = <%= node['mysql']['tunable']['collation-server'] %>
+<%- if node['mysql']['tunable']['lower_case_table_names'] %>
+lower_case_table_names = <%= node['mysql']['tunable']['lower_case_table_names'] %>
+<%- end %>
 <%- if node['mysql']['tunable']['event_scheduler'] %>
 event_scheduler      = <%= node['mysql']['tunable']['event_scheduler'] %>
 <%- end %>
@@ -78,7 +81,7 @@ bind-address            = <%= node['mysql']['bind_address'] %>
 #
 # * Fine Tuning
 #
-key_buffer              = <%= node['mysql']['tunable']['key_buffer'] %>
+key_buffer_size         = <%= node['mysql']['tunable']['key_buffer_size'] %>
 max_allowed_packet      = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 thread_stack            = <%= node['mysql']['tunable']['thread_stack'] %>
 thread_cache_size       = <%= node['mysql']['tunable']['thread_cache_size'] %>
@@ -92,7 +95,7 @@ auto-increment-offset    = <%= node['mysql']['auto-increment-offset'] %>
 
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
-myisam-recover          = BACKUP
+myisam-recover          = <%= node['mysql']['tunable']['myisam-recover'] %>
 max_connections         = <%= node['mysql']['tunable']['max_connections'] %>
 max_connect_errors      = <%= node['mysql']['tunable']['max_connect_errors'] %>
 concurrent_insert       = <%= node['mysql']['tunable']['concurrent_insert'] %>
@@ -109,7 +112,6 @@ tmp_table_size          = <%= node['mysql']['tunable']['tmp_table_size'] %>
 max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 bulk_insert_buffer_size = <%= node['mysql']['tunable']['bulk_insert_buffer_size'] %>
 open-files-limit        = <%= node['mysql']['tunable']['open-files-limit'] %>
-open-files              = <%= node['mysql']['tunable']['open-files'] %>
 
 # Default Table Settings
 <%- if node['mysql']['tunable']['sql_mode'] %>
@@ -275,13 +277,13 @@ max_allowed_packet      = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 [mysql]
 #no-auto-rehash # faster start of mysql but no tab completition
 
-[isamchk]
+[myisamchk]
 key_buffer                = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 
 myisam_sort_buffer_size   = <%= node['mysql']['tunable']['myisam_sort_buffer_size'] %>
 myisam_max_sort_file_size = <%= node['mysql']['tunable']['myisam_max_sort_file_size'] %>
 myisam_repair_threads     = <%= node['mysql']['tunable']['myisam_repair_threads'] %>
-myisam_recover            = <%= node['mysql']['tunable']['myisam_recover'] %>
+myisam-recover            = <%= node['mysql']['tunable']['myisam-recover'] %>
 
 #
 # * NDB Cluster
@@ -304,8 +306,9 @@ skip-bdb
 # Default to using old password format for compatibility with mysql 3.x
 # clients (those using the mysqlclient10 compatibility package).
 old_passwords           = <%= node['mysql']['old_passwords'] %>
+<% end -%>
 
-<% else -%>
+<% if node['mysql']['confd_dir'] -%>
 #
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
