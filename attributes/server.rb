@@ -208,21 +208,14 @@ default['mysql']['tunable']['innodb_additional_mem_pool_size'] = "8M"
 default['mysql']['tunable']['innodb_data_file_path']           = "ibdata1:10M:autoextend"
 default['mysql']['tunable']['innodb_flush_method']             = false
 default['mysql']['tunable']['innodb_log_buffer_size']          = "8M"
-default['mysql']['tunable']['innodb_write_io_threads']         = "4"
 default['mysql']['tunable']['innodb_io_capacity']              = "200"
 default['mysql']['tunable']['innodb_file_per_table']           = true
 default['mysql']['tunable']['innodb_lock_wait_timeout']        = "60"
-if node['cpu'].nil? or node['cpu']['total'].nil?
-  default['mysql']['tunable']['innodb_thread_concurrency']       = "8"
-  default['mysql']['tunable']['innodb_commit_concurrency']       = "8"
-  default['mysql']['tunable']['innodb_read_io_threads']          = "8"
-  default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "8"
-else
-  default['mysql']['tunable']['innodb_thread_concurrency']       = "#{(Integer(node['cpu']['total'])) * 2}"
-  default['mysql']['tunable']['innodb_commit_concurrency']       = "#{(Integer(node['cpu']['total'])) * 2}"
-  default['mysql']['tunable']['innodb_read_io_threads']          = "#{(Integer(node['cpu']['total'])) * 2}"
-  default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "#{(Integer(node['cpu']['total'])) * 2}"
-end
+default['mysql']['tunable']['innodb_thread_concurrency']       = "0"
+default['mysql']['tunable']['innodb_commit_concurrency']       = "0"
+default['mysql']['tunable']['innodb_read_io_threads']          = "64"
+default['mysql']['tunable']['innodb_write_io_threads']         = "64"
+default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "1"
 default['mysql']['tunable']['innodb_support_xa']               = true
 default['mysql']['tunable']['innodb_table_locks']              = true
 default['mysql']['tunable']['skip-innodb-doublewrite']         = false
