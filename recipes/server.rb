@@ -89,11 +89,12 @@ end
 unless platform_family?('windows')
   group 'mysql' do
     action :create
+    gid node['mysql']['gid'] if node['mysql']['gid']
   end
-
   user 'mysql' do
     comment 'MySQL Server'
     gid     'mysql'
+    uid     node['mysql']['uid'] if node['mysql']['uid']
     system  true
     home    node['mysql']['data_dir']
     shell   '/sbin/nologin'
