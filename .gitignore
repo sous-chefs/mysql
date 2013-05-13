@@ -5,3 +5,5 @@ bin
 *.sw[op]
 
 Gemfile.lock
+.buildpath
+.project
