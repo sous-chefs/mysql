@@ -81,8 +81,11 @@ if platform_family?('windows')
     not_if { File.exists? "#{Chef::Config[:file_cache_path]}/#{package_file}" }
   end
 
+  install_dir = win_friendly_path(node['mysql']['basedir'])
+  
   windows_package node['mysql']['server']['packages'].first do
     source "#{Chef::Config[:file_cache_path]}/#{package_file}"
+	options "INSTALLDIR=\"#{install_dir}\""
   end
 
   def package(*args, &blk)
@@ -120,9 +123,9 @@ unless platform_family?(%w{mac_os_x})
       action :add
     end
 
-    windows_batch "install mysql service" do
+    execute "install mysql service" do
       command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
-      not_if { Win32::Service.exists?(node['mysql']['service_name']) }
+      not_if { ::Win32::Service.exists?(node['mysql']['service_name']) }
     end
   end
 
@@ -145,6 +148,21 @@ if platform_family?(%w{mac_os_x})
     creates "#{node['mysql']['data_dir']}/mysql"
   end
 else
+
+  # The installer brings its own databases with him, so we might move them
+  if platform_family?(%w{windows})
+	src_dir = win_friendly_path("#{node['mysql']['basedir']}\\data")
+	target_dir = win_friendly_path(node['mysql']['data_dir'])
+	
+	%w{mysql performance_schema}.each do |db|
+	  execute 'mysql-move-db' do
+	    command "move \"#{src_dir}\\#{db}\" \"#{target_dir}\""
+	    action :run
+	    not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
+      end
+	end
+  end
+  
   execute 'mysql-install-db' do
     command "mysql_install_db"
     action :run
