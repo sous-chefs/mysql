@@ -184,7 +184,7 @@ end
 execute "assign-root-password" do
   command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
   action :run
-  only_if "\"#{node['mysql']['mysql_bin']}\" -u root -e 'show databases;'"
+  only_if "\"#{node['mysql']['mysql_bin']}\" -u root -e \"show databases;\""
 end
 
 unless platform_family?(%w{mac_os_x})
@@ -204,7 +204,7 @@ unless platform_family?(%w{mac_os_x})
   end
 
   if platform_family? 'windows'
-    windows_batch "mysql-install-privileges" do
+    execute "mysql-install-privileges" do
       command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
       action :nothing
       subscribes :run, resources("template[#{grants_path}]"), :immediately
@@ -235,5 +235,6 @@ unless platform_family?(%w{mac_os_x})
 
   service "mysql" do
     action :start
+	only_if { ::Win32::Service.exists?(node['mysql']['service_name']) } if platform? 'windows'
   end
 end
