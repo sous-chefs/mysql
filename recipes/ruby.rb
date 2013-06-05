@@ -20,12 +20,17 @@
 # limitations under the License.
 #
 
-node.set['build_essential']['compiletime'] = true
-include_recipe "build-essential"
 include_recipe "mysql::client"
 
 node['mysql']['client']['packages'].each do |mysql_pack|
   resources("package[#{mysql_pack}]").run_action(:install)
 end
 
-chef_gem "mysql"
+if node['platform_family'] == "debian" and node['platform_version'].to_f >= 7.0
+  resources("package[ruby-mysql]").run_action(:install)
+else
+  node.set['build_essential']['compiletime'] = true
+  include_recipe "build-essential"
+
+  chef_gem "mysql"
+end
