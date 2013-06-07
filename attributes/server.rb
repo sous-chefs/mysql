@@ -216,13 +216,12 @@ if node['cpu'].nil? or node['cpu']['total'].nil?
   default['mysql']['tunable']['innodb_thread_concurrency']       = "8"
   default['mysql']['tunable']['innodb_commit_concurrency']       = "8"
   default['mysql']['tunable']['innodb_read_io_threads']          = "8"
-  default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "8"
 else
   default['mysql']['tunable']['innodb_thread_concurrency']       = "#{(Integer(node['cpu']['total'])) * 2}"
   default['mysql']['tunable']['innodb_commit_concurrency']       = "#{(Integer(node['cpu']['total'])) * 2}"
   default['mysql']['tunable']['innodb_read_io_threads']          = "#{(Integer(node['cpu']['total'])) * 2}"
-  default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "#{(Integer(node['cpu']['total'])) * 2}"
 end
+default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "1"
 default['mysql']['tunable']['innodb_support_xa']               = true
 default['mysql']['tunable']['innodb_table_locks']              = true
 default['mysql']['tunable']['skip-innodb-doublewrite']         = false
