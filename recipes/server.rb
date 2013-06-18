@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mysql
-# Recipe:: default
+# Recipe:: server
 #
 # Copyright 2008-2011, Opscode, Inc.
 #
@@ -146,34 +146,7 @@ execute "assign-root-password" do
 end
 
 unless platform_family?(%w{mac_os_x})
-  grants_path = node['mysql']['grants_path']
-
-  begin
-    t = resources("template[#{grants_path}]")
-  rescue
-    Chef::Log.info("Could not find previously defined grants.sql resource")
-    t = template grants_path do
-      source "grants.sql.erb"
-      owner "root" unless platform_family? 'windows'
-      group node['mysql']['root_group'] unless platform_family? 'windows'
-      mode "0600"
-      action :create
-    end
-  end
-
-  if platform_family? 'windows'
-    windows_batch "mysql-install-privileges" do
-      command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
-      action :nothing
-      subscribes :run, resources("template[#{grants_path}]"), :immediately
-    end
-  else
-    execute "mysql-install-privileges" do
-      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
-      action :nothing
-      subscribes :run, resources("template[#{grants_path}]"), :immediately
-    end
-  end
+  include_recipe "mysql::_access_grants"
 
   template "#{node['mysql']['conf_dir']}/my.cnf" do
     source "my.cnf.erb"
