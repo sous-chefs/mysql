@@ -103,15 +103,6 @@ unless platform_family?(%w{mac_os_x})
       not_if { Win32::Service.exists?(node['mysql']['service_name']) }
     end
   end
-
-  skip_federated = case node['platform']
-                   when 'fedora', 'ubuntu', 'amazon'
-                     true
-                   when 'centos', 'redhat', 'scientific'
-                     node['platform_version'].to_f < 6.0
-                   else
-                     false
-                   end
 end
 
 # Homebrew has its own way to do databases
@@ -147,6 +138,15 @@ end
 
 unless platform_family?(%w{mac_os_x})
   include_recipe "mysql::_access_grants"
+
+  skip_federated = case node['platform']
+  when 'fedora', 'ubuntu', 'amazon'
+    true
+  when 'centos', 'redhat', 'scientific'
+    node['platform_version'].to_f < 6.0
+  else
+    false
+  end
 
   template "#{node['mysql']['conf_dir']}/my.cnf" do
     source "my.cnf.erb"
