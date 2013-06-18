@@ -42,7 +42,7 @@ else
   node.save
 end
 
-if platform_family?(%w{debian})
+if platform_family?('debian')
   template "#{node['mysql']['conf_dir']}/debian.cnf" do
     source "debian.cnf.erb"
     owner "root"
@@ -75,7 +75,7 @@ node['mysql']['server']['packages'].each do |package_name|
   end
 end
 
-unless platform_family?(%w{mac_os_x})
+unless platform_family?('mac_os_x')
 
   [File.dirname(node['mysql']['pid_file']),
     File.dirname(node['mysql']['tunable']['slow_query_log']),
@@ -106,7 +106,7 @@ unless platform_family?(%w{mac_os_x})
 end
 
 # Homebrew has its own way to do databases
-if platform_family?(%w{mac_os_x})
+if platform_family?('mac_os_x')
   execute "mysql-install-db" do
     command "mysql_install_db --verbose --user=`whoami` --basedir=\"$(brew --prefix mysql)\" --datadir=#{node['mysql']['data_dir']} --tmpdir=/tmp"
     environment('TMPDIR' => nil)
@@ -136,7 +136,7 @@ execute "assign-root-password" do
   only_if "#{node['mysql']['mysqladmin_bin']} -u root ping | grep alive"
 end
 
-unless platform_family?(%w{mac_os_x})
+unless platform_family?('mac_os_x')
   include_recipe "mysql::_access_grants"
 
   skip_federated = case node['platform']
