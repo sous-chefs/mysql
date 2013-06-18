@@ -22,11 +22,13 @@
 include_recipe "mysql::client"
 
 if Chef::Config[:solo]
-  missing_attrs = %w{
-    server_debian_password server_root_password server_repl_password
-  }.select do |attr|
-    node["mysql"][attr].nil?
-  end.map { |attr| "node['mysql']['#{attr}']" }
+  required_attrs = %w{
+    server_debian_password
+    server_root_password
+    server_repl_password
+  }
+
+  missing_attrs = required_attrs.delete_if { |attr| node.mysql.attribute?(attr) }
 
   if !missing_attrs.empty?
     Chef::Application.fatal!([
@@ -76,13 +78,16 @@ node['mysql']['server']['packages'].each do |package_name|
 end
 
 unless platform_family?('mac_os_x')
-
-  [File.dirname(node['mysql']['pid_file']),
+  mysql_directories = [
+    File.dirname(node['mysql']['pid_file']),
     File.dirname(node['mysql']['tunable']['slow_query_log']),
     node['mysql']['conf_dir'],
     node['mysql']['confd_dir'],
     node['mysql']['log_dir'],
-    node['mysql']['data_dir']].each do |directory_path|
+    node['mysql']['data_dir'],
+  ]
+
+  mysql_directories.each do |directory_path|
     directory directory_path do
       owner "mysql" unless platform? 'windows'
       group "mysql" unless platform? 'windows'
