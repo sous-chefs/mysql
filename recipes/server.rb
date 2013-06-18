@@ -43,34 +43,12 @@ else
 end
 
 if platform_family?(%w{debian})
-
-  directory "/var/cache/local/preseeding" do
-    owner "root"
-    group node['mysql']['root_group']
-    mode 0755
-    recursive true
-  end
-
-  execute "preseed mysql-server" do
-    command "debconf-set-selections /var/cache/local/preseeding/mysql-server.seed"
-    action :nothing
-  end
-
-  template "/var/cache/local/preseeding/mysql-server.seed" do
-    source "mysql-server.seed.erb"
-    owner "root"
-    group node['mysql']['root_group']
-    mode "0600"
-    notifies :run, "execute[preseed mysql-server]", :immediately
-  end
-
   template "#{node['mysql']['conf_dir']}/debian.cnf" do
     source "debian.cnf.erb"
     owner "root"
     group node['mysql']['root_group']
     mode "0600"
   end
-
 end
 
 if platform_family?('windows')
@@ -161,8 +139,6 @@ else
   end
 end
 
-# set the root password for situations that don't support pre-seeding.
-# (eg. platforms other than debian/ubuntu & drop-in mysql replacements)
 execute "assign-root-password" do
   command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
   action :run
