@@ -131,7 +131,7 @@ else
 end
 
 execute "assign-root-password" do
-  command "#{node['mysql']['mysqladmin_bin']} -u root password \"#{node['mysql']['server_root_password']}\""
+  command "#{node['mysql']['mysqladmin_bin']} -u root password '#{node['mysql']['server_root_password']}'"
   action :run
   only_if "#{node['mysql']['mysql_bin']} -u root -e 'show databases;'"
 end
