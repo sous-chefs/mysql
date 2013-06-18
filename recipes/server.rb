@@ -30,7 +30,7 @@ if Chef::Config[:solo]
 
   if !missing_attrs.empty?
     Chef::Application.fatal!([
-        "You must set #{missing_attrs.join(', ')} in chef-solo mode.",
+        "You must set the following mysql attributes in chef-solo mode: #{missing_attrs.join(', ')}.",
         "For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note"
       ].join(' '))
   end
@@ -133,7 +133,7 @@ end
 execute "assign-root-password" do
   command "#{node['mysql']['mysqladmin_bin']} -u root password '#{node['mysql']['server_root_password']}'"
   action :run
-  only_if "#{node['mysql']['mysql_bin']} -u root -e 'show databases;'"
+  only_if "#{node['mysql']['mysqladmin_bin']} -u root ping | grep alive"
 end
 
 unless platform_family?(%w{mac_os_x})
