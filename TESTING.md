@@ -6,20 +6,16 @@ This cookbook includes support for running tests via Test Kitchen (1.0). This ha
 
 Once the above requirements are met, install the additional requirements:
 
-Install the berkshelf plugin for vagrant, and berkshelf to your local Ruby environment.
+* Install bundler.
 
-    vagrant plugin install vagrant-berkshelf
-    gem install berkshelf
+        [sudo] gem install bundler
 
-Install Test Kitchen 1.0 (unreleased yet, use the alpha / prerelease version).
+* Tell bundler where the testing Gemfile is, and install the required gems.
 
-    gem install test-kitchen --pre
+        export BUNDLE_GEMFILE=$PWD/test/support/Gemfile
+        bundle install
 
-Install the Vagrant driver for Test Kitchen.
+* Once the above are installed, you should be able to run Test Kitchen:
 
-    gem install kitchen-vagrant
-
-Once the above are installed, you should be able to run Test Kitchen:
-
-    kitchen list
-    kitchen test
+        bundle exec kitchen list
+        bundle exec kitchen test
