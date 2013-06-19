@@ -79,7 +79,7 @@ platform and version.
 * `node['mysql']['old_passwords']` - Sets the `old_passwords` value in
   my.cnf.
 * `node['mysql']['pid_file']` - Path to the mysqld.pid file
-* `node['mysql']['port']` - Liten port for MySQLd
+* `node['mysql']['port']` - Listen port for MySQLd
 * `node['mysql']['reload_action']` - Action to take when mysql conf
   files are modified. Also allows "reload" and "none".
 * `node['mysql']['root_group']` - The default group of the "root" user
