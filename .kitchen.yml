@@ -1,0 +1,48 @@
+---
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
+
+platforms:
+- name: ubuntu-12.04
+  driver_config:
+    box: opscode-ubuntu-12.04
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
+  run_list:
+  - recipe[apt]
+
+- name: ubuntu-10.04
+  driver_config:
+    box: opscode-ubuntu-10.04
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box
+  run_list:
+  - recipe[apt]
+
+- name: centos-6.4
+  driver_config:
+    box: opscode-centos-6.4
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box
+  run_list:
+  - recipe[yum::epel]
+
+- name: centos-5.9
+  driver_config:
+    box: opscode-centos-5.9
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box
+  run_list:
+  - recipe[yum::epel]
+
+suites:
+- name: client
+  run_list:
+  - recipe[mysql::client]
+  attributes: {}
+- name: ruby
+  run_list:
+  - recipe[mysql::ruby]
+  attributes: {}
+- name: server
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[mysql_test::server]
+  attributes: {}

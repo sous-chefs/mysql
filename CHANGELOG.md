@@ -1,3 +1,58 @@
+## v3.0.2:
+
+### Bug
+
+- [COOK-2158]: apt-get update is run twice at compile time
+- [COOK-2832]: mysql grants.sql file has errors depending on attrs
+- [COOK-2995]: server.rb is missing a platform_family comparison value
+
+### Sub-task
+
+- [COOK-2102]: `innodb_flush_log_at_trx_commit` value is incorrectly
+  set based on CPU count
+
+## v3.0.0:
+
+**Note** This is a backwards incompatible version with previous
+  versions of the cookbook. Tickets that introduce incompatibility are
+  COOK-2615 and COOK-2617.
+
+* [COOK-2478] - Duplicate 'read_only' server attribute in base and tunable
+* [COOK-2471] - Add tunable to set slave_compressed_protocol for reduced network traffic
+* [COOK-1059] - Update attributes in mysql cookbook to support missing options for my.cnf usable by Percona
+* [COOK-2590] - Typo in server recipe to do with conf_dir and confd_dir
+* [COOK-2602] - Add `lower_case_table_names` tunable
+* [COOK-2430] - Add a tunable to create a network ACL when allowing `remote_root_access`
+* [COOK-2619] - mysql: isamchk deprecated
+* [COOK-2515] - Better support for SUSE distribution for mysql cookbook
+* [COOK-2557] - mysql::percona_repo attributes missing and key server typo
+* [COOK-2614] - Duplicate `innodb_file_per_table`
+* [COOK-2145] - MySQL cookbook should remove anonymous and password less accounts
+* [COOK-2553] - Enable include directory in my.cnf template for any platform
+* [COOK-2615] - Rename `key_buffer` to `key_buffer_size`
+* [COOK-2626] - Percona repo URL is being constructed incorrectly
+* [COOK-2616] - Unneeded attribute thread_cache
+* [COOK-2618] - myisam-recover not using attribute value
+* [COOK-2617] - open-files is a duplicate of open-files-limit
+
+## v2.1.2:
+
+* [COOK-2172] - Mysql cookbook duplicates `binlog_format`
+  configuration
+
+## v2.1.0:
+
+* [COOK-1669] - Using platform("ubuntu") in default attributes always
+  returns true
+* [COOK-1694] - Added additional my.cnf fields and reorganized
+  cookbook to avoid race conditions with mysql startup and sql script
+  execution
+* [COOK-1851] - Support server-id and binlog_format settings
+* [COOK-1929] - Update msyql server attributes file because setting
+  attributes without specifying a precedence is deprecated
+* [COOK-1999] - Add read_only tunable useful for replication slave
+  servers
+
 ## v2.0.2:
 
 * [COOK-1967] - mysql: trailing comma in server.rb platform family

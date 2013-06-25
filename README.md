@@ -22,6 +22,9 @@ Tested on:
 * CentOS 5.5-5.8, 6.2-6.3
 * Mac OS X 10.7.2
 
+See TESTING.md for information about running tests in Opscode's Test
+Kitchen.
+
 Cookbooks
 ---------
 
@@ -84,11 +87,31 @@ platform and version.
 * `node['mysql']['socket']` - Path to the mysqld.sock file
 * `node['mysql']['use_upstart']` - Whether to use upstart for the
   service provider
+* `mysql['root_network_acl']` - Set define the network the root user will be able to login from, default is nil
 
 Performance and other "tunable" attributes are under the
 `node['mysql']['tunable']` attribute, corresponding to the same-named
 parameter in my.cnf, and the default values are used. See
 `attributes/server.rb`.
+
+By default, a MySQL installation has an anonymous user, allowing anyone
+to log into MySQL without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+* `node['mysql']['remove_anonymous_users']` - Remove anonymous users
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+* `node['mysql']['allow_remote_root']` - If true Sets root access from '%'. If false deletes any non-localhost root users.
+
+By default, MySQL comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment. This will also drop any user privileges to the test databae and any DB named test_% .
+
+* `node['mysql']['remove_test_database']` - Delete the test database and access to it.
 
 The following attributes are randomly generated passwords handled in
 the `mysql::server` recipe, using the OpenSSL cookbook's
@@ -212,7 +235,7 @@ License and Author
 - Author:: Jesse Howarth (<him@jessehowarth.com>)
 - Author:: Andrew Crump (<andrew@kotirisoftware.com>)
 
-Copyright:: 2009-2012 Opscode, Inc
+Copyright:: 2009-2013 Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
