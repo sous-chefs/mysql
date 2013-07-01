@@ -162,10 +162,8 @@ log-queries-not-using-indexes
 server-id = <%= node['mysql']['tunable']['server_id'] %>
 <% end %>
 <%- if node['mysql']['tunable']['log_bin'] %>
-log_bin = <%= node['mysql']['tunable']['log_bin'] %>
-<%- if node['mysql']['tunable']['log_bin'] %>
+log_bin 		= <%= node['mysql']['tunable']['log_bin'] %>
 binlog_format           = <%= node['mysql']['tunable']['binlog_format'] %>
-<%- end %>
 log_slave_updates       = <%= node['mysql']['tunable']['log_slave_updates'] %>
 <%- end %>
 <%- if node['mysql']['tunable']['log_bin_trust_function_creators'] %>
