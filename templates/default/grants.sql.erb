@@ -36,5 +36,5 @@ SET PASSWORD FOR 'root'@'localhost' = PASSWORD('<%= node['mysql']['server_root_p
 <% if node['mysql']['root_network_acl'] -%>
 
 # allow root to connect from a remote network if root_network_acl is not nil
-SET PASSWORD FOR 'root'@'<%= node['mysql']['root_network_acl'] %>' = PASSWORD('<%= node['mysql']['server_root_password'] %>');
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'<%= node['mysql']['root_network_acl'] %>' IDENTIFIED BY '<%= node['mysql']['server_root_password'] %>'
 <% end -%>
