@@ -146,7 +146,7 @@ if platform_family?(%w{mac_os_x})
   end
 else
   execute 'mysql-install-db' do
-    command "mysql_install_db"
+    command "mysql_install_db --verbose --basedir=#{node['mysql']['basedir']} --datadir=#{node['mysql']['data_dir']} --tmpdir=/tmp"
     action :run
     not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
   end
