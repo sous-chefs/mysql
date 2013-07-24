@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mysql
-# Recipe:: default
+# Recipe:: server
 #
 # Copyright 2008-2011, Opscode, Inc.
 #
@@ -22,15 +22,17 @@
 include_recipe "mysql::client"
 
 if Chef::Config[:solo]
-  missing_attrs = %w{
-    server_debian_password server_root_password server_repl_password
-  }.select do |attr|
-    node["mysql"][attr].nil?
-  end.map { |attr| "node['mysql']['#{attr}']" }
+  required_attrs = %w{
+    server_debian_password
+    server_root_password
+    server_repl_password
+  }
+
+  missing_attrs = required_attrs.delete_if { |attr| node.mysql.attribute?(attr) }
 
   if !missing_attrs.empty?
     Chef::Application.fatal!([
-        "You must set #{missing_attrs.join(', ')} in chef-solo mode.",
+        "You must set the following mysql attributes in chef-solo mode: #{missing_attrs.join(', ')}.",
         "For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note"
       ].join(' '))
   end
@@ -42,35 +44,13 @@ else
   node.save
 end
 
-if platform_family?(%w{debian})
-
-  directory "/var/cache/local/preseeding" do
-    owner "root"
-    group node['mysql']['root_group']
-    mode 0755
-    recursive true
-  end
-
-  execute "preseed mysql-server" do
-    command "debconf-set-selections /var/cache/local/preseeding/mysql-server.seed"
-    action :nothing
-  end
-
-  template "/var/cache/local/preseeding/mysql-server.seed" do
-    source "mysql-server.seed.erb"
-    owner "root"
-    group node['mysql']['root_group']
-    mode "0600"
-    notifies :run, "execute[preseed mysql-server]", :immediately
-  end
-
+if platform_family?('debian')
   template "#{node['mysql']['conf_dir']}/debian.cnf" do
     source "debian.cnf.erb"
     owner "root"
     group node['mysql']['root_group']
     mode "0600"
   end
-
 end
 
 if platform_family?('windows')
@@ -97,14 +77,17 @@ node['mysql']['server']['packages'].each do |package_name|
   end
 end
 
-unless platform_family?(%w{mac_os_x})
-
-  [File.dirname(node['mysql']['pid_file']),
+unless platform_family?('mac_os_x')
+  mysql_directories = [
+    File.dirname(node['mysql']['pid_file']),
     File.dirname(node['mysql']['tunable']['slow_query_log']),
     node['mysql']['conf_dir'],
     node['mysql']['confd_dir'],
     node['mysql']['log_dir'],
-    node['mysql']['data_dir']].each do |directory_path|
+    node['mysql']['data_dir'],
+  ]
+
+  mysql_directories.each do |directory_path|
     directory directory_path do
       owner "mysql" unless platform? 'windows'
       group "mysql" unless platform? 'windows'
@@ -125,19 +108,10 @@ unless platform_family?(%w{mac_os_x})
       not_if { Win32::Service.exists?(node['mysql']['service_name']) }
     end
   end
-
-  skip_federated = case node['platform']
-                   when 'fedora', 'ubuntu', 'amazon'
-                     true
-                   when 'centos', 'redhat', 'scientific'
-                     node['platform_version'].to_f < 6.0
-                   else
-                     false
-                   end
 end
 
 # Homebrew has its own way to do databases
-if platform_family?(%w{mac_os_x})
+if platform_family?('mac_os_x')
   execute "mysql-install-db" do
     command "mysql_install_db --verbose --user=`whoami` --basedir=\"$(brew --prefix mysql)\" --datadir=#{node['mysql']['data_dir']} --tmpdir=/tmp"
     environment('TMPDIR' => nil)
@@ -161,42 +135,22 @@ else
   end
 end
 
-# set the root password for situations that don't support pre-seeding.
-# (eg. platforms other than debian/ubuntu & drop-in mysql replacements)
 execute "assign-root-password" do
-  command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
+  command "#{node['mysql']['mysqladmin_bin']} -u root password '#{node['mysql']['server_root_password']}'"
   action :run
-  only_if "\"#{node['mysql']['mysql_bin']}\" -u root -e 'show databases;'"
+  only_if "#{node['mysql']['mysqladmin_bin']} -u root ping | grep alive"
 end
 
-unless platform_family?(%w{mac_os_x})
-  grants_path = node['mysql']['grants_path']
+unless platform_family?('mac_os_x')
+  include_recipe "mysql::_access_grants"
 
-  begin
-    t = resources("template[#{grants_path}]")
-  rescue
-    Chef::Log.info("Could not find previously defined grants.sql resource")
-    t = template grants_path do
-      source "grants.sql.erb"
-      owner "root" unless platform_family? 'windows'
-      group node['mysql']['root_group'] unless platform_family? 'windows'
-      mode "0600"
-      action :create
-    end
-  end
-
-  if platform_family? 'windows'
-    windows_batch "mysql-install-privileges" do
-      command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
-      action :nothing
-      subscribes :run, resources("template[#{grants_path}]"), :immediately
-    end
+  skip_federated = case node['platform']
+  when 'fedora', 'ubuntu', 'amazon'
+    true
+  when 'centos', 'redhat', 'scientific'
+    node['platform_version'].to_f < 6.0
   else
-    execute "mysql-install-privileges" do
-      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
-      action :nothing
-      subscribes :run, resources("template[#{grants_path}]"), :immediately
-    end
+    false
   end
 
   template "#{node['mysql']['conf_dir']}/my.cnf" do

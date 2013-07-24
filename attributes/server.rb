@@ -99,8 +99,8 @@ when "windows"
   default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['server']['packages'].first}"
   default['mysql']['data_dir']                = "#{node['mysql']['basedir']}\\Data"
   default['mysql']['bin_dir']                 = "#{node['mysql']['basedir']}\\bin"
-  default['mysql']['mysqladmin_bin']          = "#{node['mysql']['bin_dir']}\\mysqladmin"
-  default['mysql']['mysql_bin']               = "#{node['mysql']['bin_dir']}\\mysql"
+  default['mysql']['mysqladmin_bin']          = %Q{"#{node['mysql']['bin_dir']}\\mysqladmin"}
+  default['mysql']['mysql_bin']               = %Q{"#{node['mysql']['bin_dir']}\\mysql"}
 
   default['mysql']['conf_dir']                = node['mysql']['basedir']
   default['mysql']['old_passwords']           = 0
