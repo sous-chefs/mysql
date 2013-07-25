@@ -60,7 +60,7 @@ if platform_family?(%w{debian})
     source "mysql-server.seed.erb"
     owner "root"
     group node['mysql']['root_group']
-    mode """0600"
+    mode "0600"
     notifies :run, "execute[preseed mysql-server]", :immediately
   end
 
@@ -68,7 +68,7 @@ if platform_family?(%w{debian})
     source "debian.cnf.erb"
     owner "root"
     group node['mysql']['root_group']
-    mode """0600"
+    mode "0600"
   end
 
 end
@@ -102,7 +102,7 @@ unless platform_family?(%w{mac_os_x})
     source "my.cnf.erb"
     owner "root" unless platform? 'windows'
     group node['mysql']['root_group'] unless platform? 'windows'
-    mode """0644"
+    mode "0644"
     case node['mysql']['reload_action']
     when 'restart'
       notifies :restart, "service[mysql]", :immediately
@@ -198,7 +198,7 @@ unless platform_family?(%w{mac_os_x})
       source "grants.sql.erb"
       owner "root" unless platform_family? 'windows'
       group node['mysql']['root_group'] unless platform_family? 'windows'
-      mode """0600"
+      mode "0600"
       action :create
     end
   end
