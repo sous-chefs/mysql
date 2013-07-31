@@ -256,11 +256,40 @@ innodb_adaptive_flushing  = <%= node['mysql']['tunable']['innodb_adaptive_flushi
 skip-federated
 <% end %>
 #
+
 # * Security Features
 #
 # Read the manual, too, if you want chroot!
 # chroot = /var/lib/mysql/
-#
+
+<% if node['mysql']['security']['chroot'] -%>
+chroot = <%= node['mysql']['security']['chroot'] %>
+<% end %>
+
+<% if node['mysql']['security']['safe_user_create'] -%>
+safe-user-create = <%= node['mysql']['security']['safe_user_create'] %>
+<% end %>
+
+<% if node['mysql']['security']['secure_auth'] -%>
+secure-auth = <%= node['mysql']['security']['secure_auth'] %>
+<% end %>
+
+<% if node['mysql']['security']['skip_symbolic_links'] -%>
+skip-symbolic-links = <%= node['mysql']['security']['skip_symbolic_links'] %>
+<% end %>
+
+<% if node['mysql']['security']['secure_file_priv'] -%>
+secure-file-priv = <%= node['mysql']['security']['secure_file_priv'] %>
+<% end %>
+
+<% if node['mysql']['security']['local_infile'] -%>
+local-infile = <%= node['mysql']['security']['local_infile'] %>
+<% end %>
+
+<% if node['mysql']['security']['skip_show_database'] -%>
+skip-show-database
+<% end %>
+
 # For generating SSL certificates I recommend the OpenSSL GUI "tinyca".
 #
 # ssl-ca=/etc/mysql/cacert.pem

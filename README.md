@@ -146,6 +146,19 @@ The following attributes are specific to Windows platforms.
 * `node['mysql']['client']['ruby_dir']` - location where the Ruby
   binaries will be
 
+## Security Options
+
+Further information is already available at [Symantec](http://www.symantec.com/connect/articles/securing-mysql-step-step) and [Deutsche Telekom (German)](http://www.telekom.com/static/-/155996/7/technische-sicherheitsanforderungen-si)
+
+* default['mysql']['security']['chroot'] - [chroot](http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_chroot)
+* default['mysql']['security']['safe_user_create'] - [safe-user-create](http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_safe-user-create)
+* default['mysql']['security']['secure_auth'] - [secure-auth](http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_secure-auth)
+* default['mysql']['security']['skip_symbolic_links'] - [skip-symbolic-links](http://dev.mysql.com/doc/refman/5.7/en/server-
+options.html#option_mysqld_symbolic-links)
+* default['mysql']['security']['skip_show_database'] - [skip-show-database](http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_skip-show-database)
+* default['mysql']['security']['local_infile'] - [local-infile](http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_local_infile)
+
+
 Usage
 =====
 
@@ -234,6 +247,7 @@ License and Author
 - Author:: Brian Bianco (<brian.bianco@gmail.com>)
 - Author:: Jesse Howarth (<him@jessehowarth.com>)
 - Author:: Andrew Crump (<andrew@kotirisoftware.com>)
+- Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
 Copyright:: 2009-2013 Opscode, Inc
 
