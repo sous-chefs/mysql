@@ -32,6 +32,7 @@ when 'windows'
   windows_package node['mysql']['client']['packages'].first do
     source "#{Chef::Config[:file_cache_path]}/#{package_file}"
   end
+  ENV['PATH'] += ";#{node['mysql']['client']['bin_dir']}"
   windows_path node['mysql']['client']['bin_dir'] do
     action :add
   end

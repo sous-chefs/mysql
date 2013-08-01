@@ -82,6 +82,7 @@ if platform_family?('windows')
   windows_package node['mysql']['server']['packages'].first do
     source package_file
   	options "INSTALLDIR=\"#{install_dir}\""
+    notifies :run, "execute[install mysql service]", :immediately
   end
 
   def package(*args, &blk)
@@ -123,6 +124,7 @@ unless platform_family?('mac_os_x')
   if platform_family?('windows')
     require 'win32/service'
 
+    ENV['PATH'] += ";#{node['mysql']['bin_dir']}"
     windows_path node['mysql']['bin_dir'] do
       action :add
     end
