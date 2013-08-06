@@ -1,3 +1,16 @@
+## v3.0.2:
+
+### Bug
+
+- [COOK-2158]: apt-get update is run twice at compile time
+- [COOK-2832]: mysql grants.sql file has errors depending on attrs
+- [COOK-2995]: server.rb is missing a platform_family comparison value
+
+### Sub-task
+
+- [COOK-2102]: `innodb_flush_log_at_trx_commit` value is incorrectly
+  set based on CPU count
+
 ## v3.0.0:
 
 **Note** This is a backwards incompatible version with previous

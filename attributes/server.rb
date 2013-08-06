@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-default['mysql']['bind_address']               = attribute?('cloud') ? cloud['local_ipv4'] : ipaddress
+default['mysql']['bind_address']               = node.attribute?('cloud') ? node.cloud['local_ipv4'] : node['ipaddress']
 default['mysql']['port']                       = 3306
 default['mysql']['nice']                       = 0
 
@@ -216,13 +216,12 @@ if node['cpu'].nil? or node['cpu']['total'].nil?
   default['mysql']['tunable']['innodb_thread_concurrency']       = "8"
   default['mysql']['tunable']['innodb_commit_concurrency']       = "8"
   default['mysql']['tunable']['innodb_read_io_threads']          = "8"
-  default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "8"
 else
   default['mysql']['tunable']['innodb_thread_concurrency']       = "#{(Integer(node['cpu']['total'])) * 2}"
   default['mysql']['tunable']['innodb_commit_concurrency']       = "#{(Integer(node['cpu']['total'])) * 2}"
   default['mysql']['tunable']['innodb_read_io_threads']          = "#{(Integer(node['cpu']['total'])) * 2}"
-  default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "#{(Integer(node['cpu']['total'])) * 2}"
 end
+default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = "1"
 default['mysql']['tunable']['innodb_support_xa']               = true
 default['mysql']['tunable']['innodb_table_locks']              = true
 default['mysql']['tunable']['skip-innodb-doublewrite']         = false
@@ -247,7 +246,7 @@ default['mysql']['log_dir'] = node['mysql']['data_dir']
 default['mysql']['log_files_in_group'] = false
 default['mysql']['innodb_status_file'] = false
 
-unless node['platform_family'] && node['platform_version'].to_i < 6
+unless node['platform_family'] == "rhel" && node['platform_version'].to_i < 6
   # older RHEL platforms don't support these options
   default['mysql']['tunable']['event_scheduler']  = 0
   default['mysql']['tunable']['table_open_cache'] = "128"
