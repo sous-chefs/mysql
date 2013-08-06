@@ -146,6 +146,14 @@ default['mysql']['allow_remote_root']               = false
 default['mysql']['remove_anonymous_users']          = false
 default['mysql']['remove_test_database']            = false
 default['mysql']['root_network_acl']                = nil
+  
+case node["platform_family"]
+when "windows"
+  default['mysql']['tunable']['innodb_log_file_size']            = "10M"
+else
+  default['mysql']['tunable']['innodb_log_file_size']            = "5M"
+end
+
 default['mysql']['tunable']['character-set-server'] = "utf8"
 default['mysql']['tunable']['collation-server']     = "utf8_general_ci"
 default['mysql']['tunable']['lower_case_table_names']  = nil
@@ -201,7 +209,7 @@ default['mysql']['tunable']['log_warnings']                    = false
 default['mysql']['tunable']['log_queries_not_using_index']     = true
 default['mysql']['tunable']['log_bin_trust_function_creators'] = false
 
-default['mysql']['tunable']['innodb_log_file_size']            = "5M"
+
 default['mysql']['tunable']['innodb_buffer_pool_size']         = "128M"
 default['mysql']['tunable']['innodb_buffer_pool_instances']    = "4"
 default['mysql']['tunable']['innodb_additional_mem_pool_size'] = "8M"
