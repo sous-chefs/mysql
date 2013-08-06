@@ -159,6 +159,7 @@ else
 	    command "move \"#{src_dir}\\#{db}\" \"#{target_dir}\""
 	    action :run
 	    not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
+		notifies :restart, "service[mysql]", :immediately
       end
 	end
   end
