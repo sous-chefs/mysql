@@ -100,6 +100,7 @@ unless platform_family?(%w{windows})
   user "mysql" do
     comment "MySQL Server"
     gid "mysql"
+    system true
     home node['mysql']['data_dir']
     shell "/sbin/nologin"
   end
