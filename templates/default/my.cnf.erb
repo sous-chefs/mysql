@@ -151,7 +151,7 @@ log_slow_queries        = <%= node['mysql']['tunable']['slow_query_log'] %>
 <% end %>
 
 long_query_time         = <%= node['mysql']['tunable']['long_query_time'] %>
-<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['slow_query_log']  %>
+<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['tunable']['slow_query_log']  %>
 log-queries-not-using-indexes
 <%- end %>
 #
@@ -208,7 +208,7 @@ slave_compressed_protocol = <%= node['mysql']['tunable']['slave_compressed_proto
 innodb_write_io_threads         = <%= node['mysql']['tunable']['innodb_write_io_threads'] %>
 innodb_io_capacity              = <%= node['mysql']['tunable']['innodb_io_capacity'] %>
 innodb_read_io_threads          = <%= node['mysql']['tunable']['innodb_read_io_threads'] %>
-innodb_buffer_pool_instances    = <%= node['mysql']['tunable']['innodb_buffer_pool_instances'] %>     
+innodb_buffer_pool_instances    = <%= node['mysql']['tunable']['innodb_buffer_pool_instances'] %>
 <%- end %>
 
 ## InnoDB Plugin Independent Settings
