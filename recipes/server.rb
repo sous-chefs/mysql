@@ -201,16 +201,16 @@ else
 
   # The installer brings its own databases with him, so we might move them
   if platform_family?(%w{windows})
-	src_dir = win_friendly_path("#{node['mysql']['basedir']}\\data")
-	target_dir = win_friendly_path(node['mysql']['data_dir'])
+    src_dir = win_friendly_path("#{node['mysql']['basedir']}\\data")
+    target_dir = win_friendly_path(node['mysql']['data_dir'])
 
-	%w{mysql performance_schema}.each do |db|
-	  execute 'mysql-move-db' do
-	    command "move \"#{src_dir}\\#{db}\" \"#{target_dir}\""
-	    action :run
-	    not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
+    %w{mysql performance_schema}.each do |db|
+      execute 'mysql-move-db' do
+        command "move \"#{src_dir}\\#{db}\" \"#{target_dir}\""
+        action :run
+        not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
       end
-	end
+    end
   end
 
   execute 'mysql-install-db' do
