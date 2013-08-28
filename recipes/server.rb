@@ -126,7 +126,7 @@ unless platform_family?(%w{mac_os_x})
     end
 
     execute "install mysql service" do
-      command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
+      command %Q["#{node['mysql']['bin_dir']}\\mysqld.exe" --install "#{node['mysql']['service_name']}"]
       not_if { ::Win32::Service.exists?(node['mysql']['service_name']) }
     end
   end
@@ -158,7 +158,7 @@ else
 
     %w{mysql performance_schema}.each do |db|
       execute 'mysql-move-db' do
-        command "move \"#{src_dir}\\#{db}\" \"#{target_dir}\""
+        command %Q[move "#{src_dir}\\#{db}" "#{target_dir}"]
         action :run
         not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
       end
@@ -184,9 +184,9 @@ end
 # set the root password for situations that don't support pre-seeding.
 # (eg. platforms other than debian/ubuntu & drop-in mysql replacements)
 execute "assign-root-password" do
-  command %Q["#{node['mysql']['mysqladmin_bin']}" -u root password '#{node['mysql']['server_root_password']}']
+  command %Q["#{node['mysql']['mysqladmin_bin']}" -u root password "#{node['mysql']['server_root_password']}"]
   action :run
-  only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e 'show databases;']
+  only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e "show databases;"]
 end
 
 unless platform_family?(%w{mac_os_x})
@@ -207,13 +207,13 @@ unless platform_family?(%w{mac_os_x})
 
   if platform_family? 'windows'
     windows_batch "mysql-install-privileges" do
-      command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
+      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
       action :nothing
       subscribes :run, resources("template[#{grants_path}]"), :immediately
     end
   else
     execute "mysql-install-privileges" do
-      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }'#{node['mysql']['server_root_password']}' < "#{grants_path}"]
+      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
       action :nothing
       subscribes :run, resources("template[#{grants_path}]"), :immediately
     end
