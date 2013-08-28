@@ -2,6 +2,15 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v3.0.4
+------
+### Bug
+- **[COOK-3310](https://tickets.opscode.com/browse/COOK-3310)** - Fix missing `GRANT` option
+- **[COOK-3233](https://tickets.opscode.com/browse/COOK-3233)** - Fix escaping special characters
+- **[COOK-3156](https://tickets.opscode.com/browse/COOK-3156)** - Fix GRANTS file when `remote_root_acl` is specified
+- **[COOK-3134](https://tickets.opscode.com/browse/COOK-3134)** - Fix Chef 11 support
+- **[COOK-2318](https://tickets.opscode.com/browse/COOK-2318)** - Remove redundant `if` block around `node.mysql.tunable.log_bin`
+
 v3.0.2
 ------
 ### Bug
