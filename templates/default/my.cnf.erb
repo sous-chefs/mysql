@@ -151,7 +151,7 @@ log_slow_queries        = <%= node['mysql']['tunable']['slow_query_log'] %>
 <% end %>
 
 long_query_time         = <%= node['mysql']['tunable']['long_query_time'] %>
-<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['slow_query_log']  %>
+<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['tunable']['slow_query_log']  %>
 log-queries-not-using-indexes
 <%- end %>
 #
