@@ -192,6 +192,13 @@ default['mysql']['tunable']['relay_log']                       = nil
 default['mysql']['tunable']['relay_log_index']                 = nil
 default['mysql']['tunable']['log_slave_updates']               = false
 
+default['mysql']['tunable']['replicate_do_db']             = nil
+default['mysql']['tunable']['replicate_do_table']          = nil
+default['mysql']['tunable']['replicate_ignore_db']         = nil
+default['mysql']['tunable']['replicate_ignore_table']      = nil
+default['mysql']['tunable']['replicate_wild_do_table']     = nil
+default['mysql']['tunable']['replicate_wild_ignore_table'] = nil
+
 default['mysql']['tunable']['sync_binlog']                     = 0
 default['mysql']['tunable']['skip_slave_start']                = false
 default['mysql']['tunable']['read_only']                       = false
