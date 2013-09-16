@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-default['mysql']['bind_address']               = node.attribute?('cloud') ? node.cloud['local_ipv4'] : node['ipaddress']
+default['mysql']['bind_address']               = (node.attribute?('cloud') && node['cloud']['local_ipv4']) ? node['cloud']['local_ipv4'] : node['ipaddress']
 default['mysql']['port']                       = 3306
 default['mysql']['nice']                       = 0
 
@@ -191,6 +191,13 @@ default['mysql']['tunable']['log_bin_trust_function_creators'] = false
 default['mysql']['tunable']['relay_log']                       = nil
 default['mysql']['tunable']['relay_log_index']                 = nil
 default['mysql']['tunable']['log_slave_updates']               = false
+
+default['mysql']['tunable']['replicate_do_db']             = nil
+default['mysql']['tunable']['replicate_do_table']          = nil
+default['mysql']['tunable']['replicate_ignore_db']         = nil
+default['mysql']['tunable']['replicate_ignore_table']      = nil
+default['mysql']['tunable']['replicate_wild_do_table']     = nil
+default['mysql']['tunable']['replicate_wild_ignore_table'] = nil
 
 default['mysql']['tunable']['sync_binlog']                     = 0
 default['mysql']['tunable']['skip_slave_start']                = false

@@ -145,13 +145,16 @@ log_warnings
 #
 # Here you can see queries with especially long duration
 <%- if node['mysql']['version'].to_f >= 5.5 %>
-slow_query_log          = <%= node['mysql']['tunable']['slow_query_log'] %>
-<% else %>
-log_slow_queries        = <%= node['mysql']['tunable']['slow_query_log'] %>
-<% end %>
+<%-   if node['mysql']['tunable']['slow_query_log'] %>
+slow_query_log      = 1
+slow_query_log_file = <%= node['mysql']['tunable']['slow_query_log'] %>
+<%-   end %>
+<%- else %>
+log_slow_queries    = <%= node['mysql']['tunable']['slow_query_log'] %>
+<%- end %>
 
 long_query_time         = <%= node['mysql']['tunable']['long_query_time'] %>
-<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['slow_query_log']  %>
+<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['tunable']['slow_query_log']  %>
 log-queries-not-using-indexes
 <%- end %>
 #
@@ -181,6 +184,26 @@ relay_log               = <%= node['mysql']['tunable']['relay_log'] %>
 relay_log_index         = <%= node['mysql']['tunable']['relay_log_index'] %>
 <%- end %>
 
+<%- if node['mysql']['tunable']['replicate_do_db'] %>
+replicate_do_db             = <%= node['mysql']['tunable']['replicate_do_db'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['replicate_do_table'] %>
+replicate_do_table          = <%= node['mysql']['tunable']['replicate_do_table'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['replicate_ignore_db'] %>
+replicate_ignore_db         = <%= node['mysql']['tunable']['replicate_ignore_db'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['replicate_ignore_table'] %>
+replicate_ignore_table      = <%= node['mysql']['tunable']['replicate_ignore_table'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['replicate_wild_do_table'] %>
+replicate_wild_do_table     = <%= node['mysql']['tunable']['replicate_wild_do_table'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['replicate_wild_ignore_table'] %>
+replicate_wild_ignore_table = <%= node['mysql']['tunable']['replicate_wild_ignore_table'] %>
+<%- end %>
+
+
 sync_binlog             = <%= node['mysql']['tunable']['sync_binlog'] %>
 <%- if node['mysql']['tunable']['skip_slave_start'] %>
 skip_slave_start
@@ -208,7 +231,7 @@ slave_compressed_protocol = <%= node['mysql']['tunable']['slave_compressed_proto
 innodb_write_io_threads         = <%= node['mysql']['tunable']['innodb_write_io_threads'] %>
 innodb_io_capacity              = <%= node['mysql']['tunable']['innodb_io_capacity'] %>
 innodb_read_io_threads          = <%= node['mysql']['tunable']['innodb_read_io_threads'] %>
-innodb_buffer_pool_instances    = <%= node['mysql']['tunable']['innodb_buffer_pool_instances'] %>     
+innodb_buffer_pool_instances    = <%= node['mysql']['tunable']['innodb_buffer_pool_instances'] %>
 <%- end %>
 
 ## InnoDB Plugin Independent Settings
