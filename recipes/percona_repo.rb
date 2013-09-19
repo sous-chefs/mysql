@@ -25,7 +25,7 @@ when "ubuntu", "debian"
     uri node['mysql']['percona']['apt_uri']
     distribution node['lsb']['codename']
     components [ "main" ]
-    keyserver node['mysql']['percona']['apt_keyserver'] 
+    keyserver node['mysql']['percona']['apt_keyserver']
     key node['mysql']['percona']['apt_key_id']
     action :add
   end
