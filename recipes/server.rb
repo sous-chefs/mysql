@@ -90,6 +90,14 @@ if platform_family?('windows')
   end
 end
 
+# fixes CHEF-1699
+ruby_block "reset group list" do
+  block do
+    Etc.endgrent
+  end
+  action :nothing
+end
+
 node['mysql']['server']['packages'].each do |package_name|
   package package_name do
     action :install
