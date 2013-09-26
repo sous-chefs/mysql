@@ -46,3 +46,10 @@ suites:
   - recipe[minitest-handler]
   - recipe[mysql_test::server]
   attributes: {}
+- name: server-nondefault-data
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[mysql_test::server]
+  attributes:
+    mysql:
+      data_dir: "/data/mysql"
