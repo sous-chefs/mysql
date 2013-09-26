@@ -135,6 +135,10 @@ if attribute?('ec2')
   default['mysql']['ebs_vol_size'] = 50
 end
 
+
+default['mysql']['use_encrypted_bag'] = nil     # Use an encrypted databag in chef solo
+default['mysql']['encrypted_bag'] = nil         # Which databag should we use to look for mysql? It should contain: server_debian_password server_root_password server_repl_password
+
 default['mysql']['reload_action'] = "restart" # or "reload" or "none"
 
 default['mysql']['use_upstart'] = node['platform'] == "ubuntu" && node['platform_version'].to_f >= 10.04
