@@ -263,7 +263,7 @@ end
 # security options
 # @see http://www.symantec.com/connect/articles/securing-mysql-step-step
 # @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_chroot
-default['mysql']['security']['chroot']                  = "/var/lib/mysql/"
+default['mysql']['security']['chroot']                  = nil
 # @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_safe-user-create
 default['mysql']['security']['safe_user_create']        = nil
 # @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_secure-auth
