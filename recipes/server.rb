@@ -73,6 +73,21 @@ if platform_family?(%w{debian})
 
 end
 
+if node[:platform] == "ubuntu"
+  # if we change data_dir on ubuntu apparmor must be configured properly
+  unless node['mysql']['data_dir'] == "/var/lib/mysql"
+    template "/etc/apparmor.d/local/usr.sbin.mysqld" do
+      source "usr.sbin.mysqld.erb"
+      owner "root"
+      group node['mysql']['root_group']
+      mode "0644"
+    end
+    service "apparmor" do
+      action :restart
+    end
+  end
+end
+
 if platform_family?('windows')
   package_file = node['mysql']['package_file']
 
