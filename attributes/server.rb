@@ -238,6 +238,8 @@ default['mysql']['tunable']['transaction-isolation'] = nil
 default['mysql']['tunable']['query_cache_limit']    = "1M"
 default['mysql']['tunable']['query_cache_size']     = "16M"
 
+default['mysql']['tunable']['query_log_output']     = "FILE" # accepts: "TABLE" or "FILE" or "TABLE,FILE"
+default['mysql']['tunable']['general_query_log']    = "/var/log/mysql/mysql.log"
 default['mysql']['tunable']['log_slow_queries']     = "/var/log/mysql/slow.log"
 default['mysql']['tunable']['slow_query_log']       = node['mysql']['tunable']['log_slow_queries'] # log_slow_queries is deprecated
                                                                                                    # in favor of slow_query_log

@@ -129,6 +129,13 @@ query_cache_size        = <%= node['mysql']['tunable']['query_cache_size'] %>
 # Both location gets rotated by the cronjob.
 # Be aware that this log type is a performance killer.
 #log            = /var/log/mysql/mysql.log
+<%- if node['mysql']['tunable']['general_query_log'] %>
+log = <%= node['mysql']['tunable']['general_query_log'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['query_log_output'] %>
+log-output = <%= node['mysql']['tunable']['query_log_output'] %>
+<%- end %>
+
 #
 # Error logging goes to syslog. This is a Debian improvement :)
 <%- if node['mysql']['tunable']['log_error'] %>
