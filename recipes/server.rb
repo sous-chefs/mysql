@@ -22,18 +22,42 @@
 include_recipe "mysql::client"
 
 if Chef::Config[:solo]
-  missing_attrs = %w{
-    server_debian_password server_root_password server_repl_password
-  }.select do |attr|
-    node["mysql"][attr].nil?
-  end.map { |attr| "node['mysql']['#{attr}']" }
 
-  if !missing_attrs.empty?
-    Chef::Application.fatal!([
-        "You must set #{missing_attrs.join(', ')} in chef-solo mode.",
-        "For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note"
-      ].join(' '))
+  if node['mysql']['use_encrypted_bag'].nil? or node['mysql']['encrypted_bag'].nil?
+
+    missing_attrs = %w{
+      server_debian_password server_root_password server_repl_password
+    }.select do |attr|
+      node["mysql"][attr].nil?
+    end.map { |attr| "node['mysql']['#{attr}']" }
+
+    if !missing_attrs.empty?
+      Chef::Application.fatal!([
+          "You must set #{missing_attrs.join(', ')} in chef-solo mode.",
+          "For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note"
+        ].join(' '))
+    end
+
+  else
+
+    Chef::Log.info("Using encrypted data bag \"" + node['mysql']['encrypted_bag'] + "\" for mysql passwords.")
+
+    # Open data bag for decryption
+    mysql_passwords = Chef::EncryptedDataBagItem.load(node['mysql']['encrypted_bag'],"mysql")
+
+    %w{ server_debian_password server_root_password server_repl_password }.each do |attr|
+
+      password = mysql_passwords[attr]
+      node.set['mysql'][attr] = password
+
+      if password.nil? || password.empty?
+        Chef::Application.fatal!("Mysql is configured to use an encrypted data bag but the \"" + attr + "\" attribute is missing or empty. Aborting.")
+      end
+
+    end
+
   end
+
 else
   # generate all passwords
   node.set_unless['mysql']['server_debian_password'] = secure_password
