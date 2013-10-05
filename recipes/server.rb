@@ -64,6 +64,13 @@ if platform_family?(%w{debian})
     notifies :run, "execute[preseed mysql-server]", :immediately
   end
 
+  directory "#{node['mysql']['conf_dir']}" do
+    owner "mysql"
+    group "mysql"
+    mode "0600"
+    action :create
+  end
+
   template "#{node['mysql']['conf_dir']}/debian.cnf" do
     source "debian.cnf.erb"
     owner "root"
