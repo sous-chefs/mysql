@@ -1,5 +1,5 @@
 Given 'a new database server with some example data' do
-
+  # no op
 end
 
 When 'I delete a row from a database table' do

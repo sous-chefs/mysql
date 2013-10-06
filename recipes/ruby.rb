@@ -21,21 +21,21 @@
 #
 
 node.set['build_essential']['compiletime'] = true
-include_recipe "build-essential"
-include_recipe "mysql::client"
+include_recipe 'build-essential::default'
+include_recipe 'mysql::client'
 
 if run_context.loaded_recipes.include?('mysql::percona_repo')
-  case node['platform']
-  when "ubuntu", "debian"
-    resources("apt_repository[percona]").run_action(:add)
-  when "centos", "amazon", "redhat"
-    resources("yum_key[RPM-GPG-KEY-percona]").run_action(:add)
-    resources("yum_repository[percona]").run_action(:add)
+  case node['platform_family']
+  when 'debian'
+    resources('apt_repository[percona]').run_action(:add)
+  when 'rhel'
+    resources('yum_key[RPM-GPG-KEY-percona]').run_action(:add)
+    resources('yum_repository[percona]').run_action(:add)
   end
 end
 
-node['mysql']['client']['packages'].each do |mysql_pack|
-  resources("package[#{mysql_pack}]").run_action(:install)
+node['mysql']['client']['packages'].each do |name|
+  resources("package[#{name}]").run_action(:install)
 end
 
-chef_gem "mysql"
+chef_gem 'mysql'

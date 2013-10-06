@@ -1,12 +1,14 @@
 def query(sql)
   cmd_prefix = test_client_host ? "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@#{test_client_host}" : ''
   result = %x{echo "#{sql}" | #{cmd_prefix} mysql --host=#{test_server_host} --user=#{test_user} --password=#{test_password} --skip-column-names #{test_database}}
-  assert $?.success?
+  assert $?.success? # rubocop:disable SpecialGlobalVars
   result
 end
-alias :insert :query
-alias :update :query
-alias :delete :query
+alias_method :insert, :query
+alias_method :update, :query
+alias_method :delete, :query
+
+attr_reader :tv_chefs
 
 def delete_chef(name)
   delete("DELETE FROM tv_chef WHERE name = '#{name}'")
@@ -41,11 +43,6 @@ def test_user
   'test_user'
 end
 
-def tv_chefs
-  @tv_chefs
-end
-
 def update_chef_name(old_name, new_name)
   update("UPDATE tv_chef SET name = '#{new_name}' WHERE name = '#{old_name}'")
 end
-
