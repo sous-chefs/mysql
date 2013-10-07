@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v3.0.10
+-------
+- Fix a failed release attempt for v3.0.8
+
+
 v3.0.8
 ------
 ### Bug
