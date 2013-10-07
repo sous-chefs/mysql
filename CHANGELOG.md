@@ -3,6 +3,12 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v3.0.8
+------
+### Bug
+- **[COOK-3749](https://tickets.opscode.com/browse/COOK-3749)** - Fix a regression with Chef 11-specific features
+
+
 v3.0.6
 ------
 ### Bug
