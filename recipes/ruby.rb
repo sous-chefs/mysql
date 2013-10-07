@@ -27,7 +27,7 @@ include_recipe 'mysql::client'
 loaded_recipes = if run_context.respond_to?(:loaded_recipes)
                    run_context.loaded_recipes
                  else
-                   run_context.run_state[:seen_recipes]
+                   node.run_state[:seen_recipes]
                  end
 
 if loaded_recipes.include?('mysql::percona_repo')
