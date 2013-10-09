@@ -3,6 +3,12 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v3.0.12
+-------
+### Bug
+- **[COOK-3752](https://tickets.opscode.com/browse/COOK-3752)** - mysql service fails to start in mysql::server recipe
+
+
 v3.0.10
 -------
 - Fix a failed release attempt for v3.0.8
