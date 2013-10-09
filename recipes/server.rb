@@ -77,8 +77,12 @@ if platform_family?('windows')
     not_if { File.exists?(package_file) }
   end
 
+  install_dir = win_friendly_path(node['mysql']['basedir'])
+
   windows_package node['mysql']['server']['packages'].first do
     source package_file
+  	options "INSTALLDIR=\"#{install_dir}\""
+    notifies :run, "execute[install mysql service]", :immediately
   end
 
   def package(*args, &blk)
@@ -119,6 +123,20 @@ unless platform_family?('mac_os_x')
       group     'mysql' unless platform?('windows')
       action    :create
       recursive true
+    end
+  end
+
+  if platform_family?('windows')
+    require 'win32/service'
+
+    ENV['PATH'] += ";#{node['mysql']['bin_dir']}"
+    windows_path node['mysql']['bin_dir'] do
+      action :add
+    end
+
+    execute "install mysql service" do
+      command %Q["#{node['mysql']['bin_dir']}\\mysqld.exe" --install "#{node['mysql']['service_name']}"]
+      not_if { ::Win32::Service.exists?(node['mysql']['service_name']) }
     end
   end
 
@@ -178,6 +196,21 @@ if platform_family?('mac_os_x')
     only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e 'show databases;']
   end
 else
+
+  # The installer brings its own databases with him, so we might move them
+  if platform_family?(%w{windows})
+    src_dir = win_friendly_path("#{node['mysql']['basedir']}\\data")
+    target_dir = win_friendly_path(node['mysql']['data_dir'])
+
+    %w{mysql performance_schema}.each do |db|
+      execute 'mysql-move-db' do
+        command %Q[move "#{src_dir}\\#{db}" "#{target_dir}"]
+        action :run
+        not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
+      end
+    end
+  end
+
   execute 'mysql-install-db' do
     command 'mysql_install_db'
     action :run
@@ -210,9 +243,9 @@ else
   # set the root password for situations that don't support pre-seeding.
   # (eg. platforms other than debian/ubuntu & drop-in mysql replacements)
   execute 'assign-root-password' do
-    command %Q["#{node['mysql']['mysqladmin_bin']}" -u root password '#{node['mysql']['server_root_password']}']
+    command %Q["#{node['mysql']['mysqladmin_bin']}" -u root password "#{node['mysql']['server_root_password']}"]
     action :run
-    only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e 'show databases;']
+    only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e "show databases;"]
   end
 
   grants_path = node['mysql']['grants_path']
@@ -238,7 +271,7 @@ else
     end
   else
     execute 'mysql-install-privileges' do
-      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }'#{node['mysql']['server_root_password']}' < "#{grants_path}"]
+      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
       action :nothing
       subscribes :run, resources("template[#{grants_path}]"), :immediately
     end
