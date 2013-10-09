@@ -61,7 +61,7 @@ See the `attributes/server.rb` or `attributes/client.rb` for default values. Sev
 * `node['mysql']['conf_dir']` - Location for mysql conf directory
 * `node['mysql']['confd_dir']` - Location for mysql conf.d style
   include directory
-* `node['mysql']['data_dir']` - Location for mysql data directory
+* `node['mysql']['data_dir']` - Location for mysql data directory. `WARNING` see https://tickets.opscode.com/browse/COOK-3780 if using Ubuntu and changing this.
 * `node['mysql']['ec2_path']` - location of mysql data_dir on EC2
   nodes
 * `node['mysql']['grants_path']` - Path where the grants.sql should be
