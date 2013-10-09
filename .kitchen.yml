@@ -19,7 +19,8 @@ platforms:
 suites:
   - name: client
     run_list:
-      - recipe[mysql::client]
+      - recipe[minitest-handler]
+      - recipe[mysql_test::client]
   - name: ruby
     run_list:
       - recipe[mysql::ruby]
