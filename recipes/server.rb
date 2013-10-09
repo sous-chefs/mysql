@@ -30,7 +30,7 @@ if Chef::Config[:solo]
 
   unless missing_attrs.empty?
     Chef::Application.fatal! "You must set #{missing_attrs.join(', ')} in chef-solo mode." \
-      " For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note"
+    " For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note"
   end
 else
   # generate all passwords
@@ -84,9 +84,7 @@ if platform_family?('windows')
   def package(*args, &blk)
     windows_package(*args, &blk)
   end
-end
-
-unless platform_family?('windows')
+else
   group 'mysql' do
     action :create
   end
@@ -97,6 +95,13 @@ unless platform_family?('windows')
     system  true
     home    node['mysql']['data_dir']
     shell   '/sbin/nologin'
+  end
+
+  node['mysql']['server']['packages'].each do |name|
+    package name do
+      action   :install
+      notifies :start, 'service[mysql]', :immediately
+    end
   end
 end
 
@@ -130,23 +135,16 @@ unless platform_family?('mac_os_x')
     source 'my.cnf.erb'
     owner 'root' unless platform? 'windows'
     group node['mysql']['root_group'] unless platform?('windows')
-      mode '0644'
-      case node['mysql']['reload_action']
-      when 'restart'
-        notifies :restart, 'service[mysql]', :delayed
-      when 'reload'
-        notifies :reload, 'service[mysql]', :delayed
-      else
-        Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
-      end
+    mode '0644'
+    case node['mysql']['reload_action']
+    when 'restart'
+      notifies :restart, 'service[mysql]', :delayed
+    when 'reload'
+      notifies :reload, 'service[mysql]', :delayed
+    else
+      Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
+    end
     variables :skip_federated => skip_federated
-  end
-end
-
-node['mysql']['server']['packages'].each do |name|
-  package name do
-    action   :install
-    notifies :start, 'service[mysql]', :immediately
   end
 end
 
@@ -192,9 +190,7 @@ else
     supports     :status => true, :restart => true, :reload => true
     action       :enable
   end
-end
 
-unless platform_family?('mac_os_x')
   template "#{node['mysql']['conf_dir']}/my.cnf" do
     source 'my.cnf.erb'
     owner 'root' unless platform? 'windows'
@@ -248,7 +244,8 @@ unless platform_family?('mac_os_x')
     end
   end
 
-  service 'mysql' do
+  service 'mysql-start' do
+    service_name node['mysql']['service_name']
     action :start
   end
 end
