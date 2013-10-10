@@ -79,6 +79,8 @@ See the `attributes/server.rb` or `attributes/client.rb` for default values. Sev
 * `node['mysql']['use_upstart']` - Whether to use upstart for the
   service provider
 * `mysql['root_network_acl']` - Set define the network the root user will be able to login from, default is nil
+* `node['mysql']['uid']` and `node['mysql']['gid']` - Use this to fix the
+  uid/gid of the mysql User (nil is default)
 
 Performance and other "tunable" attributes are under the `node['mysql']['tunable']` attribute, corresponding to the same-named parameter in my.cnf, and the default values are used. See `attributes/server.rb`.
 
