@@ -268,6 +268,12 @@ innodb_log_buffer_size  = <%= node['mysql']['tunable']['innodb_log_buffer_size']
 <%- if node['mysql']['tunable']['innodb_adaptive_flushing'] %>
 innodb_adaptive_flushing  = <%= node['mysql']['tunable']['innodb_adaptive_flushing'] %>
 <%- end %>
+<%- if node['mysql']['tunable']['innodb_adaptive_flushing_method'] %>
+innodb_adaptive_flushing_method = <%= node['mysql']['tunable']['innodb_adaptive_flushing_method'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['innodb_adaptive_checkpoint'] %>
+innodb_adaptive_checkpoint = <%= node['mysql']['tunable']['innodb_adaptive_checkpoint'] %>
+<%- end %>
 
 <% if @skip_federated %>
 #
