@@ -2,6 +2,40 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+
+v3.0.12
+-------
+### Bug
+- **[COOK-3752](https://tickets.opscode.com/browse/COOK-3752)** - mysql service fails to start in mysql::server recipe
+
+
+v3.0.10
+-------
+- Fix a failed release attempt for v3.0.8
+
+
+v3.0.8
+------
+### Bug
+- **[COOK-3749](https://tickets.opscode.com/browse/COOK-3749)** - Fix a regression with Chef 11-specific features
+
+
+v3.0.6
+------
+### Bug
+- **[COOK-3674](https://tickets.opscode.com/browse/COOK-3674)** - Fix an issue where the MySQL server fails to set the root password correctly when `data_dir` is a non-default value
+- **[COOK-3647](https://tickets.opscode.com/browse/COOK-3647)** - Fix README typo (databas => database)
+- **[COOK-3477](https://tickets.opscode.com/browse/COOK-3477)** - Fix log-queries-not-using-indexes not working
+- **[COOK-3436](https://tickets.opscode.com/browse/COOK-3436)** - Pull percona repo in compilation phase
+- **[COOK-3208](https://tickets.opscode.com/browse/COOK-3208)** - Fix README typo (LitenPort => ListenPort)
+- **[COOK-3149](https://tickets.opscode.com/browse/COOK-3149)** - Create my.cnf before installing
+- **[COOK-2681](https://tickets.opscode.com/browse/COOK-2681)** - Fix log_slow_queries for 5.5+
+- **[COOK-2606](https://tickets.opscode.com/browse/COOK-2606)** - Use proper bind address on cloud providers
+
+### Improvement
+- **[COOK-3498](https://tickets.opscode.com/browse/COOK-3498)** - Add support for replicate_* variables in my.cnf
+
+
 v3.0.4
 ------
 ### Bug

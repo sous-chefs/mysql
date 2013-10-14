@@ -1,5 +1,7 @@
 mysql Cookbook
 ==============
+[![Build Status](https://secure.travis-ci.org/opscode-cookbooks/mysql.png?branch=master)](http://travis-ci.org/opscode-cookbooks/mysql)
+
 Installs and configures MySQL client or server.
 
 
@@ -59,7 +61,7 @@ See the `attributes/server.rb` or `attributes/client.rb` for default values. Sev
 * `node['mysql']['conf_dir']` - Location for mysql conf directory
 * `node['mysql']['confd_dir']` - Location for mysql conf.d style
   include directory
-* `node['mysql']['data_dir']` - Location for mysql data directory
+* `node['mysql']['data_dir']` - Location for mysql data directory. `WARNING` see https://tickets.opscode.com/browse/COOK-3780 if using Ubuntu and changing this.
 * `node['mysql']['ec2_path']` - location of mysql data_dir on EC2
   nodes
 * `node['mysql']['grants_path']` - Path where the grants.sql should be
@@ -68,7 +70,7 @@ See the `attributes/server.rb` or `attributes/client.rb` for default values. Sev
 * `node['mysql']['old_passwords']` - Sets the `old_passwords` value in
   my.cnf.
 * `node['mysql']['pid_file']` - Path to the mysqld.pid file
-* `node['mysql']['port']` - Liten port for MySQLd
+* `node['mysql']['port']` - Listen port for MySQLd
 * `node['mysql']['reload_action']` - Action to take when mysql conf
   files are modified. Also allows "reload" and "none".
 * `node['mysql']['root_group']` - The default group of the "root" user
