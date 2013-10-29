@@ -225,7 +225,6 @@ else
     action       :enable
   end
 
-unless platform_family?('mac_os_x')
   template 'final-my.cnf' do
     path "#{node['mysql']['conf_dir']}/my.cnf"
     source 'my.cnf.erb'
