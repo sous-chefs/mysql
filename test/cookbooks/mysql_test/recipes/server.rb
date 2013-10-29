@@ -15,7 +15,7 @@ include_recipe 'mysql::server'
 
 mysql_connection = {
   :host     => 'localhost',
-  :username => 'root',
+  :username => node['mysql']['root_user'],
   :password => node['mysql']['server_root_password']
 }
 
@@ -33,7 +33,7 @@ mysql_database_user node['mysql_test']['username'] do
   action        [:create, :grant]
 end
 
-mysql_conn_args = "--user=root --password='#{node['mysql']['server_root_password']}'"
+mysql_conn_args = "--user=#{node['mysql']['root_user']} --password='#{node['mysql']['server_root_password']}'"
 
 execute 'create-sample-data' do
   command %Q{mysql #{mysql_conn_args} #{node['mysql_test']['database']} <<EOF
