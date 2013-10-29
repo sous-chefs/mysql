@@ -166,6 +166,8 @@ default['mysql']['tunable']['bulk_insert_buffer_size'] = node['mysql']['tunable'
 default['mysql']['tunable']['net_read_timeout']     = '30'
 default['mysql']['tunable']['net_write_timeout']    = '30'
 default['mysql']['tunable']['table_cache']          = '128'
+default['mysql']['tunable']['table_open_cache']     = node['mysql']['tunable']['table_cache'] # table_cache is deprecated
+                                                                                              # in favor of table_open_cache
 
 default['mysql']['tunable']['thread_cache_size']    = 8
 default['mysql']['tunable']['thread_concurrency']   = 10
@@ -256,6 +258,5 @@ default['mysql']['innodb_status_file'] = false
 unless node['platform_family'] == 'rhel' && node['platform_version'].to_i < 6
   # older RHEL platforms don't support these options
   default['mysql']['tunable']['event_scheduler']  = 0
-  default['mysql']['tunable']['table_open_cache'] = '128'
   default['mysql']['tunable']['binlog_format']    = 'statement' if node['mysql']['tunable']['log_bin']
 end

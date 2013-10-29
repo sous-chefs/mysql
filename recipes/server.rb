@@ -204,7 +204,7 @@ else
     else
       Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
     end
-    variables :skip_federated => skip_federated
+    variables :skip_federated => skip_federated unless platform? 'windows'
   end
 
   # set the root password for situations that don't support pre-seeding.

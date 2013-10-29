@@ -104,10 +104,12 @@ wait_timeout            = <%= node['mysql']['tunable']['wait_timeout'] %>
 net_read_timeout        = <%= node['mysql']['tunable']['net_read_timeout'] %>
 net_write_timeout       = <%= node['mysql']['tunable']['net_write_timeout'] %>
 back_log                = <%= node['mysql']['tunable']['back_log'] %>
-table_cache             = <%= node['mysql']['tunable']['table_cache'] %>
-<%- if node['mysql']['tunable']['table_open_cache'] %>
+<%- if node['mysql']['version'].to_f >= 5.6 %>
 table_open_cache        = <%= node['mysql']['tunable']['table_open_cache'] %>
+<%- else %>
+table_cache             = <%= node['mysql']['tunable']['table_open_cache'] %>
 <%- end %>
+
 tmp_table_size          = <%= node['mysql']['tunable']['tmp_table_size'] %>
 max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 bulk_insert_buffer_size = <%= node['mysql']['tunable']['bulk_insert_buffer_size'] %>
