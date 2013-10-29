@@ -24,9 +24,9 @@ UPDATE mysql.user SET Password=PASSWORD('<%= node['mysql']['server_root_password
 # Remove anonymous users
 DELETE FROM mysql.user WHERE User='';
 <% end %>
-<% if node['mysql']['remove_test_database']  -%>
 
 # Remove test database and access to it
+<% if node['mysql']['remove_test_database']  -%>
 DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
 <% end %>

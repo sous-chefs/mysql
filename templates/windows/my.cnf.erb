@@ -32,6 +32,10 @@ character-set-server      = latin1
 default-storage-engine    = INNODB
 sql-mode                  = "STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
 
+<%- if node['mysql']['tunable']['event_scheduler'] %>
+event_scheduler      = <%= node['mysql']['tunable']['event_scheduler'] %>
+<%- end %>
+
 #
 # * Fine Tuning
 #
@@ -42,10 +46,26 @@ query_cache_size          = <%= node['mysql']['tunable']['query_cache_size'] %>
 tmp_table_size            = 5M
 myisam_max_sort_file_size = 100G
 myisam_sort_buffer_size   = 8M
-key_buffer_size           = 8M
-read_buffer_size          = 64K
-read_rnd_buffer_size      = 256K
-sort_buffer_size          = 212K
+key_buffer_size           = <%= node['mysql']['tunable']['key_buffer_size'] %>
+read_buffer_size          = <%= node['mysql']['tunable']['read_buffer_size'] %>
+read_rnd_buffer_size      = <%= node['mysql']['tunable']['read_rnd_buffer_size'] %>
+join_buffer_size          = <%= node['mysql']['tunable']['join_buffer_size'] %>
+sort_buffer_size          = <%= node['mysql']['tunable']['sort_buffer_size'] %>
+max_allowed_packet        = <%= node['mysql']['tunable']['max_allowed_packet'] %>
+
+
+#
+# Here you can see queries with especially long duration
+<%- if node['mysql']['version'].to_f >= 5.5 %>
+slow_query_log            = <%= node['mysql']['tunable']['slow_query_log'] %>
+<% else %>
+log_slow_queries          = <%= node['mysql']['tunable']['slow_query_log'] %>
+<% end %>
+
+long_query_time           = <%= node['mysql']['tunable']['long_query_time'] %>
+<%- if node['mysql']['tunable']['log_queries_not_using_index'] and node['mysql']['slow_query_log']  %>
+log-queries-not-using-indexes
+<%- end %>
 
 #
 # * InnoDB
@@ -53,9 +73,13 @@ sort_buffer_size          = 212K
 # Read the manual for more InnoDB related options. There are many!
 # You might want to disable InnoDB to shrink the mysqld process by circa 100MB.
 #
-innodb_additional_mem_pool_size = 2M
+innodb_log_file_size            = <%= node['mysql']['tunable']['innodb_log_file_size'] %>
+innodb_additional_mem_pool_size = <%= node['mysql']['tunable']['innodb_additional_mem_pool_size'] %>
 innodb_flush_log_at_trx_commit  = 1
-innodb_log_buffer_size          = 1M
+innodb_log_buffer_size          = <%= node['mysql']['tunable']['innodb_log_buffer_size'] %>
 innodb_buffer_pool_size         = <%= node['mysql']['tunable']['innodb_buffer_pool_size'] %>
-innodb_log_file_size            = 10M
 innodb_thread_concurrency       = 8
+
+<%- if node['mysql']['tunable']['innodb_file_per_table'] %>
+innodb_file_per_table
+<%- end %>
