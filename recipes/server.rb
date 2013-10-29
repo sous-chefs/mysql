@@ -41,72 +41,11 @@ else
 end
 
 if platform_family?('debian')
-  directory   '/var/cache/local/preseeding' do
-    owner     'root'
-    group     node['mysql']['root_group']
-    mode      '0755'
-    recursive true
-  end
-
-  execute 'preseed mysql-server' do
-    command 'debconf-set-selections /var/cache/local/preseeding/mysql-server.seed'
-    action  :nothing
-  end
-
-  template '/var/cache/local/preseeding/mysql-server.seed' do
-    source   'mysql-server.seed.erb'
-    owner    'root'
-    group    node['mysql']['root_group']
-    mode     '0600'
-    notifies :run, 'execute[preseed mysql-server]', :immediately
-  end
-
-  template "#{node['mysql']['conf_dir']}/debian.cnf" do
-    source 'debian.cnf.erb'
-    owner  'root'
-    group  node['mysql']['root_group']
-    mode   '0600'
-  end
+  include_recipe "mysql::sever_debian"
 end
 
 if platform_family?('windows')
-  package_file = File.join(Chef::Config[:file_cache_path], node['mysql']['package_file'])
-
-  remote_file package_file do
-    source node['mysql']['url']
-    not_if { File.exists?(package_file) }
-  end
-
-  install_dir = win_friendly_path(node['mysql']['basedir'])
-
-  windows_package node['mysql']['server']['packages'].first do
-    source package_file
-  	options "INSTALLDIR=\"#{install_dir}\""
-    notifies :run, "execute[install mysql service]", :immediately
-  end
-
-  def package(*args, &blk)
-    windows_package(*args, &blk)
-  end
-else
-  group 'mysql' do
-    action :create
-  end
-
-  user 'mysql' do
-    comment 'MySQL Server'
-    gid     'mysql'
-    system  true
-    home    node['mysql']['data_dir']
-    shell   '/sbin/nologin'
-  end
-
-  node['mysql']['server']['packages'].each do |name|
-    package name do
-      action   :install
-      notifies :start, 'service[mysql]', :immediately
-    end
-  end
+  include_recipe "mysql::server:windows"
 end
 
 unless platform_family?('mac_os_x')
@@ -123,20 +62,6 @@ unless platform_family?('mac_os_x')
       group     'mysql' unless platform?('windows')
       action    :create
       recursive true
-    end
-  end
-
-  if platform_family?('windows')
-    require 'win32/service'
-
-    ENV['PATH'] += ";#{node['mysql']['bin_dir']}"
-    windows_path node['mysql']['bin_dir'] do
-      action :add
-    end
-
-    execute "install mysql service" do
-      command %Q["#{node['mysql']['bin_dir']}\\mysqld.exe" --install "#{node['mysql']['service_name']}"]
-      not_if { ::Win32::Service.exists?(node['mysql']['service_name']) }
     end
   end
 
@@ -168,16 +93,7 @@ unless platform_family?('mac_os_x')
 end
 
 if platform_family?('windows')
-  require 'win32/service'
 
-  windows_path node['mysql']['bin_dir'] do
-    action :add
-  end
-
-  windows_batch 'install mysql service' do
-    command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
-    not_if  { Win32::Service.exists?(node['mysql']['service_name']) }
-  end
 end
 
 # Homebrew has its own way to do databases
@@ -225,7 +141,7 @@ else
     action       :enable
   end
 
-unless platform_family?('mac_os_x')
+  unless platform_family?('mac_os_x')
   template 'final-my.cnf' do
     path "#{node['mysql']['conf_dir']}/my.cnf"
     source 'my.cnf.erb'
@@ -246,44 +162,30 @@ unless platform_family?('mac_os_x')
   # set the root password for situations that don't support pre-seeding.
   # (eg. platforms other than debian/ubuntu & drop-in mysql replacements)
   unless platform_family?('debian')
-    execute 'assign-root-password' do
-      command %Q["#{node['mysql']['mysqladmin_bin']}" -u root password '#{node['mysql']['server_root_password']}']
-      action :run
-      only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e 'show databases;']
-    end
+
   end
-
-  grants_path = node['mysql']['grants_path']
-
-  begin
+    
+    grants_path = node['mysql']['grants_path']
+    
+    begin
     resources("template[#{grants_path}]")
   rescue
     Chef::Log.info('Could not find previously defined grants.sql resource')
     template grants_path do
-      source 'grants.sql.erb'
-      owner  'root' unless platform_family? 'windows'
-      group  node['mysql']['root_group'] unless platform_family? 'windows'
-      mode   '0600'
-      action :create
-    end
+        source 'grants.sql.erb'
+        owner  'root' unless platform_family? 'windows'
+        group  node['mysql']['root_group'] unless platform_family? 'windows'
+        mode   '0600'
+        action :create
+      end
   end
-
-  if platform_family?('windows')
-    windows_batch 'mysql-install-privileges' do
-      command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
-      action :nothing
-      subscribes :run, resources("template[#{grants_path}]"), :immediately
-    end
-  else
-    execute 'mysql-install-privileges' do
-      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
-      action :nothing
-      subscribes :run, resources("template[#{grants_path}]"), :immediately
-    end
+    
+    if platform_family?('windows')
+    
   end
-
-  service 'mysql-start' do
-    service_name node['mysql']['service_name']
-    action :start
-  end
-end
+    
+    service 'mysql-start' do
+      service_name node['mysql']['service_name']
+      action :start
+    end
+    
