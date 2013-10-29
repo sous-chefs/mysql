@@ -43,7 +43,7 @@ end
 # go time
 
 if platform_family?('rhel')
-  include_recipe "mysql::sever_rhel"
+  include_recipe "mysql::server_rhel"
 end
 
 if platform_family?('debian')

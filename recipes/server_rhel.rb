@@ -30,8 +30,8 @@ end
   node['mysql']['log_dir'],
   node['mysql']['data_dir']].each do |path|
   directory path do
-    owner     'mysql' unless platform?('windows')
-    group     'mysql' unless platform?('windows')
+    owner     'mysql' 
+    group     'mysql'
     action    :create
     recursive true
   end
@@ -39,29 +39,16 @@ end
 
 #----
 
-skip_federated = case node['platform']
-                 when 'fedora', 'ubuntu', 'amazon'
-                   true
-                 when 'centos', 'redhat', 'scientific'
-                   node['platform_version'].to_f < 6.0
-                 else
-                   false
-                 end
+node['platform_version'].to_f < 6.0 ? skip_federated = false : skip_federated = true
+log "DEBUG: skip_federated: #{skip_federated}"
 
 template 'initial-my.cnf' do
   path "#{node['mysql']['conf_dir']}/my.cnf"
   source 'my.cnf.erb'
-  owner 'root' unless platform? 'windows'
-  group node['mysql']['root_group'] unless platform?('windows')
+  owner 'root'
+  group node['mysql']['root_group']
   mode '0644'
-  case node['mysql']['reload_action']
-  when 'restart'
-    notifies :restart, 'service[mysql]', :delayed
-  when 'reload'
-    notifies :reload, 'service[mysql]', :delayed
-  else
-    Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
-  end
+  notifies :restart, 'service[mysql]', :delayed
   variables :skip_federated => skip_federated
 end
 
@@ -70,12 +57,11 @@ end
 execute 'mysql-install-db' do
   command 'mysql_install_db'
   action :run
-  not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
+  creates node['mysql']['data_dir'] + '/mysql/user.frm'
 end
 
 service 'mysql' do
   service_name node['mysql']['service_name']
-  provider     Chef::Provider::Service::Upstart if node['mysql']['use_upstart']
   supports     :status => true, :restart => true, :reload => true
   action       :enable
 end
@@ -83,18 +69,11 @@ end
 template 'final-my.cnf' do
   path "#{node['mysql']['conf_dir']}/my.cnf"
   source 'my.cnf.erb'
-  owner 'root' unless platform? 'windows'
-  group node['mysql']['root_group'] unless platform? 'windows'
+  owner 'root'
+  group node['mysql']['root_group']
   mode '0644'
-  case node['mysql']['reload_action']
-  when 'restart'
-    notifies :restart, 'service[mysql]', :immediately
-  when 'reload'
-    notifies :reload, 'service[mysql]', :immediately
-  else
-    Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
-  end
-  variables :skip_federated => skip_federated unless platform? 'windows'
+  notifies :reload, 'service[mysql]', :immediately
+  variables :skip_federated => skip_federated
 end
 
 #----
@@ -105,30 +84,24 @@ execute 'assign-root-password' do
   only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e 'show databases;']
 end
 
-grants_path = node['mysql']['grants_path']
-
-begin
-  resources("template[#{grants_path}]")
-rescue
-  Chef::Log.info('Could not find previously defined grants.sql resource')
-  template grants_path do
-    source 'grants.sql.erb'
-    owner  'root' unless platform_family? 'windows'
-    group  node['mysql']['root_group'] unless platform_family? 'windows'
-    mode   '0600'
-    action :create
-  end
+template node['mysql']['grants_path'] do
+  source 'grants.sql.erb'
+  owner  'root'
+  group  node['mysql']['root_group']
+  mode   '0600'
+  action :create
 end
 
 #----
 
 execute 'mysql-install-privileges' do
-  command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
+  command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{node['mysql']['grants_path']}"]
   action :nothing
-  subscribes :run, resources("template[#{grants_path}]"), :immediately
+  subscribes :run, "template[#{node['mysql']['grants_path']}]", :immediately
 end
 
 service 'mysql-start' do
   service_name node['mysql']['service_name']
   action :start
 end
+
