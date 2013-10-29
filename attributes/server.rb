@@ -90,7 +90,7 @@ when 'freebsd'
   default['mysql']['grants_path']                 = '/var/db/mysql/grants.sql'
 when 'windows'
   default['mysql']['server']['packages']      = ['MySQL Server 5.5']
-  default['mysql']['version']                 = '5.5.21'
+  default['mysql']['version']                 = '5.5.32'
   default['mysql']['arch']                    = 'win32'
   default['mysql']['package_file']            = "mysql-#{mysql['version']}-#{mysql['arch']}.msi"
   default['mysql']['url']                     = "http://www.mysql.com/get/Downloads/MySQL-5.5/#{mysql['package_file']}/from/http://mysql.mirrors.pair.com/"
@@ -166,6 +166,8 @@ default['mysql']['tunable']['bulk_insert_buffer_size'] = node['mysql']['tunable'
 default['mysql']['tunable']['net_read_timeout']     = '30'
 default['mysql']['tunable']['net_write_timeout']    = '30'
 default['mysql']['tunable']['table_cache']          = '128'
+default['mysql']['tunable']['table_open_cache']     = node['mysql']['tunable']['table_cache'] # table_cache is deprecated
+                                                                                              # in favor of table_open_cache
 
 default['mysql']['tunable']['thread_cache_size']    = 8
 default['mysql']['tunable']['thread_concurrency']   = 10
@@ -256,6 +258,22 @@ default['mysql']['innodb_status_file'] = false
 unless node['platform_family'] == 'rhel' && node['platform_version'].to_i < 6
   # older RHEL platforms don't support these options
   default['mysql']['tunable']['event_scheduler']  = 0
-  default['mysql']['tunable']['table_open_cache'] = '128'
   default['mysql']['tunable']['binlog_format']    = 'statement' if node['mysql']['tunable']['log_bin']
 end
+
+# security options
+# @see http://www.symantec.com/connect/articles/securing-mysql-step-step
+# @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_chroot
+default['mysql']['security']['chroot']                  = nil
+# @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_safe-user-create
+default['mysql']['security']['safe_user_create']        = nil
+# @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_secure-auth
+default['mysql']['security']['secure_auth']             = nil
+# @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_symbolic-links
+default['mysql']['security']['skip_symbolic_links']     = nil
+# @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_secure-file-priv
+default['mysql']['security']['secure_file_priv']        = nil
+# @see http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_skip-show-database
+default['mysql']['security']['skip_show_database']      = nil
+# @see http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_local_infile
+default['mysql']['security']['local_infile']            = nil
