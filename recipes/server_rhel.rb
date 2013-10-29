@@ -1,23 +1,23 @@
 
 #----
 
-package_file = File.join(Chef::Config[:file_cache_path], node['mysql']['package_file'])
-
-remote_file package_file do
-  source node['mysql']['url']
-  not_if { File.exists?(package_file) }
+group 'mysql' do
+  action :create
 end
 
-install_dir = win_friendly_path(node['mysql']['basedir'])
-
-windows_package node['mysql']['server']['packages'].first do
-  source package_file
-  options "INSTALLDIR=\"#{install_dir}\""
-  notifies :run, "execute[install mysql service]", :immediately
+user 'mysql' do
+  comment 'MySQL Server'
+  gid     'mysql'
+  system  true
+  home    node['mysql']['data_dir']
+  shell   '/sbin/nologin'
 end
 
-def package(*args, &blk)
-  windows_package(*args, &blk)
+node['mysql']['server']['packages'].each do |name|
+  package name do
+    action   :install
+    notifies :start, 'service[mysql]', :immediately
+  end
 end
 
 #----
@@ -28,28 +28,13 @@ end
   node['mysql']['conf_dir'],
   node['mysql']['confd_dir'],
   node['mysql']['log_dir'],
-  node['mysql']['data_dir']
-].each do |path|
+  node['mysql']['data_dir']].each do |path|
   directory path do
     owner     'mysql' unless platform?('windows')
     group     'mysql' unless platform?('windows')
     action    :create
     recursive true
   end
-end
-
-#----
-
-require 'win32/service'
-
-ENV['PATH'] += ";#{node['mysql']['bin_dir']}"
-windows_path node['mysql']['bin_dir'] do
-  action :add
-end
-
-execute "install mysql service" do
-  command %Q["#{node['mysql']['bin_dir']}\\mysqld.exe" --install "#{node['mysql']['service_name']}"]
-  not_if { ::Win32::Service.exists?(node['mysql']['service_name']) }
 end
 
 #----
@@ -78,32 +63,6 @@ template 'initial-my.cnf' do
     Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
   end
   variables :skip_federated => skip_federated
-end
-
-#----
-
-require 'win32/service'
-
-windows_path node['mysql']['bin_dir'] do
-  action :add
-end
-
-windows_batch 'install mysql service' do
-  command "\"#{node['mysql']['bin_dir']}\\mysqld.exe\" --install #{node['mysql']['service_name']}"
-  not_if  { Win32::Service.exists?(node['mysql']['service_name']) }
-end
-
-#----
-
-src_dir = win_friendly_path("#{node['mysql']['basedir']}\\data")
-target_dir = win_friendly_path(node['mysql']['data_dir'])
-
-%w{mysql performance_schema}.each do |db|
-  execute 'mysql-move-db' do
-    command %Q[move "#{src_dir}\\#{db}" "#{target_dir}"]
-    action :run
-    not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
-  end
 end
 
 #----
@@ -146,8 +105,6 @@ execute 'assign-root-password' do
   only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e 'show databases;']
 end
 
-#----
-
 grants_path = node['mysql']['grants_path']
 
 begin
@@ -165,8 +122,8 @@ end
 
 #----
 
-windows_batch 'mysql-install-privileges' do
-  command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
+execute 'mysql-install-privileges' do
+  command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
   action :nothing
   subscribes :run, resources("template[#{grants_path}]"), :immediately
 end
@@ -175,4 +132,3 @@ service 'mysql-start' do
   service_name node['mysql']['service_name']
   action :start
 end
-
