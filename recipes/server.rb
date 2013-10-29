@@ -47,7 +47,7 @@ if platform_family?('rhel')
 end
 
 if platform_family?('debian')
-  include_recipe "mysql::sever_debian"
+  include_recipe "mysql::server_debian"
 end
 
 if platform_family?('mac_os_x')

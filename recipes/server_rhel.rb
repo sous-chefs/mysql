@@ -16,7 +16,7 @@ end
 node['mysql']['server']['packages'].each do |name|
   package name do
     action   :install
-    notifies :start, 'service[mysql]', :immediately
+#    notifies :start, 'service[mysql]', :immediately
   end
 end
 
