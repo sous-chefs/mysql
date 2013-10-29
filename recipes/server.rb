@@ -149,7 +149,8 @@ unless platform_family?('mac_os_x')
                      false
                    end
 
-  template "#{node['mysql']['conf_dir']}/my.cnf" do
+  template 'initial-my.cnf' do
+    path "#{node['mysql']['conf_dir']}/my.cnf"
     source 'my.cnf.erb'
     owner 'root' unless platform? 'windows'
     group node['mysql']['root_group'] unless platform?('windows')
@@ -224,7 +225,9 @@ else
     action       :enable
   end
 
-  template "#{node['mysql']['conf_dir']}/my.cnf" do
+unless platform_family?('mac_os_x')
+  template 'final-my.cnf' do
+    path "#{node['mysql']['conf_dir']}/my.cnf"
     source 'my.cnf.erb'
     owner 'root' unless platform? 'windows'
     group node['mysql']['root_group'] unless platform? 'windows'
