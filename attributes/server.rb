@@ -135,18 +135,14 @@ default['mysql']['tunable']['transaction-isolation'] = nil
 default['mysql']['tunable']['query_cache_limit']    = '1M'
 default['mysql']['tunable']['query_cache_size']     = '16M'
 
-default['mysql']['tunable']['log_slow_queries']     = '/var/log/mysql/slow.log'
-default['mysql']['tunable']['slow_query_log']       = node['mysql']['tunable']['log_slow_queries'] # log_slow_queries is deprecated
-                                                                                                   # in favor of slow_query_log
 default['mysql']['tunable']['long_query_time']      = 2
-
 default['mysql']['tunable']['expire_logs_days']     = 10
 default['mysql']['tunable']['max_binlog_size']      = '100M'
 default['mysql']['tunable']['binlog_cache_size']    = '32K'
 
 default['mysql']['tmpdir'] = ['/tmp']
 
-default['mysql']['log_dir'] = node['mysql']['data_dir']
+#default['mysql']['log_dir'] = node['mysql']['data_dir']
 default['mysql']['log_files_in_group'] = false
 default['mysql']['innodb_status_file'] = false
 
