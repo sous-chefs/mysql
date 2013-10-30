@@ -1,15 +1,15 @@
-#require 'pry'
+# require 'pry'
 
 node['mysql']['server']['packages'].each do |name|
   package name do
-    action   :install
+    action :install
   end
 end
 
 #----
-node['mysql']['server']['directories'].each do |key,value|
+node['mysql']['server']['directories'].each do |key, value|
   directory value do
-    owner     'mysql' 
+    owner     'mysql'
     group     'mysql'
     action    :create
     recursive true
@@ -18,7 +18,7 @@ end
 
 #----
 template 'initial-my.cnf' do
-  path "/etc/my.cnf"
+  path '/etc/my.cnf'
   source 'my.cnf.erb'
   owner 'root'
   group 'root'
@@ -72,5 +72,5 @@ end
 service 'mysql' do
   service_name 'mysqld'
   supports     :status => true, :restart => true, :reload => true
-  action       [ :enable, :start ]
+  action       [:enable, :start]
 end

@@ -15,4 +15,3 @@ when 'freebsd'
   default['mysql']['old_passwords']           = 0
   default['mysql']['grants_path']             = '/var/db/mysql/grants.sql'
 end
-

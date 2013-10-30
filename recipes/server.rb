@@ -41,20 +41,13 @@ else
   node.save
 end
 
-# go time
-
-if platform_family?('rhel')
+case node['platform_family']
+when 'rhel'
   include_recipe "mysql::server_rhel"
-end
-
-if platform_family?('debian')
+when 'debian'
   include_recipe "mysql::server_debian"
-end
-
-if platform_family?('mac_os_x')
+when 'mac_os_x'
   include_recipe "mysql::server_mac_os_x"
-end
-
-if platform_family?('windows')
+when 'windows'
   include_recipe "mysql::server_windows"
 end

@@ -38,7 +38,7 @@ module Opscode
       def install_grants_cmd
         str = '/usr/bin/mysql'
         str << ' -u root '
-        if ! node['mysql']['server_root_password'].empty? then
+        if !node['mysql']['server_root_password'].empty? then
           str << ' -p'
           str << node['mysql']['server_root_password']
         end

@@ -28,7 +28,6 @@ template "#{node['mysql']['conf_dir']}/debian.cnf" do
 end
 
 #----
-
 group 'mysql' do
   action :create
 end
@@ -49,7 +48,6 @@ node['mysql']['server']['packages'].each do |name|
 end
 
 #----
-
 [
   File.dirname(node['mysql']['pid_file']),
   File.dirname(node['mysql']['tunable']['slow_query_log']),
@@ -67,7 +65,6 @@ end
 end
 
 #----
-
 skip_federated = case node['platform']
                  when 'fedora', 'ubuntu', 'amazon'
                    true
@@ -88,7 +85,6 @@ template 'initial-my.cnf' do
 end
 
 #----
-
 execute 'mysql-install-db' do
   command 'mysql_install_db'
   action :run
@@ -113,8 +109,6 @@ template 'final-my.cnf' do
 end
 
 #----
-
-
 template node['mysql']['grants_path'] do
   source 'grants.sql.erb'
   owner 'root'
@@ -124,7 +118,6 @@ template node['mysql']['grants_path'] do
 end
 
 #----
-
 execute 'mysql-install-privileges' do
   command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{node['mysql']['grants_path']}"]
   action :nothing

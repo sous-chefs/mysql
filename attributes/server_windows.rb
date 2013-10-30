@@ -18,4 +18,3 @@ when 'windows'
   default['mysql']['old_passwords']           = 0
   default['mysql']['grants_path']             = "#{node['mysql']['conf_dir']}\\grants.sql"
 end
-

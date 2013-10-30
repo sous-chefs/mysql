@@ -13,7 +13,7 @@ install_dir = win_friendly_path(node['mysql']['basedir'])
 windows_package node['mysql']['server']['packages'].first do
   source package_file
   options "INSTALLDIR=\"#{install_dir}\""
-  notifies :run, "execute[install mysql service]", :immediately
+  notifies :run, 'execute[install mysql service]', :immediately
 end
 
 def package(*args, &blk)
@@ -21,7 +21,6 @@ def package(*args, &blk)
 end
 
 #----
-
 [
   File.dirname(node['mysql']['pid_file']),
   File.dirname(node['mysql']['tunable']['slow_query_log']),
@@ -47,7 +46,7 @@ windows_path node['mysql']['bin_dir'] do
   action :add
 end
 
-execute "install mysql service" do
+execute 'install mysql service' do
   command %Q["#{node['mysql']['bin_dir']}\\mysqld.exe" --install "#{node['mysql']['service_name']}"]
   not_if { ::Win32::Service.exists?(node['mysql']['service_name']) }
 end

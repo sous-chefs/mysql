@@ -144,7 +144,7 @@ default['mysql']['tunable']['binlog_cache_size']    = '32K'
 
 default['mysql']['tmpdir'] = ['/tmp']
 
-#default['mysql']['log_dir'] = node['mysql']['data_dir']
+# default['mysql']['log_dir'] = node['mysql']['data_dir']
 default['mysql']['log_files_in_group'] = false
 default['mysql']['innodb_status_file'] = false
 
