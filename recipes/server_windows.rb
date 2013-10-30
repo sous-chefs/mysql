@@ -174,4 +174,3 @@ service 'mysql-start' do
   service_name node['mysql']['service_name']
   action :start
 end
-

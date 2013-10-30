@@ -61,7 +61,7 @@ end
 
 #----
 template 'final-my.cnf' do
-  path "/etc/my.cnf"
+  path '/etc/my.cnf'
   source 'my.cnf.erb'
   owner 'root'
   group 'root'

@@ -1,4 +1,4 @@
-case node['platform_family']  
+case node['platform_family']
 when 'suse'
   default['mysql']['service_name']            = 'mysql'
   default['mysql']['server']['packages']      = %w[mysql-community-server]

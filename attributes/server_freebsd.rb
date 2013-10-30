@@ -1,5 +1,5 @@
 case node['platform_family']
-  
+
 when 'freebsd'
   default['mysql']['server']['packages']      = %w[mysql55-server]
   default['mysql']['service_name']            = 'mysql-server'

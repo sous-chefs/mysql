@@ -1,5 +1,5 @@
-case node['platform_family']
-  
+emacase node['platform_family']
+
 when 'windows'
   default['mysql']['server']['packages']      = ['MySQL Server 5.5']
   default['mysql']['version']                 = '5.5.32'
