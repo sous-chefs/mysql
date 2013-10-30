@@ -18,9 +18,9 @@ Platform
 
 Tested on:
 
+- Ubuntu 10.04, 12.04
+- CentOS 5.9, 6.5
 - Debian 5.0, 6.0
-- Ubuntu 10.04-12.04
-- CentOS 5.5-5.8, 6.2-6.3
 - Mac OS X 10.7.2
 
 See TESTING.md for information about running tests in Opscode's Test Kitchen.
@@ -216,6 +216,7 @@ License & Authors
 - Author:: Jesse Howarth (<him@jessehowarth.com>)
 - Author:: Andrew Crump (<andrew@kotirisoftware.com>)
 - Author:: Christoph Hartmann (<chris@lollyrock.com>)
+- Author:: Sean OMeara (<someara@opscode.com>)
 
 ```text
 Copyright:: 2009-2013 Opscode, Inc
