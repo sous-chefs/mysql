@@ -12,12 +12,13 @@ GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' identified by '<%= node['mysql']['s
 <% if node['mysql']['allow_remote_root'] -%>
 
 # Set the server root password. This should be preseeded by the package installation.
-GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '<%= node['mysql']['server_root_password'] %>' WITH GRANT OPTION;
+GRANT ALL ON *.* TO '<%= node['mysql']['root_user'] %>'@'%' IDENTIFIED 
+BY '<%= node['mysql']['server_root_password'] %>' WITH GRANT OPTION;
 <% else %>
 
 # remove remote access for root user and set password for local root user
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-UPDATE mysql.user SET Password=PASSWORD('<%= node['mysql']['server_root_password'] %>') WHERE User='root';
+DELETE FROM mysql.user WHERE User='<%= node['mysql']['root_user'] %>' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+UPDATE mysql.user SET Password=PASSWORD('<%= node['mysql']['server_root_password'] %>') WHERE User='<%= node['mysql']['root_user'] %>';
 <% end %>
 <% if node['mysql']['remove_anonymous_users'] -%>
 
@@ -31,10 +32,10 @@ DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
 <% end %>
 
-# Set the password for root@localhost
-SET PASSWORD FOR 'root'@'localhost' = PASSWORD('<%= node['mysql']['server_root_password'] %>');
+# Set the password for <%= node['mysql']['root_user'] %>@localhost
+SET PASSWORD FOR '<%= node['mysql']['root_user'] %>'@'localhost' = PASSWORD('<%= node['mysql']['server_root_password'] %>');
 <% if node['mysql']['root_network_acl'] -%>
 
-# allow root to connect from a remote network if root_network_acl is not nil
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'<%= node['mysql']['root_network_acl'] %>' IDENTIFIED BY '<%= node['mysql']['server_root_password'] %>' WITH GRANT OPTION;
+# allow <%= node['mysql']['root_user'] %> to connect from a remote network if root_network_acl is not nil
+GRANT ALL PRIVILEGES ON *.* TO '<%= node['mysql']['root_user'] %>'@'<%= node['mysql']['root_network_acl'] %>' IDENTIFIED BY '<%= node['mysql']['server_root_password'] %>' WITH GRANT OPTION;
 <% end -%>

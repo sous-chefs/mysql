@@ -192,9 +192,9 @@ if platform_family?('mac_os_x')
   # set the root password for situations that don't support pre-seeding.
   # (eg. platforms other than debian/ubuntu & drop-in mysql replacements)
   execute 'assign-root-password mac_os_x' do
-    command %Q["#{node['mysql']['mysqladmin_bin']}" -u root password '#{node['mysql']['server_root_password']}']
+    command %Q["#{node['mysql']['mysqladmin_bin']}" -u #{node['mysql']['root_user']} password '#{node['mysql']['server_root_password']}']
     action :run
-    only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e 'show databases;']
+    only_if %Q["#{node['mysql']['mysql_bin']}" -u #{node['mysql']['root_user']} -e 'show databases;']
   end
 else
 
@@ -246,9 +246,9 @@ else
   # (eg. platforms other than debian/ubuntu & drop-in mysql replacements)
   unless platform_family?('debian')
     execute 'assign-root-password' do
-      command %Q["#{node['mysql']['mysqladmin_bin']}" -u root password '#{node['mysql']['server_root_password']}']
+      command %Q["#{node['mysql']['mysqladmin_bin']}" -u #{node['mysql']['root_user']} password '#{node['mysql']['server_root_password']}']
       action :run
-      only_if %Q["#{node['mysql']['mysql_bin']}" -u root -e 'show databases;']
+      only_if %Q["#{node['mysql']['mysql_bin']}" -u #{node['mysql']['root_user']} -e 'show databases;']
     end
   end
 
@@ -269,13 +269,13 @@ else
 
   if platform_family?('windows')
     windows_batch 'mysql-install-privileges' do
-      command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
+      command "\"#{node['mysql']['mysql_bin']}\" -u #{node['mysql']['root_user']} #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
       action :nothing
       subscribes :run, resources("template[#{grants_path}]"), :immediately
     end
   else
     execute 'mysql-install-privileges' do
-      command %Q["#{node['mysql']['mysql_bin']}" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
+      command %Q["#{node['mysql']['mysql_bin']}" -u #{node['mysql']['root_user']} #{node['mysql']['server_root_password'].empty? ? '' : '-p' }"#{node['mysql']['server_root_password']}" < "#{grants_path}"]
       action :nothing
       subscribes :run, resources("template[#{grants_path}]"), :immediately
     end
