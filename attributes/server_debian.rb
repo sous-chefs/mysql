@@ -1,17 +1,31 @@
 case node['platform_family']
 when 'debian'
-  default['mysql']['server']['packages']      = %w[mysql-server]
-  default['mysql']['service_name']            = 'mysql'
-  default['mysql']['basedir']                 = '/usr'
-  default['mysql']['data_dir']                = '/var/lib/mysql'
-  default['mysql']['root_group']              = 'root'
-  default['mysql']['mysqladmin_bin']          = '/usr/bin/mysqladmin'
-  default['mysql']['mysql_bin']               = '/usr/bin/mysql'
 
-  default['mysql']['conf_dir']                    = '/etc/mysql'
-  default['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
-  default['mysql']['socket']                      = '/var/run/mysqld/mysqld.sock'
-  default['mysql']['pid_file']                    = '/var/run/mysqld/mysqld.pid'
-  default['mysql']['old_passwords']               = 0
-  default['mysql']['grants_path']                 = '/etc/mysql/grants.sql'
+  # Probably driven from wrapper cookbooks, environments, or roles.
+  # Keep in this namespace for backwards compat
+  default['mysql']['datadir'] = '/var/lib/mysql'
+
+  default['mysql']['server']['packages'] = ['mysql-server']
+  default['mysql']['server']['slow_query_log']       = 1
+  default['mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
+
+  # Platformisms.. filesystem locations and such.
+  default['mysql']['server']['basedir'] = '/usr'
+  default['mysql']['server']['tmpdir'] = ['/tmp']
+
+  default['mysql']['server']['directories']['run_dir']              = '/var/run/mysqld'
+  default['mysql']['server']['directories']['log_dir']              = '/var/lib/mysql'
+  default['mysql']['server']['directories']['slow_log_dir']         = '/var/log/mysql'
+  default['mysql']['server']['directories']['confd_dir']            = '/etc/mysql/conf.d'
+
+  default['mysql']['server']['mysqladmin_bin']       = '/usr/bin/mysqladmin'
+  default['mysql']['server']['mysql_bin']            = '/usr/bin/mysql'
+
+  default['mysql']['server']['pid_file']             = '/var/run/mysqld/mysqld.pid'
+  default['mysql']['server']['socket']               = '/var/lib/mysql/mysql.sock'
+  default['mysql']['server']['grants_path']          = '/etc/mysql_grants.sql'
+  default['mysql']['server']['old_passwords']        = 1
+
+  default['mysql']['tunable']['innodb_adaptive_flushing'] = true
+  default['mysql']['server']['skip_federated'] = false
 end
