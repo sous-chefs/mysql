@@ -65,15 +65,6 @@ end
 end
 
 #----
-skip_federated = case node['platform']
-                 when 'fedora', 'ubuntu', 'amazon'
-                   true
-                 when 'centos', 'redhat', 'scientific'
-                   node['platform_version'].to_f < 6.0
-                 else
-                   false
-                 end
-
 template 'initial-my.cnf' do
   path "#{node['mysql']['conf_dir']}/my.cnf"
   source 'my.cnf.erb'
@@ -81,7 +72,6 @@ template 'initial-my.cnf' do
   group node['mysql']['root_group']
   mode '0644'
   notifies :reload, 'service[mysql]', :delayed
-  variables :skip_federated => skip_federated
 end
 
 #----
@@ -105,7 +95,6 @@ template 'final-my.cnf' do
   group node['mysql']['root_group']
   mode '0644'
   notifies :reload, 'service[mysql]', :immediately
-  variables :skip_federated => skip_federated
 end
 
 #----

@@ -1,14 +1,22 @@
+require 'win32/service'
 
-#----
+ENV['PATH'] += ";#{node['mysql']['windows']['bin_dir']}"
+package_file = Chef::Config[:file_cache_path] + node['mysql']['windows']['package_file']
+install_dir = win_friendly_path(node['mysql']['windows']['basedir'])
 
-package_file = File.join(Chef::Config[:file_cache_path], node['mysql']['package_file'])
-
-remote_file package_file do
-  source node['mysql']['url']
-  not_if { File.exists?(package_file) }
+def package(*args, &blk)
+  windows_package(*args, &blk)
 end
 
-install_dir = win_friendly_path(node['mysql']['basedir'])
+#----
+windows_path node['mysql']['windows']['bin_dir'] do
+  action :add
+end
+
+remote_file package_file do
+  source node['mysql']['windows']['url']
+  not_if { ::File.exists?(package_file) }
+end
 
 windows_package node['mysql']['server']['packages'].first do
   source package_file
@@ -16,67 +24,20 @@ windows_package node['mysql']['server']['packages'].first do
   notifies :run, 'execute[install mysql service]', :immediately
 end
 
-def package(*args, &blk)
-  windows_package(*args, &blk)
-end
+#--- FIX ME - directories
 
 #----
-[
-  File.dirname(node['mysql']['pid_file']),
-  File.dirname(node['mysql']['tunable']['slow_query_log']),
-  node['mysql']['conf_dir'],
-  node['mysql']['confd_dir'],
-  node['mysql']['log_dir'],
-  node['mysql']['data_dir']
-].each do |path|
-  directory path do
-    owner     'mysql' unless platform?('windows')
-    group     'mysql' unless platform?('windows')
-    action    :create
-    recursive true
-  end
-end
-
-#----
-
-require 'win32/service'
-
-ENV['PATH'] += ";#{node['mysql']['bin_dir']}"
-windows_path node['mysql']['bin_dir'] do
-  action :add
-end
-
 execute 'install mysql service' do
-  command %Q["#{node['mysql']['bin_dir']}\\mysqld.exe" --install "#{node['mysql']['service_name']}"]
-  not_if { ::Win32::Service.exists?(node['mysql']['service_name']) }
+  command %Q["#{node['mysql']['windows']['bin_dir']}\\mysqld.exe" --install "#{node['mysql']['server']['service_name']}"]
+  not_if { ::Win32::Service.exists?(node['mysql']['windows']['service_name']) }
 end
 
 #----
-
-skip_federated = case node['platform']
-                 when 'fedora', 'ubuntu', 'amazon'
-                   true
-                 when 'centos', 'redhat', 'scientific'
-                   node['platform_version'].to_f < 6.0
-                 else
-                   false
-                 end
-
 template 'initial-my.cnf' do
-  path "#{node['mysql']['conf_dir']}/my.cnf"
+  path "#{node['mysql']['windows']['conf_dir']}/my.cnf"
   source 'my.cnf.erb'
-  owner 'root' unless platform? 'windows'
-  group node['mysql']['root_group'] unless platform?('windows')
   mode '0644'
-  case node['mysql']['reload_action']
-  when 'restart'
-    notifies :restart, 'service[mysql]', :delayed
-  when 'reload'
-    notifies :reload, 'service[mysql]', :delayed
-  else
-    Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
-  end
-  variables :skip_federated => skip_federated
+  notifies :reload, 'service[mysql]', :delayed
 end
 
 #----
@@ -123,18 +84,8 @@ end
 template 'final-my.cnf' do
   path "#{node['mysql']['conf_dir']}/my.cnf"
   source 'my.cnf.erb'
-  owner 'root' unless platform? 'windows'
-  group node['mysql']['root_group'] unless platform? 'windows'
   mode '0644'
-  case node['mysql']['reload_action']
-  when 'restart'
-    notifies :restart, 'service[mysql]', :immediately
-  when 'reload'
-    notifies :reload, 'service[mysql]', :immediately
-  else
-    Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
-  end
-  variables :skip_federated => skip_federated unless platform? 'windows'
+  notifies :restart, 'service[mysql]', :immediately
 end
 
 #----
@@ -155,8 +106,6 @@ rescue
   Chef::Log.info('Could not find previously defined grants.sql resource')
   template grants_path do
     source 'grants.sql.erb'
-    owner  'root' unless platform_family? 'windows'
-    group  node['mysql']['root_group'] unless platform_family? 'windows'
     mode   '0600'
     action :create
   end
@@ -171,6 +120,6 @@ windows_batch 'mysql-install-privileges' do
 end
 
 service 'mysql-start' do
-  service_name node['mysql']['service_name']
+  service_name node['mysql']['server']['service_name']
   action :start
 end

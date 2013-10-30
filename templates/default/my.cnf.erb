@@ -364,10 +364,10 @@ skip-bdb
 old_passwords           = <%= node['mysql']['old_passwords'] %>
 <% end -%>
 
-<% if node['mysql']['confd_dir'] -%>
+<% if node['mysql']['server']['confd_dir'] -%>
 #
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
-!includedir <%= node['mysql']['confd_dir'] %>/
+!includedir <%= node['mysql']['server']['confd_dir'] %>/
 <% end -%>
