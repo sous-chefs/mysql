@@ -1,32 +1,5 @@
 #require 'pry'
 
-# command assembly
-assign_root_password_cmd = '/usr/bin/mysqladmin'
-assign_root_password_cmd << '- u root password '
-assign_root_password_cmd << node['mysql']['server_root_password']
-
-install_grants_cmd = '/usr/bin/mysql'
-install_grants_cmd << ' -u root '
-if ! node['mysql']['server_root_password'].empty? then
-  install_grants_cmd << ' -p '
-  install_grants_cmd << node['mysql']['server_root_password']
-end
-install_grants_cmd << ' < /etc/mysql_grants.sql'
-
-#----
-
-group 'mysql' do
-  action :create
-end
-
-user 'mysql' do
-  comment 'MySQL Server'
-  gid     'mysql'
-  home    '/var/lib/mysql'
-  shell   '/sbin/nologin'
-  system  true
-end
-
 node['mysql']['server']['packages'].each do |name|
   package name do
     action   :install
@@ -34,7 +7,6 @@ node['mysql']['server']['packages'].each do |name|
 end
 
 #----
-
 node['mysql']['server']['directories'].each do |key,value|
   directory value do
     owner     'mysql' 
@@ -45,42 +17,29 @@ node['mysql']['server']['directories'].each do |key,value|
 end
 
 #----
-
 template 'initial-my.cnf' do
   path "/etc/my.cnf"
   source 'my.cnf.erb'
   owner 'root'
   group 'root'
   mode '0644'
-  notifies :restart, 'service[mysql]', :delayed
+  notifies :start, 'service[mysql-start]', :immediately
 end
 
-#----
+# hax
+service 'mysql-start' do
+  service_name 'mysqld'
+  action :nothing
+end
 
 execute '/usr/bin/mysql_install_db' do
   action :run
   creates '/var/lib/mysql/user.frm'
 end
 
-service 'mysql' do
-  service_name 'mysqld'
-  supports     :status => true, :restart => true, :reload => true
-  action       :enable
-end
-
-template 'final-my.cnf' do
-  path "/etc/my.cnf"
-  source 'my.cnf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-  notifies :reload, 'service[mysql]', :immediately
-end
-
-#----
-
+cmd = assign_root_password_cmd
 execute 'assign-root-password' do
-  command assign_root_password_cmd
+  command cmd
   action :run
   only_if "/usr/bin/mysql -u root -e 'show databases;'"
 end
@@ -94,15 +53,24 @@ template '/etc/mysql_grants.sql' do
   notifies :run, 'execute[install-grants]', :immediately
 end
 
-#----
-
+cmd = install_grants_cmd
 execute 'install-grants' do
-  command install_grants_cmd
+  command cmd
   action :nothing
 end
 
-service 'mysql-start' do
-  service_name 'mysqld'
-  action :start
+#----
+template 'final-my.cnf' do
+  path "/etc/my.cnf"
+  source 'my.cnf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :reload, 'service[mysql]', :immediately
 end
 
+service 'mysql' do
+  service_name 'mysqld'
+  supports     :status => true, :restart => true, :reload => true
+  action       [ :enable, :start ]
+end

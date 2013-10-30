@@ -22,14 +22,14 @@
 # Remember to edit /etc/mysql/debian.cnf when changing the socket location.
 [client]
 port            = <%= node['mysql']['port'] %>
-socket          = <%= node['mysql']['socket'] %>
+socket          = <%= node['mysql']['server']['socket'] %>
 
 # Here is entries for some specific programs
 # The following values assume you have at least 32M ram
 
 # This was formally known as [safe_mysqld]. Both versions are currently parsed.
 [mysqld_safe]
-socket          = <%= node['mysql']['socket'] %>
+socket          = <%= node['mysql']['server']['socket'] %>
 nice            = <%= node['mysql']['nice'] %>
 
 [mysqld]
@@ -46,7 +46,7 @@ nice            = <%= node['mysql']['nice'] %>
 user            = mysql
 pid-file        = <%= node['mysql']['server']['pid_file'] %>
 socket          = <%= node['mysql']['server']['socket'] %>
-port            = <%= node['mysql']['server']['port'] %>
+port            = <%= node['mysql']['port'] %>
 basedir         = <%= node['mysql']['server']['basedir'] %>
 datadir         = <%= node['mysql']['server']['data_dir'] %>
 tmpdir          = <%= node['mysql']['server']['tmpdir'].join(':') %>
