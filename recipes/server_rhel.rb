@@ -16,6 +16,13 @@ node['mysql']['server']['directories'].each do |key, value|
   end
 end
 
+directory node['mysql']['datadir'] do
+  owner     'mysql'
+  group     'mysql'
+  action    :create
+  recursive true
+end
+
 #----
 template 'initial-my.cnf' do
   path '/etc/my.cnf'
@@ -35,6 +42,7 @@ end
 execute '/usr/bin/mysql_install_db' do
   action :run
   creates '/var/lib/mysql/user.frm'
+  only_if { node['platform_version'].to_i < 6 }
 end
 
 cmd = assign_root_password_cmd

@@ -48,7 +48,7 @@ pid-file        = <%= node['mysql']['server']['pid_file'] %>
 socket          = <%= node['mysql']['server']['socket'] %>
 port            = <%= node['mysql']['port'] %>
 basedir         = <%= node['mysql']['server']['basedir'] %>
-datadir         = <%= node['mysql']['server']['data_dir'] %>
+datadir         = <%= node['mysql']['data_dir'] %>
 tmpdir          = <%= node['mysql']['server']['tmpdir'].join(':') %>
 skip-external-locking
 <%- if node['mysql']['tunable']['skip-name-resolve'] %>
@@ -146,13 +146,11 @@ log_warnings
 
 #
 # Here you can see queries with especially long duration
-<%- if node['mysql']['version'].to_f >= 5.5 %>
-<%-   if node['mysql']['server']['slow_query_log'] %>
+<%- if node['mysql']['server']['slow_query_log'] %>
 slow_query_log      = 1
-slow_query_log_file = <%= node['mysql']['server']['slow_query_log'] %>
-<%-   end %>
+slow_query_log_file = <%= node['mysql']['server']['slow_query_log_file'] %>
 <%- else %>
-log_slow_queries    = <%= node['mysql']['server']['slow_query_log'] %>
+log_slow_queries    = <%= node['mysql']['server']['log_slow_queries'] %>
 <%- end %>
 
 long_query_time         = <%= node['mysql']['tunable']['long_query_time'] %>
