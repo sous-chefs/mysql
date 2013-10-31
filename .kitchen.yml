@@ -27,11 +27,7 @@ suites:
     run_list:
       - recipe[mysql_test::server]
   - name: server-nondefault-data
-    excludes:
-    - ubuntu-10.04 # https://tickets.opscode.com/browse/COOK-3780
-    - ubuntu-12.04 # https://tickets.opscode.com/browse/COOK-3780
     run_list:
-      - recipe[minitest-handler]
       - recipe[mysql_test::server]
     attributes:
       mysql:

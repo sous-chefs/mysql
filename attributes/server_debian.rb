@@ -3,7 +3,7 @@ when 'debian'
 
   # Probably driven from wrapper cookbooks, environments, or roles.
   # Keep in this namespace for backwards compat
-  default['mysql']['datadir'] = '/var/lib/mysql'
+  default['mysql']['data_dir'] = '/var/lib/mysql'
 
   default['mysql']['server']['packages'] = ['mysql-server']
   default['mysql']['server']['slow_query_log']       = 1

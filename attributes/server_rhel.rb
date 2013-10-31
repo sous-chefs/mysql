@@ -3,7 +3,7 @@ when 'rhel'
 
   # Probably driven from wrapper cookbooks, environments, or roles.
   # Keep in this namespace for backwards compat
-  default['mysql']['datadir'] = '/var/lib/mysql'
+  default['mysql']['data_dir'] = '/var/lib/mysql'
 
   # switching logic to account for differences in platform native
   # package versions

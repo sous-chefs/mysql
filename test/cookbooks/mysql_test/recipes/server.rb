@@ -40,7 +40,7 @@ execute 'create-sample-data' do
     CREATE TABLE tv_chef (name VARCHAR(32) PRIMARY KEY);
     INSERT INTO tv_chef (name) VALUES ('Alison Holst');
     INSERT INTO tv_chef (name) VALUES ('Nigella Lawson');
-    INSERT INTO tv_chef (name) VALUES ('Paula Deen');
+    INSERT INTO tv_chef (name) VALUES ('Julia Child');
 EOF}
   not_if "echo 'SELECT count(name) FROM tv_chef' | mysql #{mysql_conn_args} --skip-column-names #{node['mysql_test']['database']} | grep '^3$'"
 end

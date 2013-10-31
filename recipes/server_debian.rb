@@ -1,28 +1,28 @@
 #----
 directory '/var/cache/local/preseeding' do
   owner 'root'
-  group node['mysql']['root_group']
+  group 'root'
   mode '0755'
   recursive true
-end
-
-execute 'preseed mysql-server' do
-  command 'debconf-set-selections /var/cache/local/preseeding/mysql-server.seed'
-  action  :nothing
 end
 
 template '/var/cache/local/preseeding/mysql-server.seed' do
   source 'mysql-server.seed.erb'
   owner 'root'
-  group node['mysql']['root_group']
+  group 'root'
   mode '0600'
   notifies :run, 'execute[preseed mysql-server]', :immediately
 end
 
-template "#{node['mysql']['conf_dir']}/debian.cnf" do
+execute 'preseed mysql-server' do
+  command '/usr/bin/debconf-set-selections /var/cache/local/preseeding/mysql-server.seed'
+  action  :nothing
+end
+
+template "/etc/mysql/debian.cnf" do
   source 'debian.cnf.erb'
   owner 'root'
-  group node['mysql']['root_group']
+  group 'root'
   mode '0600'
 end
 
@@ -42,7 +42,7 @@ node['mysql']['server']['directories'].each do |key, value|
   end
 end
 
-directory node['mysql']['datadir'] do
+directory node['mysql']['data_dir'] do
   owner     'mysql'
   group     'mysql'
   action    :create

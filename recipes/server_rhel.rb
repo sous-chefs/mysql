@@ -16,7 +16,7 @@ node['mysql']['server']['directories'].each do |key, value|
   end
 end
 
-directory node['mysql']['datadir'] do
+directory node['mysql']['data_dir'] do
   owner     'mysql'
   group     'mysql'
   action    :create
