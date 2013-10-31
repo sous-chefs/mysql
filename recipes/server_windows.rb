@@ -1,4 +1,5 @@
 require 'win32/service'
+require 'win32/service'
 
 ENV['PATH'] += ";#{node['mysql']['windows']['bin_dir']}"
 package_file = Chef::Config[:file_cache_path] + node['mysql']['windows']['package_file']
@@ -18,7 +19,7 @@ remote_file package_file do
   not_if { ::File.exists?(package_file) }
 end
 
-windows_package node['mysql']['server']['packages'].first do
+windows_package node['mysql']['windows']['packages'].first do
   source package_file
   options "INSTALLDIR=\"#{install_dir}\""
   notifies :run, 'execute[install mysql service]', :immediately
@@ -37,12 +38,10 @@ template 'initial-my.cnf' do
   path "#{node['mysql']['windows']['conf_dir']}/my.cnf"
   source 'my.cnf.erb'
   mode '0644'
-  notifies :reload, 'service[mysql]', :delayed
+  notifies :reload, node['mysql']['windows']['service_name'], :delayed
 end
 
 #----
-
-require 'win32/service'
 
 windows_path node['mysql']['bin_dir'] do
   action :add
@@ -112,7 +111,6 @@ rescue
 end
 
 #----
-
 windows_batch 'mysql-install-privileges' do
   command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
   action :nothing
