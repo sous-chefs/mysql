@@ -1,6 +1,6 @@
 #----
 # Set up preseeding data for debian packages
-#--- 
+#---
 directory '/var/cache/local/preseeding' do
   owner 'root'
   group 'root'
@@ -30,6 +30,34 @@ node['mysql']['server']['packages'].each do |name|
   end
 end
 
+node['mysql']['server']['directories'].each do |key, value|
+  log "DEBUG: #{value}"
+  directory value do
+    owner     'mysql'
+    group     'mysql'
+    mode      '0770'
+    action    :create
+    recursive true
+  end
+end
+
+#----
+# Grants
+#----
+template '/etc/mysql_grants.sql' do
+  source 'grants.sql.erb'
+  owner  'root'
+  group  'root'
+  mode   '0600'
+  notifies :run, 'execute[install-grants]', :immediately
+end
+
+cmd = install_grants_cmd
+execute 'install-grants' do
+  command cmd
+  action :nothing
+end
+
 #----
 # data_dir
 #----
@@ -45,6 +73,10 @@ directory node['mysql']['data_dir'] do
   group     'mysql'
   action    :create
   recursive true
+end
+
+template '/etc/init/mysql.conf' do
+  source 'init-mysql.conf.erb'
 end
 
 template '/etc/apparmor.d/usr.sbin.mysqld' do
@@ -83,56 +115,8 @@ bash 'move mysql data to datadir' do
   action :nothing
 end
 
-#----
-# Grants
-#----
-# template '/etc/mysql_grants.sql' do
-#   source 'grants.sql.erb'
-#   owner  'root'
-#   group  'root'
-#   mode   '0600'
-#   notifies :run, 'execute[install-grants]', :immediately
-# end
-
-# cmd = install_grants_cmd
-# execute 'install-grants' do
-#   command cmd
-#   action :nothing
-# end
-
 service 'mysql' do
   service_name 'mysql'
   supports     :status => true, :restart => true, :reload => true
   action       [:enable, :start]
 end
-
-#----
-# node['mysql']['server']['directories'].each do |key, value|
-#   directory value do
-#     owner     'root'
-#     group     'root'
-#     action    :create
-#     recursive true
-#   end
-# end
-
-# template "/etc/mysql/debian.cnf" do
-#   source 'debian.cnf.erb'
-#   owner 'root'
-#   group 'root'
-#   mode '0600'
-# end
-
-# execute '/usr/bin/mysql_install_db' do
-#   action :run
-#   creates '/var/lib/mysql/user.frm'
-#   only_if { node['platform_version'].to_i < 6 }
-# end
-
-# cmd = assign_root_password_cmd
-# execute 'assign-root-password' do
-#   command cmd
-#   action :run
-#   only_if "/usr/bin/mysql -u root -e 'show databases;'"
-# end
-
