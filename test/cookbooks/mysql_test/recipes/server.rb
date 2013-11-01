@@ -3,14 +3,6 @@ node.override['mysql']['server_repl_password']   = 'ilikerandompasswords'
 node.override['mysql']['server_root_password']   = 'ilikerandompasswords'
 
 include_recipe 'mysql::ruby'
-#include_recipe 'yum::epel' if platform_family?('rhel')
-
-# file '/etc/sysconfig/network' do
-#   content 'NETWORKING=yes'
-#   action  :create_if_missing
-#   only_if { platform_family?('rhel', 'fedora') }
-# end
-
 include_recipe 'mysql::server'
 
 mysql_connection = {

@@ -80,7 +80,7 @@ template '/etc/init/mysql.conf' do
 end
 
 template '/etc/apparmor.d/usr.sbin.mysqld' do
-  source "usr.sbin.mysqld.erb"
+  source 'usr.sbin.mysqld.erb'
   action :create
   notifies :reload, 'service[apparmor-mysql]', :immediately
 end
