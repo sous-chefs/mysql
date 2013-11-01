@@ -105,14 +105,14 @@ end
 bash 'move mysql data to datadir' do
   user 'root'
   code <<-EOH
-  [ '/var/lib/mysql' != #{node['mysql']['data_dir']} ] &&
-  [ `stat -c %h #{node['mysql']['data_dir']}` -eq 2 ] &&
-  [ `stat -c %h /var/lib/mysql/` -eq 2 ] ||
   /usr/sbin/service mysql stop &&
   mv /var/lib/mysql/* #{node['mysql']['data_dir']} &&
   /usr/sbin/service mysql start
   EOH
   action :nothing
+  only_if "[ '/var/lib/mysql' != #{node['mysql']['data_dir']} ]"
+  only_if "[ `stat -c %h #{node['mysql']['data_dir']}` -eq 2 ]"
+  not_if "[ `stat -c %h /var/lib/mysql/` -eq 2 ]"
 end
 
 service 'mysql' do
