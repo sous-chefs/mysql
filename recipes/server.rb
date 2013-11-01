@@ -20,7 +20,7 @@
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 ::Chef::Recipe.send(:include, Opscode::Mysql::Helpers)
 
-include_recipe 'mysql::client'
+# include_recipe 'mysql::client'
 
 if Chef::Config[:solo]
   missing_attrs = %w[

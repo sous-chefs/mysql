@@ -1,4 +1,6 @@
 #----
+# Set up preseeding data for debian packages
+#--- 
 directory '/var/cache/local/preseeding' do
   owner 'root'
   group 'root'
@@ -19,13 +21,8 @@ execute 'preseed mysql-server' do
   action  :nothing
 end
 
-template "/etc/mysql/debian.cnf" do
-  source 'debian.cnf.erb'
-  owner 'root'
-  group 'root'
-  mode '0600'
-end
-
+#----
+# Install software
 #----
 node['mysql']['server']['packages'].each do |name|
   package name do
@@ -33,14 +30,15 @@ node['mysql']['server']['packages'].each do |name|
   end
 end
 
-node['mysql']['server']['directories'].each do |key, value|
-  directory value do
-    owner     'mysql'
-    group     'mysql'
-    action    :create
-    recursive true
-  end
-end
+#----
+# data_dir
+#----
+
+# DRAGONS!
+# Setting up data_dir will only work on initial node converge...
+# Data will NOT be moved around the filesystem when you change data_dir
+# To do that, we'll need to stash the data_dir of the last chef-client
+# run somewhere and read it. Implementing that will come in "The Future"
 
 directory node['mysql']['data_dir'] do
   owner     'mysql'
@@ -49,63 +47,92 @@ directory node['mysql']['data_dir'] do
   recursive true
 end
 
-# YOU ARE HERE
-#----
-template 'initial-my.cnf' do
-  path '/etc/my.cnf'
-  source 'my.cnf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-  notifies :start, 'service[mysql-start]', :immediately
-end
-
-# hax
-service 'mysql-start' do
-  service_name 'mysql'
-  action :nothing
-end
-
-execute '/usr/bin/mysql_install_db' do
-  action :run
-  creates '/var/lib/mysql/user.frm'
-  only_if { node['platform_version'].to_i < 6 }
-end
-
-cmd = assign_root_password_cmd
-execute 'assign-root-password' do
-  command cmd
-  action :run
-  only_if "/usr/bin/mysql -u root -e 'show databases;'"
-end
-
-template '/etc/mysql_grants.sql' do
-  source 'grants.sql.erb'
-  owner  'root'
-  group  'root'
-  mode   '0600'
+template '/etc/apparmor.d/usr.sbin.mysqld' do
+  source "usr.sbin.mysqld.erb"
   action :create
-  notifies :run, 'execute[install-grants]', :immediately
+  notifies :reload, 'service[apparmor-mysql]', :immediately
 end
 
-cmd = install_grants_cmd
-execute 'install-grants' do
-  command cmd
+service 'apparmor-mysql' do
+  service_name 'apparmor'
   action :nothing
+  supports :reload => true
 end
 
-#----
-template 'final-my.cnf' do
-  path '/etc/my.cnf'
+template '/etc/mysql/my.cnf' do
   source 'my.cnf.erb'
   owner 'root'
   group 'root'
   mode '0644'
-  notifies :reload, 'service[mysql]', :immediately
+  notifies :run, 'bash[move mysql data to datadir]', :immediately
+  notifies :reload, 'service[mysql]'
 end
+
+# don't try this at home
+# http://ubuntuforums.org/showthread.php?t=804126
+bash 'move mysql data to datadir' do
+  user 'root'
+  code <<-EOH
+  [ '/var/lib/mysql' != #{node['mysql']['data_dir']} ] &&
+  [ `stat -c %h #{node['mysql']['data_dir']}` -eq 2 ] &&
+  [ `stat -c %h /var/lib/mysql/` -eq 2 ] ||
+  /usr/sbin/service mysql stop &&
+  mv /var/lib/mysql/* #{node['mysql']['data_dir']} &&
+  /usr/sbin/service mysql start
+  EOH
+  action :nothing
+end
+
+#----
+# Grants
+#----
+# template '/etc/mysql_grants.sql' do
+#   source 'grants.sql.erb'
+#   owner  'root'
+#   group  'root'
+#   mode   '0600'
+#   notifies :run, 'execute[install-grants]', :immediately
+# end
+
+# cmd = install_grants_cmd
+# execute 'install-grants' do
+#   command cmd
+#   action :nothing
+# end
 
 service 'mysql' do
   service_name 'mysql'
   supports     :status => true, :restart => true, :reload => true
   action       [:enable, :start]
 end
+
+#----
+# node['mysql']['server']['directories'].each do |key, value|
+#   directory value do
+#     owner     'root'
+#     group     'root'
+#     action    :create
+#     recursive true
+#   end
+# end
+
+# template "/etc/mysql/debian.cnf" do
+#   source 'debian.cnf.erb'
+#   owner 'root'
+#   group 'root'
+#   mode '0600'
+# end
+
+# execute '/usr/bin/mysql_install_db' do
+#   action :run
+#   creates '/var/lib/mysql/user.frm'
+#   only_if { node['platform_version'].to_i < 6 }
+# end
+
+# cmd = assign_root_password_cmd
+# execute 'assign-root-password' do
+#   command cmd
+#   action :run
+#   only_if "/usr/bin/mysql -u root -e 'show databases;'"
+# end
+

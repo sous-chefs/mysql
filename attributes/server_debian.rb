@@ -5,7 +5,7 @@ when 'debian'
   # Keep in this namespace for backwards compat
   default['mysql']['data_dir'] = '/var/lib/mysql'
 
-  default['mysql']['server']['packages'] = ['mysql-server']
+  default['mysql']['server']['packages'] = ['mysql-server', 'apparmor-utils']
   default['mysql']['server']['slow_query_log']       = 1
   default['mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
 
@@ -22,10 +22,11 @@ when 'debian'
   default['mysql']['server']['mysql_bin']            = '/usr/bin/mysql'
 
   default['mysql']['server']['pid_file']             = '/var/run/mysqld/mysqld.pid'
-  default['mysql']['server']['socket']               = '/var/lib/mysql/mysql.sock'
+  default['mysql']['server']['socket']               = '/var/run/mysqld/mysqld.sock'
   default['mysql']['server']['grants_path']          = '/etc/mysql_grants.sql'
   default['mysql']['server']['old_passwords']        = 1
 
-  default['mysql']['tunable']['innodb_adaptive_flushing'] = true
+  # wat
+  default['mysql']['tunable']['innodb_adaptive_flushing'] = false
   default['mysql']['server']['skip_federated'] = false
 end

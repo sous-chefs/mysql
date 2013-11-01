@@ -236,7 +236,7 @@ innodb_buffer_pool_instances    = <%= node['mysql']['tunable']['innodb_buffer_po
 
 ## InnoDB Plugin Independent Settings
 innodb_data_home_dir            = <%= node['mysql']['data_dir']  %>
-innodb_log_group_home_dir       = <%= node['mysql']['log_dir']  %>
+innodb_log_group_home_dir       = <%= node['mysql']['server']['directories']['log_dir']  %>
 <%- if node['mysql']['log_files_in_group'] %>
 innodb_log_files_in_group       = <%= node['mysql']['log_files_in_group'] %>
 <%- end %>
@@ -362,10 +362,11 @@ skip-bdb
 old_passwords           = <%= node['mysql']['old_passwords'] %>
 <% end -%>
 
-<% if node['mysql']['server']['confd_dir'] -%>
+<% if node['mysql']['server']['directories']['confd_dir'] -%>
 #
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
-!includedir <%= node['mysql']['server']['confd_dir'] %>/
+!includedir <%= node['mysql']['server']['directories']['confd_dir'] %>/
 <% end -%>
+
