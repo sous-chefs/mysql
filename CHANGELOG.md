@@ -3,6 +3,18 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v4.0.0
+------
+- [COOK-3928] Heavily refactoring for readability. Moving platform implementation into separate recipes
+- Moving integration tests from minitest to serverspec, removing "improper" tests
+- Moving many attributes into the ['mysql']['server']['whatever'] namespace
+- [COOK-3481] - Merged Lucas Welsh's Windows bits and moved into own recipe
+- [COOK-3697] - Adding security hardening attributes
+- [COOK-3780] - Fixing data_dir on Debian and Ubuntu
+- [COOK-3807] - Don't use execute[assign-root-password] on Debian and Ubuntu
+- [COOK-3881] - Fixing /etc being owned by mysql user
+
+
 v3.0.12
 -------
 ### Bug
