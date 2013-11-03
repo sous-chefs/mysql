@@ -10,24 +10,28 @@ recipe            'mysql::client', 'Installs packages required for mysql clients
 recipe            'mysql::server', 'Installs packages required for mysql servers w/o manual intervention'
 recipe            'mysql::server_ec2', 'Performs EC2-specific mountpoint manipulation'
 
+# actually tested on
+supports 'redhat'
 supports 'amazon'
-supports 'debian'
 supports 'centos'
-supports 'fedora'
+supports 'debian'
+supports 'ubuntu'
+
+# code bits around, untested. remove?
 supports 'freebsd'
 supports 'mac_os_x'
-supports 'redhat'
 supports 'scientific'
 supports 'suse'
-supports 'ubuntu'
 supports 'windows'
 
 depends 'openssl',         '~> 1.1'
 depends 'build-essential', '~> 1.4'
 
+# wat
 suggests 'homebrew'
 suggests 'windows'
 
+# remove all these attributes from metadata?
 attribute 'mysql/server_root_password',
   :display_name => 'MySQL Server Root Password',
   :description => 'Randomly generated password for the mysqld root user',
