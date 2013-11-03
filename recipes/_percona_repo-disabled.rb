@@ -17,6 +17,11 @@
 # limitations under the License.
 #
 
+##################################################
+# SHOULD THIS SHOULD BE MOVED TO ITS OWN COOKBOOK?
+# A WRAPPER AROUND MYSQL THAT SETS PACKAGE NAMES?
+##################################################
+
 case node['platform_family']
 when 'debian'
   include_recipe 'apt::default'
