@@ -19,21 +19,15 @@ platforms:
 suites:
   - name: client
     run_list:
-      - recipe[minitest-handler]
       - recipe[mysql_test::client]
   - name: ruby
     run_list:
       - recipe[mysql::ruby]
   - name: server
     run_list:
-      - recipe[minitest-handler]
       - recipe[mysql_test::server]
   - name: server-nondefault-data
-    excludes:
-    - ubuntu-10.04 # https://tickets.opscode.com/browse/COOK-3780
-    - ubuntu-12.04 # https://tickets.opscode.com/browse/COOK-3780
     run_list:
-      - recipe[minitest-handler]
       - recipe[mysql_test::server]
     attributes:
       mysql:
