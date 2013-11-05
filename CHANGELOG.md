@@ -3,6 +3,14 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v4.0.2
+------
+### BUGS
+- Adding support for Amazon Linux in attributes/server_rhel.rb
+- Fixing bug where unprivileged users cannot connect over a local socket. Adding integration test.
+- Fixing bug in mysql_grants_cmd generation
+
+
 v4.0.0
 ------
 - [COOK-3928] Heavily refactoring for readability. Moving platform implementation into separate recipes
