@@ -31,13 +31,11 @@ node['mysql']['server']['packages'].each do |name|
 end
 
 node['mysql']['server']['directories'].each do |key, value|
-  log "DEBUG: #{value}"
   directory value do
     owner     'mysql'
     group     'mysql'
-    mode      '0770'
+    mode      '0775'
     action    :create
-    recursive true
   end
 end
 

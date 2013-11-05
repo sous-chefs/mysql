@@ -11,8 +11,8 @@ node['mysql']['server']['directories'].each do |key, value|
   directory value do
     owner     'mysql'
     group     'mysql'
+    mode      '0775'
     action    :create
-    recursive true
   end
 end
 
