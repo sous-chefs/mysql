@@ -36,6 +36,7 @@ node['mysql']['server']['directories'].each do |key, value|
     group     'mysql'
     mode      '0775'
     action    :create
+    recursive true
   end
 end
 
