@@ -6,7 +6,7 @@ when 'windows'
   default['mysql']['windows']['version']            = '5.5.32'
 #  default['mysql']['windows']['arch']              = 'win32'
 
-  default['mysql']['windows']['basedir']            = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['server']['packages'].first}"
+  default['mysql']['windows']['basedir']            = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['windows']['packages'].first}"
   default['mysql']['windows']['data_dir']           = "#{node['mysql']['windows']['basedir']}\\Data"
   default['mysql']['windows']['bin_dir']            = "#{node['mysql']['windows']['basedir']}\\bin"
   default['mysql']['windows']['mysqladmin_bin']     = "#{node['mysql']['windows']['bin_dir']}\\mysqladmin"
