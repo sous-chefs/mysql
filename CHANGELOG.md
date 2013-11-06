@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v4.0.4
+------
+[COOK-3952] - Adding 'recursive true' to directory resources
+
+
 v4.0.2
 ------
 ### BUGS
