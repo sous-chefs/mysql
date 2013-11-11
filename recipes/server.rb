@@ -33,9 +33,9 @@ if Chef::Config[:solo]
   end
 else
   # generate all passwords
-  node.set_unless['mysql']['server_debian_password'] = secure_password
-  node.set_unless['mysql']['server_root_password']   = secure_password
-  node.set_unless['mysql']['server_repl_password']   = secure_password
+  node['mysql']['server_debian_password'] = secure_password unless node['mysql']['server_debian_password']
+  node['mysql']['server_root_password']   = secure_password unless node['mysql']['server_root_password']
+  node['mysql']['server_repl_password']   = secure_password unless node['mysql']['server_repl_password']
   node.save
 end
 
