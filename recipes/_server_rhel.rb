@@ -36,7 +36,7 @@ end
 
 # hax
 service 'mysql-start' do
-  service_name node[:mysql][:service_name]
+  service_name node['mysql']['server']['service_name']
   action :nothing
 end
 
