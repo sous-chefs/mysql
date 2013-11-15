@@ -79,7 +79,7 @@ template 'final-my.cnf' do
 end
 
 service 'mysql' do
-  service_name node[:mysql][:service_name]
+  service_name node[:mysql][:server][:service_name]
   supports     :status => true, :restart => true, :reload => true
   action       [:enable, :start]
 end
