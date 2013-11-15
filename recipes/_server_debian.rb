@@ -74,9 +74,12 @@ directory node['mysql']['data_dir'] do
   recursive true
 end
 
-template '/etc/init/mysql.conf' do
-  source 'init-mysql.conf.erb'
-end
+# debian package still has traditional init script
+if node.platform_family == "ubuntu"
+  template '/etc/init/mysql.conf' do
+    source 'init-mysql.conf.erb'
+  end
+end 
 
 template '/etc/apparmor.d/usr.sbin.mysqld' do
   source 'usr.sbin.mysqld.erb'
