@@ -19,7 +19,7 @@ when 'rhel'
     default['mysql']['server']['packages'] = ['mysql-server']
     default['mysql']['server']['slow_query_log']       = 1
     default['mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
-  end  
+  end
 
   # Platformisms.. filesystem locations and such.
   default['mysql']['server']['basedir'] = '/usr'
@@ -37,7 +37,6 @@ when 'rhel'
   default['mysql']['server']['socket']               = '/var/lib/mysql/mysql.sock'
   default['mysql']['server']['grants_path']          = '/etc/mysql_grants.sql'
   default['mysql']['server']['old_passwords']        = 1
-  
   default['mysql']['server']['service_name']        = 'mysqld'
 
   # RHEL/CentOS mysql package does not support this option.
