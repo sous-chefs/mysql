@@ -84,11 +84,11 @@ directory node['mysql']['data_dir'] do
 end
 
 # debian package still has traditional init script
-if node.platform_family == "ubuntu"
+if node.platform_family == 'ubuntu'
   template '/etc/init/mysql.conf' do
     source 'init-mysql.conf.erb'
   end
-end 
+end
 
 template '/etc/apparmor.d/usr.sbin.mysqld' do
   source 'usr.sbin.mysqld.erb'
