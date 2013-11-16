@@ -37,6 +37,6 @@ EOF}
   not_if "echo 'SELECT count(name) FROM tv_chef' | mysql #{mysql_conn_args} --skip-column-names #{node['mysql_test']['database']} | grep '^3$'"
 end
 
-user "unprivileged" do
+user 'unprivileged' do
   action :create
 end
