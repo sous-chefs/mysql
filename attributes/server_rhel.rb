@@ -19,7 +19,7 @@ when 'rhel'
     default['mysql']['server']['packages'] = ['mysql-server']
     default['mysql']['server']['slow_query_log']       = 1
     default['mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
-  end  
+  end
 
   # Platformisms.. filesystem locations and such.
   default['mysql']['server']['basedir'] = '/usr'
