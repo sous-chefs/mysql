@@ -11,7 +11,7 @@ node['mysql']['server']['directories'].each do |key, value|
   directory value do
     owner     'mysql'
     group     'mysql'
-    mode      '0775'
+    mode      '0755'
     action    :create
     recursive true
   end
@@ -66,6 +66,7 @@ cmd = install_grants_cmd
 execute 'install-grants' do
   command cmd
   action :nothing
+  notifies :restart, 'service[mysql]', :immediately
 end
 
 #----
