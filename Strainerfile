@@ -1,0 +1,3 @@
+rubocop: bundle exec rubocop
+chefspec:   bundle exec rspec --color
+foodcritic: bundle exec foodcritic -f any . --tags ~FC007 --tags ~FC024

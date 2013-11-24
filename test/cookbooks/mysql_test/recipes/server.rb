@@ -3,14 +3,6 @@ node.override['mysql']['server_repl_password']   = 'ilikerandompasswords'
 node.override['mysql']['server_root_password']   = 'ilikerandompasswords'
 
 include_recipe 'mysql::ruby'
-include_recipe 'yum::epel' if platform_family?('rhel')
-
-file '/etc/sysconfig/network' do
-  content 'NETWORKING=yes'
-  action  :create_if_missing
-  only_if { platform_family?('rhel', 'fedora') }
-end
-
 include_recipe 'mysql::server'
 
 mysql_connection = {
@@ -21,7 +13,7 @@ mysql_connection = {
 
 mysql_database node['mysql_test']['database'] do
   connection mysql_connection
-  action     :create
+  action :create
 end
 
 mysql_database_user node['mysql_test']['username'] do
@@ -40,7 +32,11 @@ execute 'create-sample-data' do
     CREATE TABLE tv_chef (name VARCHAR(32) PRIMARY KEY);
     INSERT INTO tv_chef (name) VALUES ('Alison Holst');
     INSERT INTO tv_chef (name) VALUES ('Nigella Lawson');
-    INSERT INTO tv_chef (name) VALUES ('Paula Deen');
+    INSERT INTO tv_chef (name) VALUES ('Julia Child');
 EOF}
   not_if "echo 'SELECT count(name) FROM tv_chef' | mysql #{mysql_conn_args} --skip-column-names #{node['mysql_test']['database']} | grep '^3$'"
+end
+
+user "unprivileged" do
+  action :create
 end

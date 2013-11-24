@@ -22,14 +22,14 @@
 # Remember to edit /etc/mysql/debian.cnf when changing the socket location.
 [client]
 port            = <%= node['mysql']['port'] %>
-socket          = <%= node['mysql']['socket'] %>
+socket          = <%= node['mysql']['server']['socket'] %>
 
 # Here is entries for some specific programs
 # The following values assume you have at least 32M ram
 
 # This was formally known as [safe_mysqld]. Both versions are currently parsed.
 [mysqld_safe]
-socket          = <%= node['mysql']['socket'] %>
+socket          = <%= node['mysql']['server']['socket'] %>
 nice            = <%= node['mysql']['nice'] %>
 
 [mysqld]
@@ -44,12 +44,12 @@ nice            = <%= node['mysql']['nice'] %>
 #
 
 user            = mysql
-pid-file        = <%= node['mysql']['pid_file'] %>
-socket          = <%= node['mysql']['socket'] %>
+pid-file        = <%= node['mysql']['server']['pid_file'] %>
+socket          = <%= node['mysql']['server']['socket'] %>
 port            = <%= node['mysql']['port'] %>
-basedir         = <%= node['mysql']['basedir'] %>
+basedir         = <%= node['mysql']['server']['basedir'] %>
 datadir         = <%= node['mysql']['data_dir'] %>
-tmpdir          = <%= node['mysql']['tmpdir'].join(':') %>
+tmpdir          = <%= node['mysql']['server']['tmpdir'].join(':') %>
 skip-external-locking
 <%- if node['mysql']['tunable']['skip-name-resolve'] %>
 skip-name-resolve
@@ -146,13 +146,11 @@ log_warnings
 
 #
 # Here you can see queries with especially long duration
-<%- if node['mysql']['version'].to_f >= 5.5 %>
-<%-   if node['mysql']['tunable']['slow_query_log'] %>
+<%- if node['mysql']['server']['slow_query_log'] %>
 slow_query_log      = 1
-slow_query_log_file = <%= node['mysql']['tunable']['slow_query_log'] %>
-<%-   end %>
+slow_query_log_file = <%= node['mysql']['server']['slow_query_log_file'] %>
 <%- else %>
-log_slow_queries    = <%= node['mysql']['tunable']['slow_query_log'] %>
+log_slow_queries    = <%= node['mysql']['server']['log_slow_queries'] %>
 <%- end %>
 
 long_query_time         = <%= node['mysql']['tunable']['long_query_time'] %>
@@ -238,7 +236,7 @@ innodb_buffer_pool_instances    = <%= node['mysql']['tunable']['innodb_buffer_po
 
 ## InnoDB Plugin Independent Settings
 innodb_data_home_dir            = <%= node['mysql']['data_dir']  %>
-innodb_log_group_home_dir       = <%= node['mysql']['log_dir']  %>
+innodb_log_group_home_dir       = <%= node['mysql']['server']['directories']['log_dir']  %>
 <%- if node['mysql']['log_files_in_group'] %>
 innodb_log_files_in_group       = <%= node['mysql']['log_files_in_group'] %>
 <%- end %>
@@ -277,7 +275,7 @@ innodb_adaptive_flushing_method = <%= node['mysql']['tunable']['innodb_adaptive_
 innodb_adaptive_checkpoint = <%= node['mysql']['tunable']['innodb_adaptive_checkpoint'] %>
 <%- end %>
 
-<% if @skip_federated %>
+<% if node['mysql']['server']['skip_federated'] %>
 #
 # * Federated
 #
@@ -364,10 +362,11 @@ skip-bdb
 old_passwords           = <%= node['mysql']['old_passwords'] %>
 <% end -%>
 
-<% if node['mysql']['confd_dir'] -%>
+<% if node['mysql']['server']['directories']['confd_dir'] -%>
 #
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
-!includedir <%= node['mysql']['confd_dir'] %>/
+!includedir <%= node['mysql']['server']['directories']['confd_dir'] %>/
 <% end -%>
+

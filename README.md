@@ -4,11 +4,9 @@ mysql Cookbook
 
 Installs and configures MySQL client or server.
 
-
 Requirements
 ------------
 Chef 0.10.10+.
-
 
 Platform
 --------
@@ -18,10 +16,8 @@ Platform
 
 Tested on:
 
-- Debian 5.0, 6.0
-- Ubuntu 10.04-12.04
-- CentOS 5.5-5.8, 6.2-6.3
-- Mac OS X 10.7.2
+- Ubuntu 10.04, 12.04
+- CentOS 5.9, 6.5
 
 See TESTING.md for information about running tests in Opscode's Test Kitchen.
 
@@ -45,39 +41,31 @@ Attributes
 ----------
 See the `attributes/server.rb` or `attributes/client.rb` for default values. Several attributes have values that vary based on the node's platform and version.
 
+* `node['mysql']['port']` - Listen port for MySQLd
+* `node['mysql']['data_dir']` - Location for mysql data directory. `WARNING` This will only on initial converge. It will not move data around if you change it.
+
 * `node['mysql']['client']['packages']` - An array of package names
   that should be installed on "client" systems. This can be modified,
   e.g., to specify packages for Percona.
 * `node['mysql']['server']['packages']` - An array of package names
   that should be installed on "server" systems. This can be modified,
   e.g., to specify packages for Percona.
-
 * `node['mysql']['auto-increment-increment']` -
   auto-increment-increment value in my.cnf
-* `node['mysql']['auto-increment-offset]` - auto-increment-offset
-  value in my.cnf
-* `node['mysql']['basedir']` - Base directory where MySQL is installed
+* `node['mysql']['auto-increment-offset]` - auto-increment-offset value in my.cnf
+* `node['mysql']['server']['basedir']` - Base directory where MySQL is installed
 * `node['mysql']['bind_address']` - Listen address for MySQLd
-* `node['mysql']['conf_dir']` - Location for mysql conf directory
-* `node['mysql']['confd_dir']` - Location for mysql conf.d style
-  include directory
-* `node['mysql']['data_dir']` - Location for mysql data directory. `WARNING` see https://tickets.opscode.com/browse/COOK-3780 if using Ubuntu and changing this.
-* `node['mysql']['ec2_path']` - location of mysql data_dir on EC2
-  nodes
-* `node['mysql']['grants_path']` - Path where the grants.sql should be
-  written
+* `node['mysql']['ec2_path']` - location of mysql data_dir on EC2 nodes
+* `node['mysql']['grants_path']` - Path where the grants.sql should be written
 * `node['mysql']['mysqladmin_bin']` - Path to the mysqladmin binary
-* `node['mysql']['old_passwords']` - Sets the `old_passwords` value in
-  my.cnf.
-* `node['mysql']['pid_file']` - Path to the mysqld.pid file
-* `node['mysql']['port']` - Listen port for MySQLd
-* `node['mysql']['reload_action']` - Action to take when mysql conf
+* `node['mysql']['server']['old_passwords']` - Sets the `old_passwords` value in my.cnf.
+* `node['mysql']['server']['pid_file']` - Path to the mysqld.pid file
+
+* `node['mysql']['server']['reload_action']` - Action to take when mysql conf
   files are modified. Also allows "reload" and "none".
-* `node['mysql']['root_group']` - The default group of the "root" user
-* `node['mysql']['service_name']` - The name of the mysqld service
-* `node['mysql']['socket']` - Path to the mysqld.sock file
-* `node['mysql']['use_upstart']` - Whether to use upstart for the
-  service provider
+* `node['mysql']['server']['root_group']` - The default group of the "root" user
+* `node['mysql']['server']['service_name']` - The name of the mysqld service
+* `node['mysql']['server']['socket']` - Path to the mysqld.sock file
 * `mysql['root_network_acl']` - Set define the network the root user will be able to login from, default is nil
 
 Performance and other "tunable" attributes are under the `node['mysql']['tunable']` attribute, corresponding to the same-named parameter in my.cnf, and the default values are used. See `attributes/server.rb`.
@@ -216,6 +204,7 @@ License & Authors
 - Author:: Jesse Howarth (<him@jessehowarth.com>)
 - Author:: Andrew Crump (<andrew@kotirisoftware.com>)
 - Author:: Christoph Hartmann (<chris@lollyrock.com>)
+- Author:: Sean OMeara (<someara@opscode.com>)
 
 ```text
 Copyright:: 2009-2013 Opscode, Inc
