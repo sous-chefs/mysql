@@ -274,6 +274,15 @@ innodb_adaptive_flushing_method = <%= node['mysql']['tunable']['innodb_adaptive_
 <%- if node['mysql']['tunable']['innodb_adaptive_checkpoint'] %>
 innodb_adaptive_checkpoint = <%= node['mysql']['tunable']['innodb_adaptive_checkpoint'] %>
 <%- end %>
+<%- if node['mysql']['tunable']['innodb_change_buffering'] %>
+innodb_change_buffering = <%= node['mysql']['tunable']['innodb_change_buffering'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['innodb_doublewrite'] %>
+innodb_doublewrite = <%= node['mysql']['tunable']['innodb_doublewrite'] %>
+<%- end %>
+<%- if node['mysql']['tunable']['innodb_file_format'] %>
+innodb_file_format = <%= node['mysql']['tunable']['innodb_file_format'] %>
+<%- end %>
 
 <% if node['mysql']['server']['skip_federated'] %>
 #

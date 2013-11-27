@@ -141,6 +141,9 @@ default['mysql']['tmpdir'] = ['/tmp']
 # default['mysql']['log_dir'] = node['mysql']['data_dir']
 default['mysql']['log_files_in_group'] = false
 default['mysql']['innodb_status_file'] = false
+default['mysql']['tunable']['innodb_change_buffering'] = false
+default['mysql']['tunable']['innodb_doublewrite'] = false
+default['mysql']['tunable']['innodb_file_format'] = false
 
 unless node['platform_family'] == 'rhel' && node['platform_version'].to_i < 6
   # older RHEL platforms don't support these options
