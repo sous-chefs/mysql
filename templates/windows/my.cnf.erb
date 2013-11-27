@@ -26,8 +26,8 @@ default-character-set = latin1
 # * Basic Settings
 #
 port                      = 3306
-basedir                   = <%= node['mysql']['basedir'] %>
-datadir                   = <%= node['mysql']['data_dir'] %>
+basedir                   = <%= node['mysql']['windows']['basedir'] %>
+datadir                   = <%= node['mysql']['windows']['data_dir'] %>
 character-set-server      = latin1
 default-storage-engine    = INNODB
 sql-mode                  = "STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"

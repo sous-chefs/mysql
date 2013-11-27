@@ -3,6 +3,37 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v4.0.6
+------
+# Bug
+- [COOK-3943] Notifying service restart on grants update
+
+
+v4.0.4
+------
+[COOK-3952] - Adding 'recursive true' to directory resources
+
+
+v4.0.2
+------
+### BUGS
+- Adding support for Amazon Linux in attributes/server_rhel.rb
+- Fixing bug where unprivileged users cannot connect over a local socket. Adding integration test.
+- Fixing bug in mysql_grants_cmd generation
+
+
+v4.0.0
+------
+- [COOK-3928] Heavily refactoring for readability. Moving platform implementation into separate recipes
+- Moving integration tests from minitest to serverspec, removing "improper" tests
+- Moving many attributes into the ['mysql']['server']['whatever'] namespace
+- [COOK-3481] - Merged Lucas Welsh's Windows bits and moved into own recipe
+- [COOK-3697] - Adding security hardening attributes
+- [COOK-3780] - Fixing data_dir on Debian and Ubuntu
+- [COOK-3807] - Don't use execute[assign-root-password] on Debian and Ubuntu
+- [COOK-3881] - Fixing /etc being owned by mysql user
+
+
 v3.0.12
 -------
 ### Bug

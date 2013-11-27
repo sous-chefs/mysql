@@ -17,128 +17,20 @@
 # limitations under the License.
 #
 
+# Probably driven from wrapper cookbooks, environments, or roles.
+# Keep in this namespace for backwards compat
 default['mysql']['bind_address']               = node.attribute?('cloud') && node['cloud']['local_ipv4'] ? node['cloud']['local_ipv4'] : node['ipaddress']
 default['mysql']['port']                       = 3306
 default['mysql']['nice']                       = 0
 
-case node['platform_family']
-when 'debian'
-  default['mysql']['server']['packages']      = %w[mysql-server]
-  default['mysql']['service_name']            = 'mysql'
-  default['mysql']['basedir']                 = '/usr'
-  default['mysql']['data_dir']                = '/var/lib/mysql'
-  default['mysql']['root_group']              = 'root'
-  default['mysql']['mysqladmin_bin']          = '/usr/bin/mysqladmin'
-  default['mysql']['mysql_bin']               = '/usr/bin/mysql'
-
-  default['mysql']['conf_dir']                    = '/etc/mysql'
-  default['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
-  default['mysql']['socket']                      = '/var/run/mysqld/mysqld.sock'
-  default['mysql']['pid_file']                    = '/var/run/mysqld/mysqld.pid'
-  default['mysql']['old_passwords']               = 0
-  default['mysql']['grants_path']                 = '/etc/mysql/grants.sql'
-when 'rhel', 'fedora'
-  if node['mysql']['version'].to_f >= 5.5
-    default['mysql']['service_name']            = 'mysql'
-    default['mysql']['pid_file']                    = '/var/run/mysql/mysql.pid'
-  else
-    default['mysql']['service_name']            = 'mysqld'
-    default['mysql']['pid_file']                    = '/var/run/mysqld/mysqld.pid'
-  end
-  default['mysql']['server']['packages']      = %w[mysql-server]
-  default['mysql']['basedir']                 = '/usr'
-  default['mysql']['data_dir']                = '/var/lib/mysql'
-  default['mysql']['root_group']              = 'root'
-  default['mysql']['mysqladmin_bin']          = '/usr/bin/mysqladmin'
-  default['mysql']['mysql_bin']               = '/usr/bin/mysql'
-
-  default['mysql']['conf_dir']                    = '/etc'
-  default['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
-  default['mysql']['socket']                      = '/var/lib/mysql/mysql.sock'
-  default['mysql']['old_passwords']               = 1
-  default['mysql']['grants_path']                 = '/etc/mysql_grants.sql'
-  # RHEL/CentOS mysql package does not support this option.
-  default['mysql']['tunable']['innodb_adaptive_flushing'] = false
-when 'suse'
-  default['mysql']['service_name']            = 'mysql'
-  default['mysql']['server']['packages']      = %w[mysql-community-server]
-  default['mysql']['basedir']                 = '/usr'
-  default['mysql']['data_dir']                = '/var/lib/mysql'
-  default['mysql']['root_group']              = 'root'
-  default['mysql']['mysqladmin_bin']          = '/usr/bin/mysqladmin'
-  default['mysql']['mysql_bin']               = '/usr/bin/mysql'
-  default['mysql']['conf_dir']                = '/etc'
-  default['mysql']['confd_dir']               = '/etc/mysql/conf.d'
-  default['mysql']['socket']                  = '/var/run/mysql/mysql.sock'
-  default['mysql']['pid_file']                = '/var/run/mysql/mysqld.pid'
-  default['mysql']['old_passwords']           = 1
-  default['mysql']['grants_path']             = '/etc/mysql_grants.sql'
-when 'freebsd'
-  default['mysql']['server']['packages']      = %w[mysql55-server]
-  default['mysql']['service_name']            = 'mysql-server'
-  default['mysql']['basedir']                 = '/usr/local'
-  default['mysql']['data_dir']                = '/var/db/mysql'
-  default['mysql']['root_group']              = 'wheel'
-  default['mysql']['mysqladmin_bin']          = '/usr/local/bin/mysqladmin'
-  default['mysql']['mysql_bin']               = '/usr/local/bin/mysql'
-
-  default['mysql']['conf_dir']                    = '/usr/local/etc'
-  default['mysql']['confd_dir']                   = '/usr/local/etc/mysql/conf.d'
-  default['mysql']['socket']                      = '/tmp/mysqld.sock'
-  default['mysql']['pid_file']                    = '/var/run/mysqld/mysqld.pid'
-  default['mysql']['old_passwords']               = 0
-  default['mysql']['grants_path']                 = '/var/db/mysql/grants.sql'
-when 'windows'
-  default['mysql']['server']['packages']      = ['MySQL Server 5.5']
-  default['mysql']['version']                 = '5.5.32'
-  default['mysql']['arch']                    = 'win32'
-  default['mysql']['package_file']            = "mysql-#{mysql['version']}-#{mysql['arch']}.msi"
-  default['mysql']['url']                     = "http://www.mysql.com/get/Downloads/MySQL-5.5/#{mysql['package_file']}/from/http://mysql.mirrors.pair.com/"
-
-  default['mysql']['service_name']            = 'mysql'
-  default['mysql']['basedir']                 = "#{ENV['SYSTEMDRIVE']}\\Program Files (x86)\\MySQL\\#{mysql['server']['packages'].first}"
-  default['mysql']['data_dir']                = "#{node['mysql']['basedir']}\\Data"
-  default['mysql']['bin_dir']                 = "#{node['mysql']['basedir']}\\bin"
-  default['mysql']['mysqladmin_bin']          = "#{node['mysql']['bin_dir']}\\mysqladmin"
-  default['mysql']['mysql_bin']               = "#{node['mysql']['bin_dir']}\\mysql"
-
-  default['mysql']['conf_dir']                = node['mysql']['basedir']
-  default['mysql']['old_passwords']           = 0
-  default['mysql']['grants_path']             = "#{node['mysql']['conf_dir']}\\grants.sql"
-when 'mac_os_x'
-  default['mysql']['server']['packages']      = %w[mysql]
-  default['mysql']['basedir']                 = '/usr/local/Cellar'
-  default['mysql']['data_dir']                = '/usr/local/var/mysql'
-  default['mysql']['root_group']              = 'admin'
-  default['mysql']['mysqladmin_bin']          = '/usr/local/bin/mysqladmin'
-  default['mysql']['mysql_bin']               = '/usr/local/bin/mysql'
-else
-  default['mysql']['server']['packages']      = %w[mysql-server]
-  default['mysql']['service_name']            = 'mysql'
-  default['mysql']['basedir']                 = '/usr'
-  default['mysql']['data_dir']                = '/var/lib/mysql'
-  default['mysql']['root_group']              = 'root'
-  default['mysql']['mysqladmin_bin']          = '/usr/bin/mysqladmin'
-  default['mysql']['mysql_bin']               = '/usr/bin/mysql'
-
-  default['mysql']['conf_dir']                    = '/etc/mysql'
-  default['mysql']['confd_dir']                   = '/etc/mysql/conf.d'
-  default['mysql']['socket']                      = '/var/run/mysqld/mysqld.sock'
-  default['mysql']['pid_file']                    = '/var/run/mysqld/mysqld.pid'
-  default['mysql']['old_passwords']               = 0
-  default['mysql']['grants_path']                 = '/etc/mysql/grants.sql'
-end
-
+# eventually remove?  where is this used?
 if attribute?('ec2')
   default['mysql']['ec2_path']    = '/mnt/mysql'
   default['mysql']['ebs_vol_dev'] = '/dev/sdi'
   default['mysql']['ebs_vol_size'] = 50
 end
 
-default['mysql']['reload_action'] = 'restart' # or 'reload' or 'none'
-
-default['mysql']['use_upstart'] = node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 10.04
-
+# actual configs start here
 default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1
 
@@ -168,7 +60,6 @@ default['mysql']['tunable']['net_write_timeout']    = '30'
 default['mysql']['tunable']['table_cache']          = '128'
 default['mysql']['tunable']['table_open_cache']     = node['mysql']['tunable']['table_cache'] # table_cache is deprecated
                                                                                               # in favor of table_open_cache
-
 default['mysql']['tunable']['thread_cache_size']    = 8
 default['mysql']['tunable']['thread_concurrency']   = 10
 default['mysql']['tunable']['thread_stack']         = '256K'
@@ -240,18 +131,14 @@ default['mysql']['tunable']['transaction-isolation'] = nil
 default['mysql']['tunable']['query_cache_limit']    = '1M'
 default['mysql']['tunable']['query_cache_size']     = '16M'
 
-default['mysql']['tunable']['log_slow_queries']     = '/var/log/mysql/slow.log'
-default['mysql']['tunable']['slow_query_log']       = node['mysql']['tunable']['log_slow_queries'] # log_slow_queries is deprecated
-                                                                                                   # in favor of slow_query_log
 default['mysql']['tunable']['long_query_time']      = 2
-
 default['mysql']['tunable']['expire_logs_days']     = 10
 default['mysql']['tunable']['max_binlog_size']      = '100M'
 default['mysql']['tunable']['binlog_cache_size']    = '32K'
 
 default['mysql']['tmpdir'] = ['/tmp']
 
-default['mysql']['log_dir'] = node['mysql']['data_dir']
+# default['mysql']['log_dir'] = node['mysql']['data_dir']
 default['mysql']['log_files_in_group'] = false
 default['mysql']['innodb_status_file'] = false
 

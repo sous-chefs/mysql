@@ -4,30 +4,34 @@ maintainer_email  'cookbooks@opscode.com'
 license           'Apache 2.0'
 description       'Installs and configures mysql for client or server'
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           '3.0.13'
+version           '4.0.7'
 recipe            'mysql', 'Includes the client recipe to configure a client'
 recipe            'mysql::client', 'Installs packages required for mysql clients using run_action magic'
 recipe            'mysql::server', 'Installs packages required for mysql servers w/o manual intervention'
 recipe            'mysql::server_ec2', 'Performs EC2-specific mountpoint manipulation'
 
+# actually tested on
+supports 'redhat'
 supports 'amazon'
-supports 'debian'
 supports 'centos'
-supports 'fedora'
+supports 'debian'
+supports 'ubuntu'
+
+# code bits around, untested. remove?
 supports 'freebsd'
 supports 'mac_os_x'
-supports 'redhat'
 supports 'scientific'
 supports 'suse'
-supports 'ubuntu'
 supports 'windows'
 
 depends 'openssl',         '~> 1.1'
 depends 'build-essential', '~> 1.4'
 
+# wat
 suggests 'homebrew'
 suggests 'windows'
 
+# remove all these attributes from metadata?
 attribute 'mysql/server_root_password',
   :display_name => 'MySQL Server Root Password',
   :description => 'Randomly generated password for the mysqld root user',
