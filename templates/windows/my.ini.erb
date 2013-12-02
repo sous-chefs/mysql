@@ -56,10 +56,10 @@ max_allowed_packet        = <%= node['mysql']['tunable']['max_allowed_packet'] %
 
 #
 # Here you can see queries with especially long duration
-<%- if node['mysql']['version'].to_f >= 5.5 %>
-slow_query_log            = <%= node['mysql']['tunable']['slow_query_log'] %>
+<%- if node['mysql']['windows']['version'].to_f >= 5.5 %>
+slow_query_log            = <%= node['mysql']['server']['slow_query_log'] %>
 <% else %>
-log_slow_queries          = <%= node['mysql']['tunable']['slow_query_log'] %>
+log_slow_queries          = <%= node['mysql']['server']['slow_query_log'] %>
 <% end %>
 
 long_query_time           = <%= node['mysql']['tunable']['long_query_time'] %>
