@@ -160,7 +160,7 @@ On server nodes, use the server recipe:
 { "run_list": ["recipe[mysql::server]"] }
 ```
 
-On Debian and Ubuntu, this will preseed the mysql-server package with the randomly generated root password in the recipe file. On other platforms, it simply installs the required packages. It will also create an SQL file, `/etc/mysql/grants.sql`, that will be used to set up grants for the root, repl and debian-sys-maint users.
+On Debian and Ubuntu, this will preseed the mysql-server package with the randomly generated root password in the recipe file. On other platforms, it simply installs the required packages. It will also create an SQL file, `/etc/mysql_grants.sql`, that will be used to set up grants for the root, repl and debian-sys-maint users.
 
 The recipe will perform a `node.save` unless it is run under `chef-solo` after the password attributes are used to ensure that in the event of a failed run, the saved attributes would be used.
 
