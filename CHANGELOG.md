@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v4.0.8
+------
+Locking yum dependency to '< 3'
+
+
 v4.0.6
 ------
 # Bug
