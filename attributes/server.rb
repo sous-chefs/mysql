@@ -128,6 +128,7 @@ default['mysql']['tunable']['skip-innodb-doublewrite']         = false
 
 default['mysql']['tunable']['transaction-isolation'] = nil
 
+default['mysql']['tunable']['query_cache_type']    = '0'
 default['mysql']['tunable']['query_cache_limit']    = '1M'
 default['mysql']['tunable']['query_cache_size']     = '16M'
 
