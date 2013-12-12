@@ -30,6 +30,13 @@ node['mysql']['server']['packages'].each do |name|
   end
 end
 
+ruby_block "set_mysql_version" do
+  block do
+    node.default["mysql"]["version"] = `dpkg -l | grep mysql-server-c | awk '{print $3}' | egrep -o '^[0-9].[0-9]'`
+  end
+end
+
+
 node['mysql']['server']['directories'].each do |key, value|
   directory value do
     owner     'mysql'
