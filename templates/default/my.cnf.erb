@@ -104,7 +104,7 @@ wait_timeout            = <%= node['mysql']['tunable']['wait_timeout'] %>
 net_read_timeout        = <%= node['mysql']['tunable']['net_read_timeout'] %>
 net_write_timeout       = <%= node['mysql']['tunable']['net_write_timeout'] %>
 back_log                = <%= node['mysql']['tunable']['back_log'] %>
-<%- if node['mysql']['version'].to_f >= 5.6 %>
+<%- if node['mysql']['version'].to_f >= 5.1 %>
 table_open_cache        = <%= node['mysql']['tunable']['table_open_cache'] %>
 <%- else %>
 table_cache             = <%= node['mysql']['tunable']['table_open_cache'] %>
