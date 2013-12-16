@@ -23,11 +23,13 @@ default['mysql']['bind_address']               = node.attribute?('cloud') && nod
 default['mysql']['port']                       = 3306
 default['mysql']['nice']                       = 0
 
+default['mysql']['server']['type']       = "none"
+
 # eventually remove?  where is this used?
 if attribute?('ec2')
-  default['mysql']['ec2_path']    = '/mnt/mysql'
-  default['mysql']['ebs_vol_dev'] = '/dev/sdi'
-  default['mysql']['ebs_vol_size'] = 50
+	default['mysql']['ec2_path']    = '/mnt/mysql'
+	default['mysql']['ebs_vol_dev'] = '/dev/sdi'
+	default['mysql']['ebs_vol_size'] = 50
 end
 
 # actual configs start here
@@ -35,9 +37,10 @@ default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1
 
 default['mysql']['allow_remote_root']               = false
-default['mysql']['remove_anonymous_users']          = false
+default['mysql']['remove_anonymous_users']          = true
 default['mysql']['remove_test_database']            = false
 default['mysql']['root_network_acl']                = nil
+default['mysql']['server']['pid-file'] = '/var/lib/mysql/mysql.pid'
 default['mysql']['tunable']['character-set-server'] = 'utf8'
 default['mysql']['tunable']['collation-server']     = 'utf8_general_ci'
 default['mysql']['tunable']['lower_case_table_names']  = nil
@@ -59,7 +62,7 @@ default['mysql']['tunable']['net_read_timeout']     = '30'
 default['mysql']['tunable']['net_write_timeout']    = '30'
 default['mysql']['tunable']['table_cache']          = '128'
 default['mysql']['tunable']['table_open_cache']     = node['mysql']['tunable']['table_cache'] # table_cache is deprecated
-                                                                                              # in favor of table_open_cache
+# in favor of table_open_cache
 default['mysql']['tunable']['thread_cache_size']    = 8
 default['mysql']['tunable']['thread_concurrency']   = 10
 default['mysql']['tunable']['thread_stack']         = '256K'
@@ -97,7 +100,7 @@ default['mysql']['tunable']['skip_slave_start']                = false
 default['mysql']['tunable']['read_only']                       = false
 
 default['mysql']['tunable']['log_error']                       = nil
-default['mysql']['tunable']['log_warnings']                    = false
+default['mysql']['tunable']['log_warnings']                    = true
 default['mysql']['tunable']['log_queries_not_using_index']     = true
 default['mysql']['tunable']['log_bin_trust_function_creators'] = false
 
@@ -113,13 +116,13 @@ default['mysql']['tunable']['innodb_io_capacity']              = '200'
 default['mysql']['tunable']['innodb_file_per_table']           = true
 default['mysql']['tunable']['innodb_lock_wait_timeout']        = '60'
 if node['cpu'].nil? || node['cpu']['total'].nil?
-  default['mysql']['tunable']['innodb_thread_concurrency']       = '8'
-  default['mysql']['tunable']['innodb_commit_concurrency']       = '8'
-  default['mysql']['tunable']['innodb_read_io_threads']          = '8'
+	default['mysql']['tunable']['innodb_thread_concurrency']       = '8'
+	default['mysql']['tunable']['innodb_commit_concurrency']       = '8'
+	default['mysql']['tunable']['innodb_read_io_threads']          = '8'
 else
-  default['mysql']['tunable']['innodb_thread_concurrency']       = (node['cpu']['total'].to_i * 2).to_s
-  default['mysql']['tunable']['innodb_commit_concurrency']       = (node['cpu']['total'].to_i * 2).to_s
-  default['mysql']['tunable']['innodb_read_io_threads']          = (node['cpu']['total'].to_i * 2).to_s
+	default['mysql']['tunable']['innodb_thread_concurrency']       = (node['cpu']['total'].to_i * 2).to_s
+	default['mysql']['tunable']['innodb_commit_concurrency']       = (node['cpu']['total'].to_i * 2).to_s
+	default['mysql']['tunable']['innodb_read_io_threads']          = (node['cpu']['total'].to_i * 2).to_s
 end
 default['mysql']['tunable']['innodb_flush_log_at_trx_commit']  = '1'
 default['mysql']['tunable']['innodb_support_xa']               = true
@@ -128,9 +131,12 @@ default['mysql']['tunable']['skip-innodb-doublewrite']         = false
 
 default['mysql']['tunable']['transaction-isolation'] = nil
 
-default['mysql']['tunable']['query_cache_limit']    = '1M'
-default['mysql']['tunable']['query_cache_size']     = '16M'
+unless ( node['mysql']['server']['type'] =~ /percona/)
 
+	default['mysql']['tunable']['query_cache_limit']    = '1M'
+	default['mysql']['tunable']['query_cache_size']     = '16M'
+
+end
 default['mysql']['tunable']['long_query_time']      = 2
 default['mysql']['tunable']['expire_logs_days']     = 10
 default['mysql']['tunable']['max_binlog_size']      = '100M'
@@ -143,9 +149,9 @@ default['mysql']['log_files_in_group'] = false
 default['mysql']['innodb_status_file'] = false
 
 unless node['platform_family'] == 'rhel' && node['platform_version'].to_i < 6
-  # older RHEL platforms don't support these options
-  default['mysql']['tunable']['event_scheduler']  = 0
-  default['mysql']['tunable']['binlog_format']    = 'statement' if node['mysql']['tunable']['log_bin']
+	# older RHEL platforms don't support these options
+	default['mysql']['tunable']['event_scheduler']  = 0
+	default['mysql']['tunable']['binlog_format']    = 'statement' if node['mysql']['tunable']['log_bin']
 end
 
 # security options
