@@ -175,8 +175,9 @@ log_bin_trust_function_creators
 expire_logs_days        = <%= node['mysql']['tunable']['expire_logs_days'] %>
 max_binlog_size         = <%= node['mysql']['tunable']['max_binlog_size'] %>
 binlog_cache_size       = <%= node['mysql']['tunable']['binlog_cache_size'] %>
-#binlog_do_db           = include_database_name
-#binlog_ignore_db       = include_database_name
+binlog_do_db            = <%= node['mysql']['tunable']['binlog_do_db'] %> 
+binlog_ignore_db        = <%= node['mysql']['tunable']['binlog_ignore_db'] %>
+ 
 <%- if node['mysql']['tunable']['relay_log'] %>
 relay_log               = <%= node['mysql']['tunable']['relay_log'] %>
 <%- end %>

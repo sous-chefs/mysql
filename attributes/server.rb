@@ -80,6 +80,8 @@ default['mysql']['tunable']['slave_compressed_protocol']       = 0
 default['mysql']['tunable']['server_id']                       = nil
 default['mysql']['tunable']['log_bin']                         = nil
 default['mysql']['tunable']['log_bin_trust_function_creators'] = false
+default['mysql']['tunable']['binlog_do_db']                    = nil
+default['mysql']['tunable']['binlog_ignore_db']                = nil
 
 default['mysql']['tunable']['relay_log']                       = nil
 default['mysql']['tunable']['relay_log_index']                 = nil
