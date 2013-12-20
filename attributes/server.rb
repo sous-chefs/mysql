@@ -83,6 +83,14 @@ default['mysql']['tunable']['log_bin_trust_function_creators'] = false
 default['mysql']['tunable']['binlog_do_db']                    = nil
 default['mysql']['tunable']['binlog_ignore_db']                = nil
 
+default['mysql']['tunable']['slave_mode']                      = false
+default['mysql']['tunable']['master_host']                     = nil
+default['mysql']['tunable']['master_port']                     = 3306
+default['mysql']['tunable']['master-user']                     = nil
+default['mysql']['tunable']['master-password']                 = nil
+default['mysql']['tunable']['master-connect-retry']            = 60
+default['mysql']['tunable']['skip-slave-start']                = false
+
 default['mysql']['tunable']['relay_log']                       = nil
 default['mysql']['tunable']['relay_log_index']                 = nil
 default['mysql']['tunable']['log_slave_updates']               = false
