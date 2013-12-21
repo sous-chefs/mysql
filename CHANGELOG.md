@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v4.0.14
+-------
+Fixing style cops
+
+
 v4.0.12
 -------
 ### Bug
