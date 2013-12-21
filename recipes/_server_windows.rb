@@ -22,7 +22,7 @@ end
 template 'my.ini' do
   path "#{node['mysql']['windows']['bin_dir']}\\my.ini"
   source 'my.ini.erb'
-  notifies :restart, "service[mysql]"
+  notifies :restart, 'service[mysql]'
 end
 
 execute 'install mysql service' do
@@ -40,7 +40,7 @@ execute 'assign-root-password' do
   action :run
   # only_if %Q["#{node['mysql']['windows']['mysql_bin']}" -u root -e 'show databases;'] # unreliable due to CHEF-4783; always returns 0 when run in Chef
   not_if { node['mysql']['root_password_set'] }
-  notifies :run, "ruby_block[root-password-set]", :immediately
+  notifies :run, 'ruby_block[root-password-set]', :immediately
 end
 
 ruby_block 'root-password-set' do
@@ -55,7 +55,7 @@ grants_path = node['mysql']['windows']['grants_path']
 template grants_path do
   source 'grants.sql.erb'
   action :create
-  notifies :run, "execute[mysql-install-privileges]", :immediately
+  notifies :run, 'execute[mysql-install-privileges]', :immediately
 end
 
 execute 'mysql-install-privileges' do
