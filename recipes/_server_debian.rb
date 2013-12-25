@@ -57,6 +57,14 @@ execute 'install-grants' do
   action :nothing
 end
 
+template '/etc/mysql/debian.cnf' do
+  source 'debian.cnf.erb'
+  owner 'root'
+  group 'root'
+  mode '0600'
+  notifies :reload, 'service[mysql]'
+end
+
 #----
 # data_dir
 #----
