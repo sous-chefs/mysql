@@ -26,7 +26,7 @@ end script
 exec /usr/sbin/mysqld
 
 post-start script
-   for i in `seq 1 30` ; do
+    for i in `seq 1 30` ; do
         /usr/bin/mysqladmin --defaults-file="${HOME}"/debian.cnf ping && {
             exec "${HOME}"/debian-start
             # should not reach this line
