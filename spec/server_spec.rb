@@ -5,6 +5,7 @@ describe 'mysql::server' do
   let(:centos6_run) { ChefSpec::Runner.new(platform: 'centos', version: '6.4').converge(described_recipe) }
   let(:ubuntu_1004_run) { ChefSpec::Runner.new(platform: 'ubuntu', version: '10.04').converge(described_recipe) }
   let(:ubuntu_1204_run) { ChefSpec::Runner.new(platform: 'ubuntu', version: '10.04').converge(described_recipe) }
+  let(:ubuntu_1304_run) { ChefSpec::Runner.new(platform: 'ubuntu', version: '13.04').converge(described_recipe) }
 
   it 'includes _server_rhel on centos5' do
     expect(centos5_run).to include_recipe('mysql::_server_rhel')
