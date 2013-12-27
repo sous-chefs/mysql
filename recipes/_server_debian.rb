@@ -94,10 +94,21 @@ template '/etc/mysql/my.cnf' do
   source 'my.cnf.erb'
   owner 'root'
   group 'root'
+  mode '0400'
+  notifies :run, 'bash[move mysql data to datadir]', :immediately
+  notifies :reload, 'service[mysql]'
+end
+
+template '/etc/mysql/debian.cnf' do
+  source 'debian.cnf.erb'
+  owner 'root'
+  group 'root'
   mode '0644'
   notifies :run, 'bash[move mysql data to datadir]', :immediately
   notifies :reload, 'service[mysql]'
 end
+
+
 
 # don't try this at home
 # http://ubuntuforums.org/showthread.php?t=804126
