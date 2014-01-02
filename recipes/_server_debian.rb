@@ -30,14 +30,28 @@ node['mysql']['server']['packages'].each do |name|
   end
 end
 
-node['mysql']['server']['directories'].each do |key, value|
-  directory value do
-    owner     'mysql'
-    group     'mysql'
-    mode      '0775'
-    action    :create
-    recursive true
-  end
+# the original loop in the mysql cookbook set a lot of loose permissions
+# instead lets match them up with how debian sets them by default
+directory node['mysql']['server']['directories']['log_dir'] do
+  owner     'mysql'
+  group     'mysql'
+  mode      '0700'
+  action    :create
+  recursive true
+end
+directory node['mysql']['server']['directories']['slow_log_dir'] do
+  owner     'mysql'
+  group     'adm'
+  mode      '2750'
+  action    :create
+  recursive true
+end
+directory node['mysql']['server']['directories']['confd_dir'] do
+  owner     'root'
+  group     'root'
+  mode      '755'
+  action    :create
+  recursive true
 end
 
 #----
