@@ -30,14 +30,28 @@ node['mysql']['server']['packages'].each do |name|
   end
 end
 
-node['mysql']['server']['directories'].each do |key, value|
-  directory value do
-    owner     'mysql'
-    group     'mysql'
-    mode      '0775'
-    action    :create
-    recursive true
-  end
+# the original loop in the mysql cookbook set a lot of loose permissions
+# instead lets match them up with how debian sets them by default
+directory node['mysql']['server']['directories']['log_dir'] do
+  owner     'mysql'
+  group     'mysql'
+  mode      '0700'
+  action    :create
+  recursive true
+end
+directory node['mysql']['server']['directories']['slow_log_dir'] do
+  owner     'mysql'
+  group     'adm'
+  mode      '2750'
+  action    :create
+  recursive true
+end
+directory node['mysql']['server']['directories']['confd_dir'] do
+  owner     'root'
+  group     'root'
+  mode      '755'
+  action    :create
+  recursive true
 end
 
 #----
@@ -57,6 +71,15 @@ execute 'install-grants' do
   action :nothing
 end
 
+# by this point we've changed the debian-sys-maint password, we need to update the template
+template '/etc/mysql/debian.cnf' do
+  source 'debian.cnf.erb'
+  owner 'root'
+  group 'root'
+  mode '0600'
+  notifies :reload, 'service[mysql]'
+end
+
 #----
 # data_dir
 #----
@@ -74,8 +97,10 @@ directory node['mysql']['data_dir'] do
   recursive true
 end
 
+# debian package still has traditional init script
 template '/etc/init/mysql.conf' do
   source 'init-mysql.conf.erb'
+  only_if { node['platform_family'] == 'ubuntu' }
 end
 
 template '/etc/apparmor.d/usr.sbin.mysqld' do
