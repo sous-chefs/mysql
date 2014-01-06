@@ -130,6 +130,8 @@ default['mysql']['tunable']['transaction-isolation'] = nil
 
 default['mysql']['tunable']['query_cache_limit']    = '1M'
 default['mysql']['tunable']['query_cache_size']     = '16M'
+default['mysql']['tunable']['query_cache_type']     = 1 # activate query cache by default
+
 
 default['mysql']['tunable']['long_query_time']      = 2
 default['mysql']['tunable']['expire_logs_days']     = 10
