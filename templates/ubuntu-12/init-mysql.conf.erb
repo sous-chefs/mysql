@@ -20,7 +20,7 @@ pre-start script
     [ -r $HOME/my.cnf ]
     [ -d /var/run/mysqld ] || install -m 755 -o mysql -g root -d /var/run/mysqld
     /lib/init/apparmor-profile-load usr.sbin.mysqld
-    LC_ALL=C BLOCKSIZE= df --portability <%= node['mysql']['data_dir'] >/. | tail -n 1 | awk '{ exit ($4<4096) }'
+    LC_ALL=C BLOCKSIZE= df --portability <%= node['mysql']['data_dir'] %>/. | tail -n 1 | awk '{ exit ($4<4096) }'
 end script
 
 exec /usr/sbin/mysqld
