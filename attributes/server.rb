@@ -112,6 +112,7 @@ default['mysql']['tunable']['innodb_write_io_threads']         = '4'
 default['mysql']['tunable']['innodb_io_capacity']              = '200'
 default['mysql']['tunable']['innodb_file_per_table']           = true
 default['mysql']['tunable']['innodb_lock_wait_timeout']        = '60'
+default['mysql']['tunable']['innodb_rollback_on_timeout']      = false
 if node['cpu'].nil? || node['cpu']['total'].nil?
   default['mysql']['tunable']['innodb_thread_concurrency']       = '8'
   default['mysql']['tunable']['innodb_commit_concurrency']       = '8'
