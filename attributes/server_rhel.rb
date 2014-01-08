@@ -37,6 +37,7 @@ when 'rhel'
   default['mysql']['server']['socket']               = '/var/lib/mysql/mysql.sock'
   default['mysql']['server']['grants_path']          = '/etc/mysql_grants.sql'
   default['mysql']['server']['old_passwords']        = 1
+  default['mysql']['server']['service_name']        = 'mysqld'
 
   # RHEL/CentOS mysql package does not support this option.
   default['mysql']['tunable']['innodb_adaptive_flushing'] = false
