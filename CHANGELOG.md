@@ -3,6 +3,12 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v4.0.18 (2014-01-09)
+--------------------
+[COOK-3998] - Mysql cookbook not honoring node['mysql']['server_name']
+on rhel
+
+
 v4.0.14
 -------
 Fixing style cops
