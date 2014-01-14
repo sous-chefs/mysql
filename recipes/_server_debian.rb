@@ -96,7 +96,7 @@ template '/etc/mysql/my.cnf' do
   group 'root'
   mode '0644'
   notifies :run, 'bash[move mysql data to datadir]', :immediately
-  notifies :reload, 'service[mysql]'
+  notifies :restart, 'service[mysql]'
 end
 
 # don't try this at home
