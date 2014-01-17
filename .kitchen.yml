@@ -1,28 +1,73 @@
+---
 driver_plugin: vagrant
+driver_plugin: digitalocean
 driver_config:
-  require_chef_omnibus: true
+  digitalocean_client_id: <%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>
+  digitalocean_api_key: <%= ENV['DIGITAL_OCEAN_API_KEY'] %>
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %> 
+  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
+  ssh_key: <%= ENV['AWS_PRIVATE_KEY_PATH'] %>
+  rackspace_username: <%= ENV['RACKSPACE_USERNAME'] %>
+  rackspace_api_key: <%= ENV['RACKSPACE_API_KEY'] %>
+  require_chef_omnibus: latest
 
 platforms:
-  - name: ubuntu-12.04
+# - name: centos-5.8
+#   driver_plugin: digitalocean
+#   driver_config:
+#     image_id: 1601
+#     flavor_id: 63
+#     region_id: 1
+#     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+#     run_list:
+#       - recipe[yum::epel]
+
+- name: centos-6.4
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 562354
+    flavor_id: 63
+    region_id: 1
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    # run_list:
+    #   - recipe[yum::epel]
+
+- name: amazon-2013.09
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-3be4bc52
+    username: ec2-user
+    # run_list:
+    #   - recipe[yum::epel]
+
+# - name: ubuntu-10.04
+#   driver_plugin: digitalocean
+#   driver_config:
+#     image_id: 14097
+#     flavor_id: 63
+#     region_id: 1
+#     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+#     run_list:
+#       - recipe[apt::default]
+
+- name: ubuntu-12.04
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 1505447
+    flavor_id: 63
+    region_id: 1
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     run_list:
       - recipe[apt::default]
-  - name: ubuntu-10.04
-    run_list:
-      - recipe[apt::default]
-  - name: centos-6.4
-    run_list:
-      - recipe[yum::epel]
-  - name: centos-5.9
-    run_list:
-      - recipe[yum::epel]
 
 suites:
-  - name: client
-    run_list:
-      - recipe[mysql_test::client]
-  - name: ruby
-    run_list:
-      - recipe[mysql::ruby]
+  # - name: client
+  #   run_list:
+  #     - recipe[mysql_test::client]
+  # - name: ruby
+  #   run_list:
+  #     - recipe[mysql::ruby]
   - name: server
     run_list:
       - recipe[mysql_test::server]
