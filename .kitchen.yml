@@ -41,15 +41,15 @@ platforms:
     # run_list:
     #   - recipe[yum::epel]
 
-# - name: ubuntu-10.04
-#   driver_plugin: digitalocean
-#   driver_config:
-#     image_id: 14097
-#     flavor_id: 63
-#     region_id: 1
-#     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-#     run_list:
-#       - recipe[apt::default]
+- name: debian-70
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 308287
+    flavor_id: 63
+    region_id: 4
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+  run_list:
+  - recipe[apt]
 
 - name: ubuntu-12.04
   driver_plugin: digitalocean
@@ -60,6 +60,16 @@ platforms:
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     run_list:
       - recipe[apt::default]
+
+- name: ubuntu-1310
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 1505699
+    flavor_id: 63
+    region_id: 4
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+  run_list:
+  - recipe[apt]
 
 suites:
   # - name: client
