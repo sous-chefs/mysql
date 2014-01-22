@@ -24,9 +24,14 @@ end
 #----
 # Install software
 #----
+# Do not install the 'mysql-server' package here as it should be installed after
+# the my.cnf file is created. This is required in order to have the innodb log file
+# created with the correct size set in my.cnf. The :install action of
+# package[mysql-server] resource is notified by the template[/etc/mysql/my.cnf].
+#
 node['mysql']['server']['packages'].each do |name|
   package name do
-    action :install
+    action name == 'mysql-server' ? :nothing : :install
   end
 end
 
@@ -38,6 +43,31 @@ node['mysql']['server']['directories'].each do |key, value|
     action    :create
     recursive true
   end
+end
+
+template '/etc/mysql/my.cnf' do
+  source 'my.cnf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :install, 'package[mysql-server]', :immediately
+  notifies :run, 'bash[move mysql data to datadir]', :immediately
+  notifies :reload, 'service[mysql]'
+end
+
+# don't try this at home
+# http://ubuntuforums.org/showthread.php?t=804126
+bash 'move mysql data to datadir' do
+  user 'root'
+  code <<-EOH
+  /usr/sbin/service mysql stop &&
+  mv /var/lib/mysql/* #{node['mysql']['data_dir']} &&
+  /usr/sbin/service mysql start
+  EOH
+  action :nothing
+  only_if "[ '/var/lib/mysql' != #{node['mysql']['data_dir']} ]"
+  only_if "[ `stat -c %h #{node['mysql']['data_dir']}` -eq 2 ]"
+  not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
 end
 
 #----
@@ -99,29 +129,6 @@ service 'apparmor-mysql' do
   supports :reload => true
 end
 
-template '/etc/mysql/my.cnf' do
-  source 'my.cnf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-  notifies :run, 'bash[move mysql data to datadir]', :immediately
-  notifies :reload, 'service[mysql]'
-end
-
-# don't try this at home
-# http://ubuntuforums.org/showthread.php?t=804126
-bash 'move mysql data to datadir' do
-  user 'root'
-  code <<-EOH
-  /usr/sbin/service mysql stop &&
-  mv /var/lib/mysql/* #{node['mysql']['data_dir']} &&
-  /usr/sbin/service mysql start
-  EOH
-  action :nothing
-  only_if "[ '/var/lib/mysql' != #{node['mysql']['data_dir']} ]"
-  only_if "[ `stat -c %h #{node['mysql']['data_dir']}` -eq 2 ]"
-  not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
-end
 
 service 'mysql' do
   service_name 'mysql'
