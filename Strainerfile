@@ -1,6 +1,9 @@
 # Strainerfile
 knife_test: bundle exec knife cookbook test $COOKBOOK -o $SANDBOX -z
-rubocop:    bundle exec rubocop --no-color
+
+# Rubocop needs to be passed $SANDBOX/$COOKBOOK or else it will check all the cookbook
+#   dependencies populated by Berkshelf as well.
+rubocop:    bundle exec rubocop --no-color $SANDBOX/$COOKBOOK
 foodcritic: bundle exec foodcritic -f any $SANDBOX/$COOKBOOK
 chefspec:   bundle exec rspec
 kitchen:    bundle exec kitchen test --destroy always
