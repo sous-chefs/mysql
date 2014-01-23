@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: mysql
+# Cookbook Name:: rackspace_mysql
 # Recipe:: percona_repo
 #
 # Copyright 2008-2009, Opscode, Inc.
+# Copyright 2014, Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,27 +18,27 @@
 # limitations under the License.
 #
 
-##################################################
-# SHOULD THIS SHOULD BE MOVED TO ITS OWN COOKBOOK?
-# A WRAPPER AROUND MYSQL THAT SETS PACKAGE NAMES?
-##################################################
+####################################################
+# SHOULD THIS SHOULD BE MOVED TO ITS OWN COOKBOOK? #
+# A WRAPPER AROUND MYSQL THAT SETS PACKAGE NAMES?  #
+####################################################
 
 case node['platform_family']
 when 'debian'
-  include_recipe 'apt::default'
+  include_recipe 'rackspace_apt::default'
 
-  apt_repository 'percona' do
-    uri          node['mysql']['percona']['apt_uri']
+  rackspace_apt_repository 'percona' do
+    uri          node['rackspace_mysql']['percona']['apt_uri']
     distribution node['lsb']['codename']
     components   %w[main]
-    keyserver    node['mysql']['percona']['apt_keyserver']
-    key          node['mysql']['percona']['apt_key_id']
+    keyserver    node['rackspace_mysql']['percona']['apt_keyserver']
+    key          node['rackspace_mysql']['percona']['apt_key_id']
     action       :add
   end
 when 'rhel'
-  include_recipe 'yum::default'
+  include_recipe 'rackspace_yum::default'
 
-  yum_key 'RPM-GPG-KEY-percona' do
+  rackspace_yum_key 'RPM-GPG-KEY-percona' do
     url    'http://www.percona.com/downloads/RPM-GPG-KEY-percona'
     action :add
   end
@@ -46,7 +47,7 @@ when 'rhel'
   arch = 'i386' unless arch == 'x86_64'
   pversion = node['platform_version'].split('.').first
 
-  yum_repository 'percona' do
+  rackspace_yum_repository 'percona' do
     repo_name   'Percona'
     description 'Percona Repo'
     url         "http://repo.percona.com/centos/#{pversion}/os/#{arch}/"

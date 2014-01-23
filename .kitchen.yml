@@ -5,16 +5,13 @@ driver_config:
 platforms:
   - name: ubuntu-12.04
     run_list:
-      - recipe[apt::default]
+      - recipe[rackspace_apt::default]
   - name: ubuntu-10.04
     run_list:
-      - recipe[apt::default]
+      - recipe[rackspace_apt::default]
   - name: centos-6.4
     run_list:
-      - recipe[yum::epel]
-  - name: centos-5.9
-    run_list:
-      - recipe[yum::epel]
+      - recipe[rackspace_yum::epel]
 
 suites:
   - name: client
@@ -22,7 +19,7 @@ suites:
       - recipe[mysql_test::client]
   - name: ruby
     run_list:
-      - recipe[mysql::ruby]
+      - recipe[rackspace_mysql::ruby]
   - name: server
     run_list:
       - recipe[mysql_test::server]

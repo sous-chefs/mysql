@@ -1,23 +1,21 @@
 mysql Cookbook
 ==============
-[![Build Status](https://secure.travis-ci.org/opscode-cookbooks/mysql.png?branch=master)](http://travis-ci.org/opscode-cookbooks/mysql)
 
 Installs and configures MySQL client or server.
 
 Requirements
 ------------
-Chef 0.10.10+.
+Chef 0.11.0+.
 
 Platform
 --------
 - Debian, Ubuntu
-- CentOS, Red Hat, Fedora
-- Mac OS X (Using homebrew)
+- CentOS, Red Hat
 
 Tested on:
 
-- Ubuntu 10.04, 12.04
-- CentOS 5.9, 6.5
+- Ubuntu 12.04
+- CentOS 6.4
 
 See TESTING.md for information about running tests in Opscode's Test Kitchen.
 
@@ -26,9 +24,7 @@ Cookbooks
 ---------
 Requires Opscode's openssl cookbook for secure password generation. See _Attributes_ and _Usage_ for more information.
 
-The RubyGem installation in the `mysql::ruby` recipe requires a C compiler and Ruby development headers to be installed in order to build the mysql gem.
-
-Requires `homebrew` [cookbook](http://community.opscode.com/cookbooks/homebrew) on Mac OS X.
+The RubyGem installation in the `rackspace_mysql::ruby` recipe requires a C compiler and Ruby development headers to be installed in order to build the mysql gem.
 
 
 Resources and Providers
@@ -55,7 +51,6 @@ See the `attributes/server.rb` or `attributes/client.rb` for default values. Sev
 * `node['mysql']['auto-increment-offset]` - auto-increment-offset value in my.cnf
 * `node['mysql']['server']['basedir']` - Base directory where MySQL is installed
 * `node['mysql']['bind_address']` - Listen address for MySQLd
-* `node['mysql']['ec2_path']` - location of mysql data_dir on EC2 nodes
 * `node['mysql']['grants_path']` - Path where the grants.sql should be written
 * `node['mysql']['mysqladmin_bin']` - Path to the mysqladmin binary
 * `node['mysql']['server']['old_passwords']` - Sets the `old_passwords` value in my.cnf.
@@ -82,7 +77,7 @@ By default, MySQL comes with a database named 'test' that anyone can access.  Th
 
 * `node['mysql']['remove_test_database']` - Delete the test database and access to it.
 
-The following attributes are randomly generated passwords handled in the `mysql::server` recipe, using the OpenSSL cookbook's `secure_password` helper method. These are set using the `set_unless` node attribute method, which allows them to be easily overridden e.g.
+The following attributes are randomly generated passwords handled in the `rackspace_mysql::server` recipe, using the OpenSSL cookbook's `secure_password` helper method. These are set using the `set_unless` node attribute method, which allows them to be easily overridden e.g.
 in a role.
 
 * `node['mysql']['server_root_password']` - Set the server's root
@@ -92,25 +87,6 @@ in a role.
 * `node['mysql']['server_debian_password']` - Set the debian-sys-maint
   user password
 
-### Windows Specific
-
-The following attributes are specific to Windows platforms.
-
-* `node['mysql']['client']['version']` - The version of MySQL
-  connector to install.
-* `node['mysql']['client']['arch']` - Force 32 bit to work with the
-  mysql gem
-* `node['mysql']['client']['package_file']` - The MSI file for the
-  mysql connector.
-* `node['mysql']['client']['url']` - URL to download the mysql
-  connector.
-* `node['mysql']['client']['packages']` - Similar to other platforms,
-  this is the name of the client package.
-* `node['mysql']['client']['basedir']` - Base installation location
-* `node['mysql']['client']['lib_dir']` - Libraries under the base location
-* `node['mysql']['client']['bin_dir']` - binary directory under base location
-* `node['mysql']['client']['ruby_dir']` - location where the Ruby
-  binaries will be
 
 ## Security Options
 
@@ -129,7 +105,7 @@ Usage
 On client nodes, use the client (or default) recipe:
 
 ```javascript
-{ "run_list": ["recipe[mysql::client]"] }
+{ "run_list": ["recipe[rackspace_mysql::client]"] }
 ```
 
 This will install the MySQL client libraries and development headers on the system.
@@ -137,7 +113,7 @@ This will install the MySQL client libraries and development headers on the syst
 On nodes which may use the `database` cookbook's mysql resources, also use the ruby recipe. This installs the mysql RubyGem in the Ruby environment Chef is using via `chef_gem`.
 
 ```javascript
-{ "run_list": ["recipe[mysql::client]", "recipe[mysql::ruby]"] }
+{ "run_list": ["recipe[rackspace_mysql::client]", "recipe[rackspace_mysql::ruby]"] }
 ```
 
 If you need to install the mysql Ruby library as a package for your system, override the client packages attribute in your node or role. For example, on an Ubuntu system:
@@ -157,20 +133,12 @@ This creates a resource object for the package and does the installation before 
 On server nodes, use the server recipe:
 
 ```javascript
-{ "run_list": ["recipe[mysql::server]"] }
+{ "run_list": ["recipe[rackspace_mysql::server]"] }
 ```
 
 On Debian and Ubuntu, this will preseed the mysql-server package with the randomly generated root password in the recipe file. On other platforms, it simply installs the required packages. It will also create an SQL file, `/etc/mysql/grants.sql`, that will be used to set up grants for the root, repl and debian-sys-maint users.
 
 The recipe will perform a `node.save` unless it is run under `chef-solo` after the password attributes are used to ensure that in the event of a failed run, the saved attributes would be used.
-
-On EC2 nodes, use the `server_ec2` recipe and the mysql data dir will be set up in the ephmeral storage.
-
-```javascript
-{ "run_list": ["recipe[mysql::server_ec2]"] }
-```
-
-When the `ec2_path` doesn't exist we look for a mounted filesystem (eg, EBS) and move the data_dir there.
 
 The client recipe is already included by server and 'default' recipes.
 
@@ -190,7 +158,7 @@ These node attributes are stored on the Chef server when using `chef-client`. Be
     "server_repl_password": "iloverandompasswordsbutthiswilldo",
     "server_debian_password": "iloverandompasswordsbutthiswilldo"
   },
-  "run_list":["recipe[mysql::server]"]
+  "run_list":["recipe[rackspace_mysql::server]"]
 }
 ```
 
@@ -205,9 +173,11 @@ License & Authors
 - Author:: Andrew Crump (<andrew@kotirisoftware.com>)
 - Author:: Christoph Hartmann (<chris@lollyrock.com>)
 - Author:: Sean OMeara (<someara@opscode.com>)
+- Author:: Matthew Thode (<matt.thode@rackspace.com>)
 
 ```text
 Copyright:: 2009-2013 Opscode, Inc
+Copyright:: 2014 Rackspace, US Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

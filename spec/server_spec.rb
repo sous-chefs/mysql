@@ -1,24 +1,30 @@
 require 'spec_helper'
 
-describe 'mysql::server' do
-  let(:centos5_run) { ChefSpec::Runner.new(platform: 'centos', version: '5.9').converge(described_recipe) }
-  let(:centos6_run) { ChefSpec::Runner.new(platform: 'centos', version: '6.4').converge(described_recipe) }
-  let(:ubuntu_1004_run) { ChefSpec::Runner.new(platform: 'ubuntu', version: '10.04').converge(described_recipe) }
-  let(:ubuntu_1204_run) { ChefSpec::Runner.new(platform: 'ubuntu', version: '10.04').converge(described_recipe) }
+describe 'rackspace_mysql::server' do
+  let(:centos6_run) do
+    ChefSpec::Runner.new(platform: 'centos', version: '6.4') do |node|
+      node.set['rackspace_mysql']['server_debian_password'] = 'idontlikerandompasswords'
+      node.set['rackspace_mysql']['server_root_password'] = 'idontlikerandompasswords'
+      node.set['rackspace_mysql']['server_repl_password'] = 'idontlikerandompasswords'
+    end.converge(described_recipe)
+  end
+  let(:ubuntu_1204_run) do
+    ChefSpec::Runner.new(platform: 'ubuntu', version: '12.04') do |node|
+      node.set['rackspace_mysql']['server_debian_password'] = 'idontlikerandompasswords'
+      node.set['rackspace_mysql']['server_root_password'] = 'idontlikerandompasswords'
+      node.set['rackspace_mysql']['server_repl_password'] = 'idontlikerandompasswords'
+    end.converge(described_recipe)
+  end
 
-  it 'includes _server_rhel on centos5' do
-    expect(centos5_run).to include_recipe('mysql::_server_rhel')
+  before do
+    stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
   end
 
   it 'includes _server_rhel on centos6' do
-    expect(centos6_run).to include_recipe('mysql::_server_rhel')
-  end
-
-  it 'includes _server_debian on ubuntu1004' do
-    expect(ubuntu_1004_run).to include_recipe('mysql::_server_debian')
+    expect(centos6_run).to include_recipe('rackspace_mysql::_server_rhel')
   end
 
   it 'includes _server_debian on ubuntu1204' do
-    expect(ubuntu_1204_run).to include_recipe('mysql::_server_debian')
+    expect(ubuntu_1204_run).to include_recipe('rackspace_mysql::_server_debian')
   end
 end

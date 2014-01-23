@@ -1,14 +1,14 @@
-node.override['mysql']['server_debian_password'] = 'ilikerandompasswords'
-node.override['mysql']['server_repl_password']   = 'ilikerandompasswords'
-node.override['mysql']['server_root_password']   = 'ilikerandompasswords'
+node.override['rackspace_mysql']['server_debian_password'] = 'ilikerandompasswords'
+node.override['rackspace_mysql']['server_repl_password']   = 'ilikerandompasswords'
+node.override['rackspace_mysql']['server_root_password']   = 'ilikerandompasswords'
 
-include_recipe 'mysql::ruby'
-include_recipe 'mysql::server'
+include_recipe 'rackspace_mysql::ruby'
+include_recipe 'rackspace_mysql::server'
 
 mysql_connection = {
-  :host     => 'localhost',
-  :username => 'root',
-  :password => node['mysql']['server_root_password']
+  host:     'localhost',
+  username: 'root',
+  password: node['rackspace_mysql']['server_root_password']
 }
 
 mysql_database node['mysql_test']['database'] do
@@ -25,7 +25,7 @@ mysql_database_user node['mysql_test']['username'] do
   action        [:create, :grant]
 end
 
-mysql_conn_args = "--user=root --password='#{node['mysql']['server_root_password']}'"
+mysql_conn_args = "--user=root --password='#{node['rackspace_mysql']['server_root_password']}'"
 
 execute 'create-sample-data' do
   command %Q{mysql #{mysql_conn_args} #{node['mysql_test']['database']} <<EOF
@@ -37,6 +37,6 @@ EOF}
   not_if "echo 'SELECT count(name) FROM tv_chef' | mysql #{mysql_conn_args} --skip-column-names #{node['mysql_test']['database']} | grep '^3$'"
 end
 
-user "unprivileged" do
+user 'unprivileged' do
   action :create
 end

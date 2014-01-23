@@ -1,3 +1,23 @@
+#
+# Cookbook Name:: rackspace_mysql
+# Recipe:: server_debian
+#
+# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2014, Rackspace, US Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 #----
 # Set up preseeding data for debian packages
 #---
@@ -24,13 +44,21 @@ end
 #----
 # Install software
 #----
-node['mysql']['server']['packages'].each do |name|
+node['rackspace_mysql']['server']['packages'].each do |name|
   package name do
     action :install
   end
 end
 
-node['mysql']['server']['directories'].each do |key, value|
+ruby_block 'set_mysql_version' do
+  block do
+    cmd = Mixlib::ShellOut.new('dpkg -l | grep mysql-server-c | awk \'{print $3}\' | egrep -o \'^[0-9].[0-9]\'')
+    node.default['mysql']['version'] = cmd.run_command
+    cmd.error!
+  end
+end
+
+node['rackspace_mysql']['server']['directories'].each do |key, value|
   directory value do
     owner     'mysql'
     group     'mysql'
@@ -67,7 +95,7 @@ end
 # To do that, we'll need to stash the data_dir of the last chef-client
 # run somewhere and read it. Implementing that will come in "The Future"
 
-directory node['mysql']['data_dir'] do
+directory node['rackspace_mysql']['data_dir'] do
   owner     'mysql'
   group     'mysql'
   action    :create
@@ -87,7 +115,7 @@ end
 service 'apparmor-mysql' do
   service_name 'apparmor'
   action :nothing
-  supports :reload => true
+  supports reload: true
 end
 
 template '/etc/mysql/my.cnf' do
@@ -105,17 +133,17 @@ bash 'move mysql data to datadir' do
   user 'root'
   code <<-EOH
   /usr/sbin/service mysql stop &&
-  mv /var/lib/mysql/* #{node['mysql']['data_dir']} &&
+  mv /var/lib/mysql/* #{node['rackspace_mysql']['data_dir']} &&
   /usr/sbin/service mysql start
   EOH
   action :nothing
-  only_if "[ '/var/lib/mysql' != #{node['mysql']['data_dir']} ]"
-  only_if "[ `stat -c %h #{node['mysql']['data_dir']}` -eq 2 ]"
+  only_if "[ '/var/lib/mysql' != #{node['rackspace_mysql']['data_dir']} ]"
+  only_if "[ `stat -c %h #{node['rackspace_mysql']['data_dir']}` -eq 2 ]"
   not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
 end
 
 service 'mysql' do
   service_name 'mysql'
-  supports     :status => true, :restart => true, :reload => true
+  supports     status: true, restart: true, reload: true
   action       [:enable, :start]
 end
