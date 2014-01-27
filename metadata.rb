@@ -16,6 +16,6 @@ supports 'debian'
 supports 'ubuntu'
 
 depends 'openssl',         '~> 1.1'
-depends 'build-essential', '~> 1.4'
+depends 'rackspace_build_essential', '~> 2.0'
 depends 'rackspace_apt',   '~> 3.0'
 depends 'rackspace_yum',   '~> 4.0'
