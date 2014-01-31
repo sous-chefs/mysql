@@ -22,7 +22,7 @@
 # limitations under the License.
 #
 
-node.set['build_essential']['compiletime'] = true
+node.set['rackspace_build_essential']['compiletime'] = true
 include_recipe 'rackspace_build_essential::default'
 include_recipe 'rackspace_mysql::client'
 

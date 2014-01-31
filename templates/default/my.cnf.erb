@@ -362,7 +362,7 @@ myisam-recover            = <%= node['rackspace_mysql']['tunable']['myisam-recov
 # ndb-connectstring=127.0.0.1
 
 <% case node['platform_family'] -%>
-<% when "rhel" -%>
+<% when 'rhel' -%>
 #
 # * BerkeleyDB
 #
