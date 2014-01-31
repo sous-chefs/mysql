@@ -228,7 +228,8 @@ slave_compressed_protocol = <%= node['rackspace_mysql']['tunable']['slave_compre
 # You might want to disable InnoDB to shrink the mysqld process by circa 100MB.
 #skip-innodb
 
-<%- if node["mysql"]["version"].to_f >= 5.5 %>
+<%- if node['rackspace_mysql']['version'].to_f >= 5.5 %>
+
 innodb_write_io_threads         = <%= node['rackspace_mysql']['tunable']['innodb_write_io_threads'] %>
 innodb_io_capacity              = <%= node['rackspace_mysql']['tunable']['innodb_io_capacity'] %>
 innodb_read_io_threads          = <%= node['rackspace_mysql']['tunable']['innodb_read_io_threads'] %>
