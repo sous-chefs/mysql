@@ -12,7 +12,7 @@ group :integration do
   cookbook 'openssl', '~> 1.1'
   cookbook 'mysql_test', :path => 'test/cookbooks/mysql_test'
   rackspace_cookbook 'rackspace_database', '~> 2.0'
-  rackspace_cookbook 'postgresql', '~> 2.0', branch: 'rackspace-rebuild'
+  rackspace_cookbook 'postgresql', '~> 4.0', branch: 'rackspace-rebuild'
   rackspace_cookbook 'rackspace_apt', '~> 3.0'
   rackspace_cookbook 'rackspace_yum', '~> 4.0'
   rackspace_cookbook 'rackspace_build_essential', '~> 2.0'
