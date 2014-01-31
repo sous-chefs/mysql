@@ -11,7 +11,7 @@ platforms:
       - recipe[rackspace_apt::default]
   - name: centos-6.4
     run_list:
-      - recipe[rackspace_yum::epel]
+      - recipe[rackspace_yum::default]
 
 suites:
   - name: client
