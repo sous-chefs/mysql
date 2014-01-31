@@ -28,5 +28,4 @@ suites:
       - recipe[mysql_test::server]
     attributes:
       rackspace_mysql:
-        server_debian_password: "idontlikerandompasswords"
         data_dir: "/data/mysql"

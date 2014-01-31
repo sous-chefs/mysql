@@ -6,7 +6,6 @@ describe 'rackspace_mysql::server' do
       node.set['rackspace_mysql']['server_debian_password'] = 'idontlikerandompasswords'
       node.set['rackspace_mysql']['server_root_password'] = 'idontlikerandompasswords'
       node.set['rackspace_mysql']['server_repl_password'] = 'idontlikerandompasswords'
-      node['rackspace_build_essential']['compiletime'] = true
     end.converge(described_recipe)
   end
   let(:ubuntu_1204_run) do
@@ -14,7 +13,6 @@ describe 'rackspace_mysql::server' do
       node.set['rackspace_mysql']['server_debian_password'] = 'idontlikerandompasswords'
       node.set['rackspace_mysql']['server_root_password'] = 'idontlikerandompasswords'
       node.set['rackspace_mysql']['server_repl_password'] = 'idontlikerandompasswords'
-      node['rackspace_build_essential']['compiletime'] = true
     end.converge(described_recipe)
   end
 
