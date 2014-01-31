@@ -1,6 +1,7 @@
 node.override['rackspace_mysql']['server_debian_password'] = 'ilikerandompasswords'
 node.override['rackspace_mysql']['server_repl_password']   = 'ilikerandompasswords'
 node.override['rackspace_mysql']['server_root_password']   = 'ilikerandompasswords'
+node.override['rackspace_build_essential']['compiletime']  = true
 
 include_recipe 'rackspace_mysql::ruby'
 include_recipe 'rackspace_mysql::server'
