@@ -5,7 +5,7 @@ when 'debian'
   # Keep in this namespace for backwards compat
   default['mysql']['data_dir'] = '/var/lib/mysql'
 
-  default['mysql']['server']['packages'] = %w{ mysql-server apparmor-utils }
+  default['mysql']['server']['packages'] = %w{ mysql-common mysql-server apparmor-utils }
   default['mysql']['server']['slow_query_log']       = 1
   default['mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
 
