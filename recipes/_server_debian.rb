@@ -79,6 +79,14 @@ template '/etc/mysql_grants.sql' do
   notifies :run, 'execute[install-grants]', :immediately
 end
 
+template '/etc/mysql/debian.cnf' do
+  source 'debian.cnf.erb'
+  owner  'root'
+  group  'root'
+  mode   '0600'
+end
+
+
 cmd = install_grants_cmd
 execute 'install-grants' do
   command cmd
