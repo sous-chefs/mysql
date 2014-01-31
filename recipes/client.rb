@@ -22,6 +22,8 @@
 # to debian_before_squeeze? and ubuntu_before_lucid?
 ::Chef::Recipe.send(:include, Opscode::Mysql::Helpers)
 
+include_recipe 'rackspace_apt'
+
 node['rackspace_mysql']['client']['packages'].each do |name|
   package name
 end
