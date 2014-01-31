@@ -23,7 +23,7 @@
 #
 
 node.set['build_essential']['compiletime'] = true
-include_recipe 'build-essential::default'
+include_recipe 'rackspace_build_essential::default'
 include_recipe 'rackspace_mysql::client'
 
 loaded_recipes = if run_context.respond_to?(:loaded_recipes)
