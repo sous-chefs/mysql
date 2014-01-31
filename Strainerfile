@@ -6,4 +6,5 @@ knife_test: bundle exec knife cookbook test $COOKBOOK -o $SANDBOX -z
 rubocop:    bundle exec rubocop --no-color $SANDBOX/$COOKBOOK
 foodcritic: bundle exec foodcritic -f any $SANDBOX/$COOKBOOK
 chefspec:   bundle exec rspec
-kitchen:    bundle exec kitchen test --destroy always
+# kitchen:    bundle exec kitchen test --destroy always -p
+kitchen:    bundle exec kitchen test -p
