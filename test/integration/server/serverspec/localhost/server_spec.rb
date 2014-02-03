@@ -6,6 +6,6 @@ describe 'mysql server process' do
   end
 end
 
-describe command("su -s /bin/sh -c \"mysql --protocol socket -uroot -pilikerandompasswords -e 'show databases;'\" unprivileged") do
+describe command("mysql --protocol socket -uroot -pilikerandompasswords -e 'show databases;'") do
   it { should return_exit_status 0 }
 end
