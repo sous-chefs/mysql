@@ -1,12 +1,33 @@
 # require 'pry'
 
-node['mysql']['server']['packages'].each do |name|
-  package name do
-    action :install
+if node['mysql']['server']['selinux_enabled'] == true 
+  %w{policycoreutils policycoreutils-python}.each do |pkg|
+    package pkg do
+      action :install
+    end
   end
 end
 
 #----
+directory node['mysql']['data_dir'] do
+  owner     'mysql'
+  group     'mysql'
+  action    :create
+  recursive true
+end
+
+if node['mysql']['server']['selinux_enabled'] == true
+  bash "Set SELinux Context" do
+  user "root"
+  code <<-EOF
+semanage fcontext -a -t mysqld_db_t "#{node['mysql']['data_dir']}(/.^)?"
+semanage fcontext -a -t mysqld_db_t "#{node['mysql']['data_dir']}(/.*)?"
+restorecon -Rv #{node['mysql']['data_dir']}
+EOF
+    action :run
+  end
+end
+
 node['mysql']['server']['directories'].each do |key, value|
   directory value do
     owner     'mysql'
@@ -15,13 +36,18 @@ node['mysql']['server']['directories'].each do |key, value|
     action    :create
     recursive true
   end
-end
 
-directory node['mysql']['data_dir'] do
-  owner     'mysql'
-  group     'mysql'
-  action    :create
-  recursive true
+  if node['mysql']['server']['selinux_enabled'] == true
+    bash "Set SELinux Context" do
+    user "root"
+    code <<-EOF
+semanage fcontext -a -t mysqld_db_t "#{value}(/.^)?"
+semanage fcontext -a -t mysqld_db_t "#{value}(/.*)?"
+restorecon -Rv #{value}
+EOF
+    action :run
+    end
+  end
 end
 
 #----
@@ -31,8 +57,16 @@ template 'initial-my.cnf' do
   owner 'root'
   group 'root'
   mode '0644'
-  notifies :start, 'service[mysql-start]', :immediately
 end
+
+# => Install Packages AFTER directories and my.cnf have been created.
+node['mysql']['server']['packages'].each do |name|
+  package name do
+    action :install
+    notifies :start, 'service[mysql-start]', :immediately
+  end
+end
+
 
 # hax
 service 'mysql-start' do

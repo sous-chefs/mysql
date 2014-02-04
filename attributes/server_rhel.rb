@@ -1,6 +1,9 @@
 case node['platform_family']
 when 'rhel'
 
+  #Set to true if you're running SELinux
+  default['mysql']['server']['selinux_enabled'] = true
+  
   # Probably driven from wrapper cookbooks, environments, or roles.
   # Keep in this namespace for backwards compat
   default['mysql']['data_dir'] = '/var/lib/mysql'
