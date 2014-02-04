@@ -9,25 +9,6 @@ if node['mysql']['server']['selinux_enabled'] == true
 end
 
 #----
-directory node['mysql']['data_dir'] do
-  owner     'mysql'
-  group     'mysql'
-  action    :create
-  recursive true
-end
-
-if node['mysql']['server']['selinux_enabled'] == true
-  bash "Set SELinux Context" do
-  user "root"
-  code <<-EOF
-semanage fcontext -a -t mysqld_db_t "#{node['mysql']['data_dir']}(/.^)?"
-semanage fcontext -a -t mysqld_db_t "#{node['mysql']['data_dir']}(/.*)?"
-restorecon -Rv #{node['mysql']['data_dir']}
-EOF
-    action :run
-  end
-end
-
 node['mysql']['server']['directories'].each do |key, value|
   directory value do
     owner     'mysql'
