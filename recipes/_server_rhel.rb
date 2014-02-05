@@ -1,6 +1,6 @@
 # require 'pry'
 
-if node['mysql']['server']['selinux_enabled'] == true 
+if node['mysql']['server']['selinux_enabled'] == true
   %w{policycoreutils policycoreutils-python}.each do |pkg|
     package pkg do
       action :install
@@ -19,8 +19,8 @@ node['mysql']['server']['directories'].each do |key, value|
   end
 
   if node['mysql']['server']['selinux_enabled'] == true
-    bash "Set SELinux Context" do
-    user "root"
+    bash 'Set SELinux Context' do
+    user 'root'
     code <<-EOF
 semanage fcontext -a -t mysqld_db_t "#{value}(/.^)?"
 semanage fcontext -a -t mysqld_db_t "#{value}(/.*)?"
@@ -47,7 +47,6 @@ node['mysql']['server']['packages'].each do |name|
     notifies :start, 'service[mysql-start]', :immediately
   end
 end
-
 
 # hax
 service 'mysql-start' do

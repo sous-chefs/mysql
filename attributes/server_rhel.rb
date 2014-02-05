@@ -1,9 +1,9 @@
 case node['platform_family']
 when 'rhel'
 
-  #Set to true if you're running SELinux
+  # Set to true if you're running SELinux
   default['mysql']['server']['selinux_enabled'] = false
-  
+
   # Probably driven from wrapper cookbooks, environments, or roles.
   # Keep in this namespace for backwards compat
   default['mysql']['data_dir'] = '/var/lib/mysql'
@@ -30,7 +30,7 @@ when 'rhel'
 
   default['mysql']['server']['directories']['run_dir']              = '/var/run/mysqld'
   default['mysql']['server']['directories']['log_dir']              = '/var/lib/mysql'
- #Include the legacy ['mysql']['datadir'] in the server directories context
+  # Include the legacy ['mysql']['datadir'] in the server directories context
   default['mysql']['server']['directories']['data_dir']             = node['mysql']['data_dir']
 
   default['mysql']['server']['directories']['slow_log_dir']         = '/var/log/mysql'
