@@ -99,13 +99,20 @@ service 'apparmor-mysql' do
   supports :reload => true
 end
 
+# notify should restart if bind_address is overridden
+if node['mysql']['bind_address'] != '127.0.0.1'
+  notify_action = 'restart'
+else
+  notify_action = 'reload'
+end
+
 template '/etc/mysql/my.cnf' do
   source 'my.cnf.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'bash[move mysql data to datadir]', :immediately
-  notifies :reload, 'service[mysql]'
+  notifies notify_action, 'service[mysql]'
 end
 
 # don't try this at home
