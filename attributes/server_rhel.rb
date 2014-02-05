@@ -2,7 +2,7 @@ case node['platform_family']
 when 'rhel'
 
   #Set to true if you're running SELinux
-  default['mysql']['server']['selinux_enabled'] = true
+  default['mysql']['server']['selinux_enabled'] = false
   
   # Probably driven from wrapper cookbooks, environments, or roles.
   # Keep in this namespace for backwards compat
