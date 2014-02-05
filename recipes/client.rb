@@ -27,3 +27,12 @@ include_recipe 'rackspace_apt'
 node['rackspace_mysql']['client']['packages'].each do |name|
   package name
 end
+
+if node['rackspace_mysql']['install_root_my_cnf'] do
+  template '/root/.my.cnf' do
+    source 'user-my.cnf.erb'
+    owner 'root'
+    group 'root'
+    mode '0600'
+  end
+end
