@@ -28,7 +28,7 @@ node['rackspace_mysql']['client']['packages'].each do |name|
   package name
 end
 
-if node['rackspace_mysql']['install_root_my_cnf'] do
+if node['rackspace_mysql']['install_root_my_cnf']
   template '/root/.my.cnf' do
     source 'user-my.cnf.erb'
     owner 'root'
