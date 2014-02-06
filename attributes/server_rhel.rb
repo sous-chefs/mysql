@@ -15,7 +15,10 @@ when 'rhel'
     default['mysql']['server']['packages'] = ['mysql-server']
     default['mysql']['server']['slow_query_log']       = 1
     default['mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
-  when 2013 # amazon linux
+  end
+
+  case node['platform']
+  when 'amazon'
     default['mysql']['server']['packages'] = ['mysql-server']
     default['mysql']['server']['slow_query_log']       = 1
     default['mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
