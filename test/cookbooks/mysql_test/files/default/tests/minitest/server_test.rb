@@ -1,6 +1,6 @@
 require File.expand_path('../support/helpers.rb', __FILE__)
 
-describe 'mysql::server' do
+describe 'rackspace_mysql::server' do
   include Helpers::Mysql
 
   # it 'has a secure operating system password' do

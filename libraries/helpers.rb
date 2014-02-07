@@ -1,8 +1,10 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Author:: Sean OMeara (<schisamo@opscode.com>)
+# Author:: Matthew Thode (<matt.thode@rackspace.com>)
 #
 # Copyright:: Copyright (c) 2011-2013 Opscode, Inc.
+# Copyright:: Copyright (c) 2014, Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,13 +34,17 @@ module Opscode
       def assign_root_password_cmd
         str = '/usr/bin/mysqladmin'
         str << ' -u root password '
-        str << node['mysql']['server_root_password']
+        str << node['rackspace_mysql']['server_root_password']
       end
 
       def install_grants_cmd
         str = '/usr/bin/mysql'
         str << ' -u root '
-        node['mysql']['server_root_password'].empty? ? str << ' < /etc/mysql_grants.sql' : str << " -p#{node['mysql']['server_root_password']} < /etc/mysql_grants.sql"
+        if node['rackspace_mysql']['server_root_password'].empty?
+          str << ' < /etc/mysql_grants.sql'
+        else
+          str << " -p#{node['rackspace_mysql']['server_root_password']} < /etc/mysql_grants.sql"
+        end
       end
     end
   end

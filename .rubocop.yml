@@ -1,14 +1,25 @@
-AllCops:
-  Excludes:
-    - vendor/**
-
-AlignParameters:
-  Enabled: false
+# Disable requirement of "encoding" headers on files
 Encoding:
   Enabled: false
-HashSyntax:
-  Enabled: false
+
+# Increase line length, we're not on VT220s anymore
 LineLength:
-  Enabled: false
+  Max: 180
+
+# Increase allowed lines in a method.  Short methods are good, but 10 lines
+#   is a bit too low.
 MethodLength:
-  Max: 30
+  Max: 40
+
+# Favor explicit over implicit code: don't complain of "redundant returns"
+RedundantReturn:
+  Enabled: false
+
+# Don't complain about if/unless modifiers.  The merit of this is debatable
+#   and it will likely require building of over-length lines.
+IfUnlessModifier:
+  Enabled: false
+
+AllCops:
+  Excludes:
+    - metadata.rb

@@ -4,17 +4,31 @@ driver_config:
 
 platforms:
   - name: ubuntu-12.04
+    driver_config:
+      box: opscode-ubuntu-12.04
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box
     run_list:
-      - recipe[apt::default]
-  - name: ubuntu-10.04
+      - recipe[rackspace_apt::default]
+    attributes:
+      rackspace_apt:
+        switch:
+          delete_sources_list: true
+  - name: debian-7.2
+    driver_config:
+      box: opscode-debian-7.2.0
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.2.0_chef-provisionerless.box
     run_list:
-      - recipe[apt::default]
+      - recipe[rackspace_apt::default]
+    attributes:
+      rackspace_apt:
+        switch:
+          delete_sources_list: true
   - name: centos-6.4
+    driver_config:
+      box: opscode-centos-6.4
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.4_chef-provisionerless.box
     run_list:
-      - recipe[yum::epel]
-  - name: centos-5.9
-    run_list:
-      - recipe[yum::epel]
+      - recipe[rackspace_yum::default]
 
 suites:
   - name: client
@@ -22,7 +36,7 @@ suites:
       - recipe[mysql_test::client]
   - name: ruby
     run_list:
-      - recipe[mysql::ruby]
+      - recipe[rackspace_mysql::ruby]
   - name: server
     run_list:
       - recipe[mysql_test::server]
@@ -30,5 +44,5 @@ suites:
     run_list:
       - recipe[mysql_test::server]
     attributes:
-      mysql:
+      rackspace_mysql:
         data_dir: "/data/mysql"
