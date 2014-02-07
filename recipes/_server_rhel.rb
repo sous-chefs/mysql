@@ -20,13 +20,13 @@ node['mysql']['server']['directories'].each do |key, value|
 
   if node['mysql']['server']['selinux_enabled'] == true
     bash 'Set SELinux Context' do
-	user 'root'
-	code <<-EOF
-	  semanage fcontext -a -t mysqld_db_t "#{value}(/.^)?"
-	  semanage fcontext -a -t mysqld_db_t "#{value}(/.*)?"
-	  restorecon -Rv #{value}
-	EOF
-    action :run
+      user 'root'
+      code <<-EOF
+      semanage fcontext -a -t mysqld_db_t "#{value}(/.^)?"
+      semanage fcontext -a -t mysqld_db_t "#{value}(/.*)?"
+      restorecon -Rv #{value}
+      EOF
+      action :run
     end
   end
 end
