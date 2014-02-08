@@ -24,7 +24,7 @@ node['mysql']['server']['directories'].each do |key, value|
       action :create_if_missing
     end
 
-    bash 'Set SELinux Context' do
+    bash "Set SELinux Context - #{value}" do
       user 'root'
       code <<-EOF
       semanage fcontext -a -t mysqld_db_t "#{value}(/.*)?"
