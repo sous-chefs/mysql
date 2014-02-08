@@ -8,25 +8,40 @@ if node['mysql']['server']['selinux_enabled'] == true
   end
 end
 
-#----
+# => Make sure the MySQL Directories are Constructed Appropriately
 node['mysql']['server']['directories'].each do |key, value|
+
+# =>  Create file to store previously executed SELinux Operations
+# =>  This is a first-run resource, you really do not want this to run again unless you change directory values.
+# =>  It doesn't hurt anything but cookbook execution time if this runs again. It's OK if this file is lost.
+# =>  Also, a text file makes this function with Chef-Solo.
+  if node['mysql']['server']['selinux_enabled'] == true
+    file 'MySQL SELinux Tags' do
+      path "#{Chef::Config[:file_cache_path]}/.selinuxed_mysql"
+      owner 'root'
+      group 'root'
+      mode '0644'
+      action :create_if_missing
+    end
+
+    bash 'Set SELinux Context' do
+      user 'root'
+      code <<-EOF
+      semanage fcontext -a -t mysqld_db_t "#{value}(/.*)?"
+      echo "#{key} #{value}" >> #{Chef::Config[:file_cache_path]}/.selinuxed_mysql
+      EOF
+      action :run
+      only_if { !File.open("#{Chef::Config[:file_cache_path]}/.selinuxed_mysql").grep(/#{key} #{value}/).any? }
+    end
+  end
+
+# => Create Each Directory
   directory value do
     owner     'mysql'
     group     'mysql'
     mode      '0755'
     action    :create
     recursive true
-  end
-
-  bash 'Set SELinux Context' do
-    user 'root'
-    code <<-EOF
-    semanage fcontext -a -t mysqld_db_t "#{value}(/.^)?"
-    semanage fcontext -a -t mysqld_db_t "#{value}(/.*)?"
-    restorecon -Rv #{value}
-    EOF
-    action :run
-    only_if { node['mysql']['server']['selinux_enabled'] == true }
   end
 end
 
