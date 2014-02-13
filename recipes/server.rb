@@ -30,7 +30,7 @@ if Chef::Config[:solo]
 
   unless missing_attrs.empty?
     Chef::Application.fatal! "You must set #{missing_attrs.join(', ')} in chef-solo mode." \
-    " For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note"
+    " For more information, see https://github.com/rackspace-cookbooks/rackspace_mysql#chef-solo-note"
   end
 else
   # generate all passwords
