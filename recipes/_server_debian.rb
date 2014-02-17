@@ -62,7 +62,7 @@ template '/etc/mysql/debian.cnf' do
   owner 'root'
   group 'root'
   mode '0600'
-  notifies :reload, 'service[mysql]'
+  notifies node['mysql']['server']['reload_action'], 'service[mysql]'
 end
 
 #----
@@ -105,7 +105,7 @@ template '/etc/mysql/my.cnf' do
   group 'root'
   mode '0644'
   notifies :run, 'bash[move mysql data to datadir]', :immediately
-  notifies :reload, 'service[mysql]'
+  notifies node['mysql']['server']['reload_action'], 'service[mysql]'
 end
 
 # don't try this at home
