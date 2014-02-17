@@ -123,7 +123,7 @@ bash 'move mysql data to datadir' do
   not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
 end
 
-service_provider = Chef::Provider::Chef::Service::Upstart if 'ubuntu' == node['platform'] &&
+service_provider = Chef::Provider::Service::Upstart if 'ubuntu' == node['platform'] &&
   Chef::VersionConstraint.new('>= 13.10').include?(node['platform_version'])
 
 service 'mysql' do
