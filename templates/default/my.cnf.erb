@@ -155,7 +155,7 @@ log_slow_queries    = <%= node['rackspace_mysql']['server']['log_slow_queries'] 
 <%- end %>
 
 long_query_time         = <%= node['rackspace_mysql']['tunable']['long_query_time'] %>
-<%- if node['rackspace_mysql']['tunable']['log_queries_not_using_index'] and node['rackspace_mysql']['tunable']['slow_query_log']  %>
+<%- if node['rackspace_mysql']['tunable']['log_queries_not_using_index'] and node['rackspace_mysql']['server']['slow_query_log']  %>
 log-queries-not-using-indexes
 <%- end %>
 #

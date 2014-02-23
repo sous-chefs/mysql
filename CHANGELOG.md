@@ -2,6 +2,12 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v5.0.1
+------
+# Bug
+- Changed a reference of the deprecate attr ['tunable']['slow_query_log'] to ['server']['slow_query_log']
+  This bug prevented the ability to set log-queries-not-using-indexes to true 
+
 
 v5.0.0
 ------
