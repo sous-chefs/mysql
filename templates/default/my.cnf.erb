@@ -55,6 +55,10 @@ skip-external-locking
 skip-name-resolve
 <%- end %>
 
+<%- if node['mysql']['default-storage-engine'] %>
+default-storage-engine = <%= node['mysql']['default-storage-engine'] %> 
+<%- end %>
+
 # Charset and Collation
 character-set-server = <%= node['mysql']['tunable']['character-set-server'] %>
 collation-server     = <%= node['mysql']['tunable']['collation-server'] %>
