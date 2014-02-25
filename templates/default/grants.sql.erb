@@ -33,6 +33,7 @@ DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
 
 # Set the password for root@localhost
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('<%= node['mysql']['server_root_password'] %>');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('<%= node['mysql']['server_root_password'] %>');
 <% if node['mysql']['root_network_acl'] -%>
 
 # allow root to connect from a remote network if root_network_acl is not nil
