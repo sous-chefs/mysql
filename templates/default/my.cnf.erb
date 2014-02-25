@@ -249,6 +249,9 @@ innodb_file_per_table
 <%- end %>
 innodb_table_locks              = <%= node['mysql']['tunable']['innodb_table_locks'] %>
 innodb_lock_wait_timeout        = <%= node['mysql']['tunable']['innodb_lock_wait_timeout'] %>
+<%- if node['mysql']['tunable']['innodb_rollback_on_timeout'] %>
+innodb_rollback_on_timeout
+<%- end %>
 innodb_thread_concurrency       = <%= node['mysql']['tunable']['innodb_thread_concurrency'] %>
 innodb_commit_concurrency       = <%= node['mysql']['tunable']['innodb_commit_concurrency'] %>
 innodb_support_xa               = <%= node['mysql']['tunable']['innodb_support_xa'] %>
