@@ -30,6 +30,7 @@ depends 'build-essential', '~> 1.4'
 # wat
 depends 'homebrew'
 depends 'windows'
+depends 'yum',             '~> 2.4'
 
 # remove all these attributes from metadata?
 attribute 'mysql/server_root_password',

@@ -5,7 +5,7 @@
 # Author:: Jesse Howarth (<him@jessehowarth.com>)
 # Author:: Jamie Winsor (<jamie@vialstudios.com>)
 #
-# Copyright 2008-2013, Opscode, Inc.
+# Copyright 2008-2014, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,6 +37,21 @@ if loaded_recipes.include?('mysql::percona_repo')
   when 'rhel'
     resources('yum_key[RPM-GPG-KEY-percona]').run_action(:add)
     resources('yum_repository[percona]').run_action(:add)
+  end
+end
+
+if loaded_recipes.include?('mysql::mysql_community_repo')
+  case node['platform_family']
+  when 'fedora', 'rhel'
+   resources('cookbook_file[/etc/pki/rpm-gpg/RPM-GPG-KEY-mysql]').run_action(:create_if_missing)
+    resources('yum_key[RPM-GPG-KEY-mysql]').run_action(:add)
+    resources('yum_repository[mysql-community]').run_action(:add)
+    # Workaround for https://tickets.opscode.com/browse/COOK-4312 until
+    # we upgrade to yum 3.x
+    begin
+      resources('template[/etc/yum.repos.d/mysql-community.repo]').run_action(:create)
+    rescue Chef::Exceptions::ResourceNotFound
+    end
   end
 end
 
