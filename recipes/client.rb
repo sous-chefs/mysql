@@ -47,7 +47,17 @@ node['mysql']['client']['packages'].each do |name|
   package name
 end
 
-if platform_family?('windows')
+case node['platform_family']
+when 'fedora'
+  # The fedora community-mysql-libs package fails to create this directory
+  # see https://bugzilla.redhat.com/show_bug.cgi?id=1071517
+  directory '/etc/my.cnf.d' do
+    owner 'root'
+    group 'root'
+    mode '00755'
+    action :create
+  end
+when 'windows'
   ruby_block 'copy libmysql.dll into ruby path' do
     block do
       require 'fileutils'

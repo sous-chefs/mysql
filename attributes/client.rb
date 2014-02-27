@@ -22,8 +22,14 @@
 ::Chef::Node.send(:include, Opscode::Mysql::Helpers)
 
 case node['platform_family']
-when 'rhel', 'fedora'
+when 'rhel'
   default['mysql']['client']['packages'] = %w[mysql mysql-devel]
+when 'fedora'
+  if node['platform_version'].to_i < 19
+    default['mysql']['client']['packages'] = %w[mysql mysql-devel]
+  else
+    default['mysql']['client']['packages'] = %w[community-mysql community-mysql-devel]
+  end
 when 'suse'
   default['mysql']['client']['packages'] = %w[mysql-community-server-client libmysqlclient-devel]
 when 'debian'

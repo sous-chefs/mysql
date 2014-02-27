@@ -47,7 +47,9 @@ user            = mysql
 pid-file        = <%= node['mysql']['server']['pid_file'] %>
 socket          = <%= node['mysql']['server']['socket'] %>
 port            = <%= node['mysql']['port'] %>
+<%- if node['platform_family'] != 'fedora' %>
 basedir         = <%= node['mysql']['server']['basedir'] %>
+<%- end %>
 datadir         = <%= node['mysql']['data_dir'] %>
 tmpdir          = <%= node['mysql']['server']['tmpdir'].join(':') %>
 skip-external-locking
