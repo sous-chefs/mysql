@@ -3,6 +3,13 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v4.1.2 (2014-02-28)
+-------------------
+- [COOK-4349] - Fix invalid platform check
+- [COOK-4184] - Better handling of Ubuntu upstart service
+- [COOK-2100] - Changing innodb_log_file_size tunable results in inability to start MySQL
+
+
 v4.1.1 (2014-02-25)
 -------------------
 - **[COOK-2966] - Address foodcritic failures'
