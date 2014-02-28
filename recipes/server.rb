@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql
 # Recipe:: default
 #
-# Copyright 2008-2013, Opscode, Inc.
+# Copyright 2008-2014, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ else
 end
 
 case node['platform_family']
-when 'rhel'
+when 'rhel', 'fedora'
   include_recipe 'mysql::_server_rhel'
 when 'debian'
   include_recipe 'mysql::_server_debian'
