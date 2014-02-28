@@ -24,20 +24,13 @@ directory node['mysql']['data_dir'] do
   recursive true
 end
 
-#----
 template 'initial-my.cnf' do
   path '/etc/my.cnf'
   source 'my.cnf.erb'
   owner 'root'
   group 'root'
   mode '0644'
-  notifies :start, 'service[mysql-start]', :immediately
-end
-
-# hax
-service 'mysql-start' do
-  service_name node['mysql']['server']['service_name']
-  action :nothing
+  notifies :restart, 'service[mysql]', :immediately
 end
 
 execute '/usr/bin/mysql_install_db' do
