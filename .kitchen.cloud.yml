@@ -2,13 +2,20 @@
 driver_config:
   digitalocean_client_id: <%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>
   digitalocean_api_key: <%= ENV['DIGITAL_OCEAN_API_KEY'] %>
+  google_client_email: <%= ENV['GOOGLE_CLIENT_EMAIL'] %>
+  google_key_location: <%= ENV['GOOGLE_KEY_LOCATION'] %>
+  google_project: <%= ENV['GOOGLE_PROJECT'] %>
+  joyent_username: <%= ENV['SDC_CLI_ACCOUNT'] %>
+  joyent_keyfile: <%= ENV['SDC_CLI_IDENTITY'] %>
+  joyent_keyname: <%= ENV['SDC_CLI_KEY_ID'] %>
+  joyent_url: <%= ENV['SDC_CLI_URL'] %>
   aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %> 
   aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: latest
+  require_chef_omnibus: 11.10.4
 
 platforms:
 - name: centos-5.8
@@ -19,6 +26,8 @@ platforms:
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[mysql::_centos-5]
 
 - name: centos-6.4
   driver_plugin: digitalocean
@@ -28,15 +37,35 @@ platforms:
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[mysql::_centos-6]
 
-- name: amazon-2013.09
-  driver_plugin: ec2
+- name: fedora-19
+  driver_plugin: digitalocean
   driver_config:
-    image_id: ami-3be4bc52
-    username: ec2-user
-    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+    image_id: 696598
+    flavor_id: 63
+    region_id: 4
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[mysql::_fedora-19]
 
-- name: ubuntu-1004
+- name: debian-7.0
+  driver_plugin: gce
+  driver_config:
+    image_name: debian-7-wheezy-v20131120
+    zone: <%= ENV['GCE_ZONE'] %>
+    area: <%= ENV['GCE_AREA'] %>
+    network: <%= ENV['GCE_NETWORK'] %>
+    username: <%= ENV['GCE_USERNAME'] %>
+    public_key_path: <%= ENV['GCE_PUBLIC_KEY_PATH'] %>
+    ssh_key: <%= ENV['GCE_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+  - recipe[mysql::_debian-7]
+
+- name: ubuntu-10.04
   driver_plugin: digitalocean
   driver_config:
     image_id: 14097
@@ -46,8 +75,9 @@ platforms:
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
+  - recipe[mysql::_ubuntu-10.04]
 
-- name: ubuntu-1204
+- name: ubuntu-12.04
   driver_plugin: digitalocean
   driver_config:
     image_id: 1505447
@@ -57,20 +87,45 @@ platforms:
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
+  - recipe[mysql::_ubuntu-12.04]
+
+- name: ubuntu-13.10
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 1505699
+    flavor_id: 63
+    region_id: 4
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+  - recipe[mysql::_ubuntu-13.10]
+
+- name: smartos-13.30
+  driver_plugin: joyent
+  driver_config:
+    joyent_image_id: 87b9f4ac-5385-11e3-a304-fb868b82fe10
+    joyent_flavor_id: g3-standard-4-smartos
+    username: root
+    ssh_key: <%= ENV['SDC_CLI_IDENTITY'] %>
+  provisioner:
+    name: chef_zero
+    sudo: false
+    chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
+  run_list:
+  - recipe[mysql::_smartos-1330]
+
+- name: omnios-r151006c
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-35eb835c
+    username: root
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[ips]
+  - recipe[mysql::_omnios-r151006c]
 
 suites:
-  - name: client
+  - name: master
     run_list:
-      - recipe[mysql_test::client]
-  - name: ruby
-    run_list:
-      - recipe[mysql::ruby]
-  - name: server
-    run_list:
-      - recipe[mysql_test::server]
-  - name: server-nondefault-data
-    run_list:
-      - recipe[mysql_test::server]
-    attributes:
-      mysql:
-        data_dir: "/data/mysql"
+      - recipe[mysql::master]
