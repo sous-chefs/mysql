@@ -25,13 +25,16 @@ directory node['mysql']['data_dir'] do
 end
 
 #----
-template 'initial-my.cnf' do
-  path '/etc/my.cnf'
-  source 'my.cnf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-  notifies :start, 'service[mysql-start]', :immediately
+unless File.file?('/etc/my.cnf')
+  #Initial server setup, so start mysql daemon immediately
+  template 'initial-my.cnf' do
+    path '/etc/my.cnf'
+    source 'my.cnf.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+    notifies :start, 'service[mysql-start]', :immediately
+  end
 end
 
 # hax
@@ -76,11 +79,11 @@ template 'final-my.cnf' do
   owner 'root'
   group 'root'
   mode '0644'
-  notifies :reload, 'service[mysql]', :immediately
+  notifies :restart, 'service[mysql]', :delayed
 end
 
 service 'mysql' do
   service_name node['mysql']['server']['service_name']
-  supports     :status => true, :restart => true, :reload => true
+  supports     :status => true, :restart => true
   action       [:enable, :start]
 end
