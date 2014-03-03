@@ -24,8 +24,9 @@ directory node['mysql']['data_dir'] do
   recursive true
 end
 
-#----
-unless File.file?('/etc/my.cnf')
+#There are probably a few ways to detect initial installation.  This should work
+#unless this file (which is created below) is manually deleted at a later point.
+unless File.file?('/etc/mysql_grants.sql')
   #Initial server setup, so start mysql daemon immediately
   template 'initial-my.cnf' do
     path '/etc/my.cnf'
