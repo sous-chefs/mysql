@@ -24,7 +24,8 @@
 # Where:
 #   - option is the option name, i.e. 'port'
 #   - block corresponds to the my.cnf block the option goes in, i.e. 'mysqld'
-#   - The inner hash is the standard inner hash format as documented in rackspace-cookbooks/contributing with the following deviations:
+#   - The inner hash is the standard inner hash format as documented in rackspace-cookbooks/contributing with the
+#      following deviations:
 #      - key: 'bool_flag': Sets that this option is a flag in the config, and the key should be added without a value.
 #
 # The exception to this is node['rackspace_mysql']['config']['common'] which is solely for variables used in
@@ -171,15 +172,16 @@ if (my_config_hash['mysqld']['lc_messages_dir'] && my_config_hash['mysqld']['lc_
 #
 # * Fine Tuning
 #
-<% %w(key_buffer_size max_allowed_packet thread_stack thread_cache_size sort_buffer_size read_buffer_size read_rnd_buffer_size join_buffer_size
-auto-increment-increment auto-increment-offset).each do |option_name| -%>
+<%
+%w(key_buffer_size max_allowed_packet thread_stack thread_cache_size sort_buffer_size read_buffer_size read_rnd_buffer_size
+join_buffer_size auto-increment-increment auto-increment-offset).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
 <% end -%>
 
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
-<% %w(myisam-recover max_connections max_connect_errors concurrent_insert connect_timeout wait_timeout net_read_timeout net_write_timeout
-back_log).each do |option_name| -%>
+<% %w(myisam-recover max_connections max_connect_errors concurrent_insert connect_timeout wait_timeout net_read_timeout
+net_write_timeout back_log).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
 <% end -%>
 <%- 
@@ -261,8 +263,9 @@ add_and_delete_option('long_query_time', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('sync_binlog', 'mysqld', my_config_hash) -%>
 <%
 # Optional arguments we want to include in the replication section
-%w(relay_log relay_log_index replicate_do_db replicate_do_db replicate_do_table replicate_ignore_db replicate_ignore_table replicate_wild_do_table
-replicate_wild_ignore_table skip_slave_start read_only transaction-isolation slave_compressed_protocol).each do |option_name| -%>
+%w(relay_log relay_log_index replicate_do_db replicate_do_db replicate_do_table replicate_ignore_db
+replicate_ignore_table replicate_wild_do_table replicate_wild_ignore_table skip_slave_start
+read_only transaction-isolation slave_compressed_protocol).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash, true) -%>
 <% end -%>
 
@@ -301,9 +304,9 @@ innodb_flush_log_at_trx_commit).each do |option_name| -%>
 
 <%
 # Optional InnoDB options
-%(innodb_log_files_in_group innodb_status_file innodb_file_per_table skip-innodb-doublewrite innodb_flush_method innodb_log_buffer_size 
-innodb_adaptive_flushing innodb_adaptive_flushing_method innodb_adaptive_checkpoint innodb_change_buffering innodb_doublewrite
-innodb_file_format).each do |option_name| -%>
+%(innodb_log_files_in_group innodb_status_file innodb_file_per_table skip-innodb-doublewrite innodb_flush_method
+innodb_log_buffer_size innodb_adaptive_flushing innodb_adaptive_flushing_method innodb_adaptive_checkpoint
+innodb_change_buffering innodb_doublewrite innodb_file_format).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash, true) -%>
 <% end -%>
 
@@ -357,7 +360,9 @@ quote-names
 #no-auto-rehash # faster start of mysql but no tab completition
 
 [myisamchk]
-<%= add_all_options('myisamchk', my_config_hash, %w(max_allowed_packet myisam_sort_buffer_size myisam_max_sort_file_size myisam_repair_threads myisam-recover)) -%>
+<%= add_all_options('myisamchk', my_config_hash,
+                    %w(max_allowed_packet myisam_sort_buffer_size myisam_max_sort_file_size myisam_repair_threads myisam-recover)
+                   ) -%>
 
 <% if my_config_hash['directories']['confd_dir'] -%>
 #
