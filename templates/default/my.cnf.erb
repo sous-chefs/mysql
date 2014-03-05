@@ -30,15 +30,6 @@
 #      following deviations:
 #      - key: 'bool_flag': Sets that this option is a flag in the config, and the key should be added without a value.
 #
-# The exception to this is node['rackspace_mysql']['config']['common'] which is solely for variables used in
-#   multiple locations/blocks of the file.
-#
-# Current common attributes:
-#   ['config']['common']['port']               (client, mysqld)
-#   ['config']['common']['myisam-recover']
-#   ['config']['common']['table_open_cache']
-#   ['config']['common']['socket']             (client, mysqld_safe, mysqld)
-#   ['config']['common']['max_allowed_packet']
 
 # Duplicate the config hash so we can modify it
 my_config_hash = node['rackspace_mysql']['config'].dup
@@ -49,26 +40,6 @@ my_config_hash = node['rackspace_mysql']['config'].dup
 # (Though Chef doesn't actually use the ERB engine, err on the side of caution)
 #
 
-# Add single option: return the string data to add a single option to the config file WITH an ending newline
-# Error if the option is not found
-def add_single_option(option_name, option_inner_hash)
-  ret_val = ""
-  if option_inner_hash.key?('comment')
-    # With newline as more lines will be appended
-    ret_val << "# #{option_name}: #{option_inner_hash['comment']}\n"
-  end
-
-  if option_inner_hash.key?('bool_flag')
-    # Boolean flag, no argument
-    ret_val << "#{option_name}\n"
-  else
-    # Normal option
-    ret_val << "#{option_name} = #{option_inner_hash['value']}\n"
-  end
-  return ret_val
-end
-
-
 # add_and_delete_option: Return the value of add_single_option for the given option name, and delete it from tha hash.
 def add_and_delete_option(option_name, block_name, my_config_hash, optional = false)
   if optional == true and !my_config_hash[block_name].key?(option_name)
@@ -77,7 +48,7 @@ def add_and_delete_option(option_name, block_name, my_config_hash, optional = fa
     return "# #{option_name}: Unset\n"
   end
 
-  ret_val = add_single_option(option_name, my_config_hash[block_name][option_name])
+  ret_val = _add_single_option(option_name, my_config_hash[block_name][option_name])
   # Delete the key fron the config hash so we can use a simple iterator for the remaining options                                                                                                         
   my_config_hash[block_name].delete(option_name)
 end
@@ -102,11 +73,31 @@ def add_all_options(block_name, my_config_hash, mandatory_options)
     ret_val << "\n# Extra Arguments\n"
 
     my_config_hash[block_name].keys.sorted.each do |option_name|
-      ret_val << add_single_option(option_name, my_config_hash[block_name][option_name])
+      ret_val << add_and_delete_option(option_name, block_name, my_config_hash)
       ret_val << "\n"
     end
   end
   
+  return ret_val
+end
+
+# Add single option: return the string data to add a single option to the config file WITH an ending newline
+# Error if the option is not found
+# Not intended to be used directly
+def _add_single_option(option_name, option_inner_hash)
+  ret_val = ""
+  if option_inner_hash.key?('comment')
+    # With newline as more lines will be appended
+    ret_val << "# #{option_name}: #{option_inner_hash['comment']}\n"
+  end
+
+  if option_inner_hash.key?('bool_flag')
+    # Boolean flag, no argument
+    ret_val << "#{option_name}\n"
+  else
+    # Normal option
+    ret_val << "#{option_name} = #{option_inner_hash['value']}\n"
+  end
   return ret_val
 end
 
@@ -118,15 +109,15 @@ end
 # especially if they contain "#" chars...
 # Remember to edit /etc/mysql/debian.cnf when changing the socket location.
 [client]
-<%= add_single_option('port', my_config_hash['common']['port']) %>
-<%= add_single_option('socket', my_config_hash['common']['socket']) %>
+<%= add_and_delete_option('socket', 'client', my_config_hash) %>
+<%= add_and_delete_option('port', 'client', my_config_hash) %>
 
 # Here is entries for some specific programs
 # The following values assume you have at least 32M ram
 
 # This was formally known as [safe_mysqld]. Both versions are currently parsed.
 [mysqld_safe]
-<%= add_single_option('socket', my_config_hash['common']['socket']) %>
+<%= add_and_delete_option('socket', 'mysqld_safe', my_config_hash) %>
 <%= add_and_delete_option('nice', 'mysqld_safe', my_config_hash) %>
 
 [mysqld]
@@ -142,11 +133,11 @@ end
 
 <%= add_and_delete_option('user', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('pid_file', 'mysqld', my_config_hash) -%>
-<%= add_single_option('socket', my_config_hash['common']['socket']) -%>
-<%= add_single_option('port', my_config_hash['common']['port']) -%>
+
+<%= add_and_delete_option('socket', 'mysqld', my_config_hash) %>
+<%= add_and_delete_option('port', 'mysqld', my_config_hash) %>
 <%= add_and_delete_option('basedir', 'mysqld', my_config_hash) -%>
-# This option is used in two locations within this block
-<%= add_single_option('datadir', my_config_hash['mysqld']['datadir']) -%>
+<%= add_and_delete_option('datadir', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('tmpdir', 'mysqld', my_config_hash) -%>
 skip-external-locking
 <%= add_and_delete_option('skip-name-resolve', 'mysqld', my_config_hash, true) -%>
@@ -254,20 +245,21 @@ add_and_delete_option('long_query_time', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('log_bin', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('binlog_format', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('log_slave_updates', 'mysqld', my_config_hash) -%>
+<%- else
+       fail "Option binlog_format must be paired with log_bin" if my_config_hash['mysqld'].key?('binlog_format')
+       fail "Option log_slave_updates must be paired with log_bin" if my_config_hash['mysqld'].key?('log_slave_updates')
 <%- end %>
 <%= add_and_delete_option('log_bin_trust_function_creators', 'mysqld', my_config_hash, true) -%>
 
 <%= add_and_delete_option('expire_logs_days', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('max_binlog_size', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('binlog_cache_size', 'mysqld', my_config_hash) -%>
-#binlog_do_db           = include_database_name
-#binlog_ignore_db       = include_database_name
 <%= add_and_delete_option('sync_binlog', 'mysqld', my_config_hash) -%>
 <%
 # Optional arguments we want to include in the replication section
-%w(relay_log relay_log_index replicate_do_db replicate_do_db replicate_do_table replicate_ignore_db
+%w(relay_log relay_log_index replicate_do_db replicate_do_table replicate_ignore_db
 replicate_ignore_table replicate_wild_do_table replicate_wild_ignore_table skip_slave_start
-read_only transaction-isolation slave_compressed_protocol).each do |option_name| -%>
+read_only transaction-isolation slave_compressed_protocol binlog_do_db binlog_ignore_db).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash, true) -%>
 <% end -%>
 
@@ -287,16 +279,6 @@ end -%>
 
 ## InnoDB Plugin Independent Settings
 <%
-# SPECIAL CASE: Option name:key name mismatch
-# This key is used twice.
-if my_config_hash['mysqld']['data_dir'].key?('comment') -%>
-# innodb_data_home_dir: <%= my_config_hash['mysqld']['table_open_cache']['comment'] %>
-<% end -%>
-# innodb_data_home_dir: NOTE: Uses ['mysqld']['data_dir'] keys in the configuration hash
-innodb_data_home_dir = <%= my_config_hash['mysqld']['data_dir']['value'] %>
-<% my_config_hash['mysqld'].delete('data_dir') -%>
-
-<%
 # Mandatory InnoDB options
 %w(innodb_log_group_home_dir innodb_table_locks innodb_lock_wait_timeout innodb_thread_concurrency innodb_commit_concurrency
 innodb_support_xa innodb_buffer_pool_size innodb_log_file_size innodb_additional_mem_pool_size innodb_data_file_path
@@ -308,7 +290,7 @@ innodb_flush_log_at_trx_commit).each do |option_name| -%>
 # Optional InnoDB options
 %(innodb_log_files_in_group innodb_status_file innodb_file_per_table skip-innodb-doublewrite innodb_flush_method
 innodb_log_buffer_size innodb_adaptive_flushing innodb_adaptive_flushing_method innodb_adaptive_checkpoint
-innodb_change_buffering innodb_doublewrite innodb_file_format).each do |option_name| -%>
+innodb_change_buffering innodb_doublewrite innodb_file_format innodb_data_home_dir).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash, true) -%>
 <% end -%>
 
@@ -359,7 +341,9 @@ quote-names
 <%= add_all_options('mysqldump', my_config_hash, %w(max_allowed_packet)) -%>
 
 [mysql]
-#no-auto-rehash # faster start of mysql but no tab completition
+# no-auto-rehash: faster start of mysql but no tab completition
+<%= add_and_delete_option('no-auto-rehash', 'mysql', my_config_hash, true) -%>
+<%= add_all_options('mysql', my_config_hash, []) -%>
 
 [myisamchk]
 <%= add_all_options('myisamchk', my_config_hash,
