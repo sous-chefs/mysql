@@ -48,7 +48,7 @@ def add_and_delete_option(option_name, block_name, my_config_hash, optional = fa
     return "# #{option_name}: Unset\n"
   end
 
-  ret_val = _add_single_option(option_name, my_config_hash[block_name][option_name])
+  ret_val = _add_single_option(option_name, my_config_hash[block_name][option_name], optional)
   # Delete the key fron the config hash so we can use a simple iterator for the remaining options                                                                                                         
   my_config_hash[block_name].delete(option_name)
 end
@@ -84,20 +84,45 @@ end
 # Add single option: return the string data to add a single option to the config file WITH an ending newline
 # Error if the option is not found
 # Not intended to be used directly
-def _add_single_option(option_name, option_inner_hash)
+def _add_single_option(option_name, option_inner_hash, optional = false)
   ret_val = ""
   if option_inner_hash.key?('comment')
     # With newline as more lines will be appended
     ret_val << "# #{option_name}: #{option_inner_hash['comment']}\n"
   end
 
+  # See if this is a boolean flag, and output accordingly
   if option_inner_hash.key?('bool_flag')
-    # Boolean flag, no argument
-    ret_val << "#{option_name}\n"
+    # See if 'value' was specified, and if so use it for control
+    if option_inner_hash.key?('value')
+      # A bit of implicitness here, rely on Ruby's boolean interpretation of the value.
+      if option_inner_hash['value']
+        ret_val << "#{option_name}\n"
+      else
+        return "# #{option_name}: Disabled"
+      end
+    else
+      # No 'value' key, default to enabled
+      return "#{option_name}"
+    end      
+
   else
     # Normal option
-    ret_val << "#{option_name} = #{option_inner_hash['value']}\n"
+
+    # See if value is nil and treat nil as unset
+    if option_inner_hash['value'] == nil
+      # Some logic to see if this is allowed
+      if optional == true
+        return "# #{option_name}: Unset"
+      else
+        fail "ERROR: Mandatory option #{option_name} not specified!"
+      end
+      
+    else
+      ret_val << "#{option_name} = #{option_inner_hash['value']}\n"
+    end      
   end
+
   return ret_val
 end
 
@@ -139,7 +164,7 @@ end
 <%= add_and_delete_option('basedir', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('datadir', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('tmpdir', 'mysqld', my_config_hash) -%>
-skip-external-locking
+<%= add_and_delete_option('skip-external-locking', 'mysqld', my_config_hash, true) -%>
 <%= add_and_delete_option('skip-name-resolve', 'mysqld', my_config_hash, true) -%>
 
 # Charset and Collation
@@ -177,21 +202,16 @@ join_buffer_size auto-increment-increment auto-increment-offset).each do |option
 net_write_timeout back_log).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
 <% end -%>
-<%- 
-# Special case: The variable changed between versions
-# TODO: Do we even support MySQL <= 5.1?
-if my_config_hash['mysqld']['table_open_cache'].key?('comment') -%>
-# table_open_cache: <%= my_config_hash['mysqld']['table_open_cache']['comment'] %>
-<% end
-if node['rackspace_mysql']['version'].to_f >= 5.1 -%>
-table_open_cache = <%= my_config_hash['mysqld']['table_open_cache']['value'] %>
-<%- else %>
-table_cache = <%= my_config_hash['mysqld']['table_open_cache']['value'] %>
-<%- end 
-my_config_hash['mysqld'].delete('table_open_cache')
-%>
 
-<% %w( tmp_table_size max_heap_table_size bulk_insert_buffer_size open-files-limit).each do |option_name| -%>
+<%
+# This originally had some logic around the MySQL version for table_open_cache/table_cache
+# However, maintaing that logic is likely more trouble than its worth, as it was for <= 5.1
+# Flag table_open_cache as optional and the arbitrary key code path can be used if table_cache
+# is needed
+-%>
+<%= add_and_delete_option('table_open_cache', 'mysqld', my_config_hash, true) -%>
+
+<% %w(tmp_table_size max_heap_table_size bulk_insert_buffer_size open-files-limit).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
 <% end -%>
 
@@ -218,19 +238,16 @@ add_and_delete_option('sql_mode', 'mysqld', my_config_hash, true) -%>
 #
 # Here you can see queries with especially long duration
 <% 
-# Special case: If slow_query_log is set, add slow_query_log and slow_query_log_file
-#               Otherwise add log_slow_queries
-if my_config_hash['mysqld'].key?('slow_query_log') %>
-<%= add_and_delete_option('slow_query_log', 'mysqld', my_config_hash) -%>
-<%= add_and_delete_option('slow_query_log_file', 'mysqld', my_config_hash) -%>
+# This originally had some logic to use log_slow_queries if slow_query_log is unset.
+# This was for reverse compatibility with 5.1, but both the redhat and debian server attributes files
+# define slow_query.  Removing the logic for code tidyness.
+# However, flag slow_query_log as optional and the arbitrary key code path can be used if
+# log_slow_queries is needed.
+-%>
+<%= add_and_delete_option('slow_query_log', 'mysqld', my_config_hash, true) -%>
+<%= add_and_delete_option('slow_query_log_file', 'mysqld', my_config_hash, true) -%>
 <%= add_and_delete_option('log-queries-not-using-indexes', 'mysqld', my_config_hash, true) -%>
-<%- else %>
-<%= add_and_delete_option('log_slow_queries', 'mysqld', my_config_hash, true) -%>
-<% 
-   fail "Option slow_query_log_file must be paired with slow_query_log" if my_config_hash['mysqld'].key?('slow_query_log_file')
-   fail "Option log-queries-not-using-indexes must be paired with slow_query_log" if my_config_hash['mysqld'].key?('log-queries-not-using-indexes')
-end -%>
-add_and_delete_option('long_query_time', 'mysqld', my_config_hash) -%>
+<%= add_and_delete_option('long_query_time', 'mysqld', my_config_hash) -%>
 
 #
 # * Replication
@@ -245,16 +262,14 @@ add_and_delete_option('long_query_time', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('log_bin', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('binlog_format', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('log_slave_updates', 'mysqld', my_config_hash) -%>
-<%- else
-       fail "Option binlog_format must be paired with log_bin" if my_config_hash['mysqld'].key?('binlog_format')
-       fail "Option log_slave_updates must be paired with log_bin" if my_config_hash['mysqld'].key?('log_slave_updates')
 <%- end %>
 <%= add_and_delete_option('log_bin_trust_function_creators', 'mysqld', my_config_hash, true) -%>
 
-<%= add_and_delete_option('expire_logs_days', 'mysqld', my_config_hash) -%>
-<%= add_and_delete_option('max_binlog_size', 'mysqld', my_config_hash) -%>
-<%= add_and_delete_option('binlog_cache_size', 'mysqld', my_config_hash) -%>
-<%= add_and_delete_option('sync_binlog', 'mysqld', my_config_hash) -%>
+<%-
+%w(expire_logs_days max_binlog_size binlog_cache_size sync_binlog).each do |option_name| -%>
+<%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
+<% end -%>
+
 <%
 # Optional arguments we want to include in the replication section
 %w(relay_log relay_log_index replicate_do_db replicate_do_table replicate_ignore_db
@@ -336,9 +351,7 @@ innodb_change_buffering innodb_doublewrite innodb_file_format innodb_data_home_d
 <%= add_all_options('mysqld', my_config_hash, []) -%>
 
 [mysqldump]
-quick
-quote-names
-<%= add_all_options('mysqldump', my_config_hash, %w(max_allowed_packet)) -%>
+<%= add_all_options('mysqldump', my_config_hash, %w(quick quote-names max_allowed_packet)) -%>
 
 [mysql]
 # no-auto-rehash: faster start of mysql but no tab completition

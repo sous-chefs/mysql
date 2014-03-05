@@ -33,6 +33,37 @@ default['rackspace_mysql']['root_network_acl']                = nil
 # http://dev.mysql.com/doc/refman/5.5/en/mysqld-option-tables.html
 #
 
+#
+# See comments in the template for the layout of the hashes
+# (Though hopefully it is self-explanitory.)
+#
+
+#
+# Boolean Option Flags
+#
+default['rackspace_mysql']['config']['mysqld']['skip-external-locking']['boolean']    = true
+default['rackspace_mysql']['config']['mysqld']['skip-name-resolve']['boolean']        = true
+default['rackspace_mysql']['config']['mysqld']['log_warnings']['boolean']             = true
+default['rackspace_mysql']['config']['mysqld']['log-queries-not-using-indexes']['boolean']   = true
+default['rackspace_mysql']['config']['mysqld']['log_bin_trust_function_creators']['boolean'] = true
+default['rackspace_mysql']['config']['mysqld']['skip_slave_start']['boolean']         = true
+default['rackspace_mysql']['config']['mysqld']['skip-innodb']['boolean']              = true
+default['rackspace_mysql']['config']['mysqld']['innodb_status_file']['boolean']       = true
+default['rackspace_mysql']['config']['mysqld']['innodb_file_per_table']['boolean']    = true
+default['rackspace_mysql']['config']['mysqld']['skip-innodb-doublewrite']['boolean']  = true
+default['rackspace_mysql']['config']['mysqld']['skip-federated']['boolean']           = true
+default['rackspace_mysql']['config']['mysqld']['skip-show-database']['boolean']       = true
+default['rackspace_mysql']['config']['mysqld']['skip-bdb']['boolean']                 = true
+
+default['rackspace_mysql']['config']['mysqldump']['quick']['boolean']                 = true
+default['rackspace_mysql']['config']['mysqldump']['quote-names']['boolean']           = true
+
+default['rackspace_mysql']['config']['mysql']['no-auto-rehash']['boolean']            = true
+
+#
+# VALUES
+#
+
 ###############################
 # [mysqld]
 ###############################
@@ -83,9 +114,8 @@ default['rackspace_mysql']['config']['mysqld']['net_read_timeout']['value']     
 default['rackspace_mysql']['config']['mysqld']['net_write_timeout']['value']           = '30'
 default['rackspace_mysql']['config']['mysqld']['back_log']['value']                    = '128'
 
-default['rackspace_mysql']['config']['mysqld']['table_open_cache']['value']            = '128'
 # table_cache is deprecated in favor of table_open_cache
-#default['rackspace_mysql']['config']['mysqld']['table_cache']['value']
+default['rackspace_mysql']['config']['mysqld']['table_open_cache']['value']            = '128'
 
 default['rackspace_mysql']['config']['mysqld']['tmp_table_size']['value']              = '32M'
 default['rackspace_mysql']['config']['mysqld']['max_heap_table_size']['value']         = node['rackspace_mysql']['config']['mysqld']['tmp_table_size']
