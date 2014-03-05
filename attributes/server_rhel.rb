@@ -19,22 +19,10 @@
 
 case node['platform_family']
 when 'rhel'
-
-  # Probably driven from wrapper cookbooks, environments, or roles.
-  # Keep in this namespace for backwards compat
-  default['rackspace_mysql']['data_dir'] = '/var/lib/mysql'
-
   # switching logic to account for differences in platform native
   # package versions
   case node['platform_version'].to_i
-  when 5
-    default['rackspace_mysql']['server']['packages'] = ['mysql-server']
-    default['rackspace_mysql']['server']['log_slow_queries']     = '/var/log/mysql/slow.log'
   when 6
-    default['rackspace_mysql']['server']['packages'] = ['mysql-server']
-    default['rackspace_mysql']['server']['slow_query_log']       = 1
-    default['rackspace_mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
-  when 2013 # amazon linux
     default['rackspace_mysql']['server']['packages'] = ['mysql-server']
     default['rackspace_mysql']['server']['slow_query_log']       = 1
     default['rackspace_mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
