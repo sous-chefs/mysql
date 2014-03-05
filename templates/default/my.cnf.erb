@@ -48,8 +48,8 @@ def add_and_delete_option(option_name, block_name, my_config_hash, optional = fa
     return "# #{option_name}: Unset\n"
   end
 
-  ret_val = _add_single_option(option_name, my_config_hash[block_name][option_name], optional)
-  # Delete the key fron the config hash so we can use a simple iterator for the remaining options                                                                                                         
+  ret_val = _add_single_option(option_name, block_name, my_config_hash, optional)
+  # Delete the key fron the config hash so we can use a simple iterator for the remaining options
   my_config_hash[block_name].delete(option_name)
 end
 
@@ -84,8 +84,18 @@ end
 # Add single option: return the string data to add a single option to the config file WITH an ending newline
 # Error if the option is not found
 # Not intended to be used directly
-def _add_single_option(option_name, option_inner_hash, optional = false)
+def _add_single_option(option_name, block_name, my_config_hash, optional = false)
   ret_val = ""
+  option_inner_hash = my_config_hash[block_name][option_name]
+
+  if option_inner_hash == nil
+    if optional == true
+      return "# #{option_name}: Unset"
+    else
+      fail "ERROR: Mandatory config option #{block_name}:#{option_name} not specified!"
+    end
+  end    
+
   if option_inner_hash.key?('comment')
     # With newline as more lines will be appended
     ret_val << "# #{option_name}: #{option_inner_hash['comment']}\n"
@@ -115,7 +125,7 @@ def _add_single_option(option_name, option_inner_hash, optional = false)
       if optional == true
         return "# #{option_name}: Unset"
       else
-        fail "ERROR: Mandatory option #{option_name} not specified!"
+        fail "ERROR: Mandatory option #{block_name}:#{option_name} not specified!"
       end
       
     else
