@@ -2,6 +2,11 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v6.0.0
+------
+- Changed my.cnf template to use a config hash methodology per rackspace-cookbooks/contributing
+  This change alters all the tunable variable names.  See README and my.cnf.erb.
+
 v5.0.1
 ------
 # Bug

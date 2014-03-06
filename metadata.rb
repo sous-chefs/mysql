@@ -4,7 +4,8 @@ maintainer_email  'rackspace-cookbooks@rackspace.com'
 license           'Apache 2.0'
 description       'Installs and configures mysql for client or server'
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           '5.0.1'
+version           '6.0.1'
+
 recipe            'rackspace_mysql', 'Includes the client recipe to configure a client'
 recipe            'rackspace_mysql::client', 'Installs packages required for mysql clients using run_action magic'
 recipe            'rackspace_mysql::server', 'Installs packages required for mysql servers w/o manual intervention'

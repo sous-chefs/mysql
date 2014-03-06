@@ -19,33 +19,35 @@
 
 case node['platform_family']
 when 'debian'
-
   # Probably driven from wrapper cookbooks, environments, or roles.
   # Keep in this namespace for backwards compat
   default['rackspace_mysql']['data_dir'] = '/var/lib/mysql'
 
-  default['rackspace_mysql']['server']['packages'] = %w{ mysql-server apparmor-utils }
-  default['rackspace_mysql']['server']['slow_query_log']       = 1
-  default['rackspace_mysql']['server']['slow_query_log_file']  = '/var/log/mysql/slow.log'
-
   # Platformisms.. filesystem locations and such.
-  default['rackspace_mysql']['server']['basedir'] = '/usr'
-  default['rackspace_mysql']['server']['tmpdir'] = ['/tmp']
+  # These are parsed by the recipe
+  default['rackspace_mysql']['server']['packages'] = %w{ mysql-server apparmor-utils }
 
-  default['rackspace_mysql']['server']['directories']['run_dir']              = '/var/run/mysqld'
-  default['rackspace_mysql']['server']['directories']['log_dir']              = '/var/lib/mysql'
-  default['rackspace_mysql']['server']['directories']['slow_log_dir']         = '/var/log/mysql'
-  default['rackspace_mysql']['server']['directories']['confd_dir']            = '/etc/mysql/conf.d'
+  default['rackspace_mysql']['server']['directories']['run_dir']      = '/var/run/mysqld'
+  default['rackspace_mysql']['server']['directories']['log_dir']      = '/var/lib/mysql'
+  default['rackspace_mysql']['server']['directories']['confd_dir']    = '/etc/mysql/conf.d'
 
-  default['rackspace_mysql']['server']['mysqladmin_bin']       = '/usr/bin/mysqladmin'
-  default['rackspace_mysql']['server']['mysql_bin']            = '/usr/bin/mysql'
+  default['rackspace_mysql']['server']['mysqladmin_bin']  = '/usr/bin/mysqladmin'
+  default['rackspace_mysql']['server']['mysql_bin']       = '/usr/bin/mysql'
 
-  default['rackspace_mysql']['server']['pid_file']             = '/var/run/mysqld/mysqld.pid'
-  default['rackspace_mysql']['server']['socket']               = '/var/run/mysqld/mysqld.sock'
-  default['rackspace_mysql']['server']['grants_path']          = '/etc/mysql_grants.sql'
-  default['rackspace_mysql']['server']['old_passwords']        = 1
+  # Config changes
+  # These are parsed by the template
+  default['rackspace_mysql']['config']['mysqld']['datadir']['value'] = node['rackspace_mysql']['data_dir']
 
-  # wat
-  default['rackspace_mysql']['tunable']['innodb_adaptive_flushing'] = false
-  default['rackspace_mysql']['server']['skip_federated'] = false
+  default['rackspace_mysql']['config']['mysqld']['innodb_log_group_home_dir']['value'] = node['rackspace_mysql']['server']['directories']['log_dir']
+
+  default['rackspace_mysql']['config']['mysqld']['slow_query_log']['value']       = 1
+  default['rackspace_mysql']['config']['mysqld']['slow_query_log_file']['value']  = '/var/log/mysql/slow.log'
+
+  default['rackspace_mysql']['config']['mysqld']['pid-file']['value']    = '/var/run/mysqld/mysqld.pid'
+  default['rackspace_mysql']['config']['mysqld']['socket']['value']      = '/var/run/mysqld/mysqld.sock'
+
+  default['rackspace_mysql']['config']['client']['socket']['value']      = node['rackspace_mysql']['config']['mysqld']['socket']['value']
+  default['rackspace_mysql']['config']['mysqld_safe']['socket']['value'] = node['rackspace_mysql']['config']['mysqld']['socket']['value']
+
+  default['rackspace_mysql']['config']['includes']['value'] = node['rackspace_mysql']['server']['directories']['confd_dir']
 end
