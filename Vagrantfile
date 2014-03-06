@@ -16,8 +16,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "debian" do |vm_cfg|
-    vm_cfg.vm.box = "opscode-debian-7.2"
-    vm_cfg.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.2_chef-provisionerless.box"
+    vm_cfg.vm.box = "opscode-debian-7.4"
+    vm_cfg.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.4_chef-provisionerless.box"
     vm_cfg.vm.network :private_network, ip: "192.168.254.133"
   end
 
