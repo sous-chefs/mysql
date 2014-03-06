@@ -45,4 +45,6 @@ when 'rhel'
   include_recipe 'rackspace_mysql::_server_rhel'
 when 'debian'
   include_recipe 'rackspace_mysql::_server_debian'
+else
+  fail "Unsupported platform '#{node['platform_family']}'"
 end

@@ -60,8 +60,7 @@ when 'rhel'
   default['rackspace_mysql']['config']['mysqld']['innodb_adaptive_flushing']['comment'] = 'Unsupported on RHEL'
   default['rackspace_mysql']['config']['mysqld']['innodb_adaptive_flushing']['value']   = nil
   default['rackspace_mysql']['config']['mysqld']['skip-federated']['value']             = false
+  default['rackspace_mysql']['config']['mysqld']['old_passwords']['value']              = 0
 
   default['rackspace_mysql']['config']['includes']['value'] = node['rackspace_mysql']['server']['directories']['confd_dir']
-else
-  fail "Unsupported platform #{node['platform_family']}"
 end

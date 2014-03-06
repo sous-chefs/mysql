@@ -76,7 +76,7 @@ default['rackspace_mysql']['config']['mysqld']['pid-file']['value']             
 # Note that client and mysqld_safe also need socket defined
 default['rackspace_mysql']['config']['mysqld']['socket']['value']                     = '/var/lib/mysql/mysql.sock'
 default['rackspace_mysql']['config']['mysqld']['port']['value']                       = 3306
-#default['rackspace_mysql']['config']['mysqld']['basedir']['value']
+default['rackspace_mysql']['config']['mysqld']['basedir']['value']                    = '/usr'
 default['rackspace_mysql']['config']['mysqld']['datadir']['value']                    = '/var/lib/mysql'
 default['rackspace_mysql']['config']['mysqld']['tmpdir']['value']                     = '/tmp'
 default['rackspace_mysql']['config']['mysqld']['skip-external-locking']['value']      = true
@@ -251,7 +251,7 @@ default['rackspace_mysql']['config']['mysqld']['skip-show-database']['value']   
 # BerkeleyDB
 #
 default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value']                = true
-default['rackspace_mysql']['config']['mysqld']['old_passwords']['value']           = 0
+#default['rackspace_mysql']['config']['mysqld']['old_passwords']['value']           = 0
 
 
 ###############################
