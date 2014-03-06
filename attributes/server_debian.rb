@@ -38,7 +38,6 @@ when 'debian'
   # Config changes
   # These are parsed by the template
   default['rackspace_mysql']['config']['mysqld']['datadir']['value'] = node['rackspace_mysql']['data_dir']
-  default['rackspace_mysql']['config']['mysqld']['basedir']['value'] = '/usr'
 
   default['rackspace_mysql']['config']['mysqld']['innodb_log_group_home_dir']['value'] = node['rackspace_mysql']['server']['directories']['log_dir']
 
@@ -46,17 +45,11 @@ when 'debian'
   default['rackspace_mysql']['config']['mysqld']['slow_query_log_file']['value']  = '/var/log/mysql/slow.log'
 
   default['rackspace_mysql']['config']['mysqld']['pid-file']['value']    = '/var/run/mysqld/mysqld.pid'
-  default['rackspace_mysql']['config']['mysqld']['socket']['value']      = '/var/run/mysqld/mysql.sock'
+  default['rackspace_mysql']['config']['mysqld']['socket']['value']      = '/var/run/mysqld/mysqld.sock'
 
   default['rackspace_mysql']['config']['client']['socket']['value']      = node['rackspace_mysql']['config']['mysqld']['socket']['value']
   default['rackspace_mysql']['config']['mysqld_safe']['socket']['value'] = node['rackspace_mysql']['config']['mysqld']['socket']['value']
-  default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value']    = true
 
-  # RHEL/CentOS mysql package does not support this option.
-  default['rackspace_mysql']['config']['mysqld']['innodb_adaptive_flushing']['comment'] = 'Unsupported on RHEL'
-
-  default['rackspace_mysql']['config']['mysqld']['innodb_adaptive_flushing']['value']   = nil
-  default['rackspace_mysql']['config']['mysqld']['skip-federated']['value']             = false
   default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value']                   = false
 
   default['rackspace_mysql']['config']['includes']['value'] = node['rackspace_mysql']['server']['directories']['confd_dir']

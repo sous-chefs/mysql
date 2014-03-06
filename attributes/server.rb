@@ -224,7 +224,7 @@ end
 #
 # Federated
 #
-default['rackspace_mysql']['config']['mysqld']['skip-federated']['value']
+default['rackspace_mysql']['config']['mysqld']['skip-federated']['value']                  = false
 
 #
 # Security
