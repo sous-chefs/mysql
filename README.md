@@ -36,69 +36,62 @@ The LWRP that used to ship as part of this cookbook has been refactored into the
 Attributes
 ----------
 See the `attributes/server.rb` or `attributes/client.rb` for default values. Several attributes have values that vary based on the node's platform and version.
+See attributes/server_[OS].rb for OS specific variations.
 
-* `node['mysql']['port']` - Listen port for MySQLd
-* `node['mysql']['data_dir']` - Location for mysql data directory. `WARNING` This will only on initial converge. It will not move data around if you change it.
 
-* `node['mysql']['client']['packages']` - An array of package names
-  that should be installed on "client" systems. This can be modified,
-  e.g., to specify packages for Percona.
-* `node['mysql']['server']['packages']` - An array of package names
-  that should be installed on "server" systems. This can be modified,
-  e.g., to specify packages for Percona.
-* `node['mysql']['auto-increment-increment']` -
-  auto-increment-increment value in my.cnf
-* `node['mysql']['auto-increment-offset]` - auto-increment-offset value in my.cnf
-* `node['mysql']['server']['basedir']` - Base directory where MySQL is installed
-* `node['mysql']['bind_address']` - Listen address for MySQLd
-* `node['mysql']['grants_path']` - Path where the grants.sql should be written
-* `node['mysql']['mysqladmin_bin']` - Path to the mysqladmin binary
-* `node['mysql']['server']['old_passwords']` - Sets the `old_passwords` value in my.cnf.
-* `node['mysql']['server']['pid_file']` - Path to the mysqld.pid file
+This cookbook utilizes a config hash methodology per [rackspace-cookbooks/contributing](https://github.com/rackspace-cookbooks/contributing/blob/master/CONTRIBUTING.md)
 
-* `node['mysql']['server']['reload_action']` - Action to take when mysql conf
-  files are modified. Also allows "reload" and "none".
-* `node['mysql']['server']['root_group']` - The default group of the "root" user
-* `node['mysql']['server']['service_name']` - The name of the mysqld service
-* `node['mysql']['server']['socket']` - Path to the mysqld.sock file
-* `mysql['root_network_acl']` - Set define the network the root user will be able to login from, default is nil
+The following common variables are used for the server install:
 
-Performance and other "tunable" attributes are under the `node['mysql']['tunable']` attribute, corresponding to the same-named parameter in my.cnf, and the default values are used. See `attributes/server.rb`.
+| Variable | Node Path | Use |
+| -------- |
+| Data Directory | ['rackspace_mysql']['data_dir'] | Sets the data directory path for MySQL |
+| Package List | ['rackspace_mysql']['server']['packages'] | List of packages to install to provide the server |
+| Run Directory | ['rackspace_mysql']['server']['directories']['run_dir'] | Run directory Path |
+| Log Directory |['rackspace_mysql']['server']['directories']['log_dir']  | Log Directory Path |
+| Extra Configuration Directory | ['rackspace_mysql']['server']['directories']['confd_dir'] | Directory containing additional configuration files |
+| MySQLAdmin Path | ['rackspace_mysql']['server']['mysqladmin_bin'] | Path to the mysqladmin binary |
+| MySQL binary path | ['rackspace_mysql']['server']['mysql_bin']    | Path to the mysql binary |
+
+The options for my.cnf are to numerous to list here.  However, a standard hash format is used.
+The config has is broken up into blocks for each section of the my.cnf config to allow easy adding of extra options by calling recipes.
+The general layout is node['rackspace_mysql']['config'][block][option] = Config Inner hash
+Where:
+* option is the option name, i.e. 'port'
+* block corresponds to the my.cnf block the option goes in, i.e. 'mysqld'
+* The inner hash is the standard inner hash format as documented in rackspace-cookbooks/contributing with the following deviations:
+   * key: 'bool_flag': Sets that this option is a flag in the config, and the key should be added without a value.
+* The ['includes'] section is an exception as in controls the !includes block at the bottom of the file, see my.cnf.erb.
+
+Be warned that the use of - and _ is inconsistent across names!
+This is upstream inconsistency coming through, see the comments in the attributes and template files for documentation links.
+
+Many standard options are explicitly added to my.cnf for grouping and commenting.
+However, any options added to the hash which are not known to the cookbook will automaticallt be added to the end of the config block.
+It is not necessairy to edit this cookbook to add options.
+See my.cnf.erb for the options currently explicitly added to the template.
 
 By default, a MySQL installation has an anonymous user, allowing anyone to log into MySQL without having to have a user account created for them.  This is intended only for testing, and to make the installation go a bit smoother.  You should remove them before moving into a production environment.
 
-* `node['mysql']['remove_anonymous_users']` - Remove anonymous users
+* `node['rackspace_mysql']['remove_anonymous_users']` - Remove anonymous users
 
 Normally, root should only be allowed to connect from 'localhost'.  This ensures that someone cannot guess at the root password from the network.
 
-* `node['mysql']['allow_remote_root']` - If true Sets root access from '%'. If false deletes any non-localhost root users.
+* `node['rackspace_mysql']['allow_remote_root']` - If true Sets root access from '%'. If false deletes any non-localhost root users.
 
 By default, MySQL comes with a database named 'test' that anyone can access.  This is also intended only for testing, and should be removed before moving into a production environment. This will also drop any user privileges to the test database and any DB named test_% .
 
-* `node['mysql']['remove_test_database']` - Delete the test database and access to it.
+* `node['rackspace_mysql']['remove_test_database']` - Delete the test database and access to it.
 
 The following attributes are randomly generated passwords handled in the `rackspace_mysql::server` recipe, using the OpenSSL cookbook's `secure_password` helper method. These are set using the `set_unless` node attribute method, which allows them to be easily overridden e.g.
 in a role.
 
-* `node['mysql']['server_root_password']` - Set the server's root
+* `node['rackspace_mysql']['server_root_password']` - Set the server's root
   password
-* `node['mysql']['server_repl_password']` - Set the replication user
+* `node['rackspace_mysql']['server_repl_password']` - Set the replication user
   'repl' password
-* `node['mysql']['server_debian_password']` - Set the debian-sys-maint
+* `node['rackspace_mysql']['server_debian_password']` - Set the debian-sys-maint
   user password
-
-
-## Security Options
-
-Further information is already available at [Symantec](http://www.symantec.com/connect/articles/securing-mysql-step-step) and [Deutsche Telekom (German)](http://www.telekom.com/static/-/155996/7/technische-sicherheitsanforderungen-si)
-
-* default['mysql']['security']['chroot'] - [chroot](http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_chroot)
-* default['mysql']['security']['safe_user_create'] - [safe-user-create](http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_safe-user-create)
-* default['mysql']['security']['secure_auth'] - [secure-auth](http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_secure-auth)
-* default['mysql']['security']['skip_symbolic_links'] - [skip-symbolic-links](http://dev.mysql.com/doc/refman/5.7/en/server-
-options.html#option_mysqld_symbolic-links)
-* default['mysql']['security']['skip_show_database'] - [skip-show-database](http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_skip-show-database)
-* default['mysql']['security']['local_infile'] - [local-infile](http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_local_infile)
 
 Usage
 -----
@@ -120,7 +113,7 @@ If you need to install the mysql Ruby library as a package for your system, over
 
 ```javascript
 {
-  "mysql": {
+  "rackspace_mysql": {
     "client": {
       "packages": ["mysql-client", "libmysqlclient-dev","ruby-mysql"]
     }
@@ -153,7 +146,7 @@ These node attributes are stored on the Chef server when using `chef-client`. Be
 
 ```javascript
 {
-  "mysql": {
+  "rackspace_mysql": {
     "server_root_password": "iloverandompasswordsbutthiswilldo",
     "server_repl_password": "iloverandompasswordsbutthiswilldo",
     "server_debian_password": "iloverandompasswordsbutthiswilldo"
@@ -174,6 +167,7 @@ License & Authors
 - Author:: Christoph Hartmann (<chris@lollyrock.com>)
 - Author:: Sean OMeara (<someara@opscode.com>)
 - Author:: Matthew Thode (<matt.thode@rackspace.com>)
+- Author:: Tom Noonan II (<thomas.noonan@rackspace.com>)
 
 ```text
 Copyright:: 2009-2013 Opscode, Inc
