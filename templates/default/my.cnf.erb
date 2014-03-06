@@ -5,6 +5,15 @@
 #
 
 #
+# WARNING *** WARNING *** WARNING
+# Use of hypens and underscores is inconsistent, and is passing through from upstream
+# The key is the configuration file option, and some use - whilst others use _
+# http://bugs.mysql.com/bug.php?id=55288
+# http://stackoverflow.com/questions/7736395/mysql-configuration-hypen-or-underscore
+# http://dev.mysql.com/doc/refman/5.5/en/mysqld-option-tables.html
+#
+
+#
 # The MySQL database server configuration file.
 #
 # You can copy this to one of:
@@ -30,6 +39,8 @@
 #      following deviations:
 #      - key: 'bool_flag': Sets that this option is a flag in the config, and the key should be added without a value.
 #
+# The ['includes'] section is an exception as in controls the !includes block at the bottom of the file.
+
 
 # Duplicate the config hash so we can modify it
 # Unfortunately .dup and .clone don't work; .dup is a shallow copy and .clone trips the read-only protection
@@ -93,7 +104,7 @@ def add_all_options(block_name, my_config_hash, mandatory_options)
       ret_val << add_and_delete_option(option_name, block_name, my_config_hash)
     end
   end
-  
+
   return ret_val
 end
 
@@ -110,7 +121,7 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
     else
       fail "ERROR: Mandatory config option #{block_name}:#{option_name} not specified!"
     end
-  end    
+  end
 
   if option_inner_hash.key?('comment')
     # With newline as more lines will be appended
@@ -130,7 +141,7 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
     else
       # No 'value' key, default to enabled
       ret_val << "#{option_name}\n"
-    end      
+    end
 
   else
     # Normal option
@@ -143,10 +154,10 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
       else
         fail "ERROR: Mandatory option #{block_name}:#{option_name} not specified!"
       end
-      
+
     else
       ret_val << "#{option_name} = #{option_inner_hash['value']}\n"
-    end      
+    end
   end
 
   return ret_val
@@ -198,7 +209,7 @@ end
 <%= add_and_delete_option('lower_case_table_names', 'mysqld', my_config_hash, true) -%>
 <%= add_and_delete_option('event_scheduler', 'mysqld', my_config_hash, true) -%>
 <%= add_and_delete_option('skip-character-set-client-handshake', 'mysqld', my_config_hash, true) -%>
-<%- 
+<%-
 
 if (my_config_hash['mysqld']['lc_messages_dir'] && my_config_hash['mysqld']['lc_messages']) %>
 <%= add_and_delete_option('lc_messages_dir', 'mysqld', my_config_hash) -%>
@@ -262,7 +273,7 @@ net_write_timeout back_log).each do |option_name| -%>
 
 #
 # Here you can see queries with especially long duration
-<% 
+<%
 # This originally had some logic to use log_slow_queries if slow_query_log is unset.
 # This was for reverse compatibility with 5.1, but both the redhat and debian server attributes files
 # define slow_query.  Removing the logic for code tidyness.
@@ -322,7 +333,7 @@ read_only transaction-isolation slave_compressed_protocol binlog_do_db binlog_ig
 # You might want to disable InnoDB to shrink the mysqld process by circa 100MB.
 <%= add_and_delete_option('skip-innodb', 'mysqld', my_config_hash, true) -%>
 
-<%- 
+<%-
 options=%w(innodb_write_io_threads innodb_io_capacity innodb_read_io_threads innodb_buffer_pool_instances)
 if node['rackspace_mysql']['version'].to_f >= 5.5
   options.each do |option_name| -%>
@@ -410,11 +421,13 @@ innodb_change_buffering innodb_doublewrite innodb_file_format innodb_data_home_d
                     %w(key_buffer myisam_sort_buffer_size myisam_max_sort_file_size myisam_repair_threads myisam-recover)
                     ) -%>
 
-# DEBUG
-<%# if my_config_hash['directories']['confd_dir'] -%>
+<% if my_config_hash['includes']['value'] -%>
 #
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
-!includedir <%# = my_config_hash['directories']['confd_dir'] %>
-<%# end -%>
+<% if my_config_hash['includes']['comment'] -%>
+# <%= my_config_hash['includes']['value'] %>: <%= my_config_hash['includes']['comment'] %>
+<% end -%>
+!includedir <%= my_config_hash['includes']['value'] %>/
+<% end -%>
