@@ -39,12 +39,10 @@ See the `attributes/server.rb` or `attributes/client.rb` for default values. Sev
 See attributes/server_[OS].rb for OS specific variations.
 
 
-This cookbook utilizes a config hash methodology per [rackspace-cookbooks/contributing](https://github.com/rackspace-cookbooks/contributing/blob/master/CONTRIBUTING.md)
-
 The following common variables are used for the server install:
 
 | Variable | Node Path | Use |
-| -------- |
+| -------- | --------- | --- |
 | Data Directory | ['rackspace_mysql']['data_dir'] | Sets the data directory path for MySQL |
 | Package List | ['rackspace_mysql']['server']['packages'] | List of packages to install to provide the server |
 | Run Directory | ['rackspace_mysql']['server']['directories']['run_dir'] | Run directory Path |
@@ -53,9 +51,10 @@ The following common variables are used for the server install:
 | MySQLAdmin Path | ['rackspace_mysql']['server']['mysqladmin_bin'] | Path to the mysqladmin binary |
 | MySQL binary path | ['rackspace_mysql']['server']['mysql_bin']    | Path to the mysql binary |
 
-The options for my.cnf are to numerous to list here.  However, a standard hash format is used.
+The options for my.cnf are to numerous to list here, however, a standard hash format is used.
+For the my.cnf template this cookbook uses a config hash methodology per [rackspace-cookbooks/contributing](https://github.com/rackspace-cookbooks/contributing/blob/master/CONTRIBUTING.md).
 The config has is broken up into blocks for each section of the my.cnf config to allow easy adding of extra options by calling recipes.
-The general layout is node['rackspace_mysql']['config'][block][option] = Config Inner hash
+The general layout is `node['rackspace_mysql']['config'][block][option] = ConfigInnerHash`
 Where:
 * option is the option name, i.e. 'port'
 * block corresponds to the my.cnf block the option goes in, i.e. 'mysqld'
@@ -67,8 +66,8 @@ Be warned that the use of - and _ is inconsistent across names!
 This is upstream inconsistency coming through, see the comments in the attributes and template files for documentation links.
 
 Many standard options are explicitly added to my.cnf for grouping and commenting.
-However, any options added to the hash which are not known to the cookbook will automaticallt be added to the end of the config block.
-It is not necessairy to edit this cookbook to add options.
+However, any options added to the hash which are not known to the cookbook will automatically be added to the end of the config block.
+It is not necessary to edit this cookbook to add options.
 See my.cnf.erb for the options currently explicitly added to the template.
 
 By default, a MySQL installation has an anonymous user, allowing anyone to log into MySQL without having to have a user account created for them.  This is intended only for testing, and to make the installation go a bit smoother.  You should remove them before moving into a production environment.
@@ -135,7 +134,7 @@ The recipe will perform a `node.save` unless it is run under `chef-solo` after t
 
 The client recipe is already included by server and 'default' recipes.
 
-For more infromation on the compile vs execution phase of a Chef run:
+For more information on the compile vs execution phase of a Chef run:
 
 - http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run
 
