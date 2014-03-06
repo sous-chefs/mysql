@@ -52,11 +52,6 @@ when 'rhel'
 
   default['rackspace_mysql']['config']['mysqld']['pid-file']['value'] = '/var/run/mysqld/mysqld.pid'
   default['rackspace_mysql']['config']['mysqld']['socket']['value']   = '/var/lib/mysql/mysql.sock'
-  default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value'] = true
-
-  # RHEL/CentOS mysql package does not support this option.
-  default['rackspace_mysql']['config']['mysqld']['innodb_adaptive_flushing']['comment'] = 'Unsupported on RHEL'
-  default['rackspace_mysql']['config']['mysqld']['old_passwords']['value']              = 0
 
   default['rackspace_mysql']['config']['includes']['value'] = node['rackspace_mysql']['server']['directories']['confd_dir']
 end

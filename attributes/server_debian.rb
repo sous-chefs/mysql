@@ -50,7 +50,5 @@ when 'debian'
   default['rackspace_mysql']['config']['client']['socket']['value']      = node['rackspace_mysql']['config']['mysqld']['socket']['value']
   default['rackspace_mysql']['config']['mysqld_safe']['socket']['value'] = node['rackspace_mysql']['config']['mysqld']['socket']['value']
 
-  default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value']                   = false
-
   default['rackspace_mysql']['config']['includes']['value'] = node['rackspace_mysql']['server']['directories']['confd_dir']
 end

@@ -248,8 +248,8 @@ default['rackspace_mysql']['config']['mysqld']['skip-show-database']['value']   
 #
 # BerkeleyDB
 #
-default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value']                = true
-# default['rackspace_mysql']['config']['mysqld']['old_passwords']['value']           = 0
+default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value']                = false
+# default['rackspace_mysql']['config']['mysqld']['old_passwords']['value']         = 0
 
 ###############################
 # [mysqldump]
