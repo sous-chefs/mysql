@@ -39,7 +39,6 @@ when 'rhel'
   # These are parsed by the recipe
   default['rackspace_mysql']['server']['directories']['run_dir']      = '/var/run/mysqld'
   default['rackspace_mysql']['server']['directories']['log_dir']      = '/var/lib/mysql'
-  default['rackspace_mysql']['server']['directories']['slow_log_dir'] = '/var/log/mysql'
   default['rackspace_mysql']['server']['directories']['confd_dir']    = '/etc/mysql/conf.d'
 
   default['rackspace_mysql']['server']['mysqladmin_bin']  = '/usr/bin/mysqladmin'
