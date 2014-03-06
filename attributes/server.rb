@@ -43,10 +43,12 @@ default['rackspace_mysql']['remove_test_database']            = false
 #
 default['rackspace_mysql']['config']['mysqld']['skip-external-locking']['bool_flag']    = true
 default['rackspace_mysql']['config']['mysqld']['skip-name-resolve']['bool_flag']        = true
+default['rackspace_mysql']['config']['mysqld']['skip-character-set-client-handshake']['bool_flag']        = true
 default['rackspace_mysql']['config']['mysqld']['log_warnings']['bool_flag']             = true
 default['rackspace_mysql']['config']['mysqld']['log-queries-not-using-indexes']['bool_flag']   = true
 default['rackspace_mysql']['config']['mysqld']['log_bin_trust_function_creators']['bool_flag'] = true
 default['rackspace_mysql']['config']['mysqld']['skip_slave_start']['bool_flag']         = true
+default['rackspace_mysql']['config']['mysqld']['read_only']['bool_flag']                = true
 default['rackspace_mysql']['config']['mysqld']['skip-innodb']['bool_flag']              = true
 default['rackspace_mysql']['config']['mysqld']['innodb_status_file']['bool_flag']       = true
 default['rackspace_mysql']['config']['mysqld']['innodb_file_per_table']['bool_flag']    = true
@@ -69,14 +71,14 @@ default['rackspace_mysql']['config']['mysql']['no-auto-rehash']['bool_flag']    
 ###############################
 
 default['rackspace_mysql']['config']['mysqld']['user']['value']                       = 'mysql'
-default['rackspace_mysql']['config']['mysqld']['pid_file']['value']                   = '/var/run/mysqld/mysqld.pid'
+default['rackspace_mysql']['config']['mysqld']['pid-file']['value']                   = '/var/run/mysqld/mysqld.pid'
 
 # Note that client and mysqld_safe also need socket defined
-#default['rackspace_mysql']['config']['mysqld']['socket']['value']
+default['rackspace_mysql']['config']['mysqld']['socket']['value']                     = '/var/lib/mysql/mysql.sock'
 default['rackspace_mysql']['config']['mysqld']['port']['value']                       = 3306
 #default['rackspace_mysql']['config']['mysqld']['basedir']['value']
 default['rackspace_mysql']['config']['mysqld']['datadir']['value']                    = '/var/lib/mysql'
-default['rackspace_mysql']['config']['mysqld']['tmpdir']['value']                     = ['/tmp']
+default['rackspace_mysql']['config']['mysqld']['tmpdir']['value']                     = '/tmp'
 default['rackspace_mysql']['config']['mysqld']['skip-external-locking']['value']      = true
 default['rackspace_mysql']['config']['mysqld']['skip-name-resolve']['value']          = false
 
@@ -85,7 +87,7 @@ default['rackspace_mysql']['config']['mysqld']['character-set-server']['value'] 
 default['rackspace_mysql']['config']['mysqld']['collation-server']['value']            = 'utf8_general_ci'
 
 #default['rackspace_mysql']['config']['mysqld']['lower_case_table_names']['value']      = nil
-#default['rackspace_mysql']['config']['mysqld']['event_scheduler']['value']             = nil
+default['rackspace_mysql']['config']['mysqld']['event_scheduler']['value']              = 0 
 default['rackspace_mysql']['config']['mysqld']['skip-character-set-client-handshake']['value'] = false
 
 default['rackspace_mysql']['config']['mysqld']['bind-address']['value']                = node.attribute?('cloud') && node['cloud']['local_ipv4'] ? node['cloud']['local_ipv4'] : node['ipaddress']
@@ -145,7 +147,10 @@ default['rackspace_mysql']['config']['mysqld']['long_query_time']['value']      
 # Replication
 #
 #default['rackspace_mysql']['config']['mysqld']['server_id']['value']                   = nil
-#default['rackspace_mysql']['config']['mysqld']['log_bin']['value']                     = nil
+#default['rackspace_mysql']['config']['mysqld']['log_bin']['value']
+default['rackspace_mysql']['config']['mysqld']['binlog_format']['value']                   = 'statement'
+# The following are only set if log_bin is set
+default['rackspace_mysql']['config']['mysqld']['log_slave_updates']['value']               = false
 default['rackspace_mysql']['config']['mysqld']['log_bin_trust_function_creators']['value'] = false
 
 default['rackspace_mysql']['config']['mysqld']['expire_logs_days']['value']            = 10
@@ -169,6 +174,7 @@ default['rackspace_mysql']['config']['mysqld']['slave_compressed_protocol']['val
 #
 # InnoDB
 # 
+default['rackspace_mysql']['config']['mysqld']['skip-innodb']['value']                   = false
 
 # The following options are only used on MySQL >= 5.5
 default['rackspace_mysql']['config']['mysqld']['innodb_write_io_threads']['value']         = '4'
@@ -177,7 +183,7 @@ default['rackspace_mysql']['config']['mysqld']['innodb_io_capacity']['value']   
 default['rackspace_mysql']['config']['mysqld']['innodb_buffer_pool_instances']['value']    = '4'
 
 # The following options are always set
-default['rackspace_mysql']['config']['mysqld']['innodb_log_group_home_dir']['value'] = 
+default['rackspace_mysql']['config']['mysqld']['innodb_log_group_home_dir']['value']       = nil
 default['rackspace_mysql']['config']['mysqld']['innodb_table_locks']['value']              = true
 default['rackspace_mysql']['config']['mysqld']['innodb_lock_wait_timeout']['value']        = '60'
 # innodb_thread_concurrency: set in the CPU conditional below
@@ -190,16 +196,19 @@ default['rackspace_mysql']['config']['mysqld']['innodb_data_file_path']['value']
 default['rackspace_mysql']['config']['mysqld']['innodb_flush_log_at_trx_commit']['value']  = '1'
 
 # The following options are optional
-default['rackspace_mysql']['config']['mysqld']['innodb_log_files_in_group']['value']       = false
+default['rackspace_mysql']['config']['mysqld']['innodb_log_files_in_group']['value']       = nil
 default['rackspace_mysql']['config']['mysqld']['innodb_status_file']['value']              = false
 default['rackspace_mysql']['config']['mysqld']['innodb_file_per_table']['value']           = true
 default['rackspace_mysql']['config']['mysqld']['skip-innodb-doublewrite']['value']         = false
-default['rackspace_mysql']['config']['mysqld']['innodb_flush_method']['value']             = false
+default['rackspace_mysql']['config']['mysqld']['innodb_flush_method']['value']             = nil
 default['rackspace_mysql']['config']['mysqld']['innodb_log_buffer_size']['value']          = '8M'
-default['rackspace_mysql']['config']['mysqld']['innodb_change_buffering']['value']         = false
-default['rackspace_mysql']['config']['mysqld']['innodb_doublewrite']['value']              = false
-default['rackspace_mysql']['config']['mysqld']['innodb_file_format']['value']              = false
-default['rackspace_mysql']['config']['mysqld']['innodb_data_home_dir']                     = node['rackspace_mysql']['config']['mysqld']['data_dir']
+default['rackspace_mysql']['config']['mysqld']['innodb_adaptive_flushing']['value']        = nil
+default['rackspace_mysql']['config']['mysqld']['innodb_adaptive_flushing_method']['value'] = nil
+default['rackspace_mysql']['config']['mysqld']['innodb_adaptive_checkpoint']['value']      = nil
+default['rackspace_mysql']['config']['mysqld']['innodb_change_buffering']['value']         = nil
+default['rackspace_mysql']['config']['mysqld']['innodb_doublewrite']['value']              = nil
+default['rackspace_mysql']['config']['mysqld']['innodb_file_format']['value']              = nil
+default['rackspace_mysql']['config']['mysqld']['innodb_data_home_dir']                     = node['rackspace_mysql']['config']['mysqld']['datadir']
 
 # Conditional/dynamic arguments
 if node['cpu'].nil? || node['cpu']['total'].nil?
@@ -259,7 +268,7 @@ default['rackspace_mysql']['config']['mysql']['no-auto-rehash']['value']        
 ###############################
 # [myisamchk]
 ###############################
-default['rackspace_mysql']['config']['myisamchk']['max_allowed_packet']                 = node['rackspace_mysql']['config']['mysqld']['max_allowed_packet']
+default['rackspace_mysql']['config']['myisamchk']['key_buffer']                         = node['rackspace_mysql']['config']['mysqld']['max_allowed_packet']
 default['rackspace_mysql']['config']['myisamchk']['myisam_sort_buffer_size']['value']   = '8M'
 default['rackspace_mysql']['config']['myisamchk']['myisam_max_sort_file_size']['value'] = '2147483648'
 default['rackspace_mysql']['config']['myisamchk']['myisam_repair_threads']['value']     = '1'
@@ -268,19 +277,11 @@ default['rackspace_mysql']['config']['myisamchk']['myisam-recover']             
 ###############################
 # [client]
 ###############################
-#default['rackspace_mysql']['config']['client']['socket']['value']
-default['rackspace_mysql']['config']['client']['port']              = node['rackspace_mysql']['config']['mysqld']['port']
+default['rackspace_mysql']['config']['client']['socket'] = node['rackspace_mysql']['config']['mysqld']['socket']
+default['rackspace_mysql']['config']['client']['port']   = node['rackspace_mysql']['config']['mysqld']['port']
 
 ###############################
 # [mysqld_safe]
 ###############################
-#default['rackspace_mysql']['config']['mysqld_safe']['socket']['value']
-default['rackspace_mysql']['config']['mysqld_safe']['nice']['value']                 = 0
-
-
-unless node['platform_family'] == 'rhel' && node['platform_version'].to_i < 6
-  # older RHEL platforms don't support these options
-  default['rackspace_mysql']['tunable']['event_scheduler']  = 0
-  default['rackspace_mysql']['tunable']['binlog_format']    = 'statement' if node['rackspace_mysql']['tunable']['log_bin']
-end
-
+default['rackspace_mysql']['config']['mysqld_safe']['socket']        = node['rackspace_mysql']['config']['mysqld']['socket']
+default['rackspace_mysql']['config']['mysqld_safe']['nice']['value'] = 0

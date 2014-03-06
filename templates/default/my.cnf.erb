@@ -50,11 +50,6 @@ def deep_copy_node(node_data)
 end
 my_config_hash = deep_copy_node(node['rackspace_mysql']['config'])
 
--%>
-DEBUG:
-<%= my_config_hash -%>
-<%
-
 #
 # Define some helper functions
 # These do not output directly due to the nature of ERB, but instead return the string to be added
@@ -165,7 +160,7 @@ end
 # especially if they contain "#" chars...
 # Remember to edit /etc/mysql/debian.cnf when changing the socket location.
 [client]
-<%= add_all_options('client', my_config_hash, %w(socket port)) -%>
+<%= add_all_options('client', my_config_hash, %w(port socket)) -%>
 
 # Here is entries for some specific programs
 # The following values assume you have at least 32M ram
@@ -186,7 +181,7 @@ end
 #
 
 <%= add_and_delete_option('user', 'mysqld', my_config_hash) -%>
-<%= add_and_delete_option('pid_file', 'mysqld', my_config_hash) -%>
+<%= add_and_delete_option('pid-file', 'mysqld', my_config_hash) -%>
 
 <%= add_and_delete_option('socket', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('port', 'mysqld', my_config_hash) -%>
@@ -246,7 +241,7 @@ net_write_timeout back_log).each do |option_name| -%>
 <% end -%>
 
 # Default Table Settings
-add_and_delete_option('sql_mode', 'mysqld', my_config_hash, true) -%>
+<%= add_and_delete_option('sql_mode', 'mysqld', my_config_hash, true) -%>
 
 #
 # * Query Cache Configuration
@@ -289,12 +284,21 @@ add_and_delete_option('sql_mode', 'mysqld', my_config_hash, true) -%>
 #       other settings you may need to change.
 <%= add_and_delete_option('server-id', 'mysqld', my_config_hash, true) -%>
 <%
+options=%w(binlog_format log_slave_updates)
 if my_config_hash['mysqld']['log_bin'] -%>
-# DEBUG DEBUG DEBUG
-<%# = add_and_delete_option('log_bin', 'mysqld', my_config_hash) -%>
-<%# = add_and_delete_option('binlog_format', 'mysqld', my_config_hash) -%>
-<%# = add_and_delete_option('log_slave_updates', 'mysqld', my_config_hash) -%>
-<% end %>
+<%= add_and_delete_option('log_bin', 'mysqld', my_config_hash) -%>
+<% options.each do |option_name| -%>
+<%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
+<%
+  end
+else -%>
+# log_bin is unset: the following logging options are disabled:
+<%
+  options.each do |option_name| -%>
+# <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
+<%
+  end
+end %>
 <%= add_and_delete_option('log_bin_trust_function_creators', 'mysqld', my_config_hash, true) -%>
 
 <%-
@@ -402,12 +406,9 @@ innodb_change_buffering innodb_doublewrite innodb_file_format innodb_data_home_d
 <%= add_all_options('mysql', my_config_hash, []) -%>
 
 [myisamchk]
-# DEBUG
-<%
-# = add_all_options('myisamchk', my_config_hash,
-#                    %w(max_allowed_packet myisam_sort_buffer_size myisam_max_sort_file_size myisam_repair_threads myisam-recover)
-#                   ) 
--%>
+<%= add_all_options('myisamchk', my_config_hash,
+                    %w(key_buffer myisam_sort_buffer_size myisam_max_sort_file_size myisam_repair_threads myisam-recover)
+                    ) -%>
 
 # DEBUG
 <%# if my_config_hash['directories']['confd_dir'] -%>
