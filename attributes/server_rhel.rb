@@ -28,14 +28,13 @@ when 'rhel'
   case node['platform_version'].to_i
   when 6
     default['rackspace_mysql']['server']['packages'] = ['mysql-server']
-  
+
     default['rackspace_mysql']['config']['mysqld']['slow_query_log']['value']       = 1
     default['rackspace_mysql']['config']['mysqld']['slow_query_log_file']['value']  = '/var/log/mysql/slow.log'
   else
     fail "Unsupported RHEL version #{node['platform_version']}"
   end
 
-  
   # Platformisms.. filesystem locations and such.
   # These are parsed by the recipe
   default['rackspace_mysql']['server']['directories']['run_dir']      = '/var/run/mysqld'
@@ -50,7 +49,7 @@ when 'rhel'
   # These are parsed by the template
   default['rackspace_mysql']['config']['mysqld']['datadir']['value'] = node['rackspace_mysql']['data_dir']
   default['rackspace_mysql']['config']['mysqld']['innodb_log_group_home_dir']['value'] = node['rackspace_mysql']['server']['directories']['log_dir']
-  
+
   default['rackspace_mysql']['config']['mysqld']['pid-file']['value'] = '/var/run/mysqld/mysqld.pid'
   default['rackspace_mysql']['config']['mysqld']['socket']['value']   = '/var/lib/mysql/mysql.sock'
   default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value'] = true
