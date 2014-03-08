@@ -1,0 +1,18 @@
+[mysql]
+socket                         = <%= @data_dir %>/mysql.sock
+
+[mysqladmin]
+socket                         = <%= @data_dir %>/mysql.sock
+
+[mysqld]
+datadir                        = <%= @data_dir %>
+port                           = <%= @port %>
+socket                         = <%= @data_dir %>/mysql.sock
+user=mysql
+
+old_passwords=0
+symbolic-links=0
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

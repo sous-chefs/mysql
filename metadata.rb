@@ -7,3 +7,7 @@ long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version           '4.1.2'
 
 supports 'centos'
+
+# temporary depenency.
+# delete this.
+depends 'selinux'

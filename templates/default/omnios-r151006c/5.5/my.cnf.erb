@@ -1,0 +1,39 @@
+[client]
+port                           = <%= @port %>
+socket                         = <%= @socket_file %>
+
+[mysqld_safe]
+socket                         = <%= @socket_file %>
+nice                           = 0
+
+[mysqld]
+user                           = mysql
+pid-file                       = <%= @pid_file %>
+socket                         = <%= @socket_file %>
+port                           = <%= @port %>
+basedir                        = <%= @base_dir %>
+datadir                        = <%= @data_dir %>
+tmpdir                         = /tmp
+lc-messages-dir                = <%= @base_dir %>/share/
+skip-external-locking
+bind-address                   = 127.0.0.1
+key_buffer                     = 16M
+max_allowed_packet             = 16M
+thread_stack                   = 192K
+thread_cache_size              = 8
+myisam-recover                 = BACKUP
+query_cache_limit              = 1M
+query_cache_size               = 16M
+
+expire_logs_days               = 10
+max_binlog_size                = 100M
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet             = 16M
+
+[mysql]
+[isamchk]
+key_buffer                     = 16M
+!includedir <%= @base_dir %>/etc/mysql/conf.d/

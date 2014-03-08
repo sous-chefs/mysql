@@ -11,11 +11,11 @@ driver_config:
   joyent_url: <%= ENV['SDC_CLI_URL'] %>
   aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %> 
   aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
+  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>  
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: 11.10.4
+  require_chef_omnibus: latest
 
 platforms:
 - name: centos-5.8
@@ -26,8 +26,6 @@ platforms:
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-  run_list:
-  - recipe[mysql::_centos-5]
 
 - name: centos-6.4
   driver_plugin: digitalocean
@@ -37,8 +35,6 @@ platforms:
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-  run_list:
-  - recipe[mysql::_centos-6]
 
 - name: fedora-19
   driver_plugin: digitalocean
@@ -48,8 +44,6 @@ platforms:
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-  run_list:
-  - recipe[mysql::_fedora-19]
 
 - name: debian-7.0
   driver_plugin: gce
@@ -63,7 +57,6 @@ platforms:
     ssh_key: <%= ENV['GCE_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
-  - recipe[mysql::_debian-7]
 
 - name: ubuntu-10.04
   driver_plugin: digitalocean
@@ -75,7 +68,6 @@ platforms:
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
-  - recipe[mysql::_ubuntu-10.04]
 
 - name: ubuntu-12.04
   driver_plugin: digitalocean
@@ -87,7 +79,6 @@ platforms:
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
-  - recipe[mysql::_ubuntu-12.04]
 
 - name: ubuntu-13.10
   driver_plugin: digitalocean
@@ -99,7 +90,6 @@ platforms:
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
-  - recipe[mysql::_ubuntu-13.10]
 
 - name: smartos-13.30
   driver_plugin: joyent
@@ -112,20 +102,62 @@ platforms:
     name: chef_zero
     sudo: false
     chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
-  run_list:
-  - recipe[mysql::_smartos-1330]
 
 - name: omnios-r151006c
   driver_plugin: ec2
   driver_config:
+    availability_zone: us-east-1d
     image_id: ami-35eb835c
+    flavor_id: m3.medium
     username: root
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  provisioner:
+    name: chef_zero
   run_list:
   - recipe[ips]
-  - recipe[mysql::_omnios-r151006c]
 
 suites:
-  - name: master
+  - name: centos-5_version-5.0
     run_list:
-      - recipe[mysql::master]
+      - recipe[mysql::_centos-5_version-5.0]
+  - name: centos-5-5.1
+    run_list:
+      - recipe[mysql::_centos-5_version-5.1]
+  - name: centos-5-5.5
+    run_list:
+      - recipe[mysql::_centos-5_version-5.5]
+  - name: centos-6-5.1
+    run_list:
+      - recipe[mysql::_centos-6_version-5.1]
+  - name: fedora-19-5.5
+    run_list:
+      - recipe[mysql::_fedora-19_version-5.5]
+  - name: debian-7-5.5
+    run_list:
+      - recipe[mysql::_debian-7_version-5.5]
+  - name: ubuntu-10.04-5.1
+    run_list:
+      - recipe[mysql::_ubuntu-10.04_version-5.1]
+  - name: ubuntu-12.04-5.5
+    run_list:
+      - recipe[mysql::_ubuntu-12.04_version-5.5]
+  - name: ubuntu-13.10-5.5
+    run_list:
+      - recipe[mysql::_ubuntu-13.10_version-5.5]
+
+  - name: smartos-1330-5.1
+    run_list:
+      - recipe[mysql::_smartos-1330_version-5.1]
+  - name: smartos-1330-5.5
+    run_list:
+      - recipe[mysql::_smartos-1330_version-5.5]
+  - name: smartos-1330-5.6
+    run_list:
+      - recipe[mysql::_smartos-1330_version-5.6]
+
+  - name: omnios-r151006c-5.5
+    run_list:
+      - recipe[mysql::_omnios-r151006c_version-5.5]
+  - name: omnios-r151006c-5.6
+    run_list:
+      - recipe[mysql::_omnios-r151006c_version-5.6]
