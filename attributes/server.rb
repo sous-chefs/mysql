@@ -145,7 +145,7 @@ default['rackspace_mysql']['config']['mysqld']['long_query_time']['value']      
 # Replication
 #
 # default['rackspace_mysql']['config']['mysqld']['server_id']['value']                   = nil
-# default['rackspace_mysql']['config']['mysqld']['log_bin']['value']
+default['rackspace_mysql']['config']['mysqld']['log_bin']['value']                       = nil
 default['rackspace_mysql']['config']['mysqld']['binlog_format']['value']                   = 'statement'
 # The following are only set if log_bin is set
 default['rackspace_mysql']['config']['mysqld']['log_slave_updates']['value']               = false

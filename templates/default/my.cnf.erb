@@ -74,11 +74,11 @@ def value_set(option_name, block_name, my_config_hash)
     return false
   end
 
-  # Return false if the option is set but value is nil
+  # Return false if the option is set but value is not set
   unless my_config_hash[block_name][option_name]['value']
     return false
   end
-  
+
   return true
 end
 
@@ -301,9 +301,8 @@ net_write_timeout back_log).each do |option_name| -%>
 #       other settings you may need to change.
 <%= add_and_delete_option('server-id', 'mysqld', my_config_hash, true) -%>
 <%
-options=%w(binlog_format log_slave_updates)
+options=%w(log_bin binlog_format log_slave_updates)
 if value_set('log_bin', 'mysqld', my_config_hash) -%>
-<%= add_and_delete_option('log_bin', 'mysqld', my_config_hash) -%>
 <% options.each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
 <%
