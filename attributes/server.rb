@@ -44,6 +44,7 @@ default['rackspace_mysql']['config']['mysqld']['skip-external-locking']['bool_fl
 default['rackspace_mysql']['config']['mysqld']['skip-name-resolve']['bool_flag']        = true
 default['rackspace_mysql']['config']['mysqld']['skip-character-set-client-handshake']['bool_flag']        = true
 default['rackspace_mysql']['config']['mysqld']['log_warnings']['bool_flag']             = true
+default['rackspace_mysql']['config']['mysqld']['log_slave_updates']['bool_flag']        = true
 default['rackspace_mysql']['config']['mysqld']['log-queries-not-using-indexes']['bool_flag']   = true
 default['rackspace_mysql']['config']['mysqld']['log_bin_trust_function_creators']['bool_flag'] = true
 default['rackspace_mysql']['config']['mysqld']['skip_slave_start']['bool_flag']         = true
