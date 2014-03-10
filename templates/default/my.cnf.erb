@@ -119,7 +119,7 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
     if optional == true
       return "# #{option_name}: Unset\n"
     else
-      fail "ERROR: Mandatory config option #{block_name}:#{option_name} not specified!"
+      fail "ERROR: Mandatory config option #{block_name}:#{option_name} not specified! (nil inner hash)"
     end
   end
 
@@ -152,7 +152,7 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
       if optional == true
         ret_val << "# #{option_name}: Unset\n"
       else
-        fail "ERROR: Mandatory option #{block_name}:#{option_name} not specified!"
+        fail "ERROR: Mandatory option #{block_name}:#{option_name} not specified! (Inner hash: \"#{option_inner_hash}\")"
       end
 
     else
