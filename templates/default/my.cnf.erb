@@ -67,6 +67,25 @@ my_config_hash = deep_copy_node(node['rackspace_mysql']['config'])
 # (Though Chef doesn't actually use the ERB engine, err on the side of caution)
 #
 
+# value_set: Return true if the hash has a value specified, false otherwise
+def value_set(option_name, block_name, my_config_hash)
+  # Return false if the option is not set at all
+  unless my_config_hash[block_name].key?(option_name)
+    return false
+  end
+
+  unless my_config_hash[block_name][option_name].key?('value')
+    return false
+  end
+
+  # Return false if the option is set but value is not set
+  if my_config_hash[block_name][option_name]['value'] == nil
+    return false
+  end
+
+  return true
+end
+
 # add_and_delete_option: Return the value of add_single_option for the given option name, and delete it from tha hash.
 def add_and_delete_option(option_name, block_name, my_config_hash, optional = false)
   if optional == true and !my_config_hash[block_name].key?(option_name)
@@ -115,12 +134,12 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
   ret_val = ""
   option_inner_hash = my_config_hash[block_name][option_name]
 
+  if (value_set(option_name, block_name, my_config_hash) == false) && (optional != true)
+    fail "ERROR: Mandatory option #{block_name}:#{option_name} not specified! (Inner hash: \"#{option_inner_hash}\")"
+  end
+
   if option_inner_hash == nil
-    if optional == true
-      return "# #{option_name}: Unset\n"
-    else
-      fail "ERROR: Mandatory config option #{block_name}:#{option_name} not specified!"
-    end
+    return "# #{option_name}: Unset\n"
   end
 
   if option_inner_hash.key?('comment')
@@ -130,19 +149,12 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
 
   # See if this is a boolean flag, and output accordingly
   if option_inner_hash.key?('bool_flag')
-    # See if 'value' was specified, and if so use it for control
-    if option_inner_hash.key?('value')
-      # A bit of implicitness here, rely on Ruby's boolean interpretation of the value.
-      if option_inner_hash['value']
-        ret_val << "#{option_name}\n"
-      else
-        ret_val << "# #{option_name}: Disabled\n"
-      end
-    else
-      # No 'value' key, default to enabled
+    # A bit of implicitness here, rely on Ruby's boolean interpretation of the value.
+    if option_inner_hash['value']
       ret_val << "#{option_name}\n"
+    else
+      ret_val << "# #{option_name}: Disabled\n"
     end
-
   else
     # Normal option
 
@@ -151,8 +163,6 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
       # Some logic to see if this is allowed
       if optional == true
         ret_val << "# #{option_name}: Unset\n"
-      else
-        fail "ERROR: Mandatory option #{block_name}:#{option_name} not specified!"
       end
 
     else
@@ -295,9 +305,8 @@ net_write_timeout back_log).each do |option_name| -%>
 #       other settings you may need to change.
 <%= add_and_delete_option('server-id', 'mysqld', my_config_hash, true) -%>
 <%
-options=%w(binlog_format log_slave_updates)
-if my_config_hash['mysqld']['log_bin'] -%>
-<%= add_and_delete_option('log_bin', 'mysqld', my_config_hash) -%>
+options=%w(log_bin binlog_format log_slave_updates)
+if value_set('log_bin', 'mysqld', my_config_hash) -%>
 <% options.each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
 <%
@@ -306,7 +315,7 @@ else -%>
 # log_bin is unset: the following logging options are disabled:
 <%
   options.each do |option_name| -%>
-# <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
+# <%= add_and_delete_option(option_name, 'mysqld', my_config_hash, true) -%>
 <%
   end
 end %>

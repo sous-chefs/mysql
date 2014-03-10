@@ -44,6 +44,7 @@ default['rackspace_mysql']['config']['mysqld']['skip-external-locking']['bool_fl
 default['rackspace_mysql']['config']['mysqld']['skip-name-resolve']['bool_flag']        = true
 default['rackspace_mysql']['config']['mysqld']['skip-character-set-client-handshake']['bool_flag']        = true
 default['rackspace_mysql']['config']['mysqld']['log_warnings']['bool_flag']             = true
+default['rackspace_mysql']['config']['mysqld']['log_slave_updates']['bool_flag']        = true
 default['rackspace_mysql']['config']['mysqld']['log-queries-not-using-indexes']['bool_flag']   = true
 default['rackspace_mysql']['config']['mysqld']['log_bin_trust_function_creators']['bool_flag'] = true
 default['rackspace_mysql']['config']['mysqld']['skip_slave_start']['bool_flag']         = true
@@ -145,7 +146,7 @@ default['rackspace_mysql']['config']['mysqld']['long_query_time']['value']      
 # Replication
 #
 # default['rackspace_mysql']['config']['mysqld']['server_id']['value']                   = nil
-# default['rackspace_mysql']['config']['mysqld']['log_bin']['value']
+default['rackspace_mysql']['config']['mysqld']['log_bin']['value']                       = nil
 default['rackspace_mysql']['config']['mysqld']['binlog_format']['value']                   = 'statement'
 # The following are only set if log_bin is set
 default['rackspace_mysql']['config']['mysqld']['log_slave_updates']['value']               = false
@@ -254,6 +255,8 @@ default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value']             
 ###############################
 # [mysqldump]
 ###############################
+default['rackspace_mysql']['config']['mysqldump']['quick']['value']                    = true
+default['rackspace_mysql']['config']['mysqldump']['quote-names']['value']              = true
 default['rackspace_mysql']['config']['mysqldump']['max_allowed_packet']                = node['rackspace_mysql']['config']['mysqld']['max_allowed_packet']
 
 ###############################
