@@ -19,3 +19,4 @@ Gemfile.lock
 bin/
 tmp/
 vendor/
+.coverage
