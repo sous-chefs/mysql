@@ -254,6 +254,8 @@ default['rackspace_mysql']['config']['mysqld']['skip-bdb']['value']             
 ###############################
 # [mysqldump]
 ###############################
+default['rackspace_mysql']['config']['mysqldump']['quick']['value']                    = true
+default['rackspace_mysql']['config']['mysqldump']['quote-names']['value']              = true
 default['rackspace_mysql']['config']['mysqldump']['max_allowed_packet']                = node['rackspace_mysql']['config']['mysqld']['max_allowed_packet']
 
 ###############################
