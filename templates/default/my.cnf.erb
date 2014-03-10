@@ -67,6 +67,21 @@ my_config_hash = deep_copy_node(node['rackspace_mysql']['config'])
 # (Though Chef doesn't actually use the ERB engine, err on the side of caution)
 #
 
+# value_set: Return true if the hash has a value specified, false otherwise
+def value_set(option_name, block_name, my_config_hash)
+  # Return false if the option is not set at all
+  unless my_config_hash[block_name][option_name]
+    return false
+  end
+
+  # Return false if the option is set but value is nil
+  unless my_config_hash[block_name][option_name]['value']
+    return false
+  end
+  
+  return true
+end
+
 # add_and_delete_option: Return the value of add_single_option for the given option name, and delete it from tha hash.
 def add_and_delete_option(option_name, block_name, my_config_hash, optional = false)
   if optional == true and !my_config_hash[block_name].key?(option_name)
@@ -115,12 +130,12 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
   ret_val = ""
   option_inner_hash = my_config_hash[block_name][option_name]
 
+  if (value_set(option_name, block_name, my_config_hash) == false) && (optional != true)
+    fail "ERROR: Mandatory option #{block_name}:#{option_name} not specified! (Inner hash: \"#{option_inner_hash}\")"
+  end
+
   if option_inner_hash == nil
-    if optional == true
-      return "# #{option_name}: Unset\n"
-    else
-      fail "ERROR: Mandatory config option #{block_name}:#{option_name} not specified! (nil inner hash)"
-    end
+    return "# #{option_name}: Unset\n"
   end
 
   if option_inner_hash.key?('comment')
@@ -151,8 +166,6 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
       # Some logic to see if this is allowed
       if optional == true
         ret_val << "# #{option_name}: Unset\n"
-      else
-        fail "ERROR: Mandatory option #{block_name}:#{option_name} not specified! (Inner hash: \"#{option_inner_hash}\")"
       end
 
     else
@@ -296,7 +309,7 @@ net_write_timeout back_log).each do |option_name| -%>
 <%= add_and_delete_option('server-id', 'mysqld', my_config_hash, true) -%>
 <%
 options=%w(binlog_format log_slave_updates)
-if my_config_hash['mysqld']['log_bin'] -%>
+if value_set('log_bin', 'mysqld', my_config_hash) -%>
 <%= add_and_delete_option('log_bin', 'mysqld', my_config_hash) -%>
 <% options.each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
@@ -306,7 +319,7 @@ else -%>
 # log_bin is unset: the following logging options are disabled:
 <%
   options.each do |option_name| -%>
-# <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
+# <%= add_and_delete_option(option_name, 'mysqld', my_config_hash, true) -%>
 <%
   end
 end %>
