@@ -74,7 +74,7 @@ def value_set(option_name, block_name, my_config_hash)
     return false
   end
 
-  unless my_config_hash[block_name][option_name].key?(value)
+  unless my_config_hash[block_name][option_name].key?('value')
     return false
   end
 
