@@ -145,19 +145,12 @@ def _add_single_option(option_name, block_name, my_config_hash, optional = false
 
   # See if this is a boolean flag, and output accordingly
   if option_inner_hash.key?('bool_flag')
-    # See if 'value' was specified, and if so use it for control
-    if option_inner_hash.key?('value')
-      # A bit of implicitness here, rely on Ruby's boolean interpretation of the value.
-      if option_inner_hash['value']
-        ret_val << "#{option_name}\n"
-      else
-        ret_val << "# #{option_name}: Disabled\n"
-      end
-    else
-      # No 'value' key, default to enabled
+    # A bit of implicitness here, rely on Ruby's boolean interpretation of the value.
+    if option_inner_hash['value']
       ret_val << "#{option_name}\n"
+    else
+      ret_val << "# #{option_name}: Disabled\n"
     end
-
   else
     # Normal option
 
