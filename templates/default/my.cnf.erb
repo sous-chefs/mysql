@@ -70,7 +70,11 @@ my_config_hash = deep_copy_node(node['rackspace_mysql']['config'])
 # value_set: Return true if the hash has a value specified, false otherwise
 def value_set(option_name, block_name, my_config_hash)
   # Return false if the option is not set at all
-  if my_config_hash[block_name][option_name] == nil
+  unless my_config_hash[block_name].key?(option_name)
+    return false
+  end
+
+  unless my_config_hash[block_name][option_name].key?(value)
     return false
   end
 
