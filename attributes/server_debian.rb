@@ -33,6 +33,7 @@ when 'debian'
 
   default['rackspace_mysql']['server']['mysqladmin_bin']  = '/usr/bin/mysqladmin'
   default['rackspace_mysql']['server']['mysql_bin']       = '/usr/bin/mysql'
+  default['rackspace_mysql']['server']['mysqld_bin']      = '/usr/sbin/mysqld'
 
   # Config changes
   # These are parsed by the template
