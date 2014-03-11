@@ -33,7 +33,7 @@ default['rackspace_mysql']['remove_test_database']            = false
 #
 
 #
-# Options flagged as 'Rackspace default value' are taken from the Rackspace IUS my.cnf 
+# Options flagged as 'Rackspace default value' are taken from the Rackspace IUS my.cnf
 # available from http://dl.iuscommunity.org/pub/ius/stable/Redhat/6/x86_64/repoview/mysql55-libs.html
 #
 
@@ -124,7 +124,6 @@ default['rackspace_mysql']['config']['mysqld']['back_log']['value']             
 default['rackspace_mysql']['config']['mysqld']['max-connect-errors']['value']          = '10000' # Rackspace default value
 default['rackspace_mysql']['config']['mysqld']['max-allowed-packet']['value']          = '16M'   # Rackspace default value
 default['rackspace_mysql']['config']['mysqld']['interactive-timeout']['value']         = '3600'  # Rackspace default value
-
 
 # table_cache is deprecated in favor of table_open_cache
 default['rackspace_mysql']['config']['mysqld']['table_open_cache']['value']            = 4096 # Rackspace default value
@@ -297,5 +296,5 @@ default['rackspace_mysql']['config']['client']['port']   = node['rackspace_mysql
 ###############################
 default['rackspace_mysql']['config']['mysqld_safe']['socket']                    = node['rackspace_mysql']['config']['mysqld']['socket']
 default['rackspace_mysql']['config']['mysqld_safe']['nice']['value']             = 0
-default['rackspace_mysql']['config']['mysqld_safe']['open-files-limit']['value'] = 65535 # Rackspace default value
+default['rackspace_mysql']['config']['mysqld_safe']['open-files-limit']['value'] = '65535' # Rackspace default value
 default['rackspace_mysql']['config']['mysqld_safe']['log-error']['value']        = '/var/log/mysqld.log' # Rackspace default value
