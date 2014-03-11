@@ -34,7 +34,6 @@ ruby_block 'set_mysql_version' do
   end
 end
 
-
 #----
 node['rackspace_mysql']['server']['directories'].each do |key, value|
   directory value do
