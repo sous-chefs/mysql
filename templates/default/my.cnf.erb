@@ -344,13 +344,13 @@ read_only transaction-isolation slave_compressed_protocol binlog_do_db binlog_ig
 
 <%-
 options=%w(innodb_write_io_threads innodb_io_capacity innodb_read_io_threads innodb_buffer_pool_instances)
-if node['rackspace_mysql']['version'].to_f >= 5.5
+if node['mysql']['version'].to_f >= 5.5
   options.each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
 <%
   end
 else -%>
-# MySQL version (<%= node['rackspace_mysql']['version'] %>) < 5.5
+# MySQL version (<%= node['mysql']['version'] %>) < 5.5
 # The following options are disabled:
 <%
   options.each do |option_name| -%>
