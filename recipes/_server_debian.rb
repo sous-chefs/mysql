@@ -53,7 +53,7 @@ end
 ruby_block 'set_mysql_version' do
   block do
     cmd = Mixlib::ShellOut.new("#{node['rackspace_mysql']['server']['mysqld_bin']} --version | awk '{print $3}' | egrep -o '^[0-9].[0-9]'")
-    node.default['mysql']['version'] = cmd.run_command.stdout.to_f
+    node.default['rackspace_mysql']['version'] = cmd.run_command.stdout.to_f
     cmd.error!
   end
 end
