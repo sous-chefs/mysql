@@ -188,7 +188,7 @@ end
 
 # This was formally known as [safe_mysqld]. Both versions are currently parsed.
 [mysqld_safe]
-<%= add_all_options('mysqld_safe', my_config_hash, %w(socket nice)) -%>
+<%= add_all_options('mysqld_safe', my_config_hash, %w(socket nice open-files-limit log-error)) -%>
 
 [mysqld]
 #
@@ -245,7 +245,7 @@ join_buffer_size auto-increment-increment auto-increment-offset).each do |option
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
 <% %w(myisam-recover max_connections max_connect_errors concurrent_insert connect_timeout wait_timeout net_read_timeout
-net_write_timeout back_log).each do |option_name| -%>
+net_write_timeout back_log max-connect-errors max-allowed-packet interactive-timeout).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
 <% end -%>
 
@@ -256,6 +256,7 @@ net_write_timeout back_log).each do |option_name| -%>
 # is needed
 -%>
 <%= add_and_delete_option('table_open_cache', 'mysqld', my_config_hash, true) -%>
+<%= add_and_delete_option('table_definition_cache', 'mysqld', my_config_hash, true) -%>
 
 <% %w(tmp_table_size max_heap_table_size bulk_insert_buffer_size open-files-limit).each do |option_name| -%>
 <%= add_and_delete_option(option_name, 'mysqld', my_config_hash) -%>
@@ -341,6 +342,7 @@ read_only transaction-isolation slave_compressed_protocol binlog_do_db binlog_ig
 # Read the manual for more InnoDB related options. There are many!
 # You might want to disable InnoDB to shrink the mysqld process by circa 100MB.
 <%= add_and_delete_option('skip-innodb', 'mysqld', my_config_hash, true) -%>
+<%= add_and_delete_option('innodb', 'mysqld', my_config_hash, true) -%>
 
 <%-
 options=%w(innodb_write_io_threads innodb_io_capacity innodb_read_io_threads innodb_buffer_pool_instances)
