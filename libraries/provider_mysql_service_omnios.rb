@@ -12,6 +12,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
       base_dir = '/opt/mysql55'
       prefix_dir = '/opt/mysql55'
+      include_dir = '/opt/mysql55/etc/mysql/conf.d'
       run_dir = '/var/run/mysql'
       pid_file = '/var/run/mysql/mysql.pid'
       socket_file = '/tmp/mysql.sock'
@@ -21,7 +22,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
         action :install
       end
 
-      directory "#{base_dir}/etc/mysql/conf.d/" do
+      directory include_dir do
         owner 'mysql'
         mode '0750'
         recursive true
@@ -39,6 +40,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
         owner 'mysql'
         mode '0750'
         action :create
+        recursive true
       end
 
       template "#{base_dir}/etc/my.cnf" do
@@ -47,6 +49,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
         mode '0600'
         variables(
           :base_dir => base_dir,
+          :include_dir => include_dir,
           :data_dir => new_resource.data_dir,
           :pid_file => pid_file,
           :socket_file => socket_file,
