@@ -30,6 +30,7 @@ when 'debian'
   default['rackspace_mysql']['server']['directories']['run_dir']      = '/var/run/mysqld'
   default['rackspace_mysql']['server']['directories']['log_dir']      = '/var/lib/mysql'
   default['rackspace_mysql']['server']['directories']['confd_dir']    = '/etc/mysql/conf.d'
+  default['rackspace_mysql']['server']['directories']['tmp_dir']      = '/var/lib/mysqltmp'
 
   default['rackspace_mysql']['server']['mysqladmin_bin']  = '/usr/bin/mysqladmin'
   default['rackspace_mysql']['server']['mysql_bin']       = '/usr/bin/mysql'
