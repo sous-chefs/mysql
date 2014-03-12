@@ -15,7 +15,7 @@ driver_config:
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: latest
+  require_chef_omnibus: 11.10.4
 
 platforms:
 - name: centos-5.8
@@ -117,47 +117,6 @@ platforms:
   - recipe[ips]
 
 suites:
-  - name: centos-5_version-5.0
+  - name: server
     run_list:
-      - recipe[mysql::_centos-5_version-5.0]
-  - name: centos-5-5.1
-    run_list:
-      - recipe[mysql::_centos-5_version-5.1]
-  - name: centos-5-5.5
-    run_list:
-      - recipe[mysql::_centos-5_version-5.5]
-  - name: centos-6-5.1
-    run_list:
-      - recipe[mysql::_centos-6_version-5.1]
-  - name: fedora-19-5.5
-    run_list:
-      - recipe[mysql::_fedora-19_version-5.5]
-  - name: debian-7-5.5
-    run_list:
-      - recipe[mysql::_debian-7_version-5.5]
-  - name: ubuntu-10.04-5.1
-    run_list:
-      - recipe[mysql::_ubuntu-10.04_version-5.1]
-  - name: ubuntu-12.04-5.5
-    run_list:
-      - recipe[mysql::_ubuntu-12.04_version-5.5]
-  - name: ubuntu-13.10-5.5
-    run_list:
-      - recipe[mysql::_ubuntu-13.10_version-5.5]
-
-  - name: smartos-1330-5.1
-    run_list:
-      - recipe[mysql::_smartos-1330_version-5.1]
-  - name: smartos-1330-5.5
-    run_list:
-      - recipe[mysql::_smartos-1330_version-5.5]
-  - name: smartos-1330-5.6
-    run_list:
-      - recipe[mysql::_smartos-1330_version-5.6]
-
-  - name: omnios-r151006c-5.5
-    run_list:
-      - recipe[mysql::_omnios-r151006c_version-5.5]
-  - name: omnios-r151006c-5.6
-    run_list:
-      - recipe[mysql::_omnios-r151006c_version-5.6]
+      - recipe[mysql::server]

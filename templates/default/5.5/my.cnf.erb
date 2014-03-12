@@ -1,20 +1,22 @@
 [client]
 port                           = <%= @port %>
-socket                         = /tmp/mysql.sock
+socket                         = <%= @socket_file %>
 
 [mysqld_safe]
-socket                         = /tmp/mysql.sock
+socket                         = <%= @socket_file %>
 nice                           = 0
 
 [mysqld]
 user                           = mysql
-pid-file                       = /var/mysql/mysql.pid
-socket                         = /tmp/mysql.sock
+pid-file                       = <%= @pid_file %>
+socket                         = <%= @socket_file %>
 port                           = <%= @port %>
-basedir                        = /usr
+<% if @basedir %>
+basedir                        = <%= @base_dir %>
+<% end %>
 datadir                        = <%= @data_dir %>
 tmpdir                         = /tmp
-lc-messages-dir                = /opt/local/share/mysql
+lc-messages-dir                = <%= @lc_messages_dir %>
 skip-external-locking
 bind-address                   = 127.0.0.1
 key_buffer                     = 16M
@@ -36,4 +38,4 @@ max_allowed_packet             = 16M
 [mysql]
 [isamchk]
 key_buffer                     = 16M
-!includedir /opt/local/etc/mysql/conf.d/
+!includedir <%= @include_dir %>
