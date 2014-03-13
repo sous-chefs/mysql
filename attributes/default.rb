@@ -15,7 +15,7 @@ end
 # default['mysql']['data_dir'] = '/data'
 
 # port
-default['mysql']['port'] = '3308'
+default['mysql']['port'] = '3306'
 
 # used in grants.sql
 default['mysql']['allow_remote_root'] = false

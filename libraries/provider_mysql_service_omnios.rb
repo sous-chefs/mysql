@@ -79,6 +79,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
       template '/lib/svc/method/mysqld' do
         source 'omnios/svc.method.mysqld.erb'
+        owner 'root'
         mode '0555'
         variables(
           :base_dir => base_dir,
@@ -110,6 +111,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       execute 'wait for mysql' do
         command "until [ -S #{socket_file} ] ; do sleep 1 ; done"
         timeout 10
+        action :run
       end
 
       execute 'assign-root-password' do
