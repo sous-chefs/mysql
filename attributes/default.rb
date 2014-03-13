@@ -15,6 +15,7 @@ end
 # default['mysql']['data_dir'] = '/data'
 
 # port
+default['mysql']['service_name'] = 'default'
 default['mysql']['port'] = '3306'
 
 # used in grants.sql

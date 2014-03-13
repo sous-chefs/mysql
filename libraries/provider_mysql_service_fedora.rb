@@ -10,7 +10,6 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
   action :create do
     converge_by 'fedora pattern' do
 
-      base_dir = '/'
       prefix_dir = '/usr'
       include_dir = '/etc/my.cnf.d'
       lc_messages_dir = '/usr/share/mysql'
@@ -18,7 +17,6 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
       pid_file = '/var/run/mysqld/mysql.pid'
       socket_file = '/var/lib/mysql/mysql.sock'
       package_name = 'community-mysql-server'
-      service_name = 'mysqld'
 
       package package_name do
         action :install
