@@ -69,7 +69,7 @@ lc-messages-dir                =
         )
     end
 
-    # FIXME - add render_file
+    # FIXME: add render_file
     it 'steps into mysql_service and creates my.conf' do
       expect(mysql_service_one_run).to create_template('/opt/mysql55/etc/my.cnf').with(
         :owner => 'mysql',
@@ -91,7 +91,7 @@ lc-messages-dir                =
         )
     end
 
-    # FIXME - add render_file
+    # FIXME: add render_file
     it 'steps into mysql_service and creates my.conf' do
       expect(mysql_service_one_run).to create_template('/lib/svc/method/mysqld').with(
         :owner => 'root',
@@ -131,7 +131,7 @@ lc-messages-dir                =
         )
     end
 
-    # FIXME - add render_file
+    # FIXME: add render_file
     it 'steps into mysql_service and creates /etc/mysql_grants.sql' do
       expect(mysql_service_one_run).to create_template('/etc/mysql_grants.sql').with(
         :owner => 'root',
