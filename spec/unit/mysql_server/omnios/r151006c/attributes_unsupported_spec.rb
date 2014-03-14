@@ -14,7 +14,9 @@ describe 'mysql_test::mysql_service_attribues' do
 
   context 'when using an unsupported version' do
     it 'creates raises an error' do
-      expect(omnios_r151006c_unsupported_run).to raise_error
+      expect{
+        omnios_r151006c_unsupported_run
+      }.to raise_error(Chef::Exceptions::ValidationFailed)
     end
   end
 end
