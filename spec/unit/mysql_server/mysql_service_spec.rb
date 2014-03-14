@@ -10,6 +10,7 @@ describe 'mysql_test::mysql_service_attribues' do
     it 'creates mysql_service[default]' do
       expect(mysql_service_run).to create_mysql_service('default').with(
         :version => nil,
+        :package_name => nil,
         :port => '3306',
         :data_dir => '/var/lib/mysql'
         )

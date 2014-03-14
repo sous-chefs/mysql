@@ -13,9 +13,19 @@ class Chef::Resource::MysqlService < Chef::Resource
     @provider = Chef::Provider::MysqlService
 
     @service_name = name
-    @version = nil
+    @version = MysqlPackageMap.default_version_for(
+      node['platform'],
+      node['platform_version'],
+      'default_version'
+      )
+
+    @package_name = MysqlPackageMap.package_for(
+        node['platform'],
+        node['platform_version'],
+        @version
+      )
+
     @port = '3306'
-    @package_name = nil
     @data_dir = '/var/lib/mysql'
   end
 
