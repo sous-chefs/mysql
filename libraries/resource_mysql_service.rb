@@ -2,7 +2,6 @@ require 'chef/resource/lwrp_base'
 
 #
 class Chef::Resource::MysqlService < Chef::Resource
-
   def initialize(name = nil, run_context = nil)
     super
     @resource_name = :mysql_service
@@ -31,9 +30,9 @@ class Chef::Resource::MysqlService < Chef::Resource
       arg,
       :kind_of => String,
       :callbacks => {
-        "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda {
+        "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do
           |v| Chef::Resource::MysqlService.validate_version(v)
-        }
+        end
       }
       )
   end
@@ -60,9 +59,9 @@ class Chef::Resource::MysqlService < Chef::Resource
       arg,
       :kind_of => String,
       :callbacks => {
-        'should be a valid non-system port' => lambda {
+        'should be a valid non-system port' => lambda do
           |p| Chef::Resource::MysqlService.validate_port(p)
-        }
+        end
       }
       )
   end
