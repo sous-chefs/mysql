@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'mysql_test::mysql_service_unsupported' do
 
   let(:omnios_151006_unsupported_run) do
     ChefSpec::Runner.new(

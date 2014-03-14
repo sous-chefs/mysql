@@ -10,15 +10,18 @@
 #     ChefSpec::Runner.new(
 #       :step_into => 'mysql_service',
 #       :platform => 'omnios',
-#       :version => '151006'
+#       :version => '151006',
 #       ) do |node|
 #       node.set['mysql']['service_name'] = 'omnios_151006_attributes_supported_stepinto'
+#       node.set['mysql']['port'] = '3308'
+#       node.set['mysql']['version'] = '5.6'
+#       node.set['mysql']['data_dir'] = '/data'
 #     end.converge('mysql_test::mysql_service_attributes')
 #   end
 
 #   let(:my_cnf_content_omnios_151006) do
 #     '[client]
-# port                           = 3306
+# port                           = 3308
 # socket                         = /tmp/mysql.sock
 
 # [mysqld_safe]
@@ -30,7 +33,7 @@
 # pid-file                       = /var/run/mysql/mysql.pid
 # socket                         = /tmp/mysql.sock
 # port                           = 3308
-# datadir                        = /var/lib/mysql
+# datadir                        = /data
 # tmpdir                         = /tmp
 # lc-messages-dir                =
 
@@ -38,7 +41,7 @@
 # !includedir /opt/mysql55/etc/mysql/conf.d'
 #   end
 
-#   context 'when using default parameters' do
+#   context 'when using supported custom parameters' do
 #     it 'creates mysql_service[omnios_151006_attributes_supported_stepinto]' do
 #       expect(omnios_151006_attributes_supported_stepinto_run).to create_mysql_service('omnios_151006_attributes_supported_stepinto')
 #     end
@@ -147,6 +150,5 @@
 #         :command => '/opt/mysql55/bin/mysql -u root -pilikerandompasswords < /etc/mysql_grants.sql'
 #         )
 #     end
-
 #   end
 # end
