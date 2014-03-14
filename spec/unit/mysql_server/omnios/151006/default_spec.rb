@@ -2,18 +2,18 @@ require 'spec_helper'
 
 describe 'mysql_test::mysql_service_attribues' do
 
-  let(:omnios_r151006c_default_run) do
+  let(:omnios_151006_default_run) do
     ChefSpec::Runner.new(
       :platform => 'omnios',
-      :version => 'r151006c'
+      :version => '151006'
       ) do |node|
-      node.set['mysql']['service_name'] = 'omnios_r151006c_default'
+      node.set['mysql']['service_name'] = 'omnios_151006_default'
     end.converge('mysql_test::mysql_service_attributes')
   end
 
   context 'when using default parameters' do
-    it 'creates mysql_service[omnios_r151006c_default]' do
-      expect(omnios_r151006c_default_run).to create_mysql_service('omnios_r151006c_default').with(
+    it 'creates mysql_service[omnios_151006_default]' do
+      expect(omnios_151006_default_run).to create_mysql_service('omnios_151006_default').with(
 #        :version => '5.6',
 #        :package_name => 'mysql-65',
         :port => '3306',

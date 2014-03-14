@@ -236,28 +236,28 @@ describe 'mysql_platform_map' do
     end
   end
 
-  context 'for omnios-r151006c' do
+  context 'for omnios-151006' do
     it 'returns the package for Mysql 5.0' do
       expect(
-        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['r151006c']['5.0']
+        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['151006']['5.0']
         ).to eq(nil)
     end
 
     it 'returns the package for Mysql 5.1' do
       expect(
-        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['r151006c']['5.1']
+        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['151006']['5.1']
         ).to eq(nil)
     end
 
     it 'returns the package for Mysql 5.5' do
       expect(
-        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['r151006c']['5.5']
+        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['151006']['5.5']
         ).to eq('mysql-55')
     end
 
     it 'returns the package for Mysql 5.6' do
       expect(
-        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['r151006c']['5.6']
+        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['151006']['5.6']
         ).to eq('mysql-56')
     end
   end

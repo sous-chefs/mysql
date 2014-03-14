@@ -47,7 +47,7 @@ module Opscode
               }
             },
             'omnios' => {
-              'r151006c' => {
+              '151006' => {
                 '5.5' => 'mysql-55',
                 '5.6' => 'mysql-56'
               }
@@ -56,7 +56,7 @@ module Opscode
         end
 
         def self.package_for(platform, platform_version, mysql_version)
-          MysqlPlatformMap.mysql_platform_map[platform][platform_version][mysql_version]
+          MysqlPackageMap.mysql_package_map[platform][platform_version][mysql_version]
         end
       end
     end

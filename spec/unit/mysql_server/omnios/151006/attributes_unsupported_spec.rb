@@ -2,19 +2,19 @@ require 'spec_helper'
 
 describe 'mysql_test::mysql_service_attribues' do
 
-  let(:omnios_r151006c_unsupported_run) do
+  let(:omnios_151006_unsupported_run) do
     ChefSpec::Runner.new(
       :platform => 'omnios',
-      :version => 'r151006c'
+      :version => '151006'
       ) do |node|
-      node.set['mysql']['service_name'] = 'omnios_r151006c_unsupported'
+      node.set['mysql']['service_name'] = 'omnios_151006_unsupported'
       node.set['mysql']['version'] = '4.2'
     end.converge('mysql_test::mysql_service_attributes')
   end
 
   context 'when using an unsupported version' do
     it 'creates raises an error' do
-      expect { omnios_r151006c_unsupported_run }.to raise_error(Chef::Exceptions::ValidationFailed)
+      expect { omnios_151006_unsupported_run }.to raise_error(Chef::Exceptions::ValidationFailed)
     end
   end
 end

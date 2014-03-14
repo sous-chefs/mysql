@@ -103,7 +103,7 @@ platforms:
     sudo: false
     chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
 
-- name: omnios-r151006c
+- name: omnios-151006
   driver_plugin: ec2
   driver_config:
     availability_zone: us-east-1d

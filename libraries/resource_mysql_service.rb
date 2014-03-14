@@ -1,4 +1,7 @@
 require 'chef/resource/lwrp_base'
+require_relative 'helpers'
+
+include Opscode::Mysql::Helpers
 
 #
 class Chef::Resource::MysqlService < Chef::Resource
@@ -31,7 +34,9 @@ class Chef::Resource::MysqlService < Chef::Resource
       :kind_of => String,
       :callbacks => {
         "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do
-          |v| Chef::Resource::MysqlService.validate_version(v)
+          |mysql_version| Chef::Resource::MysqlService.validate_version(
+            node['platform'], node['platform_version'], mysql_version
+            )
         end
       }
       )
@@ -72,7 +77,7 @@ class Chef::Resource::MysqlService < Chef::Resource
     port.to_i > 1024 && port.to_i < 65_535
   end
 
-  def self.validate_version(version)
-    version == '5.5' || version == '5.6'
+  def self.validate_version(platform, platform_version, mysql_version)
+    MysqlPackageMap.package_for(platform, platform_version, mysql_version)
   end
 end
