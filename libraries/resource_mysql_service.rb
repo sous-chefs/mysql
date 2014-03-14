@@ -3,10 +3,10 @@ require 'chef/resource/lwrp_base'
 #
 class Chef::Resource::MysqlService < Chef::Resource
 
-  def initialize(name=nil, run_context=nil)
+  def initialize(name = nil, run_context = nil)
     super
     @resource_name = :mysql_service
-    @allowed_actions = [ :create ]
+    @allowed_actions = [:create]
     @action = :create
     @provider = Chef::Provider::MysqlService
 
@@ -18,19 +18,40 @@ class Chef::Resource::MysqlService < Chef::Resource
   end
 
   def service_name(arg = nil)
-     set_or_return(:service_name, arg, :kind_of => String)
+    set_or_return(
+      :service_name,
+      arg,
+      :kind_of => String
+      )
   end
 
   def version(arg = nil)
-    set_or_return(:version, arg, :kind_of => String)
+    set_or_return(
+      :version,
+      arg,
+      :kind_of => String,
+      :callbacks => {
+        "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda {
+          |v| Chef::Resource::MysqlService.validate_version(v)
+        }
+      }
+      )
   end
 
   def package_name(arg = nil)
-    set_or_return(:package_name, arg, :kind_of => String)
+    set_or_return(
+      :package_name,
+      arg,
+      :kind_of => String
+      )
   end
- 
+
   def data_dir(arg = nil)
-    set_or_return(:data_dir, arg, :kind_of => String)
+    set_or_return(
+      :data_dir,
+      arg,
+      :kind_of => String
+      )
   end
 
   def port(arg = nil)
@@ -39,15 +60,20 @@ class Chef::Resource::MysqlService < Chef::Resource
       arg,
       :kind_of => String,
       :callbacks => {
-        'should be a valid non-system port' => lambda { |p| Chef::Resource::MysqlService.validate_port(p) }
+        'should be a valid non-system port' => lambda {
+          |p| Chef::Resource::MysqlService.validate_port(p)
+        }
       }
-      )    
+      )
   end
-  
+
   private
-  
+
   def self.validate_port(port)
     port.to_i > 1024 && port.to_i < 65_535
   end
 
+  def self.validate_version(version)
+    version == '5.5' || version == '5.6'
+  end
 end
