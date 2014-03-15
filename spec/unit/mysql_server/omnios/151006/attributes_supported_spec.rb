@@ -8,7 +8,8 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '151006'
       ) do |node|
       node.set['mysql']['service_name'] = 'omnios_151006_supported'
-#      node.set['mysql']['version'] = '5.5'
+      node.set['mysql']['version'] = '5.5'
+      node.set['mysql']['port'] = '3306'
     end.converge('mysql_test::mysql_service_attributes')
   end
 
