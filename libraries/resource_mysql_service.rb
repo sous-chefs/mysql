@@ -13,10 +13,11 @@ class Chef::Resource::MysqlService < Chef::Resource
     @provider = Chef::Provider::MysqlService
 
     @service_name = name
-    @version = MysqlPackageMap.default_version_for(
+
+    @version = MysqlPackageMap.lookup_version(
       node['platform'],
       node['platform_version'],
-      'default_version'
+      node['mysql']['version']
       )
 
     @package_name = MysqlPackageMap.package_for(
@@ -43,9 +44,9 @@ class Chef::Resource::MysqlService < Chef::Resource
       arg,
       :kind_of => String,
       :callbacks => {
-        "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda { |mysql_version|
-          true unless MysqlPackageMap.package_for(node['platform'], node['platform_version'], mysql_version).nil?          
-        }
+        "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do |mysql_version|
+          true unless MysqlPackageMap.package_for(node['platform'], node['platform_version'], mysql_version).nil?
+        end
       }
       )
   end
@@ -72,9 +73,9 @@ class Chef::Resource::MysqlService < Chef::Resource
       arg,
       :kind_of => String,
       :callbacks => {
-        'should be a valid non-system port' => lambda{ |p|
+        'should be a valid non-system port' => lambda do |p|
           Chef::Resource::MysqlService.validate_port(p)
-        }
+        end
       }
       )
   end
@@ -84,5 +85,4 @@ class Chef::Resource::MysqlService < Chef::Resource
   def self.validate_port(port)
     port.to_i > 1024 && port.to_i < 65_535
   end
-
 end

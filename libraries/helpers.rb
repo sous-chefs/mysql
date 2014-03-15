@@ -76,6 +76,11 @@ module Opscode
         rescue NoMethodError
           nil
         end
+
+        def self.lookup_version(platform, platform_version, mysql_version)
+          return mysql_version unless mysql_version.nil?
+          MysqlPackageMap.default_version_for(platform, platform_version, mysql_version)
+        end
       end
     end
   end
