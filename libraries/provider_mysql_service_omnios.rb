@@ -1,5 +1,7 @@
 require 'chef/provider/lwrp_base'
 
+include Opscode::Mysql::Helpers
+
 class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
   use_inline_resources
 
@@ -9,6 +11,37 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
   action :create do
     converge_by 'omnios pattern' do
+      new_resource.version
+
+      puts "DEBUG: new_resource.version: #{new_resource.version}"
+      puts "DEBUG: new_resource.port: #{new_resource.port}"
+      puts "DEBUG: new_resource.data_dir: #{new_resource.data_dir}"
+
+      # find default version for platform
+      default_mysql_version = MysqlPackageMap.lookup_version(
+        node['platform'],
+        node['platform_version'],
+        node['mysql']['version']
+        )
+
+
+      if new_resource.version.nil?
+        mysql_version = default_mysql_version
+      elsif MysqlPackageMap.package_for(
+          node['platform'], node['platform_version'], new_resource.version
+          ).nil?
+        raise Chef::Exceptions::ValidationFailed
+      else
+        mysql_version = new_resource.version
+      end
+
+      package_name = MysqlPackageMap.package_for(
+        node['platform'],
+        node['platform_version'],
+        mysql_version
+        )
+
+      ##########
 
       base_dir = '/opt/mysql55'
       prefix_dir = '/opt/mysql55'
@@ -17,8 +50,9 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       pid_file = '/var/run/mysql/mysql.pid'
       socket_file = '/tmp/mysql.sock'
 
-      package 'database/mysql-55' do
-        version '5.5.31'
+      ##########
+
+      package package_name do
         action :install
       end
 
@@ -44,7 +78,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       end
 
       template "#{base_dir}/etc/my.cnf" do
-        source '5.5/my.cnf.erb'
+        source "#{mysql_version}/my.cnf.erb"
         owner 'mysql'
         mode '0600'
         variables(

@@ -58,8 +58,8 @@ module Opscode
             'omnios' => {
               '151006' => {
                 'default_version' => '5.5',
-                '5.5' => 'mysql-55',
-                '5.6' => 'mysql-56'
+                '5.5' => 'database/mysql-55',
+                '5.6' => 'database/mysql-56'
               }
             }
           }

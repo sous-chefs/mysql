@@ -252,13 +252,13 @@ describe 'mysql_platform_map' do
     it 'returns the package for Mysql 5.5' do
       expect(
         Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['151006']['5.5']
-        ).to eq('mysql-55')
+        ).to eq('database/mysql-55')
     end
 
     it 'returns the package for Mysql 5.6' do
       expect(
         Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['omnios']['151006']['5.6']
-        ).to eq('mysql-56')
+        ).to eq('database/mysql-56')
     end
   end
 end
