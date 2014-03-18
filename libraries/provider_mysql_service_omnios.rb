@@ -24,7 +24,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
         node['mysql']['version']
         )
 
-
+#      binding.pry
       if new_resource.version.nil?
         mysql_version = default_mysql_version
       elsif MysqlPackageMap.package_for(
