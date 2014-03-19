@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'mysql_test::mysql_service_attribues' do
-
   let(:omnios_151006_default_run) do
     ChefSpec::Runner.new(
       :platform => 'omnios',

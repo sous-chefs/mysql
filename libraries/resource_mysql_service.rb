@@ -10,8 +10,7 @@ class Chef::Resource::MysqlService < Chef::Resource
     @resource_name = :mysql_service
     @allowed_actions = [:create]
     @action = :create
-    @provider = Chef::Provider::MysqlService
-
+    
     @service_name = name
 
     # binding.pry
