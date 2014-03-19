@@ -15,8 +15,12 @@ describe 'mysql_test::mysql_service_attribtues' do
 
   context 'when using an unsupported version' do
     it 'creates raises an error' do
-      binding.pry
-      expect { omnios_151006_unsupported_run }.to raise_error(Chef::Exceptions::ValidationFailed)
+#      binding.pry
+      expect(omnios_151006_unsupported_run).to create_mysql_service('omnios_151006_unsupported').with(
+        :version => '4.2',
+        :port => '3306',
+        :data_dir => '/data'
+        )      
     end
   end
 end
