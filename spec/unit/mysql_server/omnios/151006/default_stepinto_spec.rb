@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'mysql_test::mysql_service_attributes on omnios-151006' do
+
   before do
     stub_command("/opt/mysql55/bin/mysql -u root -e 'show databases;'").and_return(true)
   end
@@ -70,17 +71,17 @@ lc-messages-dir                =
         )
     end
 
-    # FIXME: add render_file
+    # # FIXME: add render_file
     it 'steps into mysql_service and creates my.conf' do
       expect(omnios_151006_default_stepinto_run).to create_template('/opt/mysql55/etc/my.cnf').with(
         :owner => 'mysql',
         :mode => '0600'
-        )
+      )
     end
 
-    # it 'steps into mysql_service and creates my.conf' do
-    #   expect(omnios_151006_default_stepinto_run).to render_file('/opt/mysql55/etc/my.cnf').with_content(my_cnf_content_omnios_151006)
-    # end
+    it 'steps into mysql_service and creates my.conf' do
+      expect(omnios_151006_default_stepinto_run).to render_file('/opt/mysql55/etc/my.cnf').with_content(my_cnf_content_omnios_151006)
+    end
 
     it 'steps into mysql_service and creates a bash resource' do
       expect(omnios_151006_default_stepinto_run).to_not run_bash('move mysql data to datadir')
@@ -146,5 +147,6 @@ lc-messages-dir                =
         :command => '/opt/mysql55/bin/mysql -u root -pilikerandompasswords < /etc/mysql_grants.sql'
         )
     end
+
   end
 end
