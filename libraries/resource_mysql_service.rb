@@ -4,43 +4,82 @@ require_relative 'helpers'
 include Opscode::Mysql::Helpers
 
 #
-class Chef::Resource::MysqlService < Chef::Resource::LWRPBase
-  actions :create
-  default_action :create
+class Chef::Resource::MysqlService < Chef::Resource
+  def initialize(name = nil, run_context = nil)
+    super
+    @resource_name = :mysql_service
+    @allowed_actions = [:create]
+    @action = :create
+    @provider = Chef::Provider::MysqlService
 
-  attribute :service_name, :name_attribute => true, :kind_of => String, :default => 'default'
+    @service_name = name
 
-#  binding.pry
-  attribute :version, :kind_of => String, :default => '5.5'
-  # attribute :version, :kind_of => String,
-  # :default => MysqlPackageMap.lookup_version(
-  #   node['platform'],
-  #   node['platform_version'],
-  #   node['mysql']['version']
-  #   ),
-  # :callbacks => {
-  #   "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do |mysql_version|
-  #     true unless MysqlPackageMap.package_for(node['platform'], node['platform_version'], mysql_version).nil?
-  #   end
-  # }
+    # binding.pry
+    @version = MysqlPackageMap.lookup_version(
+      node['platform'],
+      node['platform_version'],
+      node['mysql']['version']
+      )
 
-  attribute :package_name, :kind_of => String, :default => 'mysql-server'
-  # attribute :package_name, :kind_of => String,
-  # :default => MysqlPackageMap.package_for(
-  #   node['platform'],
-  #   node['platform_version'],
-  #   @version
-  #   )
+    @package_name = MysqlPackageMap.package_for(
+      node['platform'],
+      node['platform_version'],
+      @version
+      )
 
-  attribute :date_dir, :kind_of => String, :default => '/var/lib/mysql'
+    @port = '3306'
+    @data_dir = '/var/lib/mysql'
+  end
 
-  attribute :port, :kind_of => String, :default => '3306'
-  # attribute :port, :kind_of => String, :default => '3306',
-  # :callbacks => {
-  #   'should be a valid non-system port' => lambda do |p|
-  #     Chef::Resource::MysqlService.validate_port(p)
-  #   end
-  # }
+  def service_name(arg = nil)
+    set_or_return(
+      :service_name,
+      arg,
+      :kind_of => String
+      )
+  end
+
+  def version(arg = nil)
+    set_or_return(
+      :version,
+      arg,
+      :kind_of => String,
+      :callbacks => {
+        "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do |mysql_version|
+          true unless MysqlPackageMap.package_for(node['platform'], node['platform_version'], mysql_version).nil?
+        end
+      }
+      )
+  end
+
+  def package_name(arg = nil)
+    set_or_return(
+      :package_name,
+      arg,
+      :kind_of => String
+      )
+  end
+
+  def data_dir(arg = nil)
+    set_or_return(
+      :data_dir,
+      arg,
+      :kind_of => String
+      )
+  end
+
+  def port(arg = nil)
+    set_or_return(
+      :port,
+      arg,
+      :kind_of => String,
+      :callbacks => {
+        'should be a valid non-system port' => lambda do |p|
+          Chef::Resource::MysqlService.validate_port(p)
+        end
+      }
+      )
+  end
 
   private
 
