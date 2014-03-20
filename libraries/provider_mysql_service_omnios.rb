@@ -124,6 +124,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       template '/lib/svc/method/mysqld' do
         source 'omnios/svc.method.mysqld.erb'
         owner 'root'
+        group 'root'
         mode '0555'
         variables(
           :base_dir => base_dir,
@@ -150,7 +151,6 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       service 'mysql' do
         supports :restart => true
         action [:start, :enable]
-        notifies :run, 'execute[wait for mysql]', :immediately
       end
 
       execute 'wait for mysql' do

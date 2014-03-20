@@ -49,10 +49,12 @@ module Opscode
               }
             },
             'smartos' => {
-              '1303' => {
+              # Do this or now, until Ohai correctly detects a
+              # smartmachine vs global zone (base64 13.4.0) from /etc/product
+              '5.11' => {
                 'default_version' => '5.5',
-                '5.5' => 'mysql-server-5.5',
-                '5.6' => 'mysql-server-5.6'
+                '5.5' => 'mysql-server',
+                '5.6' => 'mysql-server'
               }
             },
             'omnios' => {
@@ -80,6 +82,20 @@ module Opscode
         def self.lookup_version(platform, platform_version, mysql_version)
           return mysql_version unless mysql_version.nil?
           MysqlPackageMap.default_version_for(platform, platform_version, mysql_version)
+        end
+      end
+
+      class MysqlDatadir
+        def self.mysql_datadir_map
+          @mysql_datadir_map ||= {
+            'rhel' => '/var/lib/mysql',
+            'amazon' => '/var/lib/mysql',
+            'fedora' => '/var/lib/mysql',
+            'debian' => '/var/lib/mysql',
+            'ubuntu' => '/var/lib/mysql',
+            'smartos' => '/opt/local/lib/mysql',
+            'omnios' => '/var/lib/mysql'
+          }
         end
       end
     end

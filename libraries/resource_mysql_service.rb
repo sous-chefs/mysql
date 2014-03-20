@@ -25,8 +25,8 @@ class Chef::Resource::MysqlService < Chef::Resource
       @version
       )
 
+    @data_dir = MysqlDatadir.mysql_datadir_map[node['platform']]
     @port = '3306'
-    @data_dir = '/var/lib/mysql'
   end
 
   def service_name(arg = nil)

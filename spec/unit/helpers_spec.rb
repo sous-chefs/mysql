@@ -210,29 +210,29 @@ describe 'mysql_platform_map' do
     end
   end
 
-  context 'for smartos-1303' do
+  context 'for smartos' do
     it 'returns the package for Mysql 5.0' do
       expect(
-        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['smartos']['1303']['5.0']
+        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['smartos']['5.11']['5.0']
         ).to eq(nil)
     end
 
     it 'returns the package for Mysql 5.1' do
       expect(
-        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['smartos']['1303']['5.1']
+        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['smartos']['5.11']['5.1']
         ).to eq(nil)
     end
 
     it 'returns the package for Mysql 5.5' do
       expect(
-        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['smartos']['1303']['5.5']
-        ).to eq('mysql-server-5.5')
+        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['smartos']['5.11']['5.5']
+        ).to eq('mysql-server')
     end
 
     it 'returns the package for Mysql 5.6' do
       expect(
-        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['smartos']['1303']['5.6']
-        ).to eq('mysql-server-5.6')
+        Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['smartos']['5.11']['5.6']
+        ).to eq('mysql-server')
     end
   end
 
