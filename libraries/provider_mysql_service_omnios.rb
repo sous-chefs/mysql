@@ -32,6 +32,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
       directory include_dir do
         owner 'mysql'
+        group 'mysql'
         mode '0750'
         recursive true
         action :create
@@ -39,22 +40,59 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
       directory run_dir do
         owner 'mysql'
+        group 'mysql'
         mode '0755'
         action :create
         recursive true
       end
 
+      # data_dir
       directory new_resource.data_dir do
         owner 'mysql'
+        group 'mysql'
         mode '0750'
         action :create
         recursive true
       end
 
+      directory "#{new_resource.data_dir}/data" do
+        owner 'mysql'
+        group 'mysql'
+        mode '0750'
+        action :create
+        recursive true
+      end
+
+      directory "#{new_resource.data_dir}/data/mysql" do
+        owner 'mysql'
+        group 'mysql'
+        mode '0750'
+        action :create
+        recursive true
+      end
+
+      directory "#{new_resource.data_dir}/data/test" do
+        owner 'mysql'
+        group 'mysql'
+        mode '0750'
+        action :create
+        recursive true
+      end
+
+      # mysql configuration
+      file "#{base_dir}/my.cnf" do
+        action :delete
+      end
+
+      file "#{base_dir}/my-new.cnf" do
+        action :delete
+      end
+      
       # FIXME: support user supplied template
       template "#{base_dir}/etc/my.cnf" do
         source "#{new_resource.version}/my.cnf.erb"
         owner 'mysql'
+        group 'mysql'
         mode '0600'
         variables(
           :base_dir => base_dir,
@@ -84,6 +122,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       end
 
       execute 'initialize mysql database' do
+        cwd new_resource.data_dir
         command "#{prefix_dir}/scripts/mysql_install_db --basedir=#{base_dir}"
         creates "#{new_resource.data_dir}/mysql/user.frm"
       end

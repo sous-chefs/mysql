@@ -15,6 +15,5 @@ describe 'mysql_test::mysql_service_unsupported' do
     it 'creates raises an error' do
       expect { omnios_151006_unsupported_run }.to raise_error(Chef::Exceptions::ValidationFailed)
     end
- end
+  end
 end
-
