@@ -91,7 +91,7 @@ platforms:
   run_list:
   - recipe[apt]
 
-- name: smartos-13.30
+- name: smartos-1330
   driver_plugin: joyent
   driver_config:
     joyent_image_id: 87b9f4ac-5385-11e3-a304-fb868b82fe10
@@ -147,7 +147,7 @@ suites:
       'debian-7.0',
       'ubuntu-12.04',
       'ubuntu-13.10',
-      'smartos-1303',
+      'smartos-1330',
       'omnios-151006'
     ]
     attributes:
@@ -158,7 +158,7 @@ suites:
     run_list:
     - recipe[mysql::server]
     includes: [
-      'smartos-1303',
+      'smartos-1330', 
       'omnios-151006'
     ]
     attributes:
