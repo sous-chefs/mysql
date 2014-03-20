@@ -11,10 +11,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
   action :create do
     converge_by 'omnios pattern' do
-      new_resource.version
-
       ##########
-
       pkg_ver_string = new_resource.version.gsub('.', '')
 
       base_dir = "/opt/mysql#{pkg_ver_string}"
@@ -24,6 +21,12 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       pid_file = '/var/run/mysql/mysql.pid'
       socket_file = '/tmp/mysql.sock'
 
+      case new_resource.version
+      when '5.5'
+        my_cnf = "#{base_dir}/etc/my.cnf"
+      when '5.6'
+        my_cnf = "#{base_dir}/my.cnf"
+      end
       ##########
 
       package new_resource.package_name do
@@ -79,17 +82,8 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
         recursive true
       end
 
-      # mysql configuration
-      file "#{base_dir}/my.cnf" do
-        action :delete
-      end
-
-      file "#{base_dir}/my-new.cnf" do
-        action :delete
-      end
-      
       # FIXME: support user supplied template
-      template "#{base_dir}/etc/my.cnf" do
+      template my_cnf do
         source "#{new_resource.version}/my.cnf.erb"
         owner 'mysql'
         group 'mysql'
@@ -123,7 +117,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
       execute 'initialize mysql database' do
         cwd new_resource.data_dir
-        command "#{prefix_dir}/scripts/mysql_install_db --basedir=#{base_dir}"
+        command "#{prefix_dir}/scripts/mysql_install_db --basedir=#{base_dir} --user=mysql"
         creates "#{new_resource.data_dir}/mysql/user.frm"
       end
 

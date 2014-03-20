@@ -9,6 +9,7 @@ describe 'mysql_test::mysql_service_attribues' do
       node.set['mysql']['service_name'] = 'omnios_151006_supported'
       node.set['mysql']['version'] = '5.6'
       node.set['mysql']['port'] = '3308'
+      node.set['mysql']['data_dir'] = '/data'
     end.converge('mysql_test::mysql_service_attributes')
   end
 
@@ -18,7 +19,7 @@ describe 'mysql_test::mysql_service_attribues' do
         :version => '5.6',
         :package_name => 'database/mysql-56',
         :port => '3308',
-        :data_dir => '/var/lib/mysql'
+        :data_dir => '/data'
         )
     end
   end

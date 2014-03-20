@@ -48,6 +48,7 @@ lc-messages-dir                = /opt/mysql55/share
     it 'steps into mysql_service and creates the include directory' do
       expect(omnios_151006_default_stepinto_run).to create_directory('/opt/mysql55/etc/mysql/conf.d').with(
         :owner => 'mysql',
+        :group => 'mysql',
         :mode => '0750',
         :recursive => true
         )
@@ -56,6 +57,7 @@ lc-messages-dir                = /opt/mysql55/share
     it 'steps into mysql_service and creates the run directory' do
       expect(omnios_151006_default_stepinto_run).to create_directory('/var/run/mysql').with(
         :owner => 'mysql',
+        :group => 'mysql',
         :mode => '0755',
         :recursive => true
         )
@@ -64,6 +66,34 @@ lc-messages-dir                = /opt/mysql55/share
     it 'steps into mysql_service and creates the data directory' do
       expect(omnios_151006_default_stepinto_run).to create_directory('/var/lib/mysql').with(
         :owner => 'mysql',
+        :group => 'mysql',
+        :mode => '0750',
+        :recursive => true
+        )
+    end
+
+    it 'steps into mysql_service and creates the data directory data subdirectory' do
+      expect(omnios_151006_default_stepinto_run).to create_directory('/var/lib/mysql/data').with(
+        :owner => 'mysql',
+        :group => 'mysql',
+        :mode => '0750',
+        :recursive => true
+        )
+    end
+
+    it 'steps into mysql_service and creates the data directory data/mysql' do
+      expect(omnios_151006_default_stepinto_run).to create_directory('/var/lib/mysql/data/mysql').with(
+        :owner => 'mysql',
+        :group => 'mysql',
+        :mode => '0750',
+        :recursive => true
+        )
+    end
+
+    it 'steps into mysql_service and creates the data directory data/test' do
+      expect(omnios_151006_default_stepinto_run).to create_directory('/var/lib/mysql/data/test').with(
+        :owner => 'mysql',
+        :group => 'mysql',
         :mode => '0750',
         :recursive => true
         )
@@ -72,6 +102,7 @@ lc-messages-dir                = /opt/mysql55/share
     it 'steps into mysql_service and creates my.conf' do
       expect(omnios_151006_default_stepinto_run).to create_template('/opt/mysql55/etc/my.cnf').with(
         :owner => 'mysql',
+        :group => 'mysql',
         :mode => '0600'
       )
     end
@@ -86,7 +117,7 @@ lc-messages-dir                = /opt/mysql55/share
 
     it 'steps into mysql_service and initializes the mysql database' do
       expect(omnios_151006_default_stepinto_run).to run_execute('initialize mysql database').with(
-        :command => '/opt/mysql55/scripts/mysql_install_db --basedir=/opt/mysql55'
+        :command => '/opt/mysql55/scripts/mysql_install_db --basedir=/opt/mysql55 --user=mysql'
         )
     end
 
