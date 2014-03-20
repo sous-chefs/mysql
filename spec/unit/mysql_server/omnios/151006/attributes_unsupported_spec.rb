@@ -17,3 +17,4 @@ describe 'mysql_test::mysql_service_unsupported' do
     end
  end
 end
+

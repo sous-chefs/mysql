@@ -16,26 +16,24 @@ describe 'mysql_test::mysql_service_attributes on omnios-151006' do
     end.converge('mysql_test::mysql_service_attributes')
   end
 
-  let(:my_cnf_content_omnios_151006) do
+  let(:my_cnf_5_5_content_omnios_151006) do
     '[client]
 port                           = 3306
-socket                         = /tmp/mysql.sock
 
 [mysqld_safe]
 socket                         = /tmp/mysql.sock
-nice                           = 0
 
 [mysqld]
 user                           = mysql
 pid-file                       = /var/run/mysql/mysql.pid
 socket                         = /tmp/mysql.sock
-port                           = 3308
+port                           = 3306
 datadir                        = /var/lib/mysql
-tmpdir                         = /tmp
-lc-messages-dir                =
+lc-messages-dir                = /opt/mysql55/share
 
 [mysql]
-!includedir /opt/mysql55/etc/mysql/conf.d'
+!includedir /opt/mysql55/etc/mysql/conf.d
+'
   end
 
   context 'when using default parameters' do
@@ -71,7 +69,6 @@ lc-messages-dir                =
         )
     end
 
-    # # FIXME: add render_file
     it 'steps into mysql_service and creates my.conf' do
       expect(omnios_151006_default_stepinto_run).to create_template('/opt/mysql55/etc/my.cnf').with(
         :owner => 'mysql',
@@ -80,7 +77,7 @@ lc-messages-dir                =
     end
 
     it 'steps into mysql_service and creates my.conf' do
-      expect(omnios_151006_default_stepinto_run).to render_file('/opt/mysql55/etc/my.cnf').with_content(my_cnf_content_omnios_151006)
+      expect(omnios_151006_default_stepinto_run).to render_file('/opt/mysql55/etc/my.cnf').with_content(my_cnf_5_5_content_omnios_151006)
     end
 
     it 'steps into mysql_service and creates a bash resource' do
@@ -93,7 +90,6 @@ lc-messages-dir                =
         )
     end
 
-    # FIXME: add render_file
     it 'steps into mysql_service and creates my.conf' do
       expect(omnios_151006_default_stepinto_run).to create_template('/lib/svc/method/mysqld').with(
         :owner => 'root',
@@ -101,7 +97,6 @@ lc-messages-dir                =
         )
     end
 
-    # FIXME: - add render_file
     it 'steps into mysql_service and creates /tmp/mysql.xml' do
       expect(omnios_151006_default_stepinto_run).to create_template('/tmp/mysql.xml').with(
         :owner => 'root',
@@ -133,7 +128,6 @@ lc-messages-dir                =
         )
     end
 
-    # FIXME: add render_file
     it 'steps into mysql_service and creates /etc/mysql_grants.sql' do
       expect(omnios_151006_default_stepinto_run).to create_template('/etc/mysql_grants.sql').with(
         :owner => 'root',
@@ -147,6 +141,5 @@ lc-messages-dir                =
         :command => '/opt/mysql55/bin/mysql -u root -pilikerandompasswords < /etc/mysql_grants.sql'
         )
     end
-
   end
 end

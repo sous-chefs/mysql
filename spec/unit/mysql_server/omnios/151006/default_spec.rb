@@ -13,7 +13,7 @@ describe 'mysql_test::mysql_service_attribues' do
   context 'when using default parameters' do
     it 'creates mysql_service[omnios_151006_default]' do
       expect(omnios_151006_default_run).to create_mysql_service('omnios_151006_default').with(
-        :version => nil,
+        :version => '5.5',
         :port => '3306',
         :data_dir => '/var/lib/mysql'
         )

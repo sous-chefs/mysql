@@ -117,6 +117,50 @@ platforms:
   - recipe[ips]
 
 suites:
-  - name: server
+  - name: server-5.0
     run_list:
-      - recipe[mysql::server]
+    - recipe[mysql::server]
+    includes: [ 'centos-5.8' ]
+    attributes:
+      mysql:
+        version: '5.0'
+
+  - name: server-5.1
+    run_list:
+    - recipe[mysql::server]
+    includes: [
+      'centos-5.8',
+      'centos-6.4',
+      'amazon-2013.09',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+        version: '5.1'
+
+  - name: server-5.5
+    run_list:
+    - recipe[mysql::server]
+    includes: [
+      'centos-5.8',
+      'fedora-19',
+      'debian-7.0',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'smartos-1303',
+      'omnios-151006'
+    ]
+    attributes:
+      mysql:
+       version: '5.5'
+
+  - name: server-5.6
+    run_list:
+    - recipe[mysql::server]
+    includes: [
+      'smartos-1303',
+      'omnios-151006'
+    ]
+    attributes:
+      mysql:
+        version: '5.6'

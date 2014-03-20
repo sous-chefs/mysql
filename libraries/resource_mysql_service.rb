@@ -7,13 +7,12 @@ include Opscode::Mysql::Helpers
 class Chef::Resource::MysqlService < Chef::Resource
   def initialize(name = nil, run_context = nil)
     super
-    @resource_name = :mysql_service
     @allowed_actions = [:create]
     @action = :create
-    
+
+    @resource_name = :mysql_service
     @service_name = name
 
-    # binding.pry
     @version = MysqlPackageMap.lookup_version(
       node['platform'],
       node['platform_version'],
