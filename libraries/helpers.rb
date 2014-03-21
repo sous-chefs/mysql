@@ -24,8 +24,12 @@ module Opscode
             },
             'fedora' => {
               '19' => {
-                'default_version' => '5.1',
-                '5.1' => 'community-mysql-server'
+                'default_version' => '5.5',
+                '5.5' => 'community-mysql-server'
+              },
+              '20' => {
+                'default_version' => '5.5',
+                '5.5' => 'community-mysql-server'
               }
             },
             'debian' => {

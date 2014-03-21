@@ -90,13 +90,13 @@ describe 'mysql_platform_map' do
     it 'returns the package for Mysql 5.1' do
       expect(
         Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['fedora']['19']['5.1']
-        ).to eq('community-mysql-server')
+        ).to eq(nil)
     end
 
     it 'returns the package for Mysql 5.5' do
       expect(
         Opscode::Mysql::Helpers::MysqlPackageMap.mysql_package_map['fedora']['19']['5.5']
-        ).to eq(nil)
+        ).to eq('community-mysql-server')
     end
 
     it 'returns the package for Mysql 5.6' do
