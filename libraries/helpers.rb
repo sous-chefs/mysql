@@ -29,7 +29,19 @@ module Opscode
               }
             },
             'debian' => {
-              '7' => {
+              '7.0' => {
+                'default_version' => '5.5',
+                '5.5' => 'mysql-server-5.5'
+              },
+              '7.1' => {
+                'default_version' => '5.5',
+                '5.5' => 'mysql-server-5.5'
+              },
+              '7.2' => {
+                'default_version' => '5.5',
+                '5.5' => 'mysql-server-5.5'
+              },
+              '7.3' => {
                 'default_version' => '5.5',
                 '5.5' => 'mysql-server-5.5'
               }

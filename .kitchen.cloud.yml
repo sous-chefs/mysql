@@ -131,7 +131,7 @@ suites:
     attributes:
       mysql:
         version: '5.0'
-        data_dir: '/data'
+#        data_dir: '/data'
 
   - name: server-5.1
     run_list:
@@ -145,7 +145,7 @@ suites:
     attributes:
       mysql:
         version: '5.1'
-        data_dir: '/data'
+#        data_dir: '/data'
 
   - name: server-5.5
     run_list:
@@ -162,7 +162,7 @@ suites:
     attributes:
       mysql:
        version: '5.5'
-       data_dir: '/data'
+#       data_dir: '/data'
 
   - name: server-5.6
     run_list:
@@ -174,4 +174,4 @@ suites:
     attributes:
       mysql:
         version: '5.6'
-        data_dir: '/data'
+#        data_dir: '/data'
