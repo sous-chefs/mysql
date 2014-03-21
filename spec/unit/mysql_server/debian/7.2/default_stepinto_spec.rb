@@ -127,6 +127,16 @@ datadir                        = /var/lib/mysql
         )
     end
 
+    it 'steps into mysql_service and creates template[/etc/mysql/debian.cnf]' do
+      expect(debian_7_2_default_run).to create_template('/etc/mysql/debian.cnf').with(
+        :source => 'debian/debian.cnf.erb',
+        :cookbook => 'mysql',
+        :owner => 'root',
+        :group => 'root',
+        :mode => '0600'
+        )
+    end
+
     it 'steps into mysql_service and creates template[/etc/mysql/my.cnf]' do
       expect(debian_7_2_default_run).to create_template('/etc/mysql/my.cnf').with(
         :owner => 'mysql',

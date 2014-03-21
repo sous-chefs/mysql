@@ -31,6 +31,7 @@ class Chef::Provider::MysqlService::Debian < Chef::Provider::MysqlService
 
       template '/var/cache/local/preseeding/mysql-server.seed' do
         source 'debian/mysql-server.seed.erb'
+        cookbook 'mysql'
         owner 'root'
         group 'root'
         mode '0600'
@@ -88,6 +89,15 @@ class Chef::Provider::MysqlService::Debian < Chef::Provider::MysqlService
         action :nothing
       end
 
+      template '/etc/mysql/debian.cnf' do
+        source 'debian/debian.cnf.erb'
+        cookbook 'mysql'
+        owner 'root'
+        group 'root'
+        mode '0600'
+        action :create
+      end
+
       #
       directory include_dir do
         owner 'mysql'
@@ -142,7 +152,6 @@ class Chef::Provider::MysqlService::Debian < Chef::Provider::MysqlService
         only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
         not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
       end
-
     end
   end
 end
