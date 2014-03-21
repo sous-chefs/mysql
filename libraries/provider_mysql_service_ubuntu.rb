@@ -9,12 +9,13 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
 
   action :create do
     converge_by 'ubuntu pattern' do
-
-      base_dir = ''
+      ##################
       prefix_dir = '/usr'
       run_dir = '/var/run/mysql'
       pid_file = '/var/run/mysql/mysql.pid'
       socket_file = '/var/run/mysqld/mysqld.sock'
+      include_dir = '/etc/mysql/conf.d'
+      ##################
 
       package 'debconf-utils' do
         action :install
@@ -24,6 +25,7 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
         owner 'root'
         group 'root'
         mode '0755'
+        action :create
         recursive true
       end
 
@@ -32,6 +34,7 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
         owner 'root'
         group 'root'
         mode '0600'
+        action :create
         notifies :run, 'execute[preseed mysql-server]', :immediately
       end
 
@@ -40,86 +43,17 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
         action  :nothing
       end
 
+      # package automatically initializes database and starts service.
+      # ... because that's totally super convenient.
       package 'mysql-server' do
         action :install
       end
 
-      directory "#{base_dir}/etc/mysql/conf.d/" do
-        owner 'mysql'
-        mode '0750'
-        recursive true
-        action :create
-      end
-
-      directory run_dir do
-        owner 'mysql'
-        mode '0755'
-        action :create
-        recursive true
-      end
-
-      directory new_resource.data_dir do
-        owner 'mysql'
-        mode '0750'
-        action :create
-      end
-
-      template "#{base_dir}/etc/my.cnf" do
-        source '5.5/my.cnf.erb'
-        owner 'mysql'
-        mode '0600'
-        variables(
-          :base_dir => base_dir,
-          :data_dir => new_resource.data_dir,
-          :pid_file => pid_file,
-          :socket_file => socket_file,
-          :port => new_resource.port
-          )
-        action :create
-        notifies :run, 'bash[move mysql data to datadir]', :immediately
-        notifies :restart, 'service[mysql]'
-      end
-
-      template '/etc/apparmor.d/usr.sbin.mysqld' do
-        source 'apparmor/usr.sbin.mysqld.erb'
-        action :create
-        notifies :reload, 'service[apparmor-mysql]', :immediately
-        only_if { ::File.directory?('/etc/apparmor.d')  }
-      end
-
-      service 'apparmor-mysql' do
-        service_name 'apparmor'
-        action :nothing
-        supports :reload => true
-      end
-
-      bash 'move mysql data to datadir' do
-        user 'root'
-        code <<-EOH
-        service mysql stop \
-        && mv /var/mysql/* #{new_resource.data_dir}
-        EOH
-        action :nothing
-        only_if "[ '/var/lib/mysql' != #{new_resource.data_dir} ]"
-        only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
-        not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
-      end
-
-      execute 'initialize mysql database' do
-        command "#{base_dir}/scripts/mysql_install_db --basedir=#{base_dir}"
-        creates "#{new_resource.data_dir}/mysql/user.frm"
-      end
-
+      # service
       service 'mysql' do
         provider Chef::Provider::Service::Upstart
         supports :restart => true
         action [:start, :enable]
-        notifies :run, 'execute[wait for mysql]', :immediately
-      end
-
-      execute 'wait for mysql' do
-        command "until [ -S #{socket_file} ] ; do sleep 1 ; done"
-        timeout 10
       end
 
       execute 'assign-root-password' do
@@ -153,14 +87,85 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
         command cmd
         action :nothing
       end
-    end
-  end
 
-  action :enable do
-    converge_by 'configure mysql service resource' do
-      service 'mysql' do
-        action [:start, :enable]
+      # apparmor
+      directory '/etc/apparmor.d' do
+        owner 'root'
+        group 'root'
+        mode '0755'
+        action :create
       end
+
+      template '/etc/apparmor.d/usr.sbin.mysqld' do
+        source 'apparmor/usr.sbin.mysqld.erb'
+        owner 'root'
+        group 'root'
+        mode '0644'
+        action :create
+        notifies :reload, 'service[apparmor-mysql]', :immediately
+      end
+
+      service 'apparmor-mysql' do
+        service_name 'apparmor'
+        action :nothing
+        supports :reload => true
+      end
+
+      #
+      directory include_dir do
+        owner 'mysql'
+        group 'mysql'
+        mode '0750'
+        recursive true
+        action :create
+      end
+
+      directory run_dir do
+        owner 'mysql'
+        group 'mysql'
+        mode '0755'
+        action :create
+        recursive true
+      end
+
+      directory new_resource.data_dir do
+        owner 'mysql'
+        group 'mysql'
+        mode '0750'
+        recursive true
+        action :create
+      end
+
+      template '/etc/mysql/my.cnf' do
+        source "#{new_resource.version}/my.cnf.erb"
+        cookbook 'mysql'
+        owner 'mysql'
+        group 'mysql'
+        mode '0600'
+        variables(
+          :data_dir => new_resource.data_dir,
+          :pid_file => pid_file,
+          :socket_file => socket_file,
+          :port => new_resource.port,
+          :include_dir => include_dir
+          )
+        action :create
+        notifies :run, 'bash[move mysql data to datadir]'
+        notifies :restart, 'service[mysql]'
+      end
+
+      bash 'move mysql data to datadir' do
+        user 'root'
+        code <<-EOH
+        service mysql stop \
+        && mv /var/lib/mysql/* #{new_resource.data_dir}
+        EOH
+        action :nothing
+        only_if "[ '/var/lib/mysql' != #{new_resource.data_dir} ]"
+        only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
+        not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
+      end
+
     end
   end
 end
