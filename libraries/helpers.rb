@@ -1,118 +1,113 @@
 module Opscode
   module Mysql
     module Helpers
-      class MysqlPackageMap
-        def self.mysql_package_map
-          @mysql_package_map ||= {
-            'rhel' => {
-              '5' => {
-                'default_version' => '5.0',
-                '5.0' => 'mysql-server',
-                '5.1' => 'mysql51-mysql-server',
-                '5.5' => 'mysql55-mysql-server'
-              },
-              '6' => {
-                'default_version' => '5.1',
-                '5.1' => 'mysql-server'
-              }
-            },
-            'amazon' => {
-              '2013.09' => {
-                'default_version' => '5.1',
-                '5.1' => 'mysql-server'
-              }
-            },
-            'fedora' => {
-              '19' => {
-                'default_version' => '5.5',
-                '5.5' => 'community-mysql-server'
-              },
-              '20' => {
-                'default_version' => '5.5',
-                '5.5' => 'community-mysql-server'
-              }
-            },
-            'debian' => {
-              '7.0' => {
-                'default_version' => '5.5',
-                '5.5' => 'mysql-server-5.5'
-              },
-              '7.1' => {
-                'default_version' => '5.5',
-                '5.5' => 'mysql-server-5.5'
-              },
-              '7.2' => {
-                'default_version' => '5.5',
-                '5.5' => 'mysql-server-5.5'
-              },
-              '7.3' => {
-                'default_version' => '5.5',
-                '5.5' => 'mysql-server-5.5'
-              }
-            },
-            'ubuntu' => {
-              '10.04' => {
-                'default_version' => '5.1',
-                '5.1' => 'mysql-server-5.1'
-              },
-              '12.04' => {
-                'default_version' => '5.5',
-                '5.5' => 'mysql-server-5.5'
-              },
-              '13.10' => {
-                'default_version' => '5.5',
-                '5.5' => 'mysql-server-5.5'
-              }
-            },
-            'smartos' => {
-              # Do this or now, until Ohai correctly detects a
-              # smartmachine vs global zone (base64 13.4.0) from /etc/product
-              '5.11' => {
-                'default_version' => '5.5',
-                '5.5' => 'mysql-server',
-                '5.6' => 'mysql-server'
-              }
-            },
-            'omnios' => {
-              '151006' => {
-                'default_version' => '5.5',
-                '5.5' => 'database/mysql-55',
-                '5.6' => 'database/mysql-56'
-              }
-            }
-          }
-        end
-
-        def self.default_version_for(platform, platform_version, mysql_version)
-          MysqlPackageMap.mysql_package_map[platform][platform_version]['default_version']
-        rescue NoMethodError
-          nil
-        end
-
-        def self.package_for(platform, platform_version, mysql_version)
-          MysqlPackageMap.mysql_package_map[platform][platform_version][mysql_version]
-        rescue NoMethodError
-          nil
-        end
-
-        def self.lookup_version(platform, platform_version, mysql_version)
-          return mysql_version unless mysql_version.nil?
-          MysqlPackageMap.default_version_for(platform, platform_version, mysql_version)
-        end
+      def default_version_for(platform, platform_family, platform_version)
+        keyname = keyname_for(platform, platform_family, platform_version)
+        PlatformInfo.mysql_info[platform_family][keyname]['default_version']
+      rescue NoMethodError
+        nil
       end
 
-      class MysqlDatadir
-        def self.mysql_datadir_map
-          @mysql_datadir_map ||= {
-            'rhel' => '/var/lib/mysql',
-            'amazon' => '/var/lib/mysql',
-            'fedora' => '/var/lib/mysql',
-            'debian' => '/var/lib/mysql',
-            'ubuntu' => '/var/lib/mysql',
-            'smartos' => '/opt/local/lib/mysql',
-            'omnios' => '/var/lib/mysql'
-          }
+      def package_name_for(platform, platform_family, platform_version, version)
+        keyname = keyname_for(platform, platform_family, platform_version)
+        PlatformInfo.mysql_info[platform_family][keyname][version]
+      rescue NoMethodError
+        nil
+      end
+
+      def default_data_dir_for(platform_family)
+        PlatformInfo.mysql_info[platform_family]['default_data_dir']
+      rescue NoMethodError
+        nil
+      end
+
+      def keyname_for(platform, platform_family, platform_version)
+        case
+        when platform_family == 'rhel'
+          platform == 'amazon' ? platform_version : platform_version.to_i.to_s
+        when platform_family == 'fedora'
+          platform_version
+        when platform_family == 'debian'
+          platform == 'ubuntu' ? platform_version : platform_version.to_i.to_s
+        when platform_family == 'smartos'
+          platform_version
+        when platform_family == 'omnios'
+          platform_version
         end
+      rescue NoMethodError
+        nil
+      end
+    end
+
+    class PlatformInfo
+      def self.mysql_info
+        @mysql_info ||= {
+          'rhel' => {
+            'default_data_dir' => '/var/lib/mysql',
+            '5' => {
+              'default_version' => '5.0',
+              '5.0' => 'mysql-server',
+              '5.1' => 'mysql51-mysql-server',
+              '5.5' => 'mysql55-mysql-server'
+            },
+            '6' => {
+              'default_version' => '5.1',
+              '5.1' => 'mysql-server'
+            },
+            '2013.09' => {
+              'default_version' => '5.1',
+              '5.1' => 'mysql-server'
+            }
+          },
+          'fedora' => {
+            'default_data_dir' => '/var/lib/mysql',
+            '19' => {
+              'default_version' => '5.5',
+              '5.5' => 'community-mysql-server'
+            },
+            '20' => {
+              'default_version' => '5.5',
+              '5.5' => 'community-mysql-server'
+            }
+          },
+          'debian' => {
+            'default_data_dir' => '/var/lib/mysql',
+            '7' => {
+              'default_version' => '5.5',
+              '5.5' => 'mysql-server-5.5'
+            },
+            '10.04' => {
+              'default_version' => '5.1',
+              '5.1' => 'mysql-server-5.1'
+            },
+            '12.04' => {
+              'default_version' => '5.5',
+              '5.5' => 'mysql-server-5.5'
+            },
+            '13.10' => {
+              'default_version' => '5.5',
+              '5.5' => 'mysql-server-5.5'
+            }
+          },
+          'smartos' => {
+            'default_data_dir' => '/opt/local/lib/mysql',
+            # Do this or now, until Ohai correctly detects a
+            # smartmachine vs global zone (base64 13.4.0) from /etc/product
+            '5.11' => {
+              'default_version' => '5.5',
+              '5.5' => 'mysql-server',
+              '5.6' => 'mysql-server'
+            }
+          },
+          'omnios' => {
+            'default_data_dir' => '/var/lib/mysql',
+            '151006' => {
+              'default_version' => '5.5',
+              '5.5' => 'database/mysql-55',
+              '5.6' => 'database/mysql-56'
+            }
+          }
+        }
       end
     end
   end

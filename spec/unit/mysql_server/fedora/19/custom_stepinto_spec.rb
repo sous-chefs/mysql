@@ -115,6 +115,6 @@ lc-messages-dir                = /usr/share/mysql
 
     it 'steps into mysql_service and creates bash[move mysql data to datadir]' do
       expect(fedora_19_default_run).to_not run_bash('move mysql data to datadir')
-    end    
+    end
   end
 end

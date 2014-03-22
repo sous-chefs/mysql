@@ -1,34 +1,35 @@
 require 'chef/resource/lwrp_base'
 require_relative 'helpers'
 
-include Opscode::Mysql::Helpers
+extend Opscode::Mysql::Helpers
 
-#
+# educational comments go here.
+# quite a few of them.
 class Chef::Resource::MysqlService < Chef::Resource
+  extend Opscode::Mysql::Helpers
+  # Initialize resource
   def initialize(name = nil, run_context = nil)
     super
-    @allowed_actions = [:create]
-    @action = :create
-
     @resource_name = :mysql_service
     @service_name = name
 
-    @version = MysqlPackageMap.lookup_version(
-      node['platform'],
-      node['platform_version'],
-      node['mysql']['version']
-      )
+    @allowed_actions = [:create]
+    @action = :create
 
-    @package_name = MysqlPackageMap.package_for(
-      node['platform'],
-      node['platform_version'],
-      @version
-      )
+    platform = node['platform']
+    platform_family = node['platform_family']
+    platform_version = node['platform_version']
 
-    @data_dir = MysqlDatadir.mysql_datadir_map[node['platform']]
+    # set default values
+    @version = default_version_for(platform, platform_family, platform_version)
+
+    @package_name = package_name_for(platform, platform_family, platform_version, @version)
+    @data_dir = default_data_dir_for(platform_family)
+
     @port = '3306'
   end
 
+  # attribute :service_name, kind_of: String
   def service_name(arg = nil)
     set_or_return(
       :service_name,
@@ -37,35 +38,7 @@ class Chef::Resource::MysqlService < Chef::Resource
       )
   end
 
-  def version(arg = nil)
-    set_or_return(
-      :version,
-      arg,
-      :kind_of => String,
-      :callbacks => {
-        "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do |mysql_version|
-          true unless MysqlPackageMap.package_for(node['platform'], node['platform_version'], mysql_version).nil?
-        end
-      }
-      )
-  end
-
-  def package_name(arg = nil)
-    set_or_return(
-      :package_name,
-      arg,
-      :kind_of => String
-      )
-  end
-
-  def data_dir(arg = nil)
-    set_or_return(
-      :data_dir,
-      arg,
-      :kind_of => String
-      )
-  end
-
+  # attribute :port, kind_of: String
   def port(arg = nil)
     set_or_return(
       :port,
@@ -76,6 +49,43 @@ class Chef::Resource::MysqlService < Chef::Resource
           Chef::Resource::MysqlService.validate_port(p)
         end
       }
+      )
+  end
+
+  # attribute :version, kind_of: String
+  def version(arg = nil)
+    set_or_return(
+      :version,
+      arg,
+      :kind_of => String,
+      :callbacks => {
+        "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do |mysql_version|
+          true unless package_name_for(
+            node['platform'],
+            node['platform_family'],
+            node['platform_version'],
+            arg
+            ).nil?
+        end
+      }
+      )
+  end
+
+  # attribute :package_name, kind_of: String
+  def package_name(arg = nil)
+    set_or_return(
+      :package_name,
+      arg,
+      :kind_of => String
+      )
+  end
+
+  # attribute :data_dir, kind_of: String
+  def data_dir(arg = nil)
+    set_or_return(
+      :data_dir,
+      arg,
+      :kind_of => String
       )
   end
 

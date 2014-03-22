@@ -14,7 +14,7 @@ describe 'mysql_test::mysql_service_attribues' do
   end
 
   context 'when using an supported version' do
-    it 'creates raises an error' do
+    it 'creates the resource with the correct parameters' do
       expect(omnios_151006_supported_run).to create_mysql_service('omnios_151006_supported').with(
         :version => '5.6',
         :package_name => 'database/mysql-56',
