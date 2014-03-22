@@ -2,9 +2,7 @@ require 'chef/resource/lwrp_base'
 require_relative 'helpers'
 
 extend Opscode::Mysql::Helpers
-
-# educational comments go here.
-# quite a few of them.
+#
 class Chef::Resource::MysqlService < Chef::Resource
   extend Opscode::Mysql::Helpers
   # Initialize resource
@@ -22,7 +20,6 @@ class Chef::Resource::MysqlService < Chef::Resource
 
     # set default values
     @version = default_version_for(platform, platform_family, platform_version)
-
     @package_name = package_name_for(platform, platform_family, platform_version, @version)
     @data_dir = default_data_dir_for(platform_family)
 
@@ -54,6 +51,15 @@ class Chef::Resource::MysqlService < Chef::Resource
 
   # attribute :version, kind_of: String
   def version(arg = nil)
+    # First, set the package_name to the appropriate value.
+    package_name package_name_for(
+      node['platform'],
+      node['platform_family'],
+      node['platform_version'],
+      arg
+      )
+
+    # Then, validate and return the version number.
     set_or_return(
       :version,
       arg,

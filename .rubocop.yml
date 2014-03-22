@@ -21,3 +21,6 @@ Documentation:
 
 ClassAndModuleChildren:
   Enabled: false
+
+CyclomaticComplexity:
+  Max: 9

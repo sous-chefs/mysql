@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 describe 'mysql_test::mysql_service_attribues' do
   let(:omnios_151006_supported_run) do

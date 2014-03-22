@@ -37,4 +37,5 @@ group :development do
   gem 'guard-rubocop'
   gem 'rake'
   gem 'fauxhai', :path => '/Users/someara/src/fauxhai'
+  gem 'pry-nav'
 end
