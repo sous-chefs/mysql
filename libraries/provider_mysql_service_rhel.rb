@@ -9,7 +9,18 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
 
   action :create do
     case node['platform_version'].to_i.to_s
-    when '6' || '2013'
+    when '2013'
+      case new_resource.version
+      when '5.1'
+        base_dir = ''
+        prefix_dir = '/usr'
+        run_dir = '/var/run/mysqld'
+        pid_file = '/var/run/mysql/mysql.pid'
+        socket_file = '/var/run/mysql/mysql.sock'
+        package_name = 'mysql-server'
+        service_name = 'mysqld'
+      end
+    when '6'
       case new_resource.version
       when '5.1'
         base_dir = ''
