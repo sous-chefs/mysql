@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mysql
-# Recipe:: default
+# Recipe:: server
 #
 # Copyright 2008-2013, Opscode, Inc.
 #
