@@ -42,12 +42,12 @@ datadir                        = /var/lib/mysql
         )
     end
 
-    it 'steps into mysql_service and installs package[community-mysql-server]' do
+    it 'steps into mysql_service and installs package[mysql-server]' do
       expect(centos_6_4_default_run).to install_package('mysql-server')
     end
 
-    it 'steps into mysql_service and creates directory[/etc/mysql/conf.d/]' do
-      expect(centos_6_4_default_run).to create_directory('/etc/mysql/conf.d/').with(
+    it 'steps into mysql_service and creates directory[/etc/mysql/conf.d]' do
+      expect(centos_6_4_default_run).to create_directory('/etc/mysql/conf.d').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0750',

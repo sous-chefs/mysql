@@ -65,7 +65,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         action :install
       end
 
-      directory "#{base_dir}/etc/mysql/conf.d/" do
+      directory "#{base_dir}/etc/mysql/conf.d" do
         owner 'mysql'
         group 'mysql'
         mode '0750'

@@ -46,8 +46,8 @@ datadir                        = /var/lib/mysql
       expect(amazon_2013_09_default_run).to install_package('mysql-server')
     end
 
-    it 'steps into mysql_service and creates directory[/etc/mysql/conf.d/]' do
-      expect(amazon_2013_09_default_run).to create_directory('/etc/mysql/conf.d/').with(
+    it 'steps into mysql_service and creates directory[/etc/mysql/conf.d]' do
+      expect(amazon_2013_09_default_run).to create_directory('/etc/mysql/conf.d').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0750',
