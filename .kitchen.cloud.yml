@@ -128,7 +128,7 @@ platforms:
 suites:
   - name: server-5.0
     run_list:
-    - recipe[mysql_test_default::server]
+    - recipe[mysql_test_custom::server]
     includes: [ 'centos-5.8' ]
     attributes:
       mysql:
@@ -137,7 +137,7 @@ suites:
 
   - name: server-5.1
     run_list:
-    - recipe[mysql_test_default::server]
+    - recipe[mysql_test_custom::server]
     includes: [
       'centos-5.8',
       'centos-6.4',
@@ -147,11 +147,11 @@ suites:
     attributes:
       mysql:
         version: '5.1'
-        data_dir: '/data'
+#        data_dir: '/data'
 
   - name: server-5.5
     run_list:
-    - recipe[mysql_test_default::server]
+    - recipe[mysql_test_custom::server]
     includes: [
       'centos-5.8',
       'fedora-19',
@@ -168,7 +168,7 @@ suites:
 
   - name: server-5.6
     run_list:
-    - recipe[mysql_test_default::server]
+    - recipe[mysql_test_custom::server]
     includes: [
       'smartos-13.4.0',
       'omnios-151006'

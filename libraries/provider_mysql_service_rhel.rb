@@ -99,16 +99,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         timeout 10
         action :run
       end
-
-      execute 'assign-root-password' do
-        cmd = "#{prefix_dir}/bin/mysqladmin"
-        cmd << ' -u root password '
-        cmd << node['mysql']['server_root_password']
-        command cmd
-        action :run
-        only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
-      end
-
+      
       template '/etc/mysql_grants.sql' do
         cookbook 'mysql'
         source 'grants/grants.sql.erb'
@@ -159,13 +150,23 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         user 'root'
         code <<-EOH
         service #{service_name} stop \
-        && for i in `ls /var/lib/mysql | grep -v mysql.sock` ; do mv /var/lib/mysql/$i #{new_resource.data_dir} ; done
+        && for i in `ls #{base_dir}/var/lib/mysql | grep -v mysql.sock` ; do mv #{base_dir}/var/lib/mysql/$i #{new_resource.data_dir} ; done
         EOH
         action :nothing
-        only_if "[ '/var/lib/mysql' != #{new_resource.data_dir} ]"
+        only_if "[ '#{base_dir}/var/lib/mysql' != #{new_resource.data_dir} ]"
         only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
-        not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
+        not_if "[ `stat -c %h #{base_dir}/var/lib/mysql/` -eq 2 ]"
       end
+      
+      execute 'assign-root-password' do
+        cmd = "#{prefix_dir}/bin/mysqladmin"
+        cmd << ' -u root password '
+        cmd << node['mysql']['server_root_password']
+        command cmd
+        action :run
+        only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
+      end
+      
     end
   end
 end
