@@ -15,7 +15,7 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
       lc_messages_dir = '/usr/share/mysql'
       run_dir = '/var/run/mysqld'
       pid_file = '/var/run/mysqld/mysqld.pid'
-      socket_file = '/var/run/mysqld/mysql.sock'
+      socket_file = '/var/lib/mysql/mysql.sock'
       package_name = 'community-mysql-server'
 
       package package_name do
@@ -110,8 +110,8 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
       bash 'move mysql data to datadir' do
         user 'root'
         code <<-EOH
-        service mysqld stop \
-        && mv /var/lib/mysql/* #{new_resource.data_dir}
+        service mysqld stop 
+        && for i in `ls /var/lib/mysql | grep -v mysql.sock` ; do mv /var/lib/mysql/$i #{new_resource.data_dir} ; done
         EOH
         action :nothing
         only_if "[ '/var/lib/mysql' != #{new_resource.data_dir} ]"

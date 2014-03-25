@@ -16,7 +16,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         prefix_dir = '/usr'
         run_dir = '/var/run/mysqld'
         pid_file = '/var/run/mysql/mysql.pid'
-        socket_file = '/var/run/mysql/mysql.sock'
+        socket_file = '/var/lib/mysql/mysql.sock'
         package_name = 'mysql-server'
         service_name = 'mysqld'
       end
@@ -27,7 +27,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         prefix_dir = '/usr'
         run_dir = '/var/run/mysqld'
         pid_file = '/var/run/mysql/mysql.pid'
-        socket_file = '/var/run/mysql/mysql.sock'
+        socket_file = '/var/lib/mysql/mysql.sock'
         package_name = 'mysql-server'
         service_name = 'mysqld'
       end
@@ -38,7 +38,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         prefix_dir = '/usr'
         run_dir = '/var/run/mysqld'
         pid_file = '/var/run/mysql/mysql.pid'
-        socket_file = '/var/run/mysql/mysql.sock'
+        socket_file = '/var/lib/mysql/mysql.sock'
         package_name = 'mysql-server'
         service_name = 'mysqld'
       when '5.1'
@@ -46,7 +46,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         prefix_dir = '/opt/rh/mysql51/root/usr'
         run_dir = '/opt/rh/mysql51/root/var/run/mysqld/'
         pid_file = '/var/run/mysql/mysql.pid'
-        socket_file = '/var/run/mysql/mysql.sock'
+        socket_file = '/var/lib/mysql/mysql.sock'
         package_name = 'mysql51-mysql-server'
         service_name = 'mysql51-mysqld'
       when '5.5'
@@ -54,7 +54,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         prefix_dir = '/opt/rh/mysql55/root/usr'
         run_dir = '/opt/rh/mysql55/root/var/run/mysqld/'
         pid_file = '/var/run/mysql/mysql.pid'
-        socket_file = '/var/run/mysql/mysql.sock'
+        socket_file = '/var/lib/mysql/mysql.sock'
         package_name = 'mysql55-mysql-server'
         service_name = 'mysql55-mysqld'
       end
@@ -159,7 +159,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         user 'root'
         code <<-EOH
         service #{service_name} stop \
-        && mv /var/lib/mysql/* #{new_resource.data_dir}
+        && for i in `ls /var/lib/mysql | grep -v mysql.sock` ; do mv /var/lib/mysql/$i #{new_resource.data_dir} ; done
         EOH
         action :nothing
         only_if "[ '/var/lib/mysql' != #{new_resource.data_dir} ]"
