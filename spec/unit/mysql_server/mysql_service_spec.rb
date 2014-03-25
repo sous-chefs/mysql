@@ -16,4 +16,3 @@ describe 'mysql_test::server' do
     end
   end
 end
-

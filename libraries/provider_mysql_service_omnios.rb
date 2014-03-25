@@ -191,6 +191,8 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
         cmd << ' -u root '
         cmd << "#{pass_string} < /etc/mysql_grants.sql"
         command cmd
+        retries 5
+        retry_delay 2
         action :nothing
       end
     end
