@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'mysql_test_default::server' do
   let(:centos_5_8_default_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -8,7 +8,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '5.8'
       ) do |node|
       node.set['mysql']['service_name'] = 'centos_5_8_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   let(:my_cnf_5_5_content_centos_5_8) do
@@ -102,6 +102,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/mysql_grants.sql]' do
       expect(centos_5_8_default_run).to create_template('/etc/mysql_grants.sql').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'

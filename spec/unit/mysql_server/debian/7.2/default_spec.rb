@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'mysql_test_default::server on debian-7.2' do
   let(:debian_7_2_default_run) do
     ChefSpec::Runner.new(
       :platform => 'debian',
       :version => '7.2'
       ) do |node|
       node.set['mysql']['service_name'] = 'debian_7_2_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   context 'when using default parameters' do

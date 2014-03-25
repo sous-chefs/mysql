@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'mysql_test_default::server on smartos-5.11' do
   let(:smartos_13_4_0_default_run) do
     ChefSpec::Runner.new(
       :platform => 'smartos',
       :version => '5.11' # Do this for now until Ohai can identify SmartMachines
       ) do |node|
       node.set['mysql']['service_name'] = 'smartos_13_4_0_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   context 'when using default parameters' do

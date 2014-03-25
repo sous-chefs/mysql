@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_unsupported' do
+describe 'unsupported mysql_test_custom::server on omnios-151006' do
   let(:omnios_151006_unsupported_run) do
     ChefSpec::Runner.new(
       :platform => 'omnios',
@@ -8,7 +8,7 @@ describe 'mysql_test::mysql_service_unsupported' do
       ) do |node|
       node.set['mysql']['service_name'] = 'omnios_151006_unsupported'
       node.set['mysql']['version'] = '4.2'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_custom::server')
   end
 
   context 'when using an unsupported version' do

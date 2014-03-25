@@ -24,12 +24,22 @@ class Chef::Resource::MysqlService < Chef::Resource
     @data_dir = default_data_dir_for(platform_family)
 
     @port = '3306'
+    @template_source = nil
   end
 
   # attribute :service_name, kind_of: String
   def service_name(arg = nil)
     set_or_return(
       :service_name,
+      arg,
+      :kind_of => String
+      )
+  end
+
+  # attribute :template_source, kind_of: String
+  def template_source(arg = nil)
+    set_or_return(
+      :template_source,
       arg,
       :kind_of => String
       )

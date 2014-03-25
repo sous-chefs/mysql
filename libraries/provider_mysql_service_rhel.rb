@@ -104,6 +104,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
       end
 
       template '/etc/mysql_grants.sql' do
+        cookbook 'mysql'
         source 'grants/grants.sql.erb'
         owner  'root'
         group  'root'
@@ -126,10 +127,13 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         action :nothing
       end
 
-      # FIXME: support user supplied templates
       template "#{base_dir}/etc/my.cnf" do
-        source "#{new_resource.version}/my.cnf.erb"
-        cookbook 'mysql'
+        if new_resource.template_source.nil?
+          source "#{new_resource.version}/my.cnf.erb"
+          cookbook 'mysql'
+        else
+          source new_resource.template_source
+        end
         owner 'mysql'
         group 'mysql'
         mode '0600'

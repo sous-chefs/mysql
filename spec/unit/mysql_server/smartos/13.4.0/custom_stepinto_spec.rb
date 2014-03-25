@@ -1,11 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::server on omnios-151006' do
-
-  before do
-    stub_command("/opt/local/bin/mysql -u root -e 'show databases;'").and_return(true)
-  end
-
+describe 'stepped into mysql_test_custom::server on omnios-151006' do
   let(:smartos_13_4_0_default_stepinto_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -16,27 +11,16 @@ describe 'mysql_test::server on omnios-151006' do
       node.set['mysql']['version'] = '5.6'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::server')
+      node.set['mysql']['template_source'] = 'custom.erb'
+    end.converge('mysql_test_custom::server')
   end
 
   let(:my_cnf_5_5_content_smartos_13_4_0) do
-    '[client]
-port                           = 3308
+    'This my template. There are many like it but this one is mine.'
+  end
 
-[mysqld_safe]
-socket                         = /tmp/mysql.sock
-
-[mysqld]
-user                           = mysql
-pid-file                       = /var/mysql/mysql.pid
-socket                         = /tmp/mysql.sock
-port                           = 3308
-datadir                        = /data
-sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
-
-[mysql]
-!includedir /opt/local/etc/mysql/conf.d
-'
+  before do
+    stub_command("/opt/local/bin/mysql -u root -e 'show databases;'").and_return(true)
   end
 
   context 'when using default parameters' do
@@ -128,6 +112,7 @@ sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
 
     it 'steps into mysql_service and creates the service method' do
       expect(smartos_13_4_0_default_stepinto_run).to create_template('/opt/local/lib/svc/method/mysqld').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0555'
@@ -136,7 +121,9 @@ sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
 
     it 'steps into mysql_service and creates /tmp/mysql.xml' do
       expect(smartos_13_4_0_default_stepinto_run).to create_template('/tmp/mysql.xml').with(
+        :cookbook => 'mysql',
         :owner => 'root',
+        :group => 'root',
         :mode => '0644'
         )
     end
@@ -167,6 +154,7 @@ sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
 
     it 'steps into mysql_service and creates /etc/mysql_grants.sql' do
       expect(smartos_13_4_0_default_stepinto_run).to create_template('/opt/local/etc/mysql_grants.sql').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'

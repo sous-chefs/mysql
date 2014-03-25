@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'stepped into mysql_test_custom::server on ubuntu-13.10' do
   let(:ubuntu_13_10_custom_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -10,26 +10,12 @@ describe 'mysql_test::mysql_service_attribues' do
       node.set['mysql']['service_name'] = 'ubuntu_13_10_default'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::server')
+      node.set['mysql']['template_source'] = 'custom.erb'
+    end.converge('mysql_test_custom::server')
   end
 
   let(:my_cnf_5_5_content_ubuntu_13_10) do
-    '[client]
-port                           = 3308
-
-[mysqld_safe]
-socket                         = /var/run/mysqld/mysqld.sock
-
-[mysqld]
-user                           = mysql
-pid-file                       = /var/run/mysql/mysql.pid
-socket                         = /var/run/mysqld/mysqld.sock
-port                           = 3308
-datadir                        = /data
-
-[mysql]
-!includedir /etc/mysql/conf.d
-'
+    'This my template. There are many like it but this one is mine.'
   end
 
   before do
@@ -60,6 +46,7 @@ datadir                        = /data
 
     it 'steps into mysql_service and creates template[/var/cache/local/preseeding/mysql-server.seed]' do
       expect(ubuntu_13_10_custom_run).to create_template('/var/cache/local/preseeding/mysql-server.seed').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
@@ -87,6 +74,7 @@ datadir                        = /data
 
     it 'steps into mysql_service and creates template[/etc/apparmor.d/usr.sbin.mysqld]' do
       expect(ubuntu_13_10_custom_run).to create_template('/etc/apparmor.d/usr.sbin.mysqld').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0644'
@@ -138,6 +126,7 @@ datadir                        = /data
 
     it 'steps into mysql_service and creates template[/etc/mysql_grants.sql]' do
       expect(ubuntu_13_10_custom_run).to create_template('/etc/mysql_grants.sql').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'

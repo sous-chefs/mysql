@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'stepped into mysql_test_custom::server on fedora-19' do
   let(:fedora_19_default_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -10,27 +10,12 @@ describe 'mysql_test::mysql_service_attribues' do
       node.set['mysql']['service_name'] = 'fedora_19_default'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::server')
+      node.set['mysql']['template_source'] = 'custom.erb'
+    end.converge('mysql_test_custom::server')
   end
 
   let(:my_cnf_5_5_content_fedora_19) do
-    '[client]
-port                           = 3308
-
-[mysqld_safe]
-socket                         = /var/run/mysqld/mysql.sock
-
-[mysqld]
-user                           = mysql
-pid-file                       = /var/run/mysqld/mysqld.pid
-socket                         = /var/run/mysqld/mysql.sock
-port                           = 3308
-datadir                        = /data
-lc-messages-dir                = /usr/share/mysql
-
-[mysql]
-!includedir /etc/my.cnf.d
-'
+    'This my template. There are many like it but this one is mine.'
   end
 
   before do

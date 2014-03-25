@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'stepped into mysql_test_custom::server 5.1 on centos-5.8' do
   let(:centos_5_8_default_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -11,25 +11,12 @@ describe 'mysql_test::mysql_service_attribues' do
       node.set['mysql']['version'] = '5.1'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::server')
+      node.set['mysql']['template_source'] = 'custom.erb'
+    end.converge('mysql_test_custom::server')
   end
 
   let(:my_cnf_5_5_content_centos_5_8) do
-    '[client]
-port                           = 3308
-
-[mysqld_safe]
-socket                         = /var/run/mysql/mysql.sock
-
-[mysqld]
-user                           = mysql
-pid-file                       = /var/run/mysql/mysql.pid
-socket                         = /var/run/mysql/mysql.sock
-port                           = 3308
-datadir                        = /data
-
-[mysql]
-'
+    'This my template. There are many like it but this one is mine.'
   end
 
   before do
@@ -97,6 +84,7 @@ datadir                        = /data
 
     it 'steps into mysql_service and creates template[/etc/mysql_grants.sql]' do
       expect(centos_5_8_default_run).to create_template('/etc/mysql_grants.sql').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'

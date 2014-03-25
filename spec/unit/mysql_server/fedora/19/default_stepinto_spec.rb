@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'stepped into mysql_test_default::server on fedora-19' do
   let(:fedora_19_default_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -8,7 +8,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '19'
       ) do |node|
       node.set['mysql']['service_name'] = 'fedora_19_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   let(:my_cnf_5_5_content_fedora_19) do

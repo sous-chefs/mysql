@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'mysql_test_default::server on ubuntu-12.04' do
   let(:ubuntu_12_04_default_run) do
     ChefSpec::Runner.new(
       :platform => 'ubuntu',
       :version => '12.04'
       ) do |node|
       node.set['mysql']['service_name'] = 'ubuntu_12_04_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   context 'when using default parameters' do

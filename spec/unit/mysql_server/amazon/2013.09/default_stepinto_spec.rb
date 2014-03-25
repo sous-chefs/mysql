@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'stepped into mysql_test_default::server on amazon-2013.09' do
   let(:amazon_2013_09_default_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -8,7 +8,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '2013.09'
       ) do |node|
       node.set['mysql']['service_name'] = 'amazon_2013_09_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   let(:my_cnf_5_5_content_amazon_2013_09) do
@@ -75,6 +75,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/my.cnf]' do
       expect(amazon_2013_09_default_run).to create_template('/etc/my.cnf').with(
+        :cookbook => 'mysql',
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0600'
@@ -102,6 +103,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/mysql_grants.sql]' do
       expect(amazon_2013_09_default_run).to create_template('/etc/mysql_grants.sql').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'

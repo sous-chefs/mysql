@@ -72,8 +72,12 @@ class Chef::Provider::MysqlService::Smartos < Chef::Provider::MysqlService
 
       # FIXME: support user supplied template
       template "#{prefix_dir}/etc/my.cnf" do
-        source "#{new_resource.version}/my.cnf.erb"
-        cookbook 'mysql'
+        if new_resource.template_source.nil?
+          source "#{new_resource.version}/my.cnf.erb"
+          cookbook 'mysql'
+        else
+          source new_resource.template_source
+        end
         owner 'mysql'
         group 'mysql'
         mode '0600'
@@ -108,6 +112,7 @@ class Chef::Provider::MysqlService::Smartos < Chef::Provider::MysqlService
       end
 
       template '/opt/local/lib/svc/method/mysqld' do
+        cookbook 'mysql'
         source 'smartos/svc.method.mysqld.erb'
         owner 'root'
         group 'root'
@@ -120,8 +125,10 @@ class Chef::Provider::MysqlService::Smartos < Chef::Provider::MysqlService
       end
 
       template '/tmp/mysql.xml' do
+        cookbook 'mysql'
         source 'smartos/mysql.xml.erb'
         owner 'root'
+        group 'root'
         mode '0644'
         variables(:version => new_resource.version)
         action :create
@@ -154,6 +161,7 @@ class Chef::Provider::MysqlService::Smartos < Chef::Provider::MysqlService
       end
 
       template "#{prefix_dir}/etc/mysql_grants.sql" do
+        cookbook 'mysql'
         source 'grants/grants.sql.erb'
         owner  'root'
         group  'root'

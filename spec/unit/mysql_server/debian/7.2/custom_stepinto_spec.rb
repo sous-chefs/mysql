@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'stepped into mysql_test_custom::server on debian-7.2' do
   let(:debian_7_2_custom_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -10,26 +10,12 @@ describe 'mysql_test::mysql_service_attribues' do
       node.set['mysql']['service_name'] = 'debian_7_2_default'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::server')
+      node.set['mysql']['template_source'] = 'custom.erb'
+    end.converge('mysql_test_custom::server')
   end
 
   let(:my_cnf_5_5_content_debian_7_2) do
-    '[client]
-port                           = 3308
-
-[mysqld_safe]
-socket                         = /var/run/mysqld/mysqld.sock
-
-[mysqld]
-user                           = mysql
-pid-file                       = /var/run/mysql/mysql.pid
-socket                         = /var/run/mysqld/mysqld.sock
-port                           = 3308
-datadir                        = /data
-
-[mysql]
-!includedir /etc/mysql/conf.d
-'
+    'This my template. There are many like it but this one is mine.'
   end
 
   before do

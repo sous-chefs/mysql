@@ -82,10 +82,13 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
         recursive true
       end
 
-      # FIXME: support user supplied template
       template my_cnf do
-        source "#{new_resource.version}/my.cnf.erb"
-        cookbook 'mysql'
+        if new_resource.template_source.nil?
+          source "#{new_resource.version}/my.cnf.erb"
+          cookbook 'mysql'
+        else
+          source new_resource.template_source
+        end
         owner 'mysql'
         group 'mysql'
         mode '0600'
@@ -122,6 +125,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       end
 
       template '/lib/svc/method/mysqld' do
+        cookbook 'mysql'
         source 'omnios/svc.method.mysqld.erb'
         cookbook 'mysql'
         owner 'root'
@@ -136,8 +140,8 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       end
 
       template '/tmp/mysql.xml' do
-        source 'omnios/mysql.xml.erb'
         cookbook 'mysql'
+        source 'omnios/mysql.xml.erb'
         owner 'root'
         mode '0644'
         variables(:version => new_resource.version)
@@ -171,8 +175,8 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       end
 
       template '/etc/mysql_grants.sql' do
-        source 'grants/grants.sql.erb'
         cookbook 'mysql'
+        source 'grants/grants.sql.erb'
         owner  'root'
         group  'root'
         mode   '0600'

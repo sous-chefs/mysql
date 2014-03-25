@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'stepped into mysql_test_default::server on debian-7.2' do
   let(:debian_7_2_default_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -8,7 +8,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '7.2'
       ) do |node|
       node.set['mysql']['service_name'] = 'debian_7_2_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   let(:my_cnf_5_5_content_debian_7_2) do
@@ -58,6 +58,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/var/cache/local/preseeding/mysql-server.seed]' do
       expect(debian_7_2_default_run).to create_template('/var/cache/local/preseeding/mysql-server.seed').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
@@ -115,6 +116,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/mysql_grants.sql]' do
       expect(debian_7_2_default_run).to create_template('/etc/mysql_grants.sql').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
@@ -129,8 +131,8 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/mysql/debian.cnf]' do
       expect(debian_7_2_default_run).to create_template('/etc/mysql/debian.cnf').with(
-        :source => 'debian/debian.cnf.erb',
         :cookbook => 'mysql',
+        :source => 'debian/debian.cnf.erb',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
@@ -139,6 +141,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/mysql/my.cnf]' do
       expect(debian_7_2_default_run).to create_template('/etc/mysql/my.cnf').with(
+        :cookbook => 'mysql',
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0600'

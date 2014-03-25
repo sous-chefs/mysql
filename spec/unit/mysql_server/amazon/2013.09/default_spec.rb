@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'mysql_test_default::server on amazon-2013.09' do
   let(:amazon_2013_09_default_run) do
     ChefSpec::Runner.new(
       :platform => 'amazon',
       :version => '2013.09'
       ) do |node|
       node.set['mysql']['service_name'] = 'amazon_2013_09_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   context 'when using default parameters' do

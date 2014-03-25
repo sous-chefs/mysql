@@ -1,11 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::server on omnios-151006' do
-
-  before do
-    stub_command("/opt/local/bin/mysql -u root -e 'show databases;'").and_return(true)
-  end
-
+describe 'stepped into mysql_test_default::server on smartos-5.11' do
   let(:smartos_13_4_0_default_stepinto_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -13,7 +8,7 @@ describe 'mysql_test::server on omnios-151006' do
       :version => '5.11' # Do this for now until Ohai can identify SmartMachines
       ) do |node|
       node.set['mysql']['service_name'] = 'smartos_13_4_0_default_stepinto'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   let(:my_cnf_5_5_content_smartos_13_4_0) do
@@ -33,6 +28,10 @@ datadir                        = /opt/local/lib/mysql
 [mysql]
 !includedir /opt/local/etc/mysql/conf.d
 '
+  end
+
+  before do
+    stub_command("/opt/local/bin/mysql -u root -e 'show databases;'").and_return(true)
   end
 
   context 'when using default parameters' do

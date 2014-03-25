@@ -1,7 +1,6 @@
 require 'spec_helper'
-require 'pry'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'mysql_test_custom::server on omnios-151006' do
   let(:omnios_151006_supported_run) do
     ChefSpec::Runner.new(
       :platform => 'omnios',
@@ -11,7 +10,7 @@ describe 'mysql_test::mysql_service_attribues' do
       node.set['mysql']['version'] = '5.6'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_custom::server')
   end
 
   context 'when using an supported version' do

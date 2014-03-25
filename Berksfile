@@ -8,4 +8,5 @@ group :integration do
   cookbook 'ips-omniti'
 end
 
-cookbook 'mysql_test', path: 'test/fixtures/cookbooks/mysql_test'
+cookbook 'mysql_test_default', path: 'test/fixtures/cookbooks/mysql_test_default'
+cookbook 'mysql_test_custom', path: 'test/fixtures/cookbooks/mysql_test_custom'

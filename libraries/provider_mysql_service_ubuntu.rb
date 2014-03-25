@@ -30,6 +30,7 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
       end
 
       template '/var/cache/local/preseeding/mysql-server.seed' do
+        cookbook 'mysql'
         source 'debian/mysql-server.seed.erb'
         owner 'root'
         group 'root'
@@ -66,6 +67,7 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
       end
 
       template '/etc/mysql_grants.sql' do
+        cookbook 'mysql'
         source 'grants/grants.sql.erb'
         owner  'root'
         group  'root'
@@ -97,6 +99,7 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
       end
 
       template '/etc/apparmor.d/usr.sbin.mysqld' do
+        cookbook 'mysql'
         source 'apparmor/usr.sbin.mysqld.erb'
         owner 'root'
         group 'root'
@@ -137,8 +140,12 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
       end
 
       template '/etc/mysql/my.cnf' do
-        source "#{new_resource.version}/my.cnf.erb"
-        cookbook 'mysql'
+        if new_resource.template_source.nil?
+          source "#{new_resource.version}/my.cnf.erb"
+          cookbook 'mysql'
+        else
+          source new_resource.template_source
+        end
         owner 'mysql'
         group 'mysql'
         mode '0600'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attribues' do
+describe 'stepped into mysql_test_default::server on ubuntu-13.10' do
   let(:ubuntu_13_10_default_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
@@ -8,7 +8,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '13.10'
       ) do |node|
       node.set['mysql']['service_name'] = 'ubuntu_13_10_default'
-    end.converge('mysql_test::server')
+    end.converge('mysql_test_default::server')
   end
 
   let(:my_cnf_5_5_content_ubuntu_13_10) do
@@ -58,6 +58,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/var/cache/local/preseeding/mysql-server.seed]' do
       expect(ubuntu_13_10_default_run).to create_template('/var/cache/local/preseeding/mysql-server.seed').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
@@ -85,6 +86,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/apparmor.d/usr.sbin.mysqld]' do
       expect(ubuntu_13_10_default_run).to create_template('/etc/apparmor.d/usr.sbin.mysqld').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0644'
@@ -136,6 +138,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/mysql_grants.sql]' do
       expect(ubuntu_13_10_default_run).to create_template('/etc/mysql_grants.sql').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
@@ -150,6 +153,7 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and creates template[/etc/mysql/my.cnf]' do
       expect(ubuntu_13_10_default_run).to create_template('/etc/mysql/my.cnf').with(
+        :cookbook => 'mysql',
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0600'
