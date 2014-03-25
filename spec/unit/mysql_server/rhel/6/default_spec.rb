@@ -7,7 +7,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '6.4'
       ) do |node|
       node.set['mysql']['service_name'] = 'centos_6_4_default'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   context 'when using default parameters' do

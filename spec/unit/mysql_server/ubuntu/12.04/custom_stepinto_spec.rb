@@ -10,7 +10,7 @@ describe 'mysql_test::mysql_service_attribues' do
       node.set['mysql']['service_name'] = 'ubuntu_12_04_default'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   let(:my_cnf_5_5_content_ubuntu_12_04) do

@@ -7,7 +7,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '2013.09'
       ) do |node|
       node.set['mysql']['service_name'] = 'amazon_2013_09_default'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   context 'when using default parameters' do

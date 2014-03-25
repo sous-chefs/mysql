@@ -11,7 +11,7 @@ describe 'mysql_test::mysql_service_attribues' do
       node.set['mysql']['version'] = '5.1'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   let(:my_cnf_5_5_content_centos_5_8) do

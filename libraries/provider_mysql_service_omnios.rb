@@ -3,7 +3,7 @@ require 'chef/provider/lwrp_base'
 include Opscode::Mysql::Helpers
 
 class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
-  use_inline_resources
+  use_inline_resources if defined?(use_inline_resources)
 
   def whyrun_supported?
     true
@@ -85,6 +85,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       # FIXME: support user supplied template
       template my_cnf do
         source "#{new_resource.version}/my.cnf.erb"
+        cookbook 'mysql'
         owner 'mysql'
         group 'mysql'
         mode '0600'
@@ -97,9 +98,8 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
           :port => new_resource.port,
           :lc_messages_dir => "#{base_dir}/share"
           )
-        cookbook 'mysql'
         action :create
-        notifies :run, 'bash[move mysql data to datadir]', :immediately
+        notifies :run, 'bash[move mysql data to datadir]'
         notifies :restart, 'service[mysql]'
       end
 
@@ -123,6 +123,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
       template '/lib/svc/method/mysqld' do
         source 'omnios/svc.method.mysqld.erb'
+        cookbook 'mysql'
         owner 'root'
         group 'root'
         mode '0555'
@@ -136,6 +137,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
       template '/tmp/mysql.xml' do
         source 'omnios/mysql.xml.erb'
+        cookbook 'mysql'
         owner 'root'
         mode '0644'
         variables(:version => new_resource.version)
@@ -170,6 +172,7 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
 
       template '/etc/mysql_grants.sql' do
         source 'grants/grants.sql.erb'
+        cookbook 'mysql'
         owner  'root'
         group  'root'
         mode   '0600'

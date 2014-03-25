@@ -7,7 +7,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '151006'
       ) do |node|
       node.set['mysql']['service_name'] = 'omnios_151006_default'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   context 'when using default parameters' do

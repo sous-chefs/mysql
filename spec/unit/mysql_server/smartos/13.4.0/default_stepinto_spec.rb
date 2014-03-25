@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attributes on omnios-151006' do
+describe 'mysql_test::server on omnios-151006' do
 
   before do
     stub_command("/opt/local/bin/mysql -u root -e 'show databases;'").and_return(true)
@@ -13,7 +13,7 @@ describe 'mysql_test::mysql_service_attributes on omnios-151006' do
       :version => '5.11' # Do this for now until Ohai can identify SmartMachines
       ) do |node|
       node.set['mysql']['service_name'] = 'smartos_13_4_0_default_stepinto'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   let(:my_cnf_5_5_content_smartos_13_4_0) do

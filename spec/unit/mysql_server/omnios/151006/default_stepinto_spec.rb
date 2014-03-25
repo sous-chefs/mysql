@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attributes on omnios-151006' do
+describe 'mysql_test::server on omnios-151006' do
 
   before do
     stub_command("/opt/mysql55/bin/mysql -u root -e 'show databases;'").and_return(true)
@@ -13,7 +13,7 @@ describe 'mysql_test::mysql_service_attributes on omnios-151006' do
       :version => '151006'
       ) do |node|
       node.set['mysql']['service_name'] = 'omnios_151006_default_stepinto'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   let(:my_cnf_5_5_content_omnios_151006) do
@@ -101,6 +101,7 @@ lc-messages-dir                = /opt/mysql55/share
 
     it 'steps into mysql_service and creates my.conf' do
       expect(omnios_151006_default_stepinto_run).to create_template('/opt/mysql55/etc/my.cnf').with(
+        :cookbook => 'mysql',
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0600'
@@ -123,6 +124,7 @@ lc-messages-dir                = /opt/mysql55/share
 
     it 'steps into mysql_service and creates my.conf' do
       expect(omnios_151006_default_stepinto_run).to create_template('/lib/svc/method/mysqld').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :mode => '0555'
         )
@@ -130,6 +132,7 @@ lc-messages-dir                = /opt/mysql55/share
 
     it 'steps into mysql_service and creates /tmp/mysql.xml' do
       expect(omnios_151006_default_stepinto_run).to create_template('/tmp/mysql.xml').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :mode => '0644'
         )
@@ -161,6 +164,7 @@ lc-messages-dir                = /opt/mysql55/share
 
     it 'steps into mysql_service and creates /etc/mysql_grants.sql' do
       expect(omnios_151006_default_stepinto_run).to create_template('/etc/mysql_grants.sql').with(
+        :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
         :mode => '0600'

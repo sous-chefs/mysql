@@ -7,7 +7,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '10.04'
       ) do |node|
       node.set['mysql']['service_name'] = 'ubuntu_10_04_default'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   context 'when using default parameters' do

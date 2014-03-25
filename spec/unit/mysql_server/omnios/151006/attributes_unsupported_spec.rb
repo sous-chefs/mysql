@@ -8,7 +8,7 @@ describe 'mysql_test::mysql_service_unsupported' do
       ) do |node|
       node.set['mysql']['service_name'] = 'omnios_151006_unsupported'
       node.set['mysql']['version'] = '4.2'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   context 'when using an unsupported version' do

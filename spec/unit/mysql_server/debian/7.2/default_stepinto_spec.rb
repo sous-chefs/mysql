@@ -8,7 +8,7 @@ describe 'mysql_test::mysql_service_attribues' do
       :version => '7.2'
       ) do |node|
       node.set['mysql']['service_name'] = 'debian_7_2_default'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   let(:my_cnf_5_5_content_debian_7_2) do

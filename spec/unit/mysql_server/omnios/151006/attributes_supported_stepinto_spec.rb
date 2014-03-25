@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mysql_test::mysql_service_attributes on omnios-151006' do
+describe 'mysql_test::server on omnios-151006' do
 
   before do
     stub_command("/opt/mysql56/bin/mysql -u root -e 'show databases;'").and_return(true)
@@ -16,7 +16,7 @@ describe 'mysql_test::mysql_service_attributes on omnios-151006' do
       node.set['mysql']['version'] = '5.6'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
-    end.converge('mysql_test::mysql_service_attributes')
+    end.converge('mysql_test::server')
   end
 
   let(:my_cnf_5_6_content_omnios_151006) do
