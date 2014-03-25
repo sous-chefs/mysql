@@ -14,14 +14,15 @@ describe 'stepped into mysql_test_default::server on fedora-19' do
   let(:my_cnf_5_5_content_fedora_19) do
     '[client]
 port                           = 3306
+socket                         = /var/lib/mysql/mysql.sock
 
 [mysqld_safe]
-socket                         = /var/run/mysqld/mysql.sock
+socket                         = /var/lib/mysql/mysql.sock
 
 [mysqld]
 user                           = mysql
 pid-file                       = /var/run/mysqld/mysqld.pid
-socket                         = /var/run/mysqld/mysql.sock
+socket                         = /var/lib/mysql/mysql.sock
 port                           = 3306
 datadir                        = /var/lib/mysql
 lc-messages-dir                = /usr/share/mysql

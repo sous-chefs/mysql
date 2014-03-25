@@ -14,6 +14,7 @@ describe 'stepped into mysql_test_default::server on debian-7.2' do
   let(:my_cnf_5_5_content_debian_7_2) do
     '[client]
 port                           = 3306
+socket                         = /var/run/mysqld/mysqld.sock
 
 [mysqld_safe]
 socket                         = /var/run/mysqld/mysqld.sock

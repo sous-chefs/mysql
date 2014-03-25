@@ -14,6 +14,7 @@ describe 'mysql_test_default::server on ubuntu-10.04' do
   let(:my_cnf_5_5_content_ubuntu_10_04) do
     '[client]
 port                           = 3306
+socket                         = /var/run/mysqld/mysqld.sock
 
 [mysqld_safe]
 socket                         = /var/run/mysqld/mysqld.sock

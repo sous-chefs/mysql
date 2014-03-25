@@ -110,7 +110,7 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
       bash 'move mysql data to datadir' do
         user 'root'
         code <<-EOH
-        service mysqld stop 
+        service mysqld stop
         && for i in `ls /var/lib/mysql | grep -v mysql.sock` ; do mv /var/lib/mysql/$i #{new_resource.data_dir} ; done
         EOH
         action :nothing

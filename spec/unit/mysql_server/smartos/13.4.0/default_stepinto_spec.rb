@@ -14,6 +14,7 @@ describe 'stepped into mysql_test_default::server on smartos-5.11' do
   let(:my_cnf_5_5_content_smartos_13_4_0) do
     '[client]
 port                           = 3306
+socket                         = /tmp/mysql.sock
 
 [mysqld_safe]
 socket                         = /tmp/mysql.sock

@@ -14,6 +14,7 @@ describe 'mysql_test_default::server on omnios-151006' do
   let(:my_cnf_5_5_content_omnios_151006) do
     '[client]
 port                           = 3306
+socket                         = /tmp/mysql.sock
 
 [mysqld_safe]
 socket                         = /tmp/mysql.sock

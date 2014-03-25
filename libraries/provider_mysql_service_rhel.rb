@@ -99,7 +99,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         timeout 10
         action :run
       end
-      
+
       execute 'assign-root-password' do
         cmd = "#{prefix_dir}/bin/mysqladmin"
         cmd << ' -u root password '

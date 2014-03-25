@@ -14,14 +14,15 @@ describe 'mysql_test_default::server' do
   let(:my_cnf_5_5_content_centos_5_8) do
     '[client]
 port                           = 3306
+socket                         = /var/lib/mysql/mysql.sock
 
 [mysqld_safe]
-socket                         = /var/run/mysql/mysql.sock
+socket                         = /var/lib/mysql/mysql.sock
 
 [mysqld]
 user                           = mysql
 pid-file                       = /var/run/mysql/mysql.pid
-socket                         = /var/run/mysql/mysql.sock
+socket                         = /var/lib/mysql/mysql.sock
 port                           = 3306
 datadir                        = /var/lib/mysql
 
