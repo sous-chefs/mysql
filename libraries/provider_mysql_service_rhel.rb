@@ -94,6 +94,12 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         action [:start, :enable]
       end
 
+      execute 'wait for mysql' do
+        command "until [ -S #{socket_file} ] ; do sleep 1 ; done"
+        timeout 10
+        action :run
+      end
+      
       execute 'assign-root-password' do
         cmd = "#{prefix_dir}/bin/mysqladmin"
         cmd << ' -u root password '
