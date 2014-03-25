@@ -2,6 +2,8 @@
 default['mysql']['server_root_password'] = 'ilikerandompasswords'
 default['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
 
+default['mysql']['service_name'] = 'default'
+
 # case node['platform']
 # when 'smartos'
 #   default['mysql']['data_dir'] = '/opt/local/lib/mysql'
@@ -10,7 +12,6 @@ default['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
 # end
 
 # # port
-# default['mysql']['service_name'] = 'default'
 # default['mysql']['port'] = '3306'
 
 # # used in grants.sql
