@@ -127,6 +127,13 @@ platforms:
 
 suites:
   #
+  # client
+  #
+  - name: client
+    run_list:
+    - recipe[mysql_client_test]
+
+  #
   # server5.0
   #
   - name: server50-default

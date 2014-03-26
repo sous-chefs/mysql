@@ -28,4 +28,4 @@ class Chef::Provider::MysqlClient::Debian < Chef::Provider::MysqlClient
   end
 end
 
-Chef::Platform.set :platform => :debian, :resource => :mysql_service, :provider => Chef::Provider::MysqlClient::Debian
+Chef::Platform.set :platform => :debian, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Debian

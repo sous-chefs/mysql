@@ -9,7 +9,7 @@ class Chef::Provider::MysqlClient::Fedora < Chef::Provider::MysqlClient
 
   action :create do
     converge_by 'fedora pattern' do
-      %w(mysql mysql-devel).each do |p|
+      %w(community-mysql community-mysql-devel).each do |p|
         package p do
           action :install
         end
@@ -19,7 +19,7 @@ class Chef::Provider::MysqlClient::Fedora < Chef::Provider::MysqlClient
 
   action :delete do
     converge_by 'fedora pattern' do
-      %w(mysql mysql-devel).each do |p|
+      %w(community-mysql community-mysql-devel).each do |p|
         package p do
           action :remove
         end
@@ -28,4 +28,4 @@ class Chef::Provider::MysqlClient::Fedora < Chef::Provider::MysqlClient
   end
 end
 
-Chef::Platform.set :platform => :fedora, :resource => :mysql_service, :provider => Chef::Provider::MysqlClient::Fedora
+Chef::Platform.set :platform => :fedora, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Fedora

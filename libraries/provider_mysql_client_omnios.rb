@@ -24,4 +24,4 @@ class Chef::Provider::MysqlClient::Omnios < Chef::Provider::MysqlClient
   end
 end
 
-Chef::Platform.set :platform => :omnios, :resource => :mysql_service, :provider => Chef::Provider::MysqlClient::Omnios
+Chef::Platform.set :platform => :omnios, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Omnios

@@ -28,4 +28,4 @@ class Chef::Provider::MysqlClient::Ubuntu < Chef::Provider::MysqlClient
   end
 end
 
-Chef::Platform.set :platform => :ubuntu, :resource => :mysql_service, :provider => Chef::Provider::MysqlClient::Ubuntu
+Chef::Platform.set :platform => :ubuntu, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Ubuntu

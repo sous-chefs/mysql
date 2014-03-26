@@ -24,4 +24,4 @@ class Chef::Provider::MysqlClient::Smartos < Chef::Provider::MysqlClient
   end
 end
 
-Chef::Platform.set :platform => :smartos, :resource => :mysql_service, :provider => Chef::Provider::MysqlClient::Smartos
+Chef::Platform.set :platform => :smartos, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Smartos

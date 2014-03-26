@@ -205,8 +205,8 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
       end
     end
 
-    service service_name do
-      converge_by 'rhel pattern' do
+    converge_by 'rhel pattern' do
+      service service_name do
         supports :restart => true
         action :restart
       end

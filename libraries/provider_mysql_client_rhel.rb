@@ -28,4 +28,9 @@ class Chef::Provider::MysqlClient::Rhel < Chef::Provider::MysqlClient
   end
 end
 
-Chef::Platform.set :platform => :rhel, :resource => :mysql_service, :provider => Chef::Provider::MysqlClient::Rhel
+Chef::Platform.set :platform => :rhel, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Rhel
+Chef::Platform.set :platform => :amazon, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Rhel
+Chef::Platform.set :platform => :redhat, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Rhel
+Chef::Platform.set :platform => :centos, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Rhel
+Chef::Platform.set :platform => :oracle, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Rhel
+Chef::Platform.set :platform => :scientific, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Rhel
