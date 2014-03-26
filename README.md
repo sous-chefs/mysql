@@ -1,40 +1,138 @@
-mysql cookbook README
+MySQL cookbook README
 =====================
 
-yadda yadda
+The MySQL cookbook exposes the `mysql_service` and `mysql_client`
+resources. These resources can be are utilized by the `mysql::client`
+and `mysql::server` recipes, or can be consumed in other recipes by
+depending on the MySQL cookbook.
 
-Platform native package chart
------------------------------
-```
-|-----------------+------------------------+------------------+------------|
-| distro          | package name           | software version | repository |
-|-----------------+------------------------+------------------+------------|
-| centos-5.x      | mysql-server           |           5.0.95 | base       |
-|-----------------+------------------------+------------------+------------|
-| centos-5.x      | mysql51-mysql-server   |           5.1.70 | base       |
-|-----------------+------------------------+------------------+------------|
-| centos-5.x      | mysql55-mysql-server   |           5.5.36 | base       |
-|-----------------+------------------------+------------------+------------|
-| centos-6.x      | mysql-server           |           5.1.73 | base
-|-----------------+------------------------+------------------+------------|
-| amazon-2013.09  | mysql-server           |           5.1.73 | base       |
-|-----------------+------------------------+------------------+------------|
-| fedora-19       | community-mysql-server |           5.5.35 | base       |
-|-----------------+------------------------+------------------+------------|
-| debian-7.x      | mysql-server-5.5       |           5.5.33 | main       |
-|-----------------+------------------------+------------------+------------|
-| ubuntu-10.04    | mysql-server-5.1       |           5.1.41 | main       |
-|-----------------+------------------------+------------------+------------|
-| ubuntu-12.04    | mysql-server-5.5       |           5.5.22 | main       |
-|-----------------+------------------------+------------------+------------|
-| ubuntu-13.10    | mysql-server-5.5       |           5.5.32 | main       |
-|-----------------+------------------------+------------------+------------|
-| smartos-1303    | mysql-server-5.5       |           5.5.33 | 2013Q3     |
-|-----------------+------------------------+------------------+------------|
-| smartos-1303    | mysql-server-5.6       |           5.6.13 | 2013Q3     |
-|-----------------+------------------------+------------------+------------|
-| omnios-151006   | mysql-55               |           5.5.31 | omniti-ms  |
-|-----------------+------------------------+------------------+------------|
-| omnios-151006   | mysql-65               |           5.6.13 | omniti-ms  |
-|-----------------+------------------------+------------------+------------|
+It does its best to follow platform native idioms at all times. This
+means things like logs, pid files, sockets, and service managers work
+"as expected" by an administrator familiar with a given platform.
+
+Scope
+-----
+This cookbook is concerned with the "MySQL Community Server",
+particularly those shipped with F/OSS Unix and Linux distributions. It
+does not address forks and value-added repackaged MySQL distributions
+like Drizzle, MariaDB, or Percona.
+
+Requirements
+------------
+* Chef 11 or higher
+* Ruby 1.9 (preferably from the Chef full-stack installer)
+
+Resources / Providers
+---------------------
+### mysql_service
+
+The `mysql_service` resource configures the basic plumbing
+needed to run a simple mysql_service with a minimal configuration.
+
+### Example
+
+    mysql_service 'default' do
+      version '5.5'
+      port '3307'
+      data_dir '/data'
+      template_source 'custom.erb'
+      action :create
+    end
+
+The `version` parameter will allow the user to select from the
+versions available for the platform, where applicable. When omitted,
+it will install the default MySQL version for the target platform.
+Available version numbers are `5.0`, `5.1`, `5.5`, and `5.6`,
+depending on platform. See PLATFORMS.md for details.
+
+The `port` parameter determines the listen port for the mysqld
+service. When omitted, it will default to '3307'.
+
+The `data_dir` parameter determines where the actual data files are
+kept on the machine. This is useful when mounting external storage.
+When omitted, it will default to the platform's native location.
+
+The `template_source` parameter allows the user to override the
+default minimal template used by the `mysql_service` resource. When
+omitted, it will select one shipped with the cookbook based on the
+MySQL version.
+
+### mysql_client
+
+The `mysql_client` resource installs or removes the MySQL client binaries and
+development libraries
+
+Recipes
+-------
+### mysql::server
+
+This recipe calls a `mysql_service` resource, passing parameters
+from node attributes.
+
+### mysql::client
+
+This recipe calls a `mysql_client` resource, with action :create
+
+Usage
+-----
+### run_list
+
+Include 'recipe[mysql::server]' or 'recipe[mysql::client]' in your run_list.
+
+### Wrapper cookbook for a server instance
+
+    node.set['mysql']['server_root_password'] = 'yolo'
+    node.set['mysql']['data_dir'] = '/data'
+    node.set['mysql']['data_dir'] = '/data'
+    include_recipe 'mysql::server'
+        
+### Used directly in a recipe
+
+    mysql_service 'default' do
+      version '5.5'
+      port '3307'
+      data_dir '/data'
+      template_source 'custom.erb'
+      action :create
+    end
+
+Attributes
+----------
+
+    default['mysql']['service_name'] = 'default'
+    default['mysql']['server_root_password'] = 'ilikerandompasswords'
+    default['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
+    default['mysql']['data_dir'] = '/var/lib/mysql'
+    default['mysql']['port'] = '3306'
+
+    ### used in grants.sql
+    default['mysql']['allow_remote_root'] = false
+    default['mysql']['remove_anonymous_users'] = true
+    default['mysql']['root_network_acl'] = nil
+
+License & Authors
+-----------------
+- Author:: Joshua Timberman (<joshua@opscode.com>)
+- Author:: AJ Christensen (<aj@opscode.com>)
+- Author:: Seth Chisamore (<schisamo@opscode.com>)
+- Author:: Brian Bianco (<brian.bianco@gmail.com>)
+- Author:: Jesse Howarth (<him@jessehowarth.com>)
+- Author:: Andrew Crump (<andrew@kotirisoftware.com>)
+- Author:: Christoph Hartmann (<chris@lollyrock.com>)
+- Author:: Sean OMeara (<someara@opscode.com>)
+
+```text
+Copyright:: 2009-2014 Chef Software, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
