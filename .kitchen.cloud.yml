@@ -126,16 +126,31 @@ platforms:
   - recipe[ips-omniti]
 
 suites:
-  - name: server-5.0
+  #
+  # server5.0
+  #
+  - name: server50-default
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [ 'centos-5.8' ]
     attributes:
       mysql:
         version: '5.0'
-#        data_dir: '/data'
 
-  - name: server-5.1
+  - name: server50-custom
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [ 'centos-5.8' ]
+    attributes:
+      mysql:
+        version: '5.0'
+        port: '3308'
+        data_dir: '/data'
+
+  #
+  # server5.1
+  #
+  - name: server51-default
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
@@ -147,9 +162,26 @@ suites:
     attributes:
       mysql:
         version: '5.1'
-#        data_dir: '/data'
 
-  - name: server-5.5
+  - name: server51-custom
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'centos-5.8',
+      'centos-6.4',
+      'amazon-2013.09',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+        version: '5.1'
+        port: '3308'
+        data_dir: '/data'
+
+  #
+  # server5.5
+  #
+  - name: server55-default
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
@@ -164,9 +196,29 @@ suites:
     attributes:
       mysql:
        version: '5.5'
-#       data_dir: '/data'
 
-  - name: server-5.6
+  - name: server55-custom
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'centos-5.8',
+      'fedora-19',
+      'debian-7.0',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'smartos-13.4.0',
+      'omnios-151006'
+    ]
+    attributes:
+      mysql:
+       version: '5.5'
+       port: '3308'
+       data_dir: '/data'
+
+  #
+  # server56
+  #
+  - name: server56-default
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
@@ -176,4 +228,17 @@ suites:
     attributes:
       mysql:
         version: '5.6'
-#        data_dir: '/data'
+        data_dir: '/data'
+
+  - name: server56-custom
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'smartos-13.4.0',
+      'omnios-151006'
+    ]
+    attributes:
+      mysql:
+        version: '5.6'
+        port: '3308'
+        data_dir: '/data'
