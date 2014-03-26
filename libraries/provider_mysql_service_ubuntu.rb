@@ -172,9 +172,16 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
         only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
         not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
       end
-
     end
   end
+  
+  action :restart do
+    service 'mysql' do
+      provider Chef::Provider::Service::Upstart
+      supports :restart => true
+      action :restart
+    end
+  end  
 end
 
 Chef::Platform.set :platform => :ubuntu, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Ubuntu

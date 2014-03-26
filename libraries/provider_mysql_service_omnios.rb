@@ -201,6 +201,13 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
       end
     end
   end
+
+  action :restart do
+    service 'mysql' do
+      supports :reload => true
+      action :reload
+    end
+  end
 end
 
 Chef::Platform.set :platform => :omnios, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Omnios

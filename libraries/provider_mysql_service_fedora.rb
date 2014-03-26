@@ -47,6 +47,7 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
       end
 
       service 'mysqld' do
+        supports :restart => true
         action [:start, :enable]
       end
 
@@ -124,8 +125,14 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
         action :run
         only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
       end
-
     end
+  end
+
+  action :restart do
+    service 'mysqld' do
+      supports :restart => true
+      action :restart
+    end    
   end
 end
 

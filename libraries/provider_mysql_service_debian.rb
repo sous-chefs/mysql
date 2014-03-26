@@ -159,6 +159,14 @@ class Chef::Provider::MysqlService::Debian < Chef::Provider::MysqlService
       end
     end
   end
+
+  action :restart do
+    service 'mysql' do
+      provider Chef::Provider::Service::Init::Debian
+      supports :restart => true
+      action :restart
+    end
+  end
 end
 
 Chef::Platform.set :platform => :debian, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Debian

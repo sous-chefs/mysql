@@ -11,7 +11,7 @@ class Chef::Resource::MysqlService < Chef::Resource
     @resource_name = :mysql_service
     @service_name = name
 
-    @allowed_actions = [:create]
+    @allowed_actions = [:create, :restart]
     @action = :create
 
     platform = node['platform']

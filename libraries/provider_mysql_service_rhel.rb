@@ -178,7 +178,36 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         action :run
         only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
       end
+    end
+  end
 
+  action :restart do
+    # FIXME: Find a way to DRY this
+    case node['platform_version'].to_i.to_s
+    when '2013'
+      case new_resource.version
+      when '5.1'
+        service_name = 'mysqld'
+      end
+    when '6'
+      case new_resource.version
+      when '5.1'
+        service_name = 'mysqld'
+      end
+    when '5'
+      case new_resource.version
+      when '5.0'
+        service_name = 'mysqld'
+      when '5.1'
+        service_name = 'mysql51-mysqld'
+      when '5.5'
+        service_name = 'mysql55-mysqld'
+      end
+    end
+
+    service service_name do
+      supports :restart => true
+      action :restart
     end
   end
 end
