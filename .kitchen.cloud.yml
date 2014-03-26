@@ -127,13 +127,6 @@ platforms:
 
 suites:
   #
-  # smoke
-  #
-  - name: smoke
-    run_list:
-    - recipe[smoke]
-
-  #
   # server5.0
   #
   - name: server50-default
