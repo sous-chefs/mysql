@@ -25,7 +25,6 @@ pid-file                       = /var/run/mysql/mysql.pid
 socket                         = /var/lib/mysql/mysql.sock
 port                           = 3306
 datadir                        = /var/lib/mysql
-lc-messages-dir                = /usr/share/mysql
 
 [mysql]
 !includedir /etc/mysql/conf.d
