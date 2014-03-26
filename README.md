@@ -6,9 +6,10 @@ resources. These resources can be are utilized by the `mysql::client`
 and `mysql::server` recipes, or can be consumed in other recipes by
 depending on the MySQL cookbook.
 
-It does its best to follow platform native idioms at all times. This
-means things like logs, pid files, sockets, and service managers work
-"as expected" by an administrator familiar with a given platform.
+This cookbook does its best to follow platform native idioms at all
+times. This means things like logs, pid files, sockets, and service
+managers work "as expected" by an administrator familiar with a given
+platform.
 
 Scope
 -----
@@ -16,6 +17,11 @@ This cookbook is concerned with the "MySQL Community Server",
 particularly those shipped with F/OSS Unix and Linux distributions. It
 does not address forks and value-added repackaged MySQL distributions
 like Drizzle, MariaDB, or Percona.
+
+This cookbook does not try to encompass every single configuration
+option available for MySQL. Instead, it provides a "just enough" to
+get a MySQL server running, then allows the user to specify additional
+custom configuration.
 
 Requirements
 ------------
@@ -75,18 +81,38 @@ This recipe calls a `mysql_client` resource, with action :create
 
 Usage
 -----
+The `mysql::server` recipe and `mysql_service` recipes are designed to
+provide a minimal configuration. The default `my.cnf` dropped off has
+an `!includedir` directive. Site-specific configuration should be
+placed in the platform's native location.
+
 ### run_list
 
-Include 'recipe[mysql::server]' or 'recipe[mysql::client]' in your run_list.
+Include `'recipe[mysql::server]'` or `'recipe[mysql::client]'` in your run_list.
 
 ### Wrapper cookbook for a server instance
 
     node.set['mysql']['server_root_password'] = 'yolo'
     node.set['mysql']['data_dir'] = '/data'
     node.set['mysql']['data_dir'] = '/data'
+    
     include_recipe 'mysql::server'
-        
+
+    template '/etc/mysql/conf.d/mysite.cnf' do
+      owner 'mysql'
+      owner 'group'      
+      source 'mysite.cnf.erb'
+      notifies :restart, 'mysql_service[default]'
+    end
+
 ### Used directly in a recipe
+
+    template '/etc/mysql/conf.d/mysite.cnf' do
+      owner 'mysql'
+      owner 'group'      
+      source 'mysite.cnf.erb'
+      notifies :restart, 'mysql_service[default]'
+    end
 
     mysql_service 'default' do
       version '5.5'
