@@ -174,14 +174,14 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
       end
     end
   end
-  
+
   action :restart do
     service 'mysql' do
       provider Chef::Provider::Service::Upstart
       supports :restart => true
       action :restart
     end
-  end  
+  end
 end
 
 Chef::Platform.set :platform => :ubuntu, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Ubuntu

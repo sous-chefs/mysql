@@ -132,7 +132,7 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
     service 'mysqld' do
       supports :restart => true
       action :restart
-    end    
+    end
   end
 end
 
