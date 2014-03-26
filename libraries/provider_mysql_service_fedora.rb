@@ -12,7 +12,7 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
 
       prefix_dir = '/usr'
       include_dir = '/etc/my.cnf.d'
-      lc_messages_dir = '/usr/share/mysql'
+      lc_messages_dir = nil
       run_dir = '/var/run/mysqld'
       pid_file = '/var/run/mysqld/mysqld.pid'
       socket_file = '/var/lib/mysql/mysql.sock'
@@ -111,7 +111,7 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
         && for i in `ls /var/lib/mysql | grep -v mysql.sock` ; do mv /var/lib/mysql/$i #{new_resource.data_dir} ; done
         EOH
         action :nothing
-        only_if "[ '/var/lib/mysql' != #{new_resource.data_dir} ]"
+        only_if "[ '/var/lib/mysqld' != #{new_resource.data_dir} ]"
         only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
         not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
       end
