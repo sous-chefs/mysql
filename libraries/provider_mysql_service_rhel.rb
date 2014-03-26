@@ -39,9 +39,9 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
       case new_resource.version
       when '5.0'
         base_dir = ''
-        include_dir = nil
+        include_dir = "#{base_dir}/etc/mysql/conf.d"
         prefix_dir = '/usr'
-        lc_messages_dir = '/usr/share/mysql'
+        lc_messages_dir = nil
         run_dir = '/var/run/mysqld'
         pid_file = '/var/run/mysql/mysql.pid'
         socket_file = '/var/lib/mysql/mysql.sock'
@@ -75,14 +75,12 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         action :install
       end
 
-      unless include_dir.nil?
-        directory include_dir do
-          owner 'mysql'
-          group 'mysql'
-          mode '0750'
-          recursive true
-          action :create
-        end
+      directory include_dir do
+        owner 'mysql'
+        group 'mysql'
+        mode '0750'
+        recursive true
+        action :create
       end
 
       directory run_dir do
