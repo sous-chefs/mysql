@@ -36,15 +36,6 @@ describe 'stepped into mysql_test_custom::server 5.0 on centos-5.8' do
       expect(centos_5_8_default_run).to install_package('mysql-server')
     end
 
-    it 'steps into mysql_service and creates directory[/etc/mysql/conf.d]' do
-      expect(centos_5_8_default_run).to create_directory('/etc/mysql/conf.d').with(
-        :owner => 'mysql',
-        :group => 'mysql',
-        :mode => '0750',
-        :recursive => true
-        )
-    end
-
     it 'steps into mysql_service and creates directory[/var/run/mysqld]' do
       expect(centos_5_8_default_run).to create_directory('/var/run/mysqld').with(
         :owner => 'mysql',

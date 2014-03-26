@@ -13,7 +13,9 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
       case new_resource.version
       when '5.1'
         base_dir = ''
+        include_dir = "#{base_dir}/etc/mysql/conf.d"
         prefix_dir = '/usr'
+        lc_messages_dir = '/usr/share/mysql'
         run_dir = '/var/run/mysqld'
         pid_file = '/var/run/mysql/mysql.pid'
         socket_file = '/var/lib/mysql/mysql.sock'
@@ -24,7 +26,9 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
       case new_resource.version
       when '5.1'
         base_dir = ''
+        include_dir = "#{base_dir}/etc/mysql/conf.d"
         prefix_dir = '/usr'
+        lc_messages_dir = '/usr/share/mysql'
         run_dir = '/var/run/mysqld'
         pid_file = '/var/run/mysql/mysql.pid'
         socket_file = '/var/lib/mysql/mysql.sock'
@@ -35,7 +39,9 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
       case new_resource.version
       when '5.0'
         base_dir = ''
+        include_dir = nil
         prefix_dir = '/usr'
+        lc_messages_dir = '/usr/share/mysql'
         run_dir = '/var/run/mysqld'
         pid_file = '/var/run/mysql/mysql.pid'
         socket_file = '/var/lib/mysql/mysql.sock'
@@ -43,7 +49,9 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         service_name = 'mysqld'
       when '5.1'
         base_dir = '/opt/rh/mysql51/root'
+        include_dir = "#{base_dir}/etc/mysql/conf.d"
         prefix_dir = '/opt/rh/mysql51/root/usr'
+        lc_messages_dir = '/usr/share/mysql'
         run_dir = '/opt/rh/mysql51/root/var/run/mysqld/'
         pid_file = '/var/run/mysql/mysql.pid'
         socket_file = '/var/lib/mysql/mysql.sock'
@@ -51,7 +59,9 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         service_name = 'mysql51-mysqld'
       when '5.5'
         base_dir = '/opt/rh/mysql55/root'
+        include_dir = "#{base_dir}/etc/mysql/conf.d"
         prefix_dir = '/opt/rh/mysql55/root/usr'
+        lc_messages_dir = '/usr/share/mysql'
         run_dir = '/opt/rh/mysql55/root/var/run/mysqld/'
         pid_file = '/var/run/mysql/mysql.pid'
         socket_file = '/var/lib/mysql/mysql.sock'
@@ -65,12 +75,14 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         action :install
       end
 
-      directory "#{base_dir}/etc/mysql/conf.d" do
-        owner 'mysql'
-        group 'mysql'
-        mode '0750'
-        recursive true
-        action :create
+      unless include_dir.nil?
+        directory include_dir do
+          owner 'mysql'
+          group 'mysql'
+          mode '0750'
+          recursive true
+          action :create
+        end
       end
 
       directory run_dir do
@@ -99,7 +111,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         timeout 10
         action :run
       end
-      
+
       template '/etc/mysql_grants.sql' do
         cookbook 'mysql'
         source 'grants/grants.sql.erb'
@@ -137,9 +149,11 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         variables(
           :base_dir => base_dir,
           :data_dir => new_resource.data_dir,
+          :include_dir => include_dir,
+          :lc_messages_dir => lc_messages_dir,
           :pid_file => pid_file,
-          :socket_file => socket_file,
-          :port => new_resource.port
+          :port => new_resource.port,
+          :socket_file => socket_file
           )
         action :create
         notifies :run, 'bash[move mysql data to datadir]'
@@ -157,7 +171,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
         not_if "[ `stat -c %h #{base_dir}/var/lib/mysql/` -eq 2 ]"
       end
-      
+
       execute 'assign-root-password' do
         cmd = "#{prefix_dir}/bin/mysqladmin"
         cmd << ' -u root password '
@@ -166,7 +180,7 @@ class Chef::Provider::MysqlService::Rhel < Chef::Provider::MysqlService
         action :run
         only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
       end
-      
+
     end
   end
 end

@@ -22,7 +22,7 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
         action :install
       end
 
-      directory '/etc/my.cnf.d/' do
+      directory include_dir do
         owner 'mysql'
         group 'mysql'
         mode '0750'
@@ -50,13 +50,10 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
         action [:start, :enable]
       end
 
-      execute 'assign-root-password' do
-        cmd = "#{prefix_dir}/bin/mysqladmin"
-        cmd << ' -u root password '
-        cmd << node['mysql']['server_root_password']
-        command cmd
+      execute 'wait for mysql' do
+        command "until [ -S #{socket_file} ] ; do sleep 1 ; done"
+        timeout 10
         action :run
-        only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
       end
 
       template '/etc/mysql_grants.sql' do
@@ -94,13 +91,13 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
         group 'mysql'
         mode '0600'
         variables(
-          :prefix_dir => prefix_dir,
-          :lc_messages_dir => lc_messages_dir,
           :data_dir => new_resource.data_dir,
+          :include_dir => include_dir,
+          :lc_messages_dir => lc_messages_dir,
           :pid_file => pid_file,
-          :socket_file => socket_file,
           :port => new_resource.port,
-          :include_dir => include_dir
+          :prefix_dir => prefix_dir,
+          :socket_file => socket_file
           )
         action :create
         notifies :run, 'bash[move mysql data to datadir]'
@@ -118,6 +115,16 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
         only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
         not_if '[ `stat -c %h /var/lib/mysql/` -eq 2 ]'
       end
+
+      execute 'assign-root-password' do
+        cmd = "#{prefix_dir}/bin/mysqladmin"
+        cmd << ' -u root password '
+        cmd << node['mysql']['server_root_password']
+        command cmd
+        action :run
+        only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
+      end
+
     end
   end
 end

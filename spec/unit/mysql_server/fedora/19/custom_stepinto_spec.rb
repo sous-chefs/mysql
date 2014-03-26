@@ -35,8 +35,8 @@ describe 'stepped into mysql_test_custom::server on fedora-19' do
       expect(fedora_19_default_run).to install_package('community-mysql-server')
     end
 
-    it 'steps into mysql_service and creates directory[/etc/my.cnf.d/]' do
-      expect(fedora_19_default_run).to create_directory('/etc/my.cnf.d/').with(
+    it 'steps into mysql_service and creates directory[/etc/my.cnf.d]' do
+      expect(fedora_19_default_run).to create_directory('/etc/my.cnf.d').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0750',

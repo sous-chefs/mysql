@@ -25,6 +25,7 @@ pid-file                       = /var/run/mysql/mysql.pid
 socket                         = /var/lib/mysql/mysql.sock
 port                           = 3306
 datadir                        = /var/lib/mysql
+lc-messages-dir                = /usr/share/mysql
 
 [mysql]
 '
@@ -45,15 +46,6 @@ datadir                        = /var/lib/mysql
 
     it 'steps into mysql_service and installs package[mysql-server]' do
       expect(centos_5_8_default_run).to install_package('mysql-server')
-    end
-
-    it 'steps into mysql_service and creates directory[/etc/mysql/conf.d]' do
-      expect(centos_5_8_default_run).to create_directory('/etc/mysql/conf.d').with(
-        :owner => 'mysql',
-        :group => 'mysql',
-        :mode => '0750',
-        :recursive => true
-        )
     end
 
     it 'steps into mysql_service and creates directory[/var/run/mysqld]' do
