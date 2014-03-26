@@ -176,10 +176,12 @@ class Chef::Provider::MysqlService::Ubuntu < Chef::Provider::MysqlService
   end
 
   action :restart do
-    service 'mysql' do
-      provider Chef::Provider::Service::Upstart
-      supports :restart => true
-      action :restart
+    converge_by 'ubuntu pattern' do
+      service 'mysql' do
+        provider Chef::Provider::Service::Upstart
+        supports :restart => true
+        action :restart
+      end
     end
   end
 end

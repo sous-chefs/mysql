@@ -129,9 +129,11 @@ class Chef::Provider::MysqlService::Fedora < Chef::Provider::MysqlService
   end
 
   action :restart do
-    service 'mysqld' do
-      supports :restart => true
-      action :restart
+    converge_by 'fedora pattern' do
+      service 'mysqld' do
+        supports :restart => true
+        action :restart
+      end
     end
   end
 end

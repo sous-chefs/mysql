@@ -203,9 +203,11 @@ class Chef::Provider::MysqlService::Omnios < Chef::Provider::MysqlService
   end
 
   action :restart do
-    service 'mysql' do
-      supports :reload => true
-      action :reload
+    converge_by 'omnios pattern' do
+      service 'mysql' do
+        supports :reload => true
+        action :reload
+      end
     end
   end
 end

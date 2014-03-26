@@ -8,7 +8,7 @@ class Chef::Provider::MysqlService::Debian < Chef::Provider::MysqlService
   end
 
   action :create do
-    converge_by 'ubuntu pattern' do
+    converge_by 'debian pattern' do
       ##################
       prefix_dir = '/usr'
       run_dir = '/var/run/mysql'
@@ -161,10 +161,12 @@ class Chef::Provider::MysqlService::Debian < Chef::Provider::MysqlService
   end
 
   action :restart do
-    service 'mysql' do
-      provider Chef::Provider::Service::Init::Debian
-      supports :restart => true
-      action :restart
+    converge_by 'debian pattern' do
+      service 'mysql' do
+        provider Chef::Provider::Service::Init::Debian
+        supports :restart => true
+        action :restart
+      end
     end
   end
 end

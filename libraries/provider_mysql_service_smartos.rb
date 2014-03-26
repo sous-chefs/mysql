@@ -187,9 +187,11 @@ class Chef::Provider::MysqlService::Smartos < Chef::Provider::MysqlService
   end
 
   action :restart do
-    service 'mysql' do
-      supports :reload => true
-      action :reload
+    converge_by 'smartos pattern' do
+      service 'mysql' do
+        supports :reload => true
+        action :reload
+      end
     end
   end
 end
