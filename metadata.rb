@@ -24,7 +24,7 @@ supports 'scientific'
 supports 'suse'
 supports 'windows'
 
-depends 'openssl',         '~> 1.1'
+depends 'openssl',         '>= 1.0'
 depends 'build-essential', '~> 1.4'
 
 # wat
