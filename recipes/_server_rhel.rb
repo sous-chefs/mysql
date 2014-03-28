@@ -24,14 +24,18 @@ directory node['mysql']['data_dir'] do
   recursive true
 end
 
-#----
-template 'initial-my.cnf' do
-  path '/etc/my.cnf'
-  source 'my.cnf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-  notifies :start, 'service[mysql-start]', :immediately
+#There are probably a few ways to detect initial installation.  This should work
+#unless this file (which is created below) is manually deleted at a later point.
+unless File.file?('/etc/mysql_grants.sql')
+  #Initial server setup, so start mysql daemon immediately
+  template 'initial-my.cnf' do
+    path '/etc/my.cnf'
+    source 'my.cnf.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+    notifies :start, 'service[mysql-start]', :immediately
+  end
 end
 
 # hax
@@ -76,11 +80,11 @@ template 'final-my.cnf' do
   owner 'root'
   group 'root'
   mode '0644'
-  notifies :reload, 'service[mysql]', :immediately
+  notifies :restart, 'service[mysql]', :delayed
 end
 
 service 'mysql' do
   service_name node['mysql']['server']['service_name']
-  supports     :status => true, :restart => true, :reload => true
+  supports     :status => true, :restart => true
   action       [:enable, :start]
 end
