@@ -2,13 +2,20 @@
 driver_config:
   digitalocean_client_id: <%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>
   digitalocean_api_key: <%= ENV['DIGITAL_OCEAN_API_KEY'] %>
-  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %> 
+  google_client_email: <%= ENV['GOOGLE_CLIENT_EMAIL'] %>
+  google_key_location: <%= ENV['GOOGLE_KEY_LOCATION'] %>
+  google_project: <%= ENV['GOOGLE_PROJECT'] %>
+  joyent_username: <%= ENV['SDC_CLI_ACCOUNT'] %>
+  joyent_keyfile: <%= ENV['SDC_CLI_IDENTITY'] %>
+  joyent_keyname: <%= ENV['SDC_CLI_KEY_ID'] %>
+  joyent_url: <%= ENV['SDC_CLI_URL'] %>
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: latest
+  require_chef_omnibus: 11.10.4
 
 platforms:
 - name: centos-5.8
@@ -36,7 +43,36 @@ platforms:
     username: ec2-user
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
-- name: ubuntu-1004
+- name: amazon-2014.03
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-6b726502
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+
+- name: fedora-19
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 696598
+    flavor_id: 63
+    region_id: 4
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+
+- name: debian-7.0
+  driver_plugin: gce
+  driver_config:
+    image_name: debian-7-wheezy-v20131120
+    zone: <%= ENV['GCE_ZONE'] %>
+    area: <%= ENV['GCE_AREA'] %>
+    network: <%= ENV['GCE_NETWORK'] %>
+    username: <%= ENV['GCE_USERNAME'] %>
+    public_key_path: <%= ENV['GCE_PUBLIC_KEY_PATH'] %>
+    ssh_key: <%= ENV['GCE_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+- name: ubuntu-10.04
   driver_plugin: digitalocean
   driver_config:
     image_id: 14097
@@ -47,7 +83,7 @@ platforms:
   run_list:
   - recipe[apt]
 
-- name: ubuntu-1204
+- name: ubuntu-12.04
   driver_plugin: digitalocean
   driver_config:
     image_id: 1505447
@@ -58,19 +94,168 @@ platforms:
   run_list:
   - recipe[apt]
 
+- name: ubuntu-13.10
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 1505699
+    flavor_id: 63
+    region_id: 4
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+- name: smartos-13.4.0
+  driver_plugin: joyent
+  driver_config:
+    joyent_image_id: ff86eb8a-a069-11e3-ae0e-4f3c8983a91c
+    joyent_flavor_id: g3-standard-4-smartos
+    username: root
+    ssh_key: <%= ENV['SDC_CLI_IDENTITY'] %>
+  busser:
+    ruby_bindir: '/opt/local/bin/'
+  provisioner:
+    name: chef_zero
+    sudo: false
+    chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
+
+- name: omnios-151006
+  driver_plugin: ec2
+  driver_config:
+    availability_zone: us-east-1d
+    image_id: ami-35eb835c
+    flavor_id: m3.medium
+    username: root
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  provisioner:
+    name: chef_zero
+  run_list:
+  - recipe[ips-omniti]
+
 suites:
+  #
+  # client
+  #
   - name: client
     run_list:
-      - recipe[mysql_test::client]
-  - name: ruby
+    - recipe[mysql_client_test]
+
+  #
+  # server5.0
+  #
+  - name: server50-default
     run_list:
-      - recipe[mysql::ruby]
-  - name: server
-    run_list:
-      - recipe[mysql_test::server]
-  - name: server-nondefault-data
-    run_list:
-      - recipe[mysql_test::server]
+    - recipe[mysql_test_custom::server]
+    includes: [ 'centos-5.8' ]
     attributes:
       mysql:
-        data_dir: "/data/mysql"
+        version: '5.0'
+
+  - name: server50-custom
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [ 'centos-5.8' ]
+    attributes:
+      mysql:
+        version: '5.0'
+        port: '3308'
+        data_dir: '/data'
+
+  #
+  # server5.1
+  #
+  - name: server51-default
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'centos-5.8',
+      'centos-6.4',
+      'amazon-2013.09',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+        version: '5.1'
+
+  - name: server51-custom
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'centos-5.8',
+      'centos-6.4',
+      'amazon-2013.09',
+      'amazon-2014.03',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+        version: '5.1'
+        port: '3308'
+        data_dir: '/data'
+
+  #
+  # server5.5
+  #
+  - name: server55-default
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'centos-5.8',
+      'amazon-2014.03',
+      'fedora-19',
+      'debian-7.0',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'smartos-13.4.0',
+      'omnios-151006'
+    ]
+    attributes:
+      mysql:
+       version: '5.5'
+
+  - name: server55-custom
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'centos-5.8',
+      'amazon-2014.03',
+      'fedora-19',
+      'debian-7.0',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'smartos-13.4.0',
+      'omnios-151006'
+    ]
+    attributes:
+      mysql:
+       version: '5.5'
+       port: '3308'
+       data_dir: '/data'
+
+  #
+  # server56
+  #
+  - name: server56-default
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'smartos-13.4.0',
+      'omnios-151006'
+    ]
+    attributes:
+      mysql:
+        version: '5.6'
+        data_dir: '/data'
+
+  - name: server56-custom
+    run_list:
+    - recipe[mysql_test_custom::server]
+    includes: [
+      'smartos-13.4.0',
+      'omnios-151006'
+    ]
+    attributes:
+      mysql:
+        version: '5.6'
+        port: '3308'
+        data_dir: '/data'

@@ -6,24 +6,8 @@ provisioner:
 
 platforms:
   - name: centos-5.10
-  - name: centos-6.5
-  - name: fedora-19
-  - name: ubuntu-10.04
-  - name: ubuntu-12.04
 
 suites:
-  - name: client
+  - name: master
     run_list:
-      - recipe[mysql_test::client]
-  - name: ruby
-    run_list:
-      - recipe[mysql::ruby]
-  - name: server
-    run_list:
-      - recipe[mysql_test::server]
-  - name: server-nondefault-data
-    run_list:
-      - recipe[mysql_test::server]
-    attributes:
-      mysql:
-        data_dir: "/data/mysql"
+      - recipe[mysql::master]
