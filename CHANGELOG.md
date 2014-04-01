@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.0.2 (2014-04-01)
+-------------------
+- Moving server_deprecated into recipes directory
+
+
 v5.0.0 (2014-03-31)
 -------------------
 - Rewriting as a library cookbook
