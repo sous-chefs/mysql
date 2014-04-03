@@ -14,8 +14,8 @@ class Chef
           converge_by 'ubuntu pattern' do
             ##################
             prefix_dir = '/usr'
-            run_dir = '/var/run/mysql'
-            pid_file = '/var/run/mysql/mysql.pid'
+            run_dir = '/var/run/mysqld'
+            pid_file = '/var/run/mysqld/mysqld.pid'
             socket_file = '/var/run/mysqld/mysqld.sock'
             include_dir = '/etc/mysql/conf.d'
             ##################
