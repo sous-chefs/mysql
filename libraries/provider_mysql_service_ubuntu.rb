@@ -15,7 +15,7 @@ class Chef
             ##################
             prefix_dir = '/usr'
             run_dir = '/var/run/mysql'
-            pid_file = '/var/run/mysql/mysql.pid'
+            pid_file = '/var/run/mysqld/mysql.pid'
             socket_file = '/var/run/mysqld/mysqld.sock'
             include_dir = '/etc/mysql/conf.d'
             ##################
