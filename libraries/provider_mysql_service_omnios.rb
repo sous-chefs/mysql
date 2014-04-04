@@ -1,4 +1,5 @@
 require 'chef/provider/lwrp_base'
+require_relative 'helpers'
 
 include Opscode::Mysql::Helpers
 
