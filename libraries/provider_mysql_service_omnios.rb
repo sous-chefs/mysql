@@ -180,9 +180,9 @@ class Chef
             template '/etc/mysql_grants.sql' do
               cookbook 'mysql'
               source 'grants/grants.sql.erb'
-              owner  'root'
-              group  'root'
-              mode   '0600'
+              owner 'root'
+              group 'root'
+              mode '0600'
               action :create
               notifies :run, 'execute[install-grants]'
             end

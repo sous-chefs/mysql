@@ -44,7 +44,7 @@ class Chef
 
             execute 'preseed mysql-server' do
               command '/usr/bin/debconf-set-selections /var/cache/local/preseeding/mysql-server.seed'
-              action  :nothing
+              action :nothing
             end
 
             # package automatically initializes database and starts service.
@@ -72,9 +72,9 @@ class Chef
             template '/etc/mysql_grants.sql' do
               cookbook 'mysql'
               source 'grants/grants.sql.erb'
-              owner  'root'
-              group  'root'
-              mode   '0600'
+              owner 'root'
+              group 'root'
+              mode '0600'
               action :create
               notifies :run, 'execute[install-grants]'
             end

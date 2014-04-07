@@ -114,8 +114,6 @@ class Chef
           )
       end
 
-      private
-
       def self.validate_port(port)
         port.to_i > 1024 && port.to_i < 65_535
       end
