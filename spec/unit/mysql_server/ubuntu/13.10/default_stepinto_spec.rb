@@ -21,7 +21,7 @@ socket                         = /var/run/mysqld/mysqld.sock
 
 [mysqld]
 user                           = mysql
-pid-file                       = /var/run/mysql/mysql.pid
+pid-file                       = /var/run/mysqld/mysql.pid
 socket                         = /var/run/mysqld/mysqld.sock
 port                           = 3306
 datadir                        = /var/lib/mysql
