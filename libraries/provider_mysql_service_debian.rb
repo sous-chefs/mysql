@@ -172,6 +172,15 @@ class Chef
             end
           end
         end
+
+        action :reload do
+          converge_by 'debian pattern' do
+            service 'mysql' do
+              provider Chef::Provider::Service::Init::Debian
+              action :reload
+            end
+          end
+        end
       end
     end
   end

@@ -103,5 +103,13 @@ describe 'stepped into mysql_test_custom::server on amazon-2013.09' do
     it 'steps into mysql_service and creates bash[move mysql data to datadir]' do
       expect(amazon_2013_09_custom_run).to_not run_bash('move mysql data to datadir')
     end
+
+    it 'steps into mysql_service and writes log[notify restart]' do
+      expect(amazon_2013_09_custom_run).to write_log('notify restart')
+    end
+
+    it 'steps into mysql_service and writes log[notify reload]' do
+      expect(amazon_2013_09_custom_run).to write_log('notify reload')
+    end
   end
 end

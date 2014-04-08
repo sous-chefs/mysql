@@ -187,6 +187,16 @@ class Chef
             end
           end
         end
+
+        action :reload do
+          converge_by 'ubuntu pattern' do
+            service 'mysql' do
+              provider Chef::Provider::Service::Upstart
+              supports :reload => true
+              action :reload
+            end
+          end
+        end
       end
     end
   end

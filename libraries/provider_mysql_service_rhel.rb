@@ -1,4 +1,7 @@
 require 'chef/provider/lwrp_base'
+require_relative 'helpers'
+
+extend Opscode::Mysql::Helpers
 
 class Chef
   class Provider
@@ -208,40 +211,32 @@ class Chef
         end
 
         action :restart do
-          # FIXME: Find a way to DRY this
-          case node['platform_version'].to_i.to_s
-          when '2013'
-            case new_resource.version
-            when '5.1'
-              service_name = 'mysqld'
-            end
-          when '2014'
-            case new_resource.version
-            when '5.1'
-              service_name = 'mysqld'
-            when '5.5'
-              service_name = 'mysqld'
-            end
-          when '6'
-            case new_resource.version
-            when '5.1'
-              service_name = 'mysqld'
-            end
-          when '5'
-            case new_resource.version
-            when '5.0'
-              service_name = 'mysqld'
-            when '5.1'
-              service_name = 'mysql51-mysqld'
-            when '5.5'
-              service_name = 'mysql55-mysqld'
-            end
-          end
+          service_name = service_name_for(
+            node['platform'],
+            node['platform_family'],
+            node['platform_version'],
+            new_resource.version
+            )
 
           converge_by 'rhel pattern' do
             service service_name do
               supports :restart => true
               action :restart
+            end
+          end
+        end
+
+        action :reload do
+          service_name = service_name_for(
+            node['platform'],
+            node['platform_family'],
+            node['platform_version'],
+            new_resource.version
+            )
+
+          converge_by 'rhel pattern' do
+            service service_name do
+              action :reload
             end
           end
         end

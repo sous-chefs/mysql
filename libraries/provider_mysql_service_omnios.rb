@@ -208,6 +208,15 @@ class Chef
         action :restart do
           converge_by 'omnios pattern' do
             service 'mysql' do
+              supports :restart => true
+              action :restart
+            end
+          end
+        end
+
+        action :reload do
+          converge_by 'omnios pattern' do
+            service 'mysql' do
               supports :reload => true
               action :reload
             end

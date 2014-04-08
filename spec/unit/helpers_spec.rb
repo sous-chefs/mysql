@@ -453,5 +453,25 @@ describe 'mysql_platform_map' do
           ).to eq('/var/lib/mysql')
       end
     end
+
+    context 'when looking up service_name on rhel' do
+      it 'returns the correct service_name for Mysql 5.0' do
+        expect(
+          service_name_for('centos', 'rhel', '5.8', '5.0')
+          ).to eq('mysqld')
+      end
+
+      it 'returns the correct service_name for Mysql 5.1' do
+        expect(
+          service_name_for('centos', 'rhel', '5.8', '5.1')
+          ).to eq('mysql51-mysqld')
+      end
+
+      it 'returns the correct service_name for Mysql 5.5' do
+        expect(
+          service_name_for('centos', 'rhel', '5.8', '5.5')
+          ).to eq('mysql55-mysqld')
+      end
+    end
   end
 end

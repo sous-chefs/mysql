@@ -13,7 +13,7 @@ class Chef
         @resource_name = :mysql_service
         @service_name = name
 
-        @allowed_actions = [:create, :restart]
+        @allowed_actions = [:create, :restart, :reload]
         @action = :create
 
         # set default values

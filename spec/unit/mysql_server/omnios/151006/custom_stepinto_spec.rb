@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe 'stepped into mysql_test_custom::server on omnios-151006' do
-  let(:omnios_151006_default_stepinto_run) do
+  let(:omnios_151006_custom_run) do
     ChefSpec::Runner.new(
       :step_into => 'mysql_service',
       :platform => 'omnios',
       :version => '151006'
       ) do |node|
-      node.set['mysql']['service_name'] = 'omnios_151006_default_stepinto'
+      node.set['mysql']['service_name'] = 'omnios_151006_custom_stepinto'
       node.set['mysql']['version'] = '5.6'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
@@ -24,8 +24,8 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
   end
 
   context 'when using default parameters' do
-    it 'creates mysql_service[omnios_151006_default_stepinto]' do
-      expect(omnios_151006_default_stepinto_run).to create_mysql_service('omnios_151006_default_stepinto').with(
+    it 'creates mysql_service[omnios_151006_custom_stepinto]' do
+      expect(omnios_151006_custom_run).to create_mysql_service('omnios_151006_custom_stepinto').with(
         :version => '5.6',
         :port => '3308',
         :data_dir => '/data'
@@ -33,11 +33,11 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and installs the package' do
-      expect(omnios_151006_default_stepinto_run).to install_package('database/mysql-56')
+      expect(omnios_151006_custom_run).to install_package('database/mysql-56')
     end
 
     it 'steps into mysql_service and creates the include directory' do
-      expect(omnios_151006_default_stepinto_run).to create_directory('/opt/mysql56/etc/mysql/conf.d').with(
+      expect(omnios_151006_custom_run).to create_directory('/opt/mysql56/etc/mysql/conf.d').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0750',
@@ -46,7 +46,7 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and creates the run directory' do
-      expect(omnios_151006_default_stepinto_run).to create_directory('/var/run/mysql').with(
+      expect(omnios_151006_custom_run).to create_directory('/var/run/mysql').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0755',
@@ -55,7 +55,7 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and creates the data directory' do
-      expect(omnios_151006_default_stepinto_run).to create_directory('/data').with(
+      expect(omnios_151006_custom_run).to create_directory('/data').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0750',
@@ -64,7 +64,7 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and creates the data directory data subdirectory' do
-      expect(omnios_151006_default_stepinto_run).to create_directory('/data/data').with(
+      expect(omnios_151006_custom_run).to create_directory('/data/data').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0750',
@@ -73,7 +73,7 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and creates the data directory data/mysql' do
-      expect(omnios_151006_default_stepinto_run).to create_directory('/data/data/mysql').with(
+      expect(omnios_151006_custom_run).to create_directory('/data/data/mysql').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0750',
@@ -82,7 +82,7 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and creates the data directory data/test' do
-      expect(omnios_151006_default_stepinto_run).to create_directory('/data/data/test').with(
+      expect(omnios_151006_custom_run).to create_directory('/data/data/test').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0750',
@@ -91,7 +91,7 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and creates my.conf' do
-      expect(omnios_151006_default_stepinto_run).to create_template('/opt/mysql56/my.cnf').with(
+      expect(omnios_151006_custom_run).to create_template('/opt/mysql56/my.cnf').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0600'
@@ -99,21 +99,21 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and creates my.conf' do
-      expect(omnios_151006_default_stepinto_run).to render_file('/opt/mysql56/my.cnf').with_content(my_cnf_5_6_content_omnios_151006)
+      expect(omnios_151006_custom_run).to render_file('/opt/mysql56/my.cnf').with_content(my_cnf_5_6_content_omnios_151006)
     end
 
     it 'steps into mysql_service and creates a bash resource' do
-      expect(omnios_151006_default_stepinto_run).to_not run_bash('move mysql data to datadir')
+      expect(omnios_151006_custom_run).to_not run_bash('move mysql data to datadir')
     end
 
     it 'steps into mysql_service and initializes the mysql database' do
-      expect(omnios_151006_default_stepinto_run).to run_execute('initialize mysql database').with(
+      expect(omnios_151006_custom_run).to run_execute('initialize mysql database').with(
         :command => '/opt/mysql56/scripts/mysql_install_db --basedir=/opt/mysql56 --user=mysql'
         )
     end
 
     it 'steps into mysql_service and creates my.conf' do
-      expect(omnios_151006_default_stepinto_run).to create_template('/lib/svc/method/mysqld').with(
+      expect(omnios_151006_custom_run).to create_template('/lib/svc/method/mysqld').with(
         :cookbook => 'mysql',
         :owner => 'root',
         :mode => '0555'
@@ -121,7 +121,7 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and creates /tmp/mysql.xml' do
-      expect(omnios_151006_default_stepinto_run).to create_template('/tmp/mysql.xml').with(
+      expect(omnios_151006_custom_run).to create_template('/tmp/mysql.xml').with(
         :cookbook => 'mysql',
         :owner => 'root',
         :mode => '0644'
@@ -129,31 +129,31 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and imports the mysql service manifest' do
-      expect(omnios_151006_default_stepinto_run).to_not run_execute('import mysql manifest').with(
+      expect(omnios_151006_custom_run).to_not run_execute('import mysql manifest').with(
         :command => 'svccfg import /tmp/mysql.xml'
         )
     end
 
     it 'steps into mysql_service and manages the mysql service' do
-      expect(omnios_151006_default_stepinto_run).to start_service('mysql')
-      expect(omnios_151006_default_stepinto_run).to enable_service('mysql')
+      expect(omnios_151006_custom_run).to start_service('mysql')
+      expect(omnios_151006_custom_run).to enable_service('mysql')
     end
 
     it 'steps into mysql_service and waits for mysql to start' do
-      expect(omnios_151006_default_stepinto_run).to run_execute('wait for mysql').with(
+      expect(omnios_151006_custom_run).to run_execute('wait for mysql').with(
         :command => 'until [ -S /tmp/mysql.sock ] ; do sleep 1 ; done',
         :timeout => 10
         )
     end
 
     it 'steps into mysql_service and assigns root password' do
-      expect(omnios_151006_default_stepinto_run).to run_execute('assign-root-password').with(
+      expect(omnios_151006_custom_run).to run_execute('assign-root-password').with(
         :command => '/opt/mysql56/bin/mysqladmin -u root password ilikerandompasswords'
         )
     end
 
     it 'steps into mysql_service and creates /etc/mysql_grants.sql' do
-      expect(omnios_151006_default_stepinto_run).to create_template('/etc/mysql_grants.sql').with(
+      expect(omnios_151006_custom_run).to create_template('/etc/mysql_grants.sql').with(
         :cookbook => 'mysql',
         :owner => 'root',
         :group => 'root',
@@ -162,9 +162,17 @@ describe 'stepped into mysql_test_custom::server on omnios-151006' do
     end
 
     it 'steps into mysql_service and installs grants' do
-      expect(omnios_151006_default_stepinto_run).to_not run_execute('install-grants').with(
+      expect(omnios_151006_custom_run).to_not run_execute('install-grants').with(
         :command => '/opt/mysql56/bin/mysql -u root -pilikerandompasswords < /etc/mysql_grants.sql'
         )
+    end
+
+    it 'steps into mysql_service and writes log[notify restart]' do
+      expect(omnios_151006_custom_run).to write_log('notify restart')
+    end
+
+    it 'steps into mysql_service and writes log[notify reload]' do
+      expect(omnios_151006_custom_run).to write_log('notify reload')
     end
   end
 end

@@ -139,6 +139,14 @@ class Chef
             end
           end
         end
+
+        action :reload do
+          converge_by 'fedora pattern' do
+            service 'mysqld' do
+              action :reload
+            end
+          end
+        end
       end
     end
   end

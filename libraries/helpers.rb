@@ -10,7 +10,14 @@ module Opscode
 
       def package_name_for(platform, platform_family, platform_version, version)
         keyname = keyname_for(platform, platform_family, platform_version)
-        PlatformInfo.mysql_info[platform_family][keyname][version]
+        PlatformInfo.mysql_info[platform_family][keyname][version]['package_name']
+      rescue NoMethodError
+        nil
+      end
+
+      def service_name_for(platform, platform_family, platform_version, version)
+        keyname = keyname_for(platform, platform_family, platform_version)
+        PlatformInfo.mysql_info[platform_family][keyname][version]['service_name']
       rescue NoMethodError
         nil
       end
@@ -46,57 +53,102 @@ module Opscode
             'default_data_dir' => '/var/lib/mysql',
             '5' => {
               'default_version' => '5.0',
-              '5.0' => 'mysql-server',
-              '5.1' => 'mysql51-mysql-server',
-              '5.5' => 'mysql55-mysql-server'
+              '5.0' => {
+                'package_name' => 'mysql-server',
+                'service_name' => 'mysqld'
+              },
+              '5.1' => {
+                'package_name' => 'mysql51-mysql-server',
+                'service_name' => 'mysql51-mysqld'
+              },
+              '5.5' => {
+                'package_name' => 'mysql55-mysql-server',
+                'service_name' => 'mysql55-mysqld'
+              }
             },
             '6' => {
               'default_version' => '5.1',
-              '5.1' => 'mysql-server'
+              '5.1' => {
+                'package_name' => 'mysql-server',
+                'service_name' => 'mysqld'
+              }
             },
             '7' => {
               'default_version' => '5.5',
-              '5.1' => 'mysql51-server',
-              '5.5' => 'mysql55-server'
+              '5.1' => {
+                'package_name' => 'mysql51-server',
+                'service_name' => 'mysqld'
+              },
+              '5.5' => {
+                'package_name' => 'mysql55-server',
+                'service_name' => 'mysqld'
+              }
             },
             '2013.09' => {
               'default_version' => '5.1',
-              '5.1' => 'mysql-server'
+              '5.1' => {
+                'package_name' => 'mysql-server',
+                'service_name' => 'mysqld'
+              }
             },
             '2014.03' => {
               'default_version' => '5.5',
-              '5.1' => 'mysql51-server',
-              '5.5' => 'mysql55-server'
+              '5.1' => {
+                'package_name' => 'mysql51-server',
+                'service_name' => 'mysqld'
+              },
+              '5.5' => {
+                'package_name' => 'mysql55-server',
+                'service_name' => 'mysqld'
+              }
             }
           },
           'fedora' => {
             'default_data_dir' => '/var/lib/mysql',
             '19' => {
               'default_version' => '5.5',
-              '5.5' => 'community-mysql-server'
+              '5.5' => {
+                'package_name' => 'community-mysql-server',
+                'service_name' => 'mysqld'
+              }
             },
             '20' => {
               'default_version' => '5.5',
-              '5.5' => 'community-mysql-server'
+              '5.5' => {
+                'package_name' => 'community-mysql-server',
+                'service_name' => 'mysqld'
+              }
             }
           },
           'debian' => {
             'default_data_dir' => '/var/lib/mysql',
             '7' => {
               'default_version' => '5.5',
-              '5.5' => 'mysql-server-5.5'
+              '5.5' => {
+                'package_name' => 'mysql-server-5.5',
+                'service_name' => 'mysqld'
+              }
             },
             '10.04' => {
               'default_version' => '5.1',
-              '5.1' => 'mysql-server-5.1'
+              '5.1' => {
+                'package_name' => 'mysql-server-5.1',
+                'service_name' => 'mysqld'
+              }
             },
             '12.04' => {
               'default_version' => '5.5',
-              '5.5' => 'mysql-server-5.5'
+              '5.5' => {
+                'package_name' => 'mysql-server-5.5',
+                'service_name' => 'mysqld'
+              }
             },
             '13.10' => {
               'default_version' => '5.5',
-              '5.5' => 'mysql-server-5.5'
+              '5.5' => {
+                'package_name' => 'mysql-server-5.5',
+                'service_name' => 'mysqld'
+              }
             }
           },
           'smartos' => {
@@ -105,16 +157,28 @@ module Opscode
             # smartmachine vs global zone (base64 13.4.0) from /etc/product
             '5.11' => {
               'default_version' => '5.5',
-              '5.5' => 'mysql-server',
-              '5.6' => 'mysql-server'
+              '5.5' => {
+                'package_name' => 'mysql-server',
+                'service_name' => 'mysql'
+              },
+              '5.6' => {
+                'package_name' => 'mysql-server',
+                'service_name' => 'mysql'
+              }
             }
           },
           'omnios' => {
             'default_data_dir' => '/var/lib/mysql',
             '151006' => {
               'default_version' => '5.5',
-              '5.5' => 'database/mysql-55',
-              '5.6' => 'database/mysql-56'
+              '5.5' => {
+                'package_name' => 'database/mysql-55',
+                'service_name' => 'mysql'
+              },
+              '5.6' => {
+                'package_name' => 'database/mysql-56',
+                'service_name' => 'mysql'
+              }
             }
           }
         }

@@ -130,5 +130,13 @@ describe 'stepped into mysql_test_custom::server on debian-7.2' do
     it 'steps into mysql_service and creates bash[move mysql data to datadir]' do
       expect(debian_7_2_custom_run).to_not run_bash('move mysql data to datadir')
     end
+
+    it 'steps into mysql_service and writes log[notify restart]' do
+      expect(debian_7_2_custom_run).to write_log('notify restart')
+    end
+
+    it 'steps into mysql_service and writes log[notify reload]' do
+      expect(debian_7_2_custom_run).to write_log('notify reload')
+    end
   end
 end

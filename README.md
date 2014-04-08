@@ -63,6 +63,8 @@ default minimal template used by the `mysql_service` resource. When
 omitted, it will select one shipped with the cookbook based on the
 MySQL version.
 
+The mysql_service resource supports :create, :restart, and :reload actions.
+
 ### mysql_client
 
 The `mysql_client` resource installs or removes the MySQL client binaries and
