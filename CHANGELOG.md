@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.1.0 (2014-04-08)
+-------------------
+[COOK-4523] - Allow for both :restart and :reload
+
+
 v5.0.6 (2014-04-07)
 -------------------
 - [COOK-4519] - Updating specs to reflect pid file change on Ubuntu
