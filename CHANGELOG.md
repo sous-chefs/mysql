@@ -3,6 +3,12 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.1.2 (2014-04-09)
+-------------------
+- [COOK-4519] - Fix error in run_dir for Ubuntu
+- [COOK-4531] - Fix pid and run_dir for Debian
+
+
 v5.1.0 (2014-04-08)
 -------------------
 [COOK-4523] - Allow for both :restart and :reload
