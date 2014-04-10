@@ -76,8 +76,8 @@ describe 'stepped into mysql_test_custom::server on debian-7.2' do
         )
     end
 
-    it 'steps into mysql_service and creates directory[/var/run/mysql]' do
-      expect(debian_7_2_custom_run).to create_directory('/var/run/mysql').with(
+    it 'steps into mysql_service and creates directory[/var/run/mysqld]' do
+      expect(debian_7_2_custom_run).to create_directory('/var/run/mysqld').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0755',

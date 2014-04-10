@@ -112,8 +112,8 @@ datadir                        = /var/lib/mysql
         )
     end
 
-    it 'steps into mysql_service and creates directory[/var/run/mysql]' do
-      expect(ubuntu_12_04_default_run).to create_directory('/var/run/mysql').with(
+    it 'steps into mysql_service and creates directory[/var/run/mysqld]' do
+      expect(ubuntu_12_04_default_run).to create_directory('/var/run/mysqld').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0755',

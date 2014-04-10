@@ -21,7 +21,7 @@ socket                         = /var/run/mysqld/mysqld.sock
 
 [mysqld]
 user                           = mysql
-pid-file                       = /var/run/mysql/mysql.pid
+pid-file                       = /var/run/mysqld/mysql.pid
 socket                         = /var/run/mysqld/mysqld.sock
 port                           = 3306
 datadir                        = /var/lib/mysql
@@ -90,8 +90,8 @@ datadir                        = /var/lib/mysql
         )
     end
 
-    it 'steps into mysql_service and creates directory[/var/run/mysql]' do
-      expect(debian_7_2_default_run).to create_directory('/var/run/mysql').with(
+    it 'steps into mysql_service and creates directory[/var/run/mysqld]' do
+      expect(debian_7_2_default_run).to create_directory('/var/run/mysqld').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0755',

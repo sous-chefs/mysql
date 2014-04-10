@@ -99,8 +99,8 @@ describe 'stepped into mysql_test_custom::server on ubuntu-13.10' do
         )
     end
 
-    it 'steps into mysql_service and creates directory[/var/run/mysql]' do
-      expect(ubuntu_13_10_custom_run).to create_directory('/var/run/mysql').with(
+    it 'steps into mysql_service and creates directory[/var/run/mysqld]' do
+      expect(ubuntu_13_10_custom_run).to create_directory('/var/run/mysqld').with(
         :owner => 'mysql',
         :group => 'mysql',
         :mode => '0755',
