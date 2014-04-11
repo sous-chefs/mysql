@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.1.6 (2014-04-11)
+-------------------
+- [COOK-4548] - Add template[/etc/mysql/debian.cnf] to Ubuntu provider
+
+
 v5.1.4 (2014-04-11)
 -------------------
 - [COOK-4547] - Shellescape server_root_password
