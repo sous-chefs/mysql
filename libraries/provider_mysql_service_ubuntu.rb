@@ -126,7 +126,7 @@ class Chef
               mode '0600'
               action :create
             end
-            
+
             #
             directory include_dir do
               owner 'mysql'

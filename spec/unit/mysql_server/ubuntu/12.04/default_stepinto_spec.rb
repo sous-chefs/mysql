@@ -98,6 +98,16 @@ datadir                        = /var/lib/mysql
       expect(ubuntu_12_04_default_run).to_not start_service('apparmor-mysql')
     end
 
+    it 'steps into mysql_service and creates template[/etc/mysql/debian.cnf]' do
+      expect(ubuntu_12_04_default_run).to create_template('/etc/mysql/debian.cnf').with(
+        :cookbook => 'mysql',
+        :source => 'debian/debian.cnf.erb',
+        :owner => 'root',
+        :group => 'root',
+        :mode => '0600'
+        )
+    end
+
     it 'steps into mysql_service and creates service[mysql]' do
       expect(ubuntu_12_04_default_run).to start_service('mysql')
       expect(ubuntu_12_04_default_run).to enable_service('mysql')

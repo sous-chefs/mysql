@@ -72,6 +72,16 @@ describe 'stepped into mysql_test_custom::server on ubuntu-12.04' do
         )
     end
 
+    it 'steps into mysql_service and creates template[/etc/mysql/debian.cnf]' do
+      expect(ubuntu_12_04_custom_run).to create_template('/etc/mysql/debian.cnf').with(
+        :cookbook => 'mysql',
+        :source => 'debian/debian.cnf.erb',
+        :owner => 'root',
+        :group => 'root',
+        :mode => '0600'
+        )
+    end
+
     it 'steps into mysql_service and creates template[/etc/apparmor.d/usr.sbin.mysqld]' do
       expect(ubuntu_12_04_custom_run).to create_template('/etc/apparmor.d/usr.sbin.mysqld').with(
         :cookbook => 'mysql',
