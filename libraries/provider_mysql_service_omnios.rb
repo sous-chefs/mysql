@@ -1,4 +1,5 @@
 require 'chef/provider/lwrp_base'
+require 'shellwords'
 
 include Opscode::Mysql::Helpers
 
@@ -171,7 +172,7 @@ class Chef
             execute 'assign-root-password' do
               cmd = "#{prefix_dir}/bin/mysqladmin"
               cmd << ' -u root password '
-              cmd << node['mysql']['server_root_password']
+              cmd << Shellwords.escape(node['mysql']['server_root_password'])
               command cmd
               action :run
               only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"
@@ -190,7 +191,7 @@ class Chef
             if node['mysql']['server_root_password'].empty?
               pass_string = ''
             else
-              pass_string = "-p#{node['mysql']['server_root_password']}"
+              pass_string = '-p' + Shellwords.escape(node['mysql']['server_root_password'])
             end
 
             execute 'install-grants' do
