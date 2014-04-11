@@ -118,6 +118,15 @@ class Chef
               supports :reload => true
             end
 
+            template '/etc/mysql/debian.cnf' do
+              cookbook 'mysql'
+              source 'debian/debian.cnf.erb'
+              owner 'root'
+              group 'root'
+              mode '0600'
+              action :create
+            end
+            
             #
             directory include_dir do
               owner 'mysql'
