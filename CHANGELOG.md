@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.1.4 (2014-04-11)
+-------------------
+- [COOK-4547] - Shellescape server_root_password
+
+
 v5.1.2 (2014-04-09)
 -------------------
 - [COOK-4519] - Fix error in run_dir for Ubuntu
