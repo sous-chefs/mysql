@@ -143,6 +143,13 @@ module Opscode
                 'service_name' => 'mysqld'
               }
             },
+            '13.04' => {
+              'default_version' => '5.5',
+              '5.5' => {
+                'package_name' => 'mysql-server-5.5',
+                'service_name' => 'mysqld'
+              }
+            },
             '13.10' => {
               'default_version' => '5.5',
               '5.5' => {
