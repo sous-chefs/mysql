@@ -94,10 +94,10 @@ platforms:
   run_list:
   - recipe[apt]
 
-- name: ubuntu-13.10
+- name: ubuntu-14.04
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3101918
+    image_id: 3240036
     flavor_id: 63
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
@@ -206,6 +206,7 @@ suites:
       'debian-7.0',
       'ubuntu-12.04',
       'ubuntu-13.10',
+      'ubuntu-14.04',
       'smartos-13.4.0',
       'omnios-151006'
     ]
