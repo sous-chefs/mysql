@@ -3,6 +3,13 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.1.10 (2014-04-21)
+--------------------
+- [COOK-4565] Support for Ubuntu 14.04
+- [COOK-4565] Adding Specs and TK platform
+- Removing non-LTS 13.10 specs and TK platform
+
+
 v5.1.8 (2014-04-12)
 -------------------
 Adding Ubuntu 13.04 to Platforminfo
