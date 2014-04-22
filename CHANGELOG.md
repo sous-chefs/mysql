@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.1.12 (2014-04-21)
+--------------------
+- [COOK-4554] - Support for Debian Sid
+
+
 v5.1.10 (2014-04-21)
 --------------------
 - [COOK-4565] Support for Ubuntu 14.04
