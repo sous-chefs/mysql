@@ -20,4 +20,4 @@ Documentation:
   Enabled: false
 
 CyclomaticComplexity:
-  Max: 9
+  Max: 10

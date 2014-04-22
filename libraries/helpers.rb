@@ -35,7 +35,13 @@ module Opscode
         when platform_family == 'fedora'
           platform_version
         when platform_family == 'debian'
-          platform == 'ubuntu' ? platform_version : platform_version.to_i.to_s
+          if platform == 'ubuntu'
+            platform_version
+          elsif platform_version =~ /sid$/
+            platform_version
+          else
+            platform_version.to_i.to_s
+          end
         when platform_family == 'smartos'
           platform_version
         when platform_family == 'omnios'
@@ -123,6 +129,13 @@ module Opscode
           'debian' => {
             'default_data_dir' => '/var/lib/mysql',
             '7' => {
+              'default_version' => '5.5',
+              '5.5' => {
+                'package_name' => 'mysql-server-5.5',
+                'service_name' => 'mysqld'
+              }
+            },
+            'jessie/sid' => {
               'default_version' => '5.5',
               '5.5' => {
                 'package_name' => 'mysql-server-5.5',
