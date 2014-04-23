@@ -29,9 +29,14 @@ node['rackspace_mysql']['client']['packages'].each do |name|
 end
 
 template '/root/.my.cnf' do
+  cookbook node['rackspace_mysql']['templates']['user_mycnf']
   source 'user-my.cnf.erb'
   owner 'root'
   group 'root'
   mode '0600'
+  variables(
+    user: node['rackspace_mysql']['config']['user_mycnf']['user'],
+    pass: node['rackspace_mysql']['config']['user_mycnf']['pass']
+  )
   only_if { node['rackspace_mysql']['install_root_my_cnf'] }
 end
