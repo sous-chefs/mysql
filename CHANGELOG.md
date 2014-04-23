@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.2.0 (2014-04-22)
+-------------------
+- [COOK-4551] - power grants.sql from resource parameters
+
+
 v5.1.12 (2014-04-21)
 --------------------
 - [COOK-4554] - Support for Debian Sid
