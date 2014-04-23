@@ -32,6 +32,16 @@ lc-messages-dir                = /opt/mysql55/share
 '
   end
 
+  let(:grants_sql_content_default_omnios_151006) do
+    "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+UPDATE mysql.user SET Password=PASSWORD('ilikerandompasswords') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('ilikerandompasswords');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
+  end
+
   before do
     stub_command("/opt/mysql55/bin/mysql -u root -e 'show databases;'").and_return(true)
   end
@@ -168,6 +178,12 @@ lc-messages-dir                = /opt/mysql55/share
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
+        )
+    end
+
+    it 'steps into mysql_service and renders file[/etc/mysql_grants.sql]' do
+      expect(omnios_151006_default_stepinto_run).to render_file('/etc/mysql_grants.sql').with_content(
+        grants_sql_content_default_omnios_151006
         )
     end
 

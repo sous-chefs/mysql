@@ -28,8 +28,15 @@ Requirements
 * Chef 11 or higher
 * Ruby 1.9 (preferably from the Chef full-stack installer)
 
-Resources / Providers
+Resources
 ---------------------
+The resources that ship in this cookbook are examples of 'singleton
+resources'. This means that there can only be one instance of them
+configured on a machine. The providers that handle the implementation
+of the `mysql_service` and `mysql_client` resources do so by following
+platform native idioms. These usually only allow for one instance of a
+service to be running at a given time.
+
 ### mysql_service
 
 The `mysql_service` resource configures the basic plumbing
@@ -42,6 +49,12 @@ needed to run a simple mysql_service with a minimal configuration.
       port '3307'
       data_dir '/data'
       template_source 'custom.erb'
+      allow_remote_root true
+      root_network_acl ['10.9.8.7/6, '1.2.3.4/5']
+      remove_anonymous_users false
+      remove_test_database false
+      server_root_password 'decrypt_me_from_a_databag_maybe'
+      server_repl_password 'sync_me_baby_one_more_time'
       action :create
     end
 
@@ -62,6 +75,36 @@ The `template_source` parameter allows the user to override the
 default minimal template used by the `mysql_service` resource. When
 omitted, it will select one shipped with the cookbook based on the
 MySQL version.
+
+The `allow_remote_root` parameter allows the user to specify whether
+remote connections from the mysql root user. When set to true, it is
+recommended that it be used in combination with the `root_network_acl`
+parameter. When omitted, it will default to false.
+
+The `remove_anonymous_users` parameter allows the user to remove
+anonymous users often installed by default with during the mysql db
+initialization. When omitted, it defaults to true.
+
+The `remove_test_database` parameter allows the user to specify
+whether or not the test database is removed. When omitted, it defaults
+to true.
+
+The `root_network_acl` parameter allows the user to specify a list of
+subnets to accept connections for the root user from. When omitted, it
+defaults to none.
+
+The `server_root_password` parameter allows the user to specify the
+root password for the mysql database. This can be set explicitly in a
+recipe, driven from a node attribute, or from data_bags. When omitted,
+it defaults to `ilikerandompasswords`. Please be sure to change it.
+
+The `server_debian_password` parameter allows the user to specify the
+debian-sys-maint users password, used in log rotations and service
+management on Debian and Debian derived platforms.
+
+The `server_repl_password` parameter allows the user to specify the
+password used by `'repl'@'%'`, used in clustering scenarios. When
+omitted, it does create the repl user or set a password.
 
 The mysql_service resource supports :create, :restart, and :reload actions.
 

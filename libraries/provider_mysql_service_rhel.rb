@@ -146,14 +146,15 @@ class Chef
               owner 'root'
               group 'root'
               mode '0600'
+              variables(:config => new_resource)
               action :create
               notifies :run, 'execute[install-grants]'
             end
 
-            if node['mysql']['server_root_password'].empty?
+            if new_resource.server_root_password.empty?
               pass_string = ''
             else
-              pass_string = '-p' + Shellwords.escape(node['mysql']['server_root_password'])
+              pass_string = '-p' + Shellwords.escape(new_resource.server_root_password)
             end
 
             execute 'install-grants' do
@@ -203,7 +204,7 @@ class Chef
             execute 'assign-root-password' do
               cmd = "#{prefix_dir}/bin/mysqladmin"
               cmd << ' -u root password '
-              cmd << Shellwords.escape(node['mysql']['server_root_password'])
+              cmd << Shellwords.escape(new_resource.server_root_password)
               command cmd
               action :run
               only_if "#{prefix_dir}/bin/mysql -u root -e 'show databases;'"

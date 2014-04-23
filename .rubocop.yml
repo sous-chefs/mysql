@@ -11,7 +11,7 @@ MethodLength:
   Enabled: false
 
 LineLength:
-  Max: 200
+  Max: 330
 
 HashSyntax:
   EnforcedStyle: hash_rockets

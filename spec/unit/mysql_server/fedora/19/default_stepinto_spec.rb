@@ -11,7 +11,7 @@ describe 'stepped into mysql_test_default::server on fedora-19' do
     end.converge('mysql_test_default::server')
   end
 
-  let(:my_cnf_5_5_content_fedora_19) do
+  let(:my_cnf_5_5_content_default_fedora_19) do
     '[client]
 port                           = 3306
 socket                         = /var/lib/mysql/mysql.sock
@@ -29,6 +29,16 @@ datadir                        = /var/lib/mysql
 [mysql]
 !includedir /etc/my.cnf.d
 '
+  end
+
+  let(:grants_sql_content_default_fedora_19) do
+    "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+UPDATE mysql.user SET Password=PASSWORD('ilikerandompasswords') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('ilikerandompasswords');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
   end
 
   before do
@@ -84,11 +94,9 @@ datadir                        = /var/lib/mysql
     end
 
     it 'steps into mysql_service and renders file[/etc/my.cnf]' do
-      expect(fedora_19_default_run).to render_file('/etc/my.cnf').with_content(my_cnf_5_5_content_fedora_19)
-    end
-
-    it 'steps into mysql_service and creates bash[move mysql data to datadir]' do
-      expect(fedora_19_default_run).to_not run_bash('move mysql data to datadir')
+      expect(fedora_19_default_run).to render_file('/etc/my.cnf').with_content(
+        my_cnf_5_5_content_default_fedora_19
+        )
     end
 
     it 'steps into mysql_service and creates service[mysqld]' do
@@ -96,10 +104,8 @@ datadir                        = /var/lib/mysql
       expect(fedora_19_default_run).to enable_service('mysqld')
     end
 
-    it 'steps into mysql_service and creates execute[assign-root-password]' do
-      expect(fedora_19_default_run).to run_execute('assign-root-password').with(
-        :command => '/usr/bin/mysqladmin -u root password ilikerandompasswords'
-        )
+    it 'steps into mysql_service and runs execute[wait for mysql]' do
+      expect(fedora_19_default_run).to run_execute('wait for mysql')
     end
 
     it 'steps into mysql_service and creates template[/etc/mysql_grants.sql]' do
@@ -110,9 +116,25 @@ datadir                        = /var/lib/mysql
         )
     end
 
+    it 'steps into mysql_service and renders file[/etc/mysql_grants.sql]' do
+      expect(fedora_19_default_run).to render_file('/etc/mysql_grants.sql').with_content(
+        grants_sql_content_default_fedora_19
+        )
+    end
+
     it 'steps into mysql_service and creates execute[install-grants]' do
       expect(fedora_19_default_run).to_not run_execute('install-grants').with(
         :command => '/usr/bin/mysql -u root -pilikerandompasswords < /etc/mysql_grants.sql'
+        )
+    end
+
+    it 'steps into mysql_service and creates bash[move mysql data to datadir]' do
+      expect(fedora_19_default_run).to_not run_bash('move mysql data to datadir')
+    end
+
+    it 'steps into mysql_service and creates execute[assign-root-password]' do
+      expect(fedora_19_default_run).to run_execute('assign-root-password').with(
+        :command => '/usr/bin/mysqladmin -u root password ilikerandompasswords'
         )
     end
   end

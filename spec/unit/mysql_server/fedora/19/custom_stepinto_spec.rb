@@ -11,11 +11,27 @@ describe 'stepped into mysql_test_custom::server on fedora-19' do
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
       node.set['mysql']['template_source'] = 'custom.erb'
+      node.set['mysql']['allow_remote_root'] = true
+      node.set['mysql']['remove_anonymous_users'] = false
+      node.set['mysql']['remove_test_database'] = false
+      node.set['mysql']['root_network_acl'] = ['10.9.8.7/6', '1.2.3.4/5']
+      node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
+      node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
+      node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
     end.converge('mysql_test_custom::server')
   end
 
   let(:my_cnf_5_5_content_fedora_19) do
     'This my template. There are many like it but this one is mine.'
+  end
+
+  let(:grants_sql_content_custom_fedora_19) do
+    "GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' identified by 'syncmebabyonemoretime';
+GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'YUNOSETPASSWORD' WITH GRANT OPTION;
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('YUNOSETPASSWORD');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('YUNOSETPASSWORD');
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'10.9.8.7/6' IDENTIFIED BY 'YUNOSETPASSWORD' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD' WITH GRANT OPTION;"
   end
 
   before do
@@ -70,15 +86,19 @@ describe 'stepped into mysql_test_custom::server on fedora-19' do
         )
     end
 
+    it 'steps into mysql_service and renders file[/etc/my.cnf]' do
+      expect(fedora_19_custom_run).to render_file('/etc/my.cnf').with_content(
+        my_cnf_5_5_content_fedora_19
+        )
+    end
+
     it 'steps into mysql_service and creates service[mysqld]' do
       expect(fedora_19_custom_run).to start_service('mysqld')
       expect(fedora_19_custom_run).to enable_service('mysqld')
     end
 
-    it 'steps into mysql_service and creates execute[assign-root-password]' do
-      expect(fedora_19_custom_run).to run_execute('assign-root-password').with(
-        :command => '/usr/bin/mysqladmin -u root password ilikerandompasswords'
-        )
+    it 'steps into mysql_service and runs execute[wait for mysql]' do
+      expect(fedora_19_custom_run).to run_execute('wait for mysql')
     end
 
     it 'steps into mysql_service and creates template[/etc/mysql_grants.sql]' do
@@ -89,18 +109,26 @@ describe 'stepped into mysql_test_custom::server on fedora-19' do
         )
     end
 
-    it 'steps into mysql_service and creates execute[install-grants]' do
-      expect(fedora_19_custom_run).to_not run_execute('install-grants').with(
-        :command => '/usr/bin/mysql -u root -pilikerandompasswords < /etc/mysql_grants.sql'
+    it 'steps into mysql_service and renders file[/etc/mysql_grants.sql]' do
+      expect(fedora_19_custom_run).to render_file('/etc/mysql_grants.sql').with_content(
+        grants_sql_content_custom_fedora_19
         )
     end
 
-    it 'steps into mysql_service and renders file[/etc/my.cnf]' do
-      expect(fedora_19_custom_run).to render_file('/etc/my.cnf').with_content(my_cnf_5_5_content_fedora_19)
+    it 'steps into mysql_service and creates execute[install-grants]' do
+      expect(fedora_19_custom_run).to_not run_execute('install-grants').with(
+        :command => '/usr/bin/mysql -u root -pYUNOSETPASSWORD < /etc/mysql_grants.sql'
+        )
     end
 
     it 'steps into mysql_service and creates bash[move mysql data to datadir]' do
       expect(fedora_19_custom_run).to_not run_bash('move mysql data to datadir')
+    end
+
+    it 'steps into mysql_service and creates execute[assign-root-password]' do
+      expect(fedora_19_custom_run).to run_execute('assign-root-password').with(
+        :command => '/usr/bin/mysqladmin -u root password YUNOSETPASSWORD'
+        )
     end
 
     it 'steps into mysql_service and writes log[notify restart]' do

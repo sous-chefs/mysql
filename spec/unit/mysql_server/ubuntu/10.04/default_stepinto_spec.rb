@@ -11,7 +11,7 @@ describe 'mysql_test_default::server on ubuntu-10.04' do
     end.converge('mysql_test_default::server')
   end
 
-  let(:my_cnf_5_5_content_ubuntu_10_04) do
+  let(:my_cnf_5_5_content_default_ubuntu_10_04) do
     '[client]
 port                           = 3306
 socket                         = /var/run/mysqld/mysqld.sock
@@ -29,6 +29,16 @@ datadir                        = /var/lib/mysql
 [mysql]
 !includedir /etc/mysql/conf.d
 '
+  end
+
+  let(:grants_sql_content_default_ubuntu_10_04) do
+    "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+UPDATE mysql.user SET Password=PASSWORD('ilikerandompasswords') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('ilikerandompasswords');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
   end
 
   before do
@@ -138,7 +148,6 @@ datadir                        = /var/lib/mysql
         )
     end
 
-    # mysql data
     it 'steps into mysql_service and creates execute[assign-root-password]' do
       expect(ubuntu_10_04_default_run).to run_execute('assign-root-password').with(
         :command => '/usr/bin/mysqladmin -u root password ilikerandompasswords'
@@ -150,6 +159,12 @@ datadir                        = /var/lib/mysql
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
+        )
+    end
+
+    it 'steps into mysql_service and renders file[/etc/mysql_grants.sql]' do
+      expect(ubuntu_10_04_default_run).to render_file('/etc/mysql_grants.sql').with_content(
+        grants_sql_content_default_ubuntu_10_04
         )
     end
 
@@ -168,7 +183,9 @@ datadir                        = /var/lib/mysql
     end
 
     it 'steps into mysql_service and renders file[/etc/mysql/my.cnf]' do
-      expect(ubuntu_10_04_default_run).to render_file('/etc/mysql/my.cnf').with_content(my_cnf_5_5_content_ubuntu_10_04)
+      expect(ubuntu_10_04_default_run).to render_file('/etc/mysql/my.cnf').with_content(
+        my_cnf_5_5_content_default_ubuntu_10_04
+        )
     end
 
     it 'steps into mysql_service and creates bash[move mysql data to datadir]' do

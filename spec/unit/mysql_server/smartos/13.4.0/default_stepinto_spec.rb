@@ -31,6 +31,16 @@ datadir                        = /opt/local/lib/mysql
 '
   end
 
+  let(:grants_sql_content_default_smartos_13_4_0) do
+    "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+UPDATE mysql.user SET Password=PASSWORD('ilikerandompasswords') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('ilikerandompasswords');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
+  end
+
   before do
     stub_command("/opt/local/bin/mysql -u root -e 'show databases;'").and_return(true)
   end
@@ -109,7 +119,9 @@ datadir                        = /opt/local/lib/mysql
     end
 
     it 'steps into mysql_service and creates my.conf' do
-      expect(smartos_13_4_0_default_stepinto_run).to render_file('/opt/local/etc/my.cnf').with_content(my_cnf_5_5_content_smartos_13_4_0)
+      expect(smartos_13_4_0_default_stepinto_run).to render_file('/opt/local/etc/my.cnf').with_content(
+        my_cnf_5_5_content_smartos_13_4_0
+        )
     end
 
     it 'steps into mysql_service and creates a bash resource' do
@@ -166,6 +178,12 @@ datadir                        = /opt/local/lib/mysql
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
+        )
+    end
+
+    it 'steps into mysql_service and renders file[/etc/mysql_grants.sql]' do
+      expect(smartos_13_4_0_default_stepinto_run).to render_file('/opt/local/etc/mysql_grants.sql').with_content(
+        grants_sql_content_default_smartos_13_4_0
         )
     end
 

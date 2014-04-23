@@ -11,7 +11,7 @@ describe 'stepped into mysql_test_default::server on ubuntu-12.04' do
     end.converge('mysql_test_default::server')
   end
 
-  let(:my_cnf_5_5_content_ubuntu_12_04) do
+  let(:my_cnf_5_5_content_default_ubuntu_12_04) do
     '[client]
 port                           = 3306
 socket                         = /var/run/mysqld/mysqld.sock
@@ -172,7 +172,9 @@ datadir                        = /var/lib/mysql
     end
 
     it 'steps into mysql_service and renders file[/etc/mysql/my.cnf]' do
-      expect(ubuntu_12_04_default_run).to render_file('/etc/mysql/my.cnf').with_content(my_cnf_5_5_content_ubuntu_12_04)
+      expect(ubuntu_12_04_default_run).to render_file('/etc/mysql/my.cnf').with_content(
+        my_cnf_5_5_content_default_ubuntu_12_04
+        )
     end
 
     it 'steps into mysql_service and creates bash[move mysql data to datadir]' do

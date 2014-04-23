@@ -31,6 +31,16 @@ datadir                        = /var/lib/mysql
 '
   end
 
+  let(:grants_sql_content_default_centos_5_8) do
+    "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+UPDATE mysql.user SET Password=PASSWORD('ilikerandompasswords') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('ilikerandompasswords');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
+  end
+
   before do
     stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
   end
@@ -96,6 +106,13 @@ datadir                        = /var/lib/mysql
       expect(centos_5_8_default_run).to enable_service('mysqld')
     end
 
+    it 'steps into mysql_service and waits for mysql to start' do
+      expect(centos_5_8_default_run).to run_execute('wait for mysql').with(
+        :command => 'until [ -S /var/lib/mysql/mysql.sock ] ; do sleep 1 ; done',
+        :timeout => 10
+        )
+    end
+
     it 'steps into mysql_service and creates execute[assign-root-password]' do
       expect(centos_5_8_default_run).to run_execute('assign-root-password').with(
         :command => '/usr/bin/mysqladmin -u root password ilikerandompasswords'
@@ -108,6 +125,12 @@ datadir                        = /var/lib/mysql
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
+        )
+    end
+
+    it 'steps into mysql_service and renders file[/etc/mysql_grants.sql]' do
+      expect(centos_5_8_default_run).to render_file('/etc/mysql_grants.sql').with_content(
+        grants_sql_content_default_centos_5_8
         )
     end
 

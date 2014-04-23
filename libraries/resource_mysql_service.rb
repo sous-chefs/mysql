@@ -34,6 +34,15 @@ class Chef
 
         @port = '3306'
         @template_source = nil
+
+        @allow_remote_root = false
+        @remove_anonymous_users = true
+        @remove_test_database = true
+        @root_network_acl = []
+
+        @server_root_password = 'ilikerandompasswords'
+        @server_debian_password = 'gnuslashlinux4ev4r'
+        @server_repl_password = nil
       end
 
       # attribute :service_name, kind_of: String
@@ -109,6 +118,69 @@ class Chef
       def data_dir(arg = nil)
         set_or_return(
           :data_dir,
+          arg,
+          :kind_of => String
+          )
+      end
+
+      # attribute :allow_remote_root, kind_of: [TrueClass,FalseClass]
+      def allow_remote_root(arg = nil)
+        set_or_return(
+          :allow_remote_root,
+          arg,
+          :kind_of => [TrueClass, FalseClass]
+          )
+      end
+
+      # attribute :remove_anonymous_users, kind_of: [TrueClass,FalseClass]
+      def remove_anonymous_users(arg = nil)
+        set_or_return(
+          :remove_anonymous_users,
+          arg,
+          :kind_of => [TrueClass, FalseClass]
+          )
+      end
+
+      # attribute :remove_test_database, kind_of: [TrueClass,FalseClass]
+      def remove_test_database(arg = nil)
+        set_or_return(
+          :remove_test_database,
+          arg,
+          :kind_of => [TrueClass, FalseClass]
+          )
+      end
+
+      # attribute :root_network_acl, kind_of: Array
+      def root_network_acl(arg = nil)
+        set_or_return(
+          :root_network_acl,
+          arg,
+          :kind_of => Array
+          )
+      end
+
+      # attribute :server_root_password, kind_of: String
+      def server_root_password(arg = nil)
+        set_or_return(
+          :server_root_password,
+          arg,
+          :kind_of => String
+          )
+      end
+
+      # attribute :server_debian_password, kind_of: String
+      def server_debian_password(arg = nil)
+        set_or_return(
+          :server_debian_password,
+          arg,
+          :kind_of => String
+          )
+      end
+
+      # attribute :server_repl_password, kind_of: String
+      def server_repl_password(arg = nil)
+        set_or_return(
+          :server_repl_password,
           arg,
           :kind_of => String
           )

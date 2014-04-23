@@ -11,7 +11,7 @@ describe 'stepped into mysql_test_default::server on debian-7.2' do
     end.converge('mysql_test_default::server')
   end
 
-  let(:my_cnf_5_5_content_debian_7_2) do
+  let(:my_cnf_5_5_content_default_debian_7_2) do
     '[client]
 port                           = 3306
 socket                         = /var/run/mysqld/mysqld.sock
@@ -29,6 +29,17 @@ datadir                        = /var/lib/mysql
 [mysql]
 !includedir /etc/mysql/conf.d
 '
+  end
+
+  let(:grants_sql_content_default_debian_7_2) do
+    "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY 'gnuslashlinux4ev4r' WITH GRANT OPTION;
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+UPDATE mysql.user SET Password=PASSWORD('ilikerandompasswords') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('ilikerandompasswords');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
   end
 
   before do
@@ -108,7 +119,6 @@ datadir                        = /var/lib/mysql
         )
     end
 
-    # mysql data
     it 'steps into mysql_service and creates execute[assign-root-password]' do
       expect(debian_7_2_default_run).to run_execute('assign-root-password').with(
         :command => '/usr/bin/mysqladmin -u root password ilikerandompasswords'
@@ -121,6 +131,12 @@ datadir                        = /var/lib/mysql
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
+        )
+    end
+
+    it 'steps into mysql_service and renders file[/etc/mysql_grants.sql]' do
+      expect(debian_7_2_default_run).to render_file('/etc/mysql_grants.sql').with_content(
+        grants_sql_content_default_debian_7_2
         )
     end
 
@@ -150,7 +166,9 @@ datadir                        = /var/lib/mysql
     end
 
     it 'steps into mysql_service and renders file[/etc/mysql/my.cnf]' do
-      expect(debian_7_2_default_run).to render_file('/etc/mysql/my.cnf').with_content(my_cnf_5_5_content_debian_7_2)
+      expect(debian_7_2_default_run).to render_file('/etc/mysql/my.cnf').with_content(
+        my_cnf_5_5_content_default_debian_7_2
+        )
     end
 
     it 'steps into mysql_service and creates bash[move mysql data to datadir]' do

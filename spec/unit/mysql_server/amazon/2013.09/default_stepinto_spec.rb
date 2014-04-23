@@ -11,7 +11,7 @@ describe 'stepped into mysql_test_default::server on amazon-2013.09' do
     end.converge('mysql_test_default::server')
   end
 
-  let(:my_cnf_5_5_content_amazon_2013_09) do
+  let(:my_cnf_5_5_content_default_amazon_2013_09) do
     '[client]
 port                           = 3306
 socket                         = /var/lib/mysql/mysql.sock
@@ -29,6 +29,16 @@ datadir                        = /var/lib/mysql
 [mysql]
 !includedir /etc/mysql/conf.d
 '
+  end
+
+  let(:grants_sql_content_default_amazon_2013_09) do
+    "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+UPDATE mysql.user SET Password=PASSWORD('ilikerandompasswords') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('ilikerandompasswords');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
   end
 
   before do
@@ -85,7 +95,9 @@ datadir                        = /var/lib/mysql
     end
 
     it 'steps into mysql_service and renders file[/etc/my.cnf]' do
-      expect(amazon_2013_09_default_run).to render_file('/etc/my.cnf').with_content(my_cnf_5_5_content_amazon_2013_09)
+      expect(amazon_2013_09_default_run).to render_file('/etc/my.cnf').with_content(
+        my_cnf_5_5_content_default_amazon_2013_09
+        )
     end
 
     it 'steps into mysql_service and creates bash[move mysql data to datadir]' do
@@ -95,6 +107,10 @@ datadir                        = /var/lib/mysql
     it 'steps into mysql_service and creates service[mysqld]' do
       expect(amazon_2013_09_default_run).to start_service('mysqld')
       expect(amazon_2013_09_default_run).to enable_service('mysqld')
+    end
+
+    it 'steps into mysql_service and runs execute[wait for mysql]' do
+      expect(amazon_2013_09_default_run).to run_execute('wait for mysql')
     end
 
     it 'steps into mysql_service and creates execute[assign-root-password]' do
@@ -109,6 +125,12 @@ datadir                        = /var/lib/mysql
         :owner => 'root',
         :group => 'root',
         :mode => '0600'
+        )
+    end
+
+    it 'steps into mysql_service and renders file[/etc/mysql_grants.sql]' do
+      expect(amazon_2013_09_default_run).to render_file('/etc/mysql_grants.sql').with_content(
+        grants_sql_content_default_amazon_2013_09
         )
     end
 
