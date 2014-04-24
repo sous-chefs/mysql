@@ -1,8 +1,5 @@
 node['mysql']['server']['packages'].each do |name|
-  package name do
-    action   :install
-    notifies :start, 'service[mysql]', :immediately
-  end
+  package(name) { action :install }
 end
 
 node['mysql']['server']['directories'].each do |name, path|
@@ -14,25 +11,25 @@ node['mysql']['server']['directories'].each do |name, path|
   end
 end
 
+service 'mysql' do
+  service_name node['mysql']['server']['service_name']
+  supports     :status => true, :restart => true, :reload => false
+  action       :enable
+end
+
 template 'my.cnf' do
   path "#{node['mysql']['conf_dir']}/my.cnf"
   source 'my.cnf.erb'
   owner 'root'
   group node['root_group']
   mode '0644'
-  notifies :restart, 'service[mysql]', :delayed
+  notifies :restart, 'service[mysql]', :immediately
 end
 
 execute 'mysql-install-db' do
   command "mysql_install_db --basedir=#{node['mysql']['server']['basedir']}"
   action :run
   not_if { File.exists?(node['mysql']['data_dir'] + '/mysql/user.frm') }
-end
-
-service 'mysql' do
-  service_name node['mysql']['server']['service_name']
-  supports     :status => true, :restart => true, :reload => false
-  action       :enable
 end
 
 execute 'assign-root-password' do
