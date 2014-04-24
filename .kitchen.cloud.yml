@@ -30,7 +30,7 @@ platforms:
 - name: centos-6.5
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3102789
+    image_id: 3240850
     flavor_id: 63
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
@@ -169,7 +169,7 @@ suites:
     - recipe[mysql_test_custom::server]
     includes: [
       'centos-5.8',
-      'centos-6.4',
+      'centos-6.5',
       'amazon-2013.09',
       'ubuntu-10.04'
     ]
@@ -182,7 +182,7 @@ suites:
     - recipe[mysql_test_custom::server]
     includes: [
       'centos-5.8',
-      'centos-6.4',
+      'centos-6.5',
       'amazon-2013.09',
       'amazon-2014.03',
       'ubuntu-10.04'
