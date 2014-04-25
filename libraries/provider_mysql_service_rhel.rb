@@ -196,9 +196,9 @@ class Chef
               && for i in `ls #{base_dir}/var/lib/mysql | grep -v mysql.sock` ; do mv #{base_dir}/var/lib/mysql/$i #{new_resource.data_dir} ; done
               EOH
               action :nothing
-              only_if "[ '#{base_dir}/var/lib/mysql' != #{new_resource.data_dir} ]"
-              only_if "[ `stat -c %h #{new_resource.data_dir}` -eq 2 ]"
-              not_if "[ `stat -c %h #{base_dir}/var/lib/mysql/` -eq 2 ]"
+              creates "#{new_resource.data_dir}/ibdata1"
+              creates "#{new_resource.data_dir}/ib_logfile0"
+              creates "#{new_resource.data_dir}/ib_logfile1"
             end
 
             execute 'assign-root-password' do
