@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.2.2 (2014-04-24)
+-------------------
+- [COOK-4564] - Using positive tests for datadir move
+
+
 v5.2.0 (2014-04-22)
 -------------------
 - [COOK-4551] - power grants.sql from resource parameters
