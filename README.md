@@ -92,6 +92,13 @@ in a role.
 * `node['rackspace_mysql']['server_debian_password']` - Set the debian-sys-maint
   user password
 
+You can drop off a /root/.my.cnf file containing a [mysql] and [client] config containing user and password fields. The attributes to do so are:
+
+* `node['rackspace_mysql']['install_root_my_cnf']` - Create the /root/.my.cnf file. Defaults to false.
+* `node['rackspace_mysql']['config']['user_mycnf']['user']` - Sets the user for the /root/.my.cnf file.
+* `node['rackspace_mysql']['config']['user_mycnf']['pass']` - Sets the password for the /root/.my.cnf file.
+* `node['rackspace_mysql']['templates']['user_mycnf']` - Sets the cookbook that the template is pulled from. Defaults to rackspace_mysql.
+
 Usage
 -----
 On client nodes, use the client (or default) recipe:

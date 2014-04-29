@@ -1,6 +1,6 @@
 [mysql]
-user=root
-password=<%=node['rackspace_mysql']['server_root_password']%>
+user=<%= @user %>
+password=<%= @pass %>
 [client]
-user=root
-password=<%=node['rackspace_mysql']['server_root_password']%>
+user=<%= @user %>
+password=<%= @pass %>
