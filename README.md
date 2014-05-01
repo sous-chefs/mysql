@@ -148,17 +148,23 @@ For more information on the compile vs execution phase of a Chef run:
 
 Chef Solo Note
 --------------
-These node attributes are stored on the Chef server when using `chef-client`. Because `chef-solo` does not connect to a server or save the node object at all, to have the same passwords persist across `chef-solo` runs, you must specify them in the `json_attribs` file used. For example:
+These node attributes are stored on the Chef server when using `chef-client`. Because `chef-solo` does not connect to a server or save the node object at all, to have the same passwords persist across `chef-solo` runs, you must specify them in the `json_attribs` file used. For example from a Vagrantfile:
 
 ```javascript
-{
-  "rackspace_mysql": {
-    "server_root_password": "iloverandompasswordsbutthiswilldo",
-    "server_repl_password": "iloverandompasswordsbutthiswilldo",
-    "server_debian_password": "iloverandompasswordsbutthiswilldo"
-  },
-  "run_list":["recipe[rackspace_mysql::server]"]
-}
+config.vm.provision :chef_solo do |chef|
+    chef.json = {
+      :rackspace_mysql => {
+        :server_debian_password => 'TestDebianPassword',
+        :server_root_password => 'TestRootPassword',
+        :server_repl_password => 'TestReplicationPassword',
+      }
+    }
+
+    chef.run_list = [
+                     "recipe[rackspace_mysql::server]",
+                     "recipe[rackspace_mysql::client]",
+                    ]
+  end
 ```
 
 
