@@ -45,7 +45,7 @@ class Chef
             directory new_resource.data_dir do
               owner 'mysql'
               group 'mysql'
-              mode '0750'
+              mode '0755'
               action :create
               recursive true
             end
