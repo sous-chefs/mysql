@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.2.4 (2014-05-02)
+-------------------
+- [COOK-4613] - Fix permissions on mysql data_dir to allow global access to mysql.sock
+
+
 v5.2.2 (2014-04-24)
 -------------------
 - [COOK-4564] - Using positive tests for datadir move
