@@ -39,6 +39,7 @@ class Chef
               owner 'root'
               group 'root'
               mode '0600'
+              variables(:config => new_resource)
               action :create
               notifies :run, 'execute[preseed mysql-server]', :immediately
             end
@@ -101,6 +102,7 @@ class Chef
               owner 'root'
               group 'root'
               mode '0600'
+              variables(:config => new_resource)
               action :create
             end
 
@@ -160,7 +162,7 @@ class Chef
               creates "#{new_resource.data_dir}/ibdata1"
               creates "#{new_resource.data_dir}/ib_logfile0"
               creates "#{new_resource.data_dir}/ib_logfile1"
-              action :nothing              
+              action :nothing
             end
           end
         end
