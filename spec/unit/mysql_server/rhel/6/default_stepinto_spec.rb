@@ -70,7 +70,7 @@ datadir                        = /var/lib/mysql
       expect(centos_6_4_default_run).to create_directory('/var/lib/mysql').with(
         :owner => 'mysql',
         :group => 'mysql',
-        :mode => '0750',
+        :mode => '0755',
         :recursive => true
         )
     end

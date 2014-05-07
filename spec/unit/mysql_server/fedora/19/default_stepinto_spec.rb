@@ -80,7 +80,7 @@ SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
       expect(fedora_19_default_run).to create_directory('/var/lib/mysql').with(
         :owner => 'mysql',
         :group => 'mysql',
-        :mode => '0750',
+        :mode => '0755',
         :recursive => true
         )
     end

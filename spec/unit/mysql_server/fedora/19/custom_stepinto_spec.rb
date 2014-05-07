@@ -73,7 +73,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
       expect(fedora_19_custom_run).to create_directory('/data').with(
         :owner => 'mysql',
         :group => 'mysql',
-        :mode => '0750',
+        :mode => '0755',
         :recursive => true
         )
     end

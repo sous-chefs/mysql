@@ -57,7 +57,7 @@ describe 'stepped into mysql_test_custom::server on centos-6.4' do
       expect(centos_6_4_default_run).to create_directory('/data').with(
         :owner => 'mysql',
         :group => 'mysql',
-        :mode => '0750',
+        :mode => '0755',
         :recursive => true
         )
     end
