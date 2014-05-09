@@ -81,7 +81,7 @@ class Chef
             end
 
             execute 'wait for mysql' do
-              command "until [ -S #{socket_file} ] ; do sleep 1 ; done"
+              command "while [ ! -S #{socket_file} ] ; do sleep 1 ; done"
               timeout 10
               action :run
             end
