@@ -74,8 +74,6 @@ class Chef
               creates "#{new_resource.data_dir}/mysql/user.frm"
             end
 
-            Chef::Log.debug "mysql rc.d name: #{new_resource.service_name}"
-
             service 'mysql' do
               service_name rc_name
               supports :status => true, :restart => true, :reload => false
