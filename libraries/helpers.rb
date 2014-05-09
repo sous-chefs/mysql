@@ -46,6 +46,8 @@ module Opscode
           platform_version
         when platform_family == 'omnios'
           platform_version
+        when platform_family == 'freebsd'
+          platform_version.to_i.to_s
         end
       rescue NoMethodError
         nil
@@ -212,6 +214,16 @@ module Opscode
               '5.6' => {
                 'package_name' => 'database/mysql-56',
                 'service_name' => 'mysql'
+              }
+            }
+          },
+          'freebsd' => {
+            'default_data_dir' => '/var/db/mysql',
+            '10' => {
+              'default_version' => '5.5',
+              '5.5' => {
+                'package_name' => 'mysql55-server',
+                'service_name' => 'mysql-server'
               }
             }
           }
