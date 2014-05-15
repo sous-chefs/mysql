@@ -240,8 +240,9 @@ suites:
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
+      'ubuntu-14.04',
       'smartos-13.4.0',
-      'omnios-151006'
+      'omnios-151006',
     ]
     attributes:
       mysql:
@@ -252,6 +253,7 @@ suites:
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
+      'ubuntu-14.04',
       'smartos-13.4.0',
       'omnios-151006'
     ]
