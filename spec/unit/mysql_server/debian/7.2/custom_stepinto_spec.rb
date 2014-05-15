@@ -75,8 +75,8 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
         )
     end
 
-    it 'steps into mysql_service and installs package[mysql-server]' do
-      expect(debian_7_2_custom_run).to install_package('mysql-server')
+    it 'steps into mysql_service and installs package[mysql-server-5.5]' do
+      expect(debian_7_2_custom_run).to install_package('mysql-server-5.5')
     end
 
     it 'steps into mysql_service and creates service[mysql]' do

@@ -75,8 +75,8 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
         )
     end
 
-    it 'steps into mysql_service and installs package[mysql-server]' do
-      expect(ubuntu_12_04_custom_run).to install_package('mysql-server')
+    it 'steps into mysql_service and installs package[mysql-server-5.5]' do
+      expect(ubuntu_12_04_custom_run).to install_package('mysql-server-5.5')
     end
 
     # apparmor

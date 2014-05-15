@@ -8,6 +8,7 @@ describe 'stepped into mysql_test_custom::server on ubuntu-14.04' do
       :version => '14.04'
       ) do |node|
       node.set['mysql']['service_name'] = 'ubuntu_14_04_default'
+      node.set['mysql']['version'] = '5.6'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
       node.set['mysql']['template_source'] = 'custom.erb'
@@ -41,7 +42,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
   context 'when using default parameters' do
     it 'creates mysql_service[ubuntu_14_04_default]' do
       expect(ubuntu_14_04_custom_run).to create_mysql_service('ubuntu_14_04_default').with(
-        :version => '5.5',
+        :version => '5.6',
         :port => '3308',
         :data_dir => '/data'
         )
@@ -75,8 +76,8 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
         )
     end
 
-    it 'steps into mysql_service and installs package[mysql-server]' do
-      expect(ubuntu_14_04_custom_run).to install_package('mysql-server')
+    it 'steps into mysql_service and installs package[mysql-server-5.6]' do
+      expect(ubuntu_14_04_custom_run).to install_package('mysql-server-5.6')
     end
 
     # apparmor

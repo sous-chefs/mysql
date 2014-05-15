@@ -81,8 +81,8 @@ SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
         )
     end
 
-    it 'steps into mysql_service and installs package[mysql-server]' do
-      expect(ubuntu_10_04_default_run).to install_package('mysql-server')
+    it 'steps into mysql_service and installs package[mysql-server-5.1]' do
+      expect(ubuntu_10_04_default_run).to install_package('mysql-server-5.1')
     end
 
     # apparmor

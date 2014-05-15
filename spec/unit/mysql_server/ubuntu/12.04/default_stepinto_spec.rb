@@ -72,8 +72,8 @@ datadir                        = /var/lib/mysql
         )
     end
 
-    it 'steps into mysql_service and installs package[mysql-server]' do
-      expect(ubuntu_12_04_default_run).to install_package('mysql-server')
+    it 'steps into mysql_service and installs package[mysql-server-5.5]' do
+      expect(ubuntu_12_04_default_run).to install_package('mysql-server-5.5')
     end
 
     # apparmor
