@@ -17,6 +17,14 @@
 # limitations under the License.
 #
 
+case node['platform_version'].to_i.to_s
+when '6'
+  case node['mysql']['version']
+  when '5.5', '5.6'
+    include_recipe 'yum-ius'
+  end
+end
+
 mysql_service node['mysql']['service_name'] do
   port node['mysql']['port']
   data_dir node['mysql']['data_dir']
@@ -27,5 +35,6 @@ mysql_service node['mysql']['service_name'] do
   remove_anonymous_users node['mysql']['remove_anonymous_users']
   remove_test_database node['mysql']['remove_test_database']
   root_network_acl node['mysql']['root_network_acl']
+  version node['mysql']['version']
   action :create
 end

@@ -79,6 +79,14 @@ module Opscode
               '5.1' => {
                 'package_name' => 'mysql-server',
                 'service_name' => 'mysqld'
+              },
+              '5.5' => {
+                'package_name' => 'mysql55-server',
+                'service_name' => 'mysqld'
+              },
+              '5.6' => {
+                'package_name' => 'mysql56u-server',
+                'service_name' => 'mysqld'
               }
             },
             '7' => {
