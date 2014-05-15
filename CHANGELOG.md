@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.2.10 (2014-05-15)
+--------------------
+- COOK-4394 - restore freebsd support
+
+
 v5.2.8 (2014-05-15)
 -------------------
 - [COOK-4653] - Missing mySQL 5.6 support for Ubuntu 14.04
