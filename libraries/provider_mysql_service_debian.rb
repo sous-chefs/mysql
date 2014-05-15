@@ -51,7 +51,7 @@ class Chef
 
             # package automatically initializes database and starts service.
             # ... because that's totally super convenient.
-            package 'mysql-server' do
+            package new_resource.package_name do
               action :install
             end
 
