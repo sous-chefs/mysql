@@ -18,6 +18,7 @@
 #
 
 mysql_service node['mysql']['service_name'] do
+  version node['mysql']['version']
   port node['mysql']['port']
   data_dir node['mysql']['data_dir']
   server_root_password node['mysql']['server_root_password']
