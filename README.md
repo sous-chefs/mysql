@@ -50,7 +50,7 @@ needed to run a simple mysql_service with a minimal configuration.
       data_dir '/data'
       template_source 'custom.erb'
       allow_remote_root true
-      root_network_acl ['10.9.8.7/6, '1.2.3.4/5']
+      root_network_acl ['10.9.8.7/6', '1.2.3.4/5']
       remove_anonymous_users false
       remove_test_database false
       server_root_password 'decrypt_me_from_a_databag_maybe'
