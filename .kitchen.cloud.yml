@@ -30,7 +30,7 @@ platforms:
 - name: centos-6.5
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3240850
+    image_id: 3448641
     flavor_id: 63
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
@@ -247,7 +247,6 @@ suites:
     attributes:
       mysql:
         version: '5.6'
-        data_dir: '/data'
 
   - name: server56-custom
     run_list:
