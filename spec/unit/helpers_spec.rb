@@ -363,7 +363,7 @@ describe 'mysql_platform_map' do
           ).to eq('/var/lib/mysql')
       end
     end
-  end  
+  end
 
   # ubuntu-14.04
   context 'for ubuntu-14.04' do
