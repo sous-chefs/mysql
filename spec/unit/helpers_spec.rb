@@ -363,6 +363,32 @@ describe 'mysql_platform_map' do
           ).to eq('/var/lib/mysql')
       end
     end
+  end  
+
+  # ubuntu-14.04
+  context 'for ubuntu-14.04' do
+    context 'when looking up default version' do
+      it 'returns the correct version' do
+        expect(
+          default_version_for('ubuntu', 'debian', '14.04')
+          ).to eq('5.5')
+      end
+    end
+
+    context 'when looking up package' do
+
+      it 'returns the correct package for Mysql 5.5' do
+        expect(
+          package_name_for('ubuntu', 'debian', '14.04', '5.5')
+          ).to eq('mysql-server-5.5')
+      end
+
+      it 'returns the correct package for Mysql 5.6' do
+        expect(
+          package_name_for('ubuntu', 'debian', '14.04', '5.6')
+          ).to eq('mysql-server-5.6')
+      end
+    end
   end
 
   # ubuntu-14.04
