@@ -43,6 +43,8 @@ class Chef
         @server_root_password = 'ilikerandompasswords'
         @server_debian_password = 'gnuslashlinux4ev4r'
         @server_repl_password = nil
+
+        @init_style = nil
       end
 
       # attribute :service_name, kind_of: String
@@ -183,6 +185,15 @@ class Chef
           :server_repl_password,
           arg,
           :kind_of => String
+          )
+      end
+
+      # attribute :provider, kind_of: Object
+      def init_style(arg = nil)
+        set_or_return(
+          :init_style,
+          arg,
+          :kind_of => Object
           )
       end
 

@@ -75,6 +75,7 @@ class Chef
             end
 
             service 'mysql' do
+              provider new_resource.init_style if new_resource.init_style
               service_name rc_name
               supports :status => true, :restart => true, :reload => false
               action [:start, :enable]
@@ -127,6 +128,7 @@ class Chef
         action :restart do
           converge_by 'freebsd pattern' do
             service 'mysql' do
+              provider new_resource.init_style if new_resource.init_style
               service_name rc_name
               supports :restart => true
               action :restart
@@ -137,6 +139,7 @@ class Chef
         action :reload do
           converge_by 'freebsd pattern' do
             service 'mysql' do
+              provider new_resource.init_style if new_resource.init_style
               service_name rc_name
               supports :reload => true
               action :reload

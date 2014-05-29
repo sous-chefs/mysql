@@ -93,16 +93,14 @@ class Chef
                 :include_dir => include_dir
                 )
               action :create
+              notifies :stop, 'service[mysql]'
               notifies :run, 'bash[move mysql data to datadir]', :immediately
-              notifies :restart, 'service[mysql]'
+              notifies :start, 'service[mysql]'
             end
 
             bash 'move mysql data to datadir' do
               user 'root'
-              code <<-EOH
-              /usr/sbin/svcadm disable mysql \
-              && mv /opt/local/lib/mysql/* #{new_resource.data_dir}
-              EOH
+              code "mv /opt/local/lib/mysql/* #{new_resource.data_dir}"
               action :nothing
               creates "#{new_resource.data_dir}/ibdata1"
               creates "#{new_resource.data_dir}/ib_logfile0"
@@ -145,6 +143,7 @@ class Chef
             end
 
             service 'mysql' do
+              provider new_resource.init_style if new_resource.init_style
               supports :reload => true
               action [:start, :enable]
             end
@@ -194,6 +193,7 @@ class Chef
         action :restart do
           converge_by 'smartos pattern' do
             service 'mysql' do
+              provider new_resource.init_style if new_resource.init_style
               supports :restart => true
               action :restart
             end
@@ -203,6 +203,7 @@ class Chef
         action :reload do
           converge_by 'smartos pattern' do
             service 'mysql' do
+              provider new_resource.init_style if new_resource.init_style
               supports :reload => true
               action :reload
             end

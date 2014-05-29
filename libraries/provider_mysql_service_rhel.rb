@@ -140,6 +140,7 @@ class Chef
             end
 
             service service_name do
+              provider new_resource.init_style if new_resource.init_style
               supports :restart => true
               action [:start, :enable]
             end
@@ -195,16 +196,14 @@ class Chef
                 :socket_file => socket_file
                 )
               action :create
+              notifies :stop, "service[#{service_name}]"
               notifies :run, 'bash[move mysql data to datadir]'
-              notifies :restart, "service[#{service_name}]"
+              notifies :start, "service[#{service_name}]"
             end
 
             bash 'move mysql data to datadir' do
               user 'root'
-              code <<-EOH
-              service #{service_name} stop \
-              && for i in `ls #{base_dir}/var/lib/mysql | grep -v mysql.sock` ; do mv #{base_dir}/var/lib/mysql/$i #{new_resource.data_dir} ; done
-              EOH
+              code "for i in `ls #{base_dir}/var/lib/mysql | grep -v mysql.sock` ; do mv #{base_dir}/var/lib/mysql/$i #{new_resource.data_dir} ; done"
               action :nothing
               creates "#{new_resource.data_dir}/ibdata1"
               creates "#{new_resource.data_dir}/ib_logfile0"
@@ -232,6 +231,7 @@ class Chef
 
           converge_by 'rhel pattern' do
             service service_name do
+              provider new_resource.init_style if new_resource.init_style
               supports :restart => true
               action :restart
             end
@@ -248,6 +248,7 @@ class Chef
 
           converge_by 'rhel pattern' do
             service service_name do
+              provider new_resource.init_style if new_resource.init_style
               action :reload
             end
           end

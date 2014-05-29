@@ -51,6 +51,7 @@ class Chef
             end
 
             service 'mysqld' do
+              provider new_resource.init_style if new_resource.init_style
               supports :restart => true
               action [:start, :enable]
             end
@@ -106,16 +107,14 @@ class Chef
                 :socket_file => socket_file
                 )
               action :create
+              notifies :stop, 'service[mysqld]'
               notifies :run, 'bash[move mysql data to datadir]'
-              notifies :restart, 'service[mysqld]'
+              notifies :start, 'service[mysqld]'
             end
 
             bash 'move mysql data to datadir' do
               user 'root'
-              code <<-EOH
-              service mysqld stop \
-              && for i in `ls /var/lib/mysql | grep -v mysql.sock` ; do mv /var/lib/mysql/$i #{new_resource.data_dir} ; done
-              EOH
+              code "for i in `ls /var/lib/mysql | grep -v mysql.sock` ; do mv /var/lib/mysql/$i #{new_resource.data_dir} ; done"
               action :nothing
               creates "#{new_resource.data_dir}/ibdata1"
               creates "#{new_resource.data_dir}/ib_logfile0"
@@ -136,6 +135,7 @@ class Chef
         action :restart do
           converge_by 'fedora pattern' do
             service 'mysqld' do
+              provider new_resource.init_style if new_resource.init_style
               supports :restart => true
               action :restart
             end
@@ -145,6 +145,7 @@ class Chef
         action :reload do
           converge_by 'fedora pattern' do
             service 'mysqld' do
+              provider new_resource.init_style if new_resource.init_style
               action :reload
             end
           end
