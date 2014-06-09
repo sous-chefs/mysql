@@ -12,6 +12,7 @@ driver_config:
   aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
+  availability_zone: <%= ENV['AWS_AVAILABILITY_ZONE'] %>
 
 provisioner:
   name: chef_zero
@@ -122,7 +123,6 @@ platforms:
 - name: omnios-151006
   driver_plugin: ec2
   driver_config:
-    availability_zone: us-east-1d
     image_id: ami-35eb835c
     flavor_id: m3.medium
     username: root
