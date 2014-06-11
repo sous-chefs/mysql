@@ -104,7 +104,7 @@ management on Debian and Debian derived platforms.
 
 The `server_repl_password` parameter allows the user to specify the
 password used by `'repl'@'%'`, used in clustering scenarios. When
-omitted, it does create the repl user or set a password.
+omitted, it does not create the repl user or set a password.
 
 The mysql_service resource supports :create, :restart, and :reload actions.
 
