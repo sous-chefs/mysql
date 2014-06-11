@@ -17,14 +17,6 @@
 # limitations under the License.
 #
 
-case node['platform_version'].to_i.to_s
-when '6'
-  case node['mysql']['version']
-  when '5.5', '5.6'
-    include_recipe 'yum-ius'
-  end
-end
-
 mysql_service node['mysql']['service_name'] do
   version node['mysql']['version']
   port node['mysql']['port']
