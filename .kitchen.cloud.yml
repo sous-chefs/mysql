@@ -208,6 +208,7 @@ suites:
     - recipe[mysql_test_custom::server]
     includes: [
       'centos-5.8',
+      'centos-6.5',
       'amazon-2014.03',
       'fedora-19',
       'debian-7.0',
@@ -227,6 +228,7 @@ suites:
     - recipe[mysql_test_custom::server]
     includes: [
       'centos-5.8',
+      'centos-6.5',
       'amazon-2014.03',
       'fedora-19',
       'debian-7.0',
@@ -249,6 +251,7 @@ suites:
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
+      'centos-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
       'omnios-151006',
@@ -261,6 +264,7 @@ suites:
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
+      'centos-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
       'omnios-151006'

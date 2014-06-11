@@ -16,3 +16,5 @@ supports 'ubuntu'
 supports 'smartos'
 supports 'omnios'
 supports 'freebsd'
+
+depends 'yum-mysql-community'
