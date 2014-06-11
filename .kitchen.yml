@@ -16,7 +16,6 @@ platforms:
     run_list:
       - recipe[freebsd::portsnap]
   - name: freebsd-10.0
-      - recipe[freebsd::portsnap]
   - name: omnios-r151006j-r1
     driver:
       box: omnios-r151006j-r1
