@@ -3,6 +3,14 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.3.0 (2014-06-11)
+-------------------
+- #189 - Fix server_repl_password description
+- #191 - Adding support for server55 and server56 on el-6
+- #193 - Fix syntax in mysql_service example
+- #199 - Adding Suse support
+
+
 v5.2.12 (2014-05-19)
 --------------------
 PR #192 - recipes/server.rb should honor parameter node['mysql']['version']
