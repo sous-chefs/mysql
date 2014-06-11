@@ -13,7 +13,10 @@ platforms:
   - name: fedora-19
   - name: fedora-20
   - name: freebsd-9.2
+    run_list:
+      - recipe[freebsd::portsnap]
   - name: freebsd-10.0
+      - recipe[freebsd::portsnap]
   - name: omnios-r151006j-r1
     driver:
       box: omnios-r151006j-r1
