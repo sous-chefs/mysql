@@ -4,6 +4,7 @@ metadata
 
 group :integration do
   cookbook 'apt'
+  cookbook 'freebsd'
   cookbook 'selinux'
   cookbook 'ips-omniti'
 end

@@ -243,6 +243,13 @@ module Opscode
           },
           'freebsd' => {
             'default_data_dir' => '/var/db/mysql',
+            '9' => {
+              'default_version' => '5.5',
+              '5.5' => {
+                'package_name' => 'mysql55-server',
+                'service_name' => 'mysql-server'
+              }
+            },
             '10' => {
               'default_version' => '5.5',
               '5.5' => {
