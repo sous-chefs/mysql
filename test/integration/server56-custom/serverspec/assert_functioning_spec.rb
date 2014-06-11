@@ -8,10 +8,9 @@ os = property[:os][:family]
 
 if os =~ /Solaris/
   File.open('/etc/release').each do |l|
-    if l =~ /OmniOS/
-      describe command("/opt/mysql56/bin/mysql -u root -pilikerandompasswords -e 'show databases;'") do
-        it { should return_exit_status 0 }
-      end
+    next unless l =~ /OmniOS/
+    describe command("/opt/mysql56/bin/mysql -u root -pilikerandompasswords -e 'show databases;'") do
+      it { should return_exit_status 0 }
     end
   end
 else

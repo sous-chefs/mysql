@@ -8,6 +8,7 @@ describe 'stepped into mysql_test_custom::server on debian-7.2' do
       :version => '7.2'
       ) do |node|
       node.set['mysql']['service_name'] = 'debian_7_2_custom'
+      node.set['mysql']['version'] = '5.5'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data'
       node.set['mysql']['template_source'] = 'custom.erb'

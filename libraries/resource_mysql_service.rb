@@ -93,7 +93,7 @@ class Chef
           arg,
           :kind_of => String,
           :callbacks => {
-            "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do |mysql_version|
+            "is not supported for #{node['platform']}-#{node['platform_version']}" => lambda do |_mysql_version|
               true unless package_name_for(
                 node['platform'],
                 node['platform_family'],

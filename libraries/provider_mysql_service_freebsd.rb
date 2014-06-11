@@ -35,8 +35,8 @@ class Chef
               action :install
             end
 
-            [include_dir, new_resource.data_dir].each do |__dir|
-              directory __dir do
+            [include_dir, new_resource.data_dir].each do |dir|
+              directory dir do
                 owner 'mysql'
                 group 'mysql'
                 mode '0750'

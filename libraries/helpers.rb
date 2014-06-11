@@ -32,6 +32,8 @@ module Opscode
         case
         when platform_family == 'rhel'
           platform == 'amazon' ? platform_version : platform_version.to_i.to_s
+        when platform_family == 'suse'
+          platform_version
         when platform_family == 'fedora'
           platform_version
         when platform_family == 'debian'
@@ -132,6 +134,16 @@ module Opscode
               '5.5' => {
                 'package_name' => 'community-mysql-server',
                 'service_name' => 'mysqld'
+              }
+            }
+          },
+          'suse' => {
+            'default_data_dir' => '/var/lib/mysql',
+            '11.3' => {
+              'default_version' => '5.5',
+              '5.5' => {
+                'package_name' => 'mysql',
+                'service_name' => 'mysql'
               }
             }
           },
