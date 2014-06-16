@@ -36,7 +36,17 @@ class Chef
               run_dir = '/var/run/mysqld'
               pid_file = '/var/run/mysql/mysql.pid'
               socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
+              package_name = 'mysql-community-server'
+              service_name = 'mysqld'
+            when '5.6'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysqld'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql-community-server'
               service_name = 'mysqld'
             end
           when '2014'
@@ -59,9 +69,19 @@ class Chef
               run_dir = '/var/run/mysqld'
               pid_file = '/var/run/mysql/mysql.pid'
               socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
+              package_name = 'mysql-community-server'
               service_name = 'mysqld'
-            end
+            when '5.6'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysqld'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql-community-server'
+              service_name = 'mysqld'
+            end            
           when '6'
             case new_resource.version
             when '5.1'

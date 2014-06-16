@@ -112,7 +112,15 @@ module Opscode
             '2013.09' => {
               'default_version' => '5.1',
               '5.1' => {
-                'package_name' => 'mysql-server',
+                'package_name' => 'mysql-community-server',
+                'service_name' => 'mysqld'
+              },
+              '5.5' => {
+                'package_name' => 'mysql-community-server',
+                'service_name' => 'mysqld'
+              },
+              '5.6' => {
+                'package_name' => 'mysql-community-server',
                 'service_name' => 'mysqld'
               }
             },
@@ -123,7 +131,11 @@ module Opscode
                 'service_name' => 'mysqld'
               },
               '5.5' => {
-                'package_name' => 'mysql55-server',
+                'package_name' => 'mysql-community-server',
+                'service_name' => 'mysqld'
+              },
+              '5.6' => {
+                'package_name' => 'mysql-community-server',
                 'service_name' => 'mysqld'
               }
             }

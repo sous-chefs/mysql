@@ -251,6 +251,7 @@ suites:
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
+      'amazon-2014.03',
       'centos-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
@@ -264,6 +265,7 @@ suites:
     run_list:
     - recipe[mysql_test_custom::server]
     includes: [
+      'amazon-2014.03',
       'centos-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
