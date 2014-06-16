@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.3.2 (2014-06-16)
+-------------------
+- Fixing Amazon Linux support
+
+
 v5.3.0 (2014-06-11)
 -------------------
 - #189 - Fix server_repl_password description
