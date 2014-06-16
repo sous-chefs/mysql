@@ -81,7 +81,7 @@ class Chef
               socket_file = '/var/lib/mysql/mysql.sock'
               package_name = 'mysql-community-server'
               service_name = 'mysqld'
-            end            
+            end
           when '6'
             case new_resource.version
             when '5.1'
