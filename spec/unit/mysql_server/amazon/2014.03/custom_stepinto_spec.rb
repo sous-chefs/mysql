@@ -47,8 +47,8 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
         )
     end
 
-    it 'steps into mysql_service and installs package[community-mysql-server]' do
-      expect(amazon_2014_03_custom_run).to install_package('mysql-server')
+    it 'steps into mysql_service and installs package[mysql-community-server]' do
+      expect(amazon_2014_03_custom_run).to install_package('mysql-community-server')
     end
 
     it 'steps into mysql_service and creates directory[/etc/mysql/conf.d]' do

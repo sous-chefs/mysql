@@ -115,19 +115,19 @@ describe 'mysql_platform_map' do
       it 'returns the correct package for Mysql 5.1' do
         expect(
           package_name_for('amazon', 'rhel', '2013.09', '5.1')
-          ).to eq('mysql-server')
+          ).to eq('mysql-community-server')
       end
 
       it 'returns the correct package for Mysql 5.5' do
         expect(
           package_name_for('amazon', 'rhel', '2013.09', '5.5')
-          ).to eq(nil)
+          ).to eq('mysql-community-server')
       end
 
       it 'returns the correct package for Mysql 5.6' do
         expect(
           package_name_for('amazon', 'rhel', '2013.09', '5.6')
-          ).to eq(nil)
+          ).to eq('mysql-community-server')
       end
     end
 

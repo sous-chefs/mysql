@@ -55,7 +55,7 @@ SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
     end
 
     it 'steps into mysql_service and installs package[community-mysql-server]' do
-      expect(amazon_2014_03_default_run).to install_package('mysql-server')
+      expect(amazon_2014_03_default_run).to install_package('mysql-community-server')
     end
 
     it 'steps into mysql_service and creates directory[/etc/mysql/conf.d]' do
