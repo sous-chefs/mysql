@@ -3,6 +3,11 @@ mysql Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql cookbook.
 
 
+v5.3.6 (2014-06-18)
+-------------------
+- Fixing pid path location. Updating tests to include real RHEL
+
+
 v5.3.4 (2014-06-16)
 -------------------
 - Fixing specs for Amazon Linux server package names
