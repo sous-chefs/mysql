@@ -58,10 +58,22 @@ platforms:
     username: root
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
-- name: fedora-19
+- name: redhat-6.5
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-8d756fe4
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux]
+  attributes:
+    selinux:
+      state: disabled
+
+- name: fedora-20
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3102879
+    image_id: 3243145
     flavor_id: 63
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
@@ -177,6 +189,7 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
+      'redhat-6.5',
       'amazon-2013.09',
       'ubuntu-10.04'
     ]
@@ -190,6 +203,7 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
+      'redhat-6.5',
       'amazon-2013.09',
       'amazon-2014.03',
       'ubuntu-10.04'
@@ -209,6 +223,7 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
+      'redhat-6.5',
       'amazon-2014.03',
       'fedora-19',
       'debian-7.0',
@@ -228,6 +243,7 @@ suites:
     - recipe[mysql_test_custom::server]
     includes: [
       'centos-5.8',
+      'redhat-6.5',
       'centos-6.5',
       'amazon-2014.03',
       'fedora-19',
@@ -253,6 +269,7 @@ suites:
     includes: [
       'amazon-2014.03',
       'centos-6.5',
+      'redhat-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
       'omnios-151006',
@@ -267,6 +284,7 @@ suites:
     includes: [
       'amazon-2014.03',
       'centos-6.5',
+      'redhat-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
       'omnios-151006'
