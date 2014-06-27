@@ -132,7 +132,7 @@ class Chef
           :kind_of => [TrueClass, FalseClass]
           )
       end
-      
+
       # attribute :allow_remote_root, kind_of: [TrueClass,FalseClass]
       def allow_remote_root(arg = nil)
         set_or_return(
