@@ -89,6 +89,7 @@ class Chef
               supports :restart => true, :reload => true
               action [:start, :enable]
               notifies :run, 'execute[wait for mysql]', :immediately
+              only_if { new_resource.should_start_service }
             end
 
             execute 'wait for mysql' do
