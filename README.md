@@ -42,6 +42,10 @@ service to be running at a given time.
 The `mysql_service` resource configures the basic plumbing
 needed to run a simple mysql_service with a minimal configuration.
 
+Please note that when using `notifies` or `subscribes`, the resource
+is `mysql_service`. This means that this cookbook does _not_ setup
+`service[mysql]`.
+
 ### Example
 
     mysql_service 'default' do
