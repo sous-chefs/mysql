@@ -175,7 +175,8 @@ module Opscode
                 'package_name' => 'mysql-server-5.1',
                 'service_name' => 'mysqld'
               }
-            },            '7' => {
+            },            
+            '7' => {
               'default_version' => '5.5',
               '5.5' => {
                 'package_name' => 'mysql-server-5.5',
