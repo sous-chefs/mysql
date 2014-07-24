@@ -94,11 +94,15 @@ module Opscode
             '7' => {
               'default_version' => '5.5',
               '5.1' => {
-                'package_name' => 'mysql51-server',
+                'package_name' => 'mysql-server',
                 'service_name' => 'mysqld'
               },
               '5.5' => {
-                'package_name' => 'mysql55-server',
+                'package_name' => 'mysql-community-server',
+                'service_name' => 'mysqld'
+              },
+              '5.6' => {
+                'package_name' => 'mysql-community-server',
                 'service_name' => 'mysqld'
               }
             },
