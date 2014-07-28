@@ -33,6 +33,10 @@ lc-messages-dir                = <%= @lc_messages_dir %>
 <% end %>
 sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
 
+<% node[:mysql][:tunable].each do |key, value| %>
+<%= key %> = <%= value %>
+<% end %>
+
 [mysql]
 <% if @include_dir %>
 !includedir <%= @include_dir %>
