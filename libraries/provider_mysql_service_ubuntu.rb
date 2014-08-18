@@ -88,7 +88,7 @@ class Chef
               pass_string = '-p' + Shellwords.escape(new_resource.server_root_password)
             end
 
-            pass_string = '-p' + ::File.open('/etc/.mysql_root').read.chomp if ::File.exists?('/etc/.mysql_root')
+            pass_string = '-p' + ::File.open('/etc/.mysql_root').read.chomp if ::File.exist?('/etc/.mysql_root')
 
             execute 'install-grants' do
               cmd = "#{prefix_dir}/bin/mysql"
