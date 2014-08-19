@@ -122,6 +122,7 @@ class Chef
               cmd << "#{pass_string} < /etc/mysql_grants.sql"
               command cmd
               action :nothing
+              notifies :run, 'execute[create root marker]'
             end
 
             bash 'move mysql data to datadir' do
@@ -151,7 +152,7 @@ class Chef
               cmd << ' > /etc/.mysql_root'
               cmd << ' ;/bin/chmod 0600 /etc/.mysql_root'
               command cmd
-              action :run
+              action :nothing
             end
           end
         end

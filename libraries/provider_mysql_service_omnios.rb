@@ -205,6 +205,7 @@ class Chef
               retries 5
               retry_delay 2
               action :nothing
+              notifies :run, 'execute[create root marker]'
             end
 
             execute 'create root marker' do
@@ -213,7 +214,7 @@ class Chef
               cmd << ' > /etc/.mysql_root'
               cmd << ' ;/bin/chmod 0600 /etc/.mysql_root'
               command cmd
-              action :run
+              action :nothing
             end
           end
         end

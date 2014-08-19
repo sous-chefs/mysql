@@ -189,6 +189,7 @@ class Chef
               cmd << "#{pass_string} < #{prefix_dir}/etc/mysql_grants.sql"
               command cmd
               action :nothing
+              notifies :run, 'execute[create root marker]'
             end
 
             execute 'create root marker' do
@@ -197,7 +198,7 @@ class Chef
               cmd << " > #{prefix_dir}/etc/.mysql_root"
               cmd << " ;/bin/chmod 0600 #{prefix_dir}/etc/.mysql_root"
               command cmd
-              action :run
+              action :nothing
             end
           end
         end
