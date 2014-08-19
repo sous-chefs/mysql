@@ -30,6 +30,9 @@ class Chef
           @version
           )
 
+        @package_version = node['mysql']['server_package_version']
+        @package_action = node['mysql']['server_package_action']
+
         @data_dir = default_data_dir_for(node['platform_family'])
 
         @port = '3306'
@@ -111,6 +114,24 @@ class Chef
           :package_name,
           arg,
           :kind_of => String
+          )
+      end
+
+      # attribute :package_version, kind_of: String
+      def package_version(arg = nil)
+        set_or_return(
+          :package_version,
+          arg,
+          :kind_of => String
+          )
+      end
+
+      # attribute :package_action, kind_of: Symbol
+      def package_action(arg = nil)
+        set_or_return(
+          :package_action,
+          arg,
+          :kind_of => Symbol
           )
       end
 
