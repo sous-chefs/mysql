@@ -179,7 +179,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
     end
 
     it 'steps into mysql_service and installs package[mysql55-mysql-server]' do
-      expect(centos_5_8_custom3_run).to install_package('mysql55-mysql-server').with(version: package_version)
+      expect(centos_5_8_custom3_run).to install_package('mysql55-mysql-server').with(:version => package_version)
     end
   end
 

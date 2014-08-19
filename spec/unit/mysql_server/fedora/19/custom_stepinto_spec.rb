@@ -173,7 +173,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
     end
 
     it 'steps into mysql_service and installs package[community-mysql-server]' do
-      expect(fedora_19_custom_run).to install_package('community-mysql-server').with(version: package_version)
+      expect(fedora_19_custom_run).to install_package('community-mysql-server').with(:version => package_version)
     end
   end
 
