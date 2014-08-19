@@ -181,7 +181,7 @@ class Chef
               pass_string = '-p' + Shellwords.escape(new_resource.server_root_password)
             end
 
-            pass_string = '-p' + ::File.open('/etc/.mysql_root').read.chomp if ::File.exist?('/etc/.mysql_root')
+            pass_string = '-p' + ::File.open("#{prefix_dir}/etc/.mysql_root").read.chomp if ::File.exist?("#{prefix_dir}/etc/.mysql_root")
 
             execute 'install-grants' do
               cmd = "#{prefix_dir}/bin/mysql"
@@ -194,8 +194,8 @@ class Chef
             execute 'create root marker' do
               cmd = '/bin/echo'
               cmd << " '#{Shellwords.escape(new_resource.server_root_password)}'"
-              cmd << ' > #{prefix_dir}/etc/.mysql_root'
-              cmd << ' ;/bin/chmod 0600 #{prefix_dir}/etc/.mysql_root'
+              cmd << " > #{prefix_dir}/etc/.mysql_root"
+              cmd << " ;/bin/chmod 0600 #{prefix_dir}/etc/.mysql_root"
               command cmd
               action :run
             end
