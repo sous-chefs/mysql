@@ -23,7 +23,8 @@ class Chef
             package_name = 'community-mysql-server'
 
             package package_name do
-              action :install
+              action new_resource.package_action
+              version new_resource.package_version
             end
 
             directory include_dir do
