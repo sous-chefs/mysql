@@ -59,6 +59,7 @@ is `mysql_service`. This means that this cookbook does _not_ setup
       remove_test_database false
       server_root_password 'decrypt_me_from_a_databag_maybe'
       server_repl_password 'sync_me_baby_one_more_time'
+      enable_utf8 true
       action :create
     end
 
@@ -109,6 +110,9 @@ management on Debian and Debian derived platforms.
 The `server_repl_password` parameter allows the user to specify the
 password used by `'repl'@'%'`, used in clustering scenarios. When
 omitted, it does not create the repl user or set a password.
+
+The `enable_utf8` parameter allows the user to change default
+charset to utf8.
 
 The mysql_service resource supports :create, :restart, and :reload actions.
 

@@ -5,6 +5,9 @@ port                           = <%= @port %>
 <% if @socket %>
 socket                         = <%= @socket_file %>
 <% end %>
+<% if @enable_utf8 %>
+default-character-set          = utf8
+<% end %>
 
 [mysqld_safe]
 socket                         = <%= @socket_file %>
@@ -32,8 +35,16 @@ tmpdir                         = /tmp
 lc-messages-dir                = <%= @lc_messages_dir %>
 <% end %>
 sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+<% if @enable_utf8 %>
+collation-server               = utf8_general_ci
+init-connect                   = 'SET NAMES utf8'
+character-set-server           = utf8
+<% end %>
 
 [mysql]
 <% if @include_dir %>
 !includedir <%= @include_dir %>
+<% end %>
+<% if @enable_utf8 %>
+default-character-set          = utf8
 <% end %>

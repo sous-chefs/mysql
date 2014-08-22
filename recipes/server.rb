@@ -29,5 +29,6 @@ mysql_service node['mysql']['service_name'] do
   remove_test_database node['mysql']['remove_test_database']
   root_network_acl node['mysql']['root_network_acl']
   version node['mysql']['version']
+  enable_utf8 node['mysql']['enable_utf8']
   action :create
 end

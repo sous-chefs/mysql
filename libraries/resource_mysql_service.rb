@@ -43,6 +43,7 @@ class Chef
         @server_root_password = 'ilikerandompasswords'
         @server_debian_password = 'gnuslashlinux4ev4r'
         @server_repl_password = nil
+        @enable_utf8 = false
       end
 
       # attribute :service_name, kind_of: String
@@ -183,6 +184,14 @@ class Chef
           :server_repl_password,
           arg,
           :kind_of => String
+          )
+      end
+
+      def enable_utf8(arg = nil)
+        set_or_return(
+          :enable_utf8,
+          arg,
+          :kind_of => [TrueClass, FalseClass]
           )
       end
 

@@ -71,7 +71,8 @@ class Chef
                 :include_dir => '/etc/mysql/conf.d',
                 :pid_file => '/var/run/mysql/mysql.pid',
                 :port => new_resource.port,
-                :socket_file => '/var/lib/mysql/mysql.sock'
+                :socket_file => '/var/lib/mysql/mysql.sock',
+                :enable_utf8 => new_resource.enable_utf8
                 )
               action :create
               notifies :run, 'bash[move mysql data to datadir]'
