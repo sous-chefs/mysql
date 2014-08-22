@@ -90,7 +90,8 @@ class Chef
                 :pid_file => pid_file,
                 :socket_file => socket_file,
                 :port => new_resource.port,
-                :include_dir => include_dir
+                :include_dir => include_dir,
+                :enable_utf8 => new_resource.enable_utf8
                 )
               action :create
               notifies :run, 'bash[move mysql data to datadir]', :immediately
