@@ -57,7 +57,7 @@ class Chef
 
             # service
             service 'mysql' do
-              provider Chef::Provider::Service::Init::Debian
+              provider new_resource.init_style || Chef::Provider::Service::Init::Debian
               supports :restart => true
               action [:start, :enable]
             end
@@ -149,16 +149,14 @@ class Chef
                 :include_dir => include_dir
                 )
               action :create
+              notifies :stop, 'service[mysql]'
               notifies :run, 'bash[move mysql data to datadir]'
-              notifies :restart, 'service[mysql]'
+              notifies :start, 'service[mysql]'
             end
 
             bash 'move mysql data to datadir' do
               user 'root'
-              code <<-EOH
-              service mysql stop \
-              && mv /var/lib/mysql/* #{new_resource.data_dir}
-              EOH
+              code "mv /var/lib/mysql/* #{new_resource.data_dir}"
               creates "#{new_resource.data_dir}/ibdata1"
               creates "#{new_resource.data_dir}/ib_logfile0"
               creates "#{new_resource.data_dir}/ib_logfile1"
@@ -170,7 +168,7 @@ class Chef
         action :restart do
           converge_by 'debian pattern' do
             service 'mysql' do
-              provider Chef::Provider::Service::Init::Debian
+              provider new_resource.init_style || Chef::Provider::Service::Init::Debian
               supports :restart => true
               action :restart
             end
@@ -180,7 +178,7 @@ class Chef
         action :reload do
           converge_by 'debian pattern' do
             service 'mysql' do
-              provider Chef::Provider::Service::Init::Debian
+              provider new_resource.init_style || Chef::Provider::Service::Init::Debian
               action :reload
             end
           end
