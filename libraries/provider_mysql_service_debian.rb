@@ -60,6 +60,7 @@ class Chef
               provider Chef::Provider::Service::Init::Debian
               supports :restart => true
               action [:start, :enable]
+              only_if { new_resource.should_start_service }
             end
 
             execute 'assign-root-password' do

@@ -147,6 +147,7 @@ class Chef
             service 'mysql' do
               supports :reload => true
               action [:start, :enable]
+              only_if { new_resource.should_start_service }
             end
 
             execute 'wait for mysql' do

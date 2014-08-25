@@ -35,6 +35,7 @@ class Chef
         @port = '3306'
         @template_source = nil
 
+        @should_start_service = true
         @allow_remote_root = false
         @remove_anonymous_users = true
         @remove_test_database = true
@@ -120,6 +121,15 @@ class Chef
           :data_dir,
           arg,
           :kind_of => String
+          )
+      end
+
+      # attribute :should_start_service, kind_of: [TrueClass,FalseClass]
+      def should_start_service(arg = nil)
+        set_or_return(
+          :should_start_service,
+          arg,
+          :kind_of => [TrueClass, FalseClass]
           )
       end
 

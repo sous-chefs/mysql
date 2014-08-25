@@ -229,6 +229,7 @@ class Chef
             service service_name do
               supports :restart => true
               action [:start, :enable]
+              only_if { new_resource.should_start_service }
             end
 
             execute 'wait for mysql' do
