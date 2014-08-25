@@ -139,19 +139,19 @@ platforms:
   run_list:
   - recipe[apt]
 
-- name: smartos-13.4.0
-  driver_plugin: joyent
-  driver_config:
-    joyent_image_id: ff86eb8a-a069-11e3-ae0e-4f3c8983a91c
-    joyent_flavor_id: g3-standard-4-smartos
-    username: root
-    ssh_key: <%= ENV['SDC_CLI_IDENTITY'] %>
-  busser:
-    ruby_bindir: '/opt/local/bin/'
-  provisioner:
-    name: chef_zero
-    sudo: false
-    chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
+# - name: smartos-13.4.0
+#   driver_plugin: joyent
+#   driver_config:
+#     joyent_image_id: ff86eb8a-a069-11e3-ae0e-4f3c8983a91c
+#     joyent_flavor_id: g3-standard-4-smartos
+#     username: root
+#     ssh_key: <%= ENV['SDC_CLI_IDENTITY'] %>
+#   busser:
+#     ruby_bindir: '/opt/local/bin/'
+#   provisioner:
+#     name: chef_zero
+#     sudo: false
+#     chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
 
 - name: omnios-151006
   driver_plugin: ec2
