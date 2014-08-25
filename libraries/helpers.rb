@@ -169,6 +169,13 @@ module Opscode
           },
           'debian' => {
             'default_data_dir' => '/var/lib/mysql',
+            '6' => {
+              'default_version' => '5.1',
+              '5.1' => {
+                'package_name' => 'mysql-server-5.1',
+                'service_name' => 'mysqld'
+              }
+            },            
             '7' => {
               'default_version' => '5.5',
               '5.5' => {
