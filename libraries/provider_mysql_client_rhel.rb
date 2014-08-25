@@ -4,30 +4,8 @@ class Chef
   class Provider
     class MysqlClient
       class Rhel < Chef::Provider::MysqlClient
-        use_inline_resources if defined?(use_inline_resources)
-
-        def whyrun_supported?
-          true
-        end
-
-        action :create do
-          converge_by 'rhel pattern' do
-            %w(mysql mysql-devel).each do |p|
-              package p do
-                action :install
-              end
-            end
-          end
-        end
-
-        action :delete do
-          converge_by 'rhel pattern' do
-            %w(mysql mysql-devel).each do |p|
-              package p do
-                action :remove
-              end
-            end
-          end
+        def packages
+          %w(mysql mysql-devel)
         end
       end
     end
