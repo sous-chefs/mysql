@@ -37,6 +37,20 @@ platforms:
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
+- name: centos-7.0
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 4856048
+    flavor_id: 63
+    region_id: 8
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux]
+  attributes:
+    selinux:
+      state: disabled
+
 - name: amazon-2013.09
   driver_plugin: ec2
   driver_config:
@@ -106,9 +120,9 @@ platforms:
 - name: ubuntu-12.04
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3101045
+    image_id: 5588928
     flavor_id: 63
-    region_id: 4
+    region_id: 8
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
@@ -117,9 +131,9 @@ platforms:
 - name: ubuntu-14.04
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3240036
+    image_id: 5141286
     flavor_id: 63
-    region_id: 4
+    region_id: 8
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
@@ -158,6 +172,13 @@ suites:
   - name: client
     run_list:
     - recipe[mysql_client_test]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'redhat-6.5',
+      'amazon-2013.09',
+      'ubuntu-10.04'
+    ]
 
   #
   # server5.0
@@ -225,6 +246,7 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
+      'centos-7.0',
       'redhat-6.5',
       'amazon-2014.03',
       'fedora-19',
@@ -247,6 +269,7 @@ suites:
       'centos-5.8',
       'redhat-6.5',
       'centos-6.5',
+      'centos-7.0',
       'amazon-2014.03',
       'fedora-19',
       'debian-7.0',
@@ -272,6 +295,7 @@ suites:
     includes: [
       'amazon-2014.03',
       'centos-6.5',
+      'centos-7.0',
       'redhat-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
@@ -287,6 +311,7 @@ suites:
     includes: [
       'amazon-2014.03',
       'centos-6.5',
+      'centos-7.0',
       'redhat-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
