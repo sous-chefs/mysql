@@ -33,11 +33,6 @@ class Chef
             action :install
           end
 
-          # case node['platform_version'].to_i
-          #   when 2013, 2014
-          #   require 'pry'; binding.pry
-          # end
-
           directory include_dir do
             owner 'mysql'
             group 'mysql'
@@ -83,14 +78,6 @@ class Chef
             action :create
             notifies :run, 'execute[install-grants]'
           end
-
-          if new_resource.parsed_server_root_password.empty?
-            pass_string = ''
-          else
-            pass_string = '-p' + Shellwords.escape(new_resource.parsed_server_root_password)
-          end
-
-          pass_string = '-p' + ::File.open('/etc/.mysql_root').read.chomp if ::File.exist?('/etc/.mysql_root')
 
           execute 'install-grants' do
             cmd = "#{prefix_dir}/bin/mysql"
@@ -157,13 +144,6 @@ class Chef
         end
 
         action :restart do
-          service_name = service_name_for(
-            node['platform'],
-            node['platform_family'],
-            node['platform_version'],
-            new_resource.parsed_version
-            )
-
           service service_name do
             supports :restart => true
             action :restart
@@ -171,13 +151,6 @@ class Chef
         end
 
         action :reload do
-          service_name = service_name_for(
-            node['platform'],
-            node['platform_family'],
-            node['platform_version'],
-            new_resource.parsed_version
-            )
-
           service service_name do
             action :reload
           end

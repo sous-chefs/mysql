@@ -27,12 +27,8 @@ module Mysql
       end
 
       def rc_name
-        service_name_for(
-          node['platform'],
-          node['platform_family'],
-          node['platform_version'],
-          new_resource.parsed_version
-          )
+        rc_name = 'mysql-server'
+        rc_name
       end
 
       def run_dir
