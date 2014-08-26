@@ -1,9 +1,6 @@
 require 'chef/provider/lwrp_base'
 require 'shellwords'
-require_relative 'helpers'
 require_relative 'helpers_rhel'
-
-extend Opscode::Mysql::Helpers
 
 class Chef
   class Provider
@@ -18,174 +15,6 @@ class Chef
         include Mysql::Helpers::Rhel
 
         action :create do
-          case node['platform_version'].to_i.to_s
-          when '2013'
-            case new_resource.parsed_version
-            when '5.1'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysqld'
-            when '5.5'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-community-server'
-              service_name = 'mysqld'
-            when '5.6'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-community-server'
-              service_name = 'mysqld'
-            end
-          when '2014'
-            case new_resource.parsed_version
-            when '5.1'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysqld'
-            when '5.5'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-community-server'
-              service_name = 'mysqld'
-            when '5.6'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-community-server'
-              service_name = 'mysqld'
-            end
-          when '7'
-            case new_resource.parsed_version
-            when '5.1'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysqld'
-            when '5.5'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-community-server'
-              service_name = 'mysqld'
-            when '5.6'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-community-server'
-              service_name = 'mysqld'
-            end
-          when '6'
-            case new_resource.parsed_version
-            when '5.1'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysqld'
-            when '5.5'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-community-server'
-              service_name = 'mysqld'
-            when '5.6'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-community-server'
-              service_name = 'mysqld'
-            end
-          when '5'
-            case new_resource.parsed_version
-            when '5.0'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysqld'
-            when '5.1'
-              base_dir = '/opt/rh/mysql51/root'
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/opt/rh/mysql51/root/usr'
-              lc_messages_dir = nil
-              run_dir = '/opt/rh/mysql51/root/var/run/mysqld/'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql51-mysql-server'
-              service_name = 'mysql51-mysqld'
-            when '5.5'
-              base_dir = '/opt/rh/mysql55/root'
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/opt/rh/mysql55/root/usr'
-              lc_messages_dir = nil
-              run_dir = '/opt/rh/mysql55/root/var/run/mysqld/'
-              pid_file = '/var/run/mysqld/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql55-mysql-server'
-              service_name = 'mysql55-mysqld'
-            end
-          end
-
           # we need to enable the yum-mysql-community repository to get packages
           unless node['platform_version'].to_i == 5
             case new_resource.parsed_version
@@ -200,9 +29,14 @@ class Chef
             end
           end
 
-          package package_name do
+          package new_resource.parsed_package_name do
             action :install
           end
+
+          # case node['platform_version'].to_i
+          #   when 2013, 2014
+          #   require 'pry'; binding.pry
+          # end
 
           directory include_dir do
             owner 'mysql'

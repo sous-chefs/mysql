@@ -112,7 +112,7 @@ module Opscode
             '2013.09' => {
               'default_version' => '5.1',
               '5.1' => {
-                'package_name' => 'mysql-community-server',
+                'package_name' => 'mysql-server',
                 'service_name' => 'mysqld'
               },
               '5.5' => {
