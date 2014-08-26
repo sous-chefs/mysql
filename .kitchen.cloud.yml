@@ -106,17 +106,6 @@ platforms:
   run_list:
   - recipe[apt]
 
-- name: ubuntu-10.04
-  driver_plugin: digitalocean
-  driver_config:
-    image_id: 5566812
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-  run_list:
-  - recipe[apt]
-
 - name: ubuntu-12.04
   driver_plugin: digitalocean
   driver_config:
@@ -176,8 +165,7 @@ suites:
       'centos-5.8',
       'centos-6.5',
       'redhat-6.5',
-      'amazon-2013.09',
-      'ubuntu-10.04'
+      'amazon-2013.09'
     ]
 
   #
@@ -212,8 +200,7 @@ suites:
       'centos-5.8',
       'centos-6.5',
       'redhat-6.5',
-      'amazon-2013.09',
-      'ubuntu-10.04'
+      'amazon-2013.09'
     ]
     attributes:
       mysql:
@@ -227,8 +214,7 @@ suites:
       'centos-6.5',
       'redhat-6.5',
       'amazon-2013.09',
-      'amazon-2014.03',
-      'ubuntu-10.04'
+      'amazon-2014.03'
     ]
     attributes:
       mysql:
@@ -331,5 +317,5 @@ suites:
     run_list:
     - recipe[mysql_test_wrapper::server]
     includes: [
-      'ubuntu-14.04',
+      'ubuntu-14.04'
     ]
