@@ -11,5 +11,3 @@ class Chef
     end
   end
 end
-
-Chef::Platform.set :platform => :freebsd, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::FreeBSD

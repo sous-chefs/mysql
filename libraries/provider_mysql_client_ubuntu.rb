@@ -11,5 +11,3 @@ class Chef
     end
   end
 end
-
-Chef::Platform.set :platform => :ubuntu, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Ubuntu

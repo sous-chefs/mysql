@@ -16,10 +16,10 @@ describe 'mysql_test_custom::server on omnios-151006' do
   context 'when using an supported version' do
     it 'creates the resource with the correct parameters' do
       expect(omnios_151006_supported_run).to create_mysql_service('omnios_151006_supported').with(
-        :version => '5.6',
-        :package_name => 'database/mysql-56',
-        :port => '3308',
-        :data_dir => '/data'
+        :parsed_version => '5.6',
+        :parsed_package_name => 'database/mysql-56',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data'
         )
     end
   end

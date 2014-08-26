@@ -11,5 +11,3 @@ class Chef
     end
   end
 end
-
-Chef::Platform.set :platform => :fedora, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Fedora

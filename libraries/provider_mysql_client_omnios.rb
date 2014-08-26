@@ -11,5 +11,3 @@ class Chef
     end
   end
 end
-
-Chef::Platform.set :platform => :omnios, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Omnios

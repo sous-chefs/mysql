@@ -1,5 +1,3 @@
-require 'chef/provider'
-
 class Chef
   class Provider
     class MysqlClient < Chef::Provider::LWRPBase
@@ -10,21 +8,17 @@ class Chef
       end
 
       action :create do
-        converge_by 'installing packages' do
-          packages.each do |p|
-            package p do
-              action :install
-            end
+        packages.each do |p|
+          package p do
+            action :install
           end
         end
       end
 
       action :delete do
-        converge_by 'removing packages' do
-          packages.each do |p|
-            package p do
-              action :remove
-            end
+        packages.each do |p|
+          package p do
+            action :remove
           end
         end
       end

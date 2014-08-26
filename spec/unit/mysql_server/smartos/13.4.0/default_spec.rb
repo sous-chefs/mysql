@@ -13,10 +13,10 @@ describe 'mysql_test_default::server on smartos-5.11' do
   context 'when using default parameters' do
     it 'creates mysql_service[smartos_13_4_0_default]' do
       expect(smartos_13_4_0_default_run).to create_mysql_service('smartos_13_4_0_default').with(
-        :version => '5.5',
-        :port => '3306',
-        :package_name => 'mysql-server',
-        :data_dir => '/opt/local/lib/mysql'
+        :parsed_version => '5.5',
+        :parsed_port => '3306',
+        :parsed_package_name => 'mysql-server',
+        :parsed_data_dir => '/opt/local/lib/mysql'
         )
     end
   end

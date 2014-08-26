@@ -20,7 +20,7 @@ Documentation:
   Enabled: false
 
 CyclomaticComplexity:
-  Max: 10
+  Max: 12
 
 Style/FileName:
   Enabled: false
