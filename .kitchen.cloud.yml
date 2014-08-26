@@ -37,6 +37,20 @@ platforms:
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
+- name: centos-7.0
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 4856048
+    flavor_id: 63
+    region_id: 8
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux]
+  attributes:
+    selinux:
+      state: disabled
+
 - name: amazon-2013.09
   driver_plugin: ec2
   driver_config:
@@ -92,23 +106,12 @@ platforms:
   run_list:
   - recipe[apt]
 
-- name: ubuntu-10.04
-  driver_plugin: digitalocean
-  driver_config:
-    image_id: 14097
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-  run_list:
-  - recipe[apt]
-
 - name: ubuntu-12.04
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3101045
+    image_id: 5588928
     flavor_id: 63
-    region_id: 4
+    region_id: 8
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
@@ -117,27 +120,27 @@ platforms:
 - name: ubuntu-14.04
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3240036
+    image_id: 5141286
     flavor_id: 63
-    region_id: 4
+    region_id: 8
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
 
-- name: smartos-13.4.0
-  driver_plugin: joyent
-  driver_config:
-    joyent_image_id: ff86eb8a-a069-11e3-ae0e-4f3c8983a91c
-    joyent_flavor_id: g3-standard-4-smartos
-    username: root
-    ssh_key: <%= ENV['SDC_CLI_IDENTITY'] %>
-  busser:
-    ruby_bindir: '/opt/local/bin/'
-  provisioner:
-    name: chef_zero
-    sudo: false
-    chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
+# - name: smartos-13.4.0
+#   driver_plugin: joyent
+#   driver_config:
+#     joyent_image_id: ff86eb8a-a069-11e3-ae0e-4f3c8983a91c
+#     joyent_flavor_id: g3-standard-4-smartos
+#     username: root
+#     ssh_key: <%= ENV['SDC_CLI_IDENTITY'] %>
+#   busser:
+#     ruby_bindir: '/opt/local/bin/'
+#   provisioner:
+#     name: chef_zero
+#     sudo: false
+#     chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
 
 - name: omnios-151006
   driver_plugin: ec2
@@ -158,6 +161,12 @@ suites:
   - name: client
     run_list:
     - recipe[mysql_client_test]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'redhat-6.5',
+      'amazon-2013.09'
+    ]
 
   #
   # server5.0
@@ -191,8 +200,7 @@ suites:
       'centos-5.8',
       'centos-6.5',
       'redhat-6.5',
-      'amazon-2013.09',
-      'ubuntu-10.04'
+      'amazon-2013.09'
     ]
     attributes:
       mysql:
@@ -206,8 +214,7 @@ suites:
       'centos-6.5',
       'redhat-6.5',
       'amazon-2013.09',
-      'amazon-2014.03',
-      'ubuntu-10.04'
+      'amazon-2014.03'
     ]
     attributes:
       mysql:
@@ -225,6 +232,7 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
+      'centos-7.0',
       'redhat-6.5',
       'amazon-2014.03',
       'fedora-19',
@@ -247,6 +255,7 @@ suites:
       'centos-5.8',
       'redhat-6.5',
       'centos-6.5',
+      'centos-7.0',
       'amazon-2014.03',
       'fedora-19',
       'debian-7.0',
@@ -272,6 +281,7 @@ suites:
     includes: [
       'amazon-2014.03',
       'centos-6.5',
+      'centos-7.0',
       'redhat-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
@@ -287,6 +297,7 @@ suites:
     includes: [
       'amazon-2014.03',
       'centos-6.5',
+      'centos-7.0',
       'redhat-6.5',
       'ubuntu-14.04',
       'smartos-13.4.0',
@@ -306,5 +317,5 @@ suites:
     run_list:
     - recipe[mysql_test_wrapper::server]
     includes: [
-      'ubuntu-14.04',
+      'ubuntu-14.04'
     ]

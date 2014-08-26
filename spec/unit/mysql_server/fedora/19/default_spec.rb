@@ -13,9 +13,9 @@ describe 'mysql_test_default::mysql_service_attribues on fedora-19' do
   context 'when using default parameters' do
     it 'creates mysql_service[fedora_19_default]' do
       expect(fedora_19_default_run).to create_mysql_service('fedora_19_default').with(
-        :version => '5.5',
-        :port => '3306',
-        :data_dir => '/var/lib/mysql'
+        :parsed_version => '5.5',
+        :parsed_port => '3306',
+        :parsed_data_dir => '/var/lib/mysql'
         )
     end
   end

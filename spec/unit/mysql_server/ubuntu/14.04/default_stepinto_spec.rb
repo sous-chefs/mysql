@@ -48,9 +48,9 @@ SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('ilikerandompasswords');"
   context 'when using default parameters' do
     it 'creates mysql_service[ubuntu_14_04_default]' do
       expect(ubuntu_14_04_default_run).to create_mysql_service('ubuntu_14_04_default').with(
-        :version => '5.5',
-        :port => '3306',
-        :data_dir => '/var/lib/mysql'
+        :parsed_version => '5.5',
+        :parsed_port => '3306',
+        :parsed_data_dir => '/var/lib/mysql'
         )
     end
 

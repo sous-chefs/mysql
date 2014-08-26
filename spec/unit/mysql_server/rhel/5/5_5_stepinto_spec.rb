@@ -165,7 +165,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
         node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
         node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
         node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
-        node.set['mysql']['server_package_version'] = '5.5.35-1.el6'
+        node.set['mysql']['server_package_version'] = package_version
       end.converge('mysql_test_custom::server')
     end
 
@@ -184,7 +184,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
   end
 
   context 'when using non-default package_action parameter' do
-    let(:package_action) { :upgrade }
+    let(:package_action) { 'upgrade' }
     let(:centos_5_8_custom3_run) do
       ChefSpec::Runner.new(
         :step_into => 'mysql_service',
@@ -203,11 +203,11 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
         node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
         node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
         node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
-        node.set['mysql']['server_package_action'] = :upgrade
+        node.set['mysql']['server_package_action'] = package_action
       end.converge('mysql_test_custom::server')
     end
 
-    it 'creates mysql_service[centos_5_8_custom3] with correct package_version' do
+    it 'creates mysql_service[centos_5_8_custom3] with correct package_action' do
       expect(centos_5_8_custom3_run).to create_mysql_service('centos_5_8_custom3').with(
         :version => '5.5',
         :port => '3308',

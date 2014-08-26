@@ -25,9 +25,9 @@ describe 'stepped into mysql_test_custom::server on centos-6.4' do
   context 'when using default parameters' do
     it 'creates mysql_service[centos_6_4_default]' do
       expect(centos_6_4_default_run).to create_mysql_service('centos_6_4_default').with(
-        :version => '5.1',
-        :port => '3308',
-        :data_dir => '/data'
+        :parsed_version => '5.1',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data'
         )
     end
 

@@ -12,7 +12,7 @@ class Chef
 
         action :create do
           converge_by 'suse pattern' do
-            %w(mysql-client).each do |p|
+            %w(mysql-client libmysqlclient-devel).each do |p|
               package p do
                 action :install
               end
@@ -22,7 +22,7 @@ class Chef
 
         action :delete do
           converge_by 'suse pattern' do
-            %w(mysql-client).each do |p|
+            %w(mysql-client libmysqlclient-devel).each do |p|
               package p do
                 action :remove
               end
@@ -33,5 +33,3 @@ class Chef
     end
   end
 end
-
-Chef::Platform.set :platform => :suse, :resource => :mysql_client, :provider => Chef::Provider::MysqlClient::Suse

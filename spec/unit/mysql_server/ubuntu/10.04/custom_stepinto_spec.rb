@@ -41,9 +41,9 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
   context 'when using default parameters' do
     it 'creates mysql_service[ubuntu_10_04_default]' do
       expect(ubuntu_10_04_custom_run).to create_mysql_service('ubuntu_10_04_default').with(
-        :version => '5.1',
-        :port => '3308',
-        :data_dir => '/data'
+        :parsed_version => '5.1',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data'
         )
     end
 
@@ -194,6 +194,80 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
 
     it 'steps into mysql_service and writes log[notify reload]' do
       expect(ubuntu_10_04_custom_run).to write_log('notify reload')
+    end
+  end
+
+  context 'when using non-default package_version parameter' do
+    let(:package_version) { '5.1.73-1.el6' }
+    let(:ubuntu_10_04_custom_run) do
+      ChefSpec::Runner.new(
+        :step_into => 'mysql_service',
+        :platform => 'ubuntu',
+        :version => '10.04'
+        ) do |node|
+        node.set['mysql']['service_name'] = 'ubuntu_10_04_custom'
+        node.set['mysql']['port'] = '3308'
+        node.set['mysql']['data_dir'] = '/data'
+        node.set['mysql']['template_source'] = 'custom.erb'
+        node.set['mysql']['allow_remote_root'] = true
+        node.set['mysql']['remove_anonymous_users'] = false
+        node.set['mysql']['remove_test_database'] = false
+        node.set['mysql']['root_network_acl'] = ['10.9.8.7/6', '1.2.3.4/5']
+        node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
+        node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
+        node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
+        node.set['mysql']['server_package_version'] = package_version
+      end.converge('mysql_test_custom::server')
+    end
+
+    it 'creates mysql_service[ubuntu_10_04_custom] with correct package_version' do
+      expect(ubuntu_10_04_custom_run).to create_mysql_service('ubuntu_10_04_custom').with(
+        :parsed_version => '5.1',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data',
+        :parsed_package_version => package_version
+        )
+    end
+
+    it 'steps into mysql_service and installs package[mysql-server-5.1]' do
+      expect(ubuntu_10_04_custom_run).to install_package('mysql-server-5.1').with(:version => package_version)
+    end
+  end
+
+  context 'when using non-default package_action parameter' do
+    let(:package_action) { 'upgrade' }
+    let(:ubuntu_10_04_custom_run) do
+      ChefSpec::Runner.new(
+        :step_into => 'mysql_service',
+        :platform => 'ubuntu',
+        :version => '10.04'
+        ) do |node|
+        node.set['mysql']['service_name'] = 'ubuntu_10_04_custom'
+        node.set['mysql']['port'] = '3308'
+        node.set['mysql']['data_dir'] = '/data'
+        node.set['mysql']['template_source'] = 'custom.erb'
+        node.set['mysql']['allow_remote_root'] = true
+        node.set['mysql']['remove_anonymous_users'] = false
+        node.set['mysql']['remove_test_database'] = false
+        node.set['mysql']['root_network_acl'] = ['10.9.8.7/6', '1.2.3.4/5']
+        node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
+        node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
+        node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
+        node.set['mysql']['server_package_action'] = package_action
+      end.converge('mysql_test_custom::server')
+    end
+
+    it 'creates mysql_service[ubuntu_10_04_custom] with correct package_action' do
+      expect(ubuntu_10_04_custom_run).to create_mysql_service('ubuntu_10_04_custom').with(
+        :parsed_version => '5.1',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data',
+        :parsed_package_action => package_action
+        )
+    end
+
+    it 'steps into mysql_service and upgrades package[mysql-server-5.1]' do
+      expect(ubuntu_10_04_custom_run).to upgrade_package('mysql-server-5.1')
     end
   end
 end

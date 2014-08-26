@@ -11,7 +11,7 @@
 #   watch(%r{^resources/(.+)\.rb})
 # end
 
-guard 'foodcritic', cookbook_paths: '.', all_on_start: false do
+guard 'foodcritic', cookbook_paths: '.', cli: '-t ~FC023 -t ~FC005', all_on_start: false do
   watch(%r{attributes/.+\.rb$})
   watch(%r{providers/.+\.rb$})
   watch(%r{recipes/.+\.rb$})
@@ -19,7 +19,7 @@ guard 'foodcritic', cookbook_paths: '.', all_on_start: false do
   watch('metadata.rb')
 end
 
-guard 'rubocop', all_on_start: false do
+guard 'rubocop' do
   watch(%r{attributes/.+\.rb$})
   watch(%r{providers/.+\.rb$})
   watch(%r{recipes/.+\.rb$})
@@ -27,7 +27,7 @@ guard 'rubocop', all_on_start: false do
   watch('metadata.rb')
 end
 
-guard :rspec, cmd: 'bundle exec rspec', all_on_start: false, notification: false do
+guard :rspec, cmd: 'chef exec /opt/chefdk/embedded/bin/rspec', all_on_start: false, notification: false do
   watch(%r{^libraries/(.+)\.rb$})
   watch(%r{^spec/(.+)_spec\.rb$})
   watch(%r{^(recipes)/(.+)\.rb$})   { |m| "spec/#{m[1]}_spec.rb" }

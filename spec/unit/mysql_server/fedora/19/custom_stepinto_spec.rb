@@ -41,9 +41,9 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
   context 'when using default parameters' do
     it 'creates mysql_service[fedora_19_custom]' do
       expect(fedora_19_custom_run).to create_mysql_service('fedora_19_custom').with(
-        :version => '5.5',
-        :port => '3308',
-        :data_dir => '/data'
+        :parsed_version => '5.5',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data'
         )
     end
 
@@ -159,16 +159,16 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
         node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
         node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
         node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
-        node.set['mysql']['server_package_version'] = '5.5.35-1.el6'
+        node.set['mysql']['server_package_version'] = package_version
       end.converge('mysql_test_custom::server')
     end
 
     it 'creates mysql_service[fedora_19_custom] with correct package_version' do
       expect(fedora_19_custom_run).to create_mysql_service('fedora_19_custom').with(
-        :version => '5.5',
-        :port => '3308',
-        :data_dir => '/data',
-        :package_version => package_version
+        :parsed_version => '5.5',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data',
+        :parsed_package_version => package_version
         )
     end
 
@@ -178,7 +178,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
   end
 
   context 'when using non-default package_action parameter' do
-    let(:package_action) { :upgrade }
+    let(:package_action) { 'upgrade' }
     let(:fedora_19_custom_run) do
       ChefSpec::Runner.new(
         :step_into => 'mysql_service',
@@ -196,16 +196,16 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
         node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
         node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
         node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
-        node.set['mysql']['server_package_action'] = :upgrade
+        node.set['mysql']['server_package_action'] = package_action
       end.converge('mysql_test_custom::server')
     end
 
-    it 'creates mysql_service[fedora_19_custom] with correct package_version' do
+    it 'creates mysql_service[fedora_19_custom] with correct package_action' do
       expect(fedora_19_custom_run).to create_mysql_service('fedora_19_custom').with(
-        :version => '5.5',
-        :port => '3308',
-        :data_dir => '/data',
-        :package_action => package_action
+        :parsed_version => '5.5',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data',
+        :parsed_package_action => package_action
         )
     end
 

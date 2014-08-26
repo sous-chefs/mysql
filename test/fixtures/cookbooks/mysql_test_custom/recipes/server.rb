@@ -11,6 +11,8 @@ mysql_service node['mysql']['service_name'] do
   server_root_password node['mysql']['server_root_password']
   server_debian_password node['mysql']['server_debian_password']
   server_repl_password node['mysql']['server_repl_password']
+  package_version node['mysql']['server_package_version']
+  package_action node['mysql']['server_package_action']
   action :create
 end
 

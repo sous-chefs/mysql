@@ -21,3 +21,13 @@ Documentation:
 
 CyclomaticComplexity:
   Max: 12
+
+PerceivedComplexity:
+  Enabled: false
+
+Style/FileName:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'Guardfile'
