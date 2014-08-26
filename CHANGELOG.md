@@ -2,6 +2,10 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v5.4.2 (2014-08-25)
+-------------------
+- Moving provider local variables into definitions for RHEL provider
+
 v5.4.1 (2014-08-25)
 -------------------
 - Refactoring resources into the LWRP style with parsed parameters
