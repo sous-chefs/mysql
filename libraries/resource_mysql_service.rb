@@ -126,12 +126,12 @@ class Chef
           )
       end
 
-      # attribute :package_action, kind_of: Symbol
+      # attribute :package_action, kind_of: String
       def package_action(arg = nil)
         set_or_return(
           :package_action,
           arg,
-          :kind_of => Symbol
+          :kind_of => String
           )
       end
 

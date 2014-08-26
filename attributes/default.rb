@@ -23,4 +23,4 @@ default['mysql']['port'] = '3306'
 
 # server package version and action
 default['mysql']['server_package_version'] = nil
-default['mysql']['server_package_action'] = :install
+default['mysql']['server_package_action'] = 'install'
