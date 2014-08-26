@@ -2,6 +2,10 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v5.4.3 (2014-08-25)
+-------------------
+- More refactoring. Moving helper function bits into resource parsed_parameters
+
 v5.4.2 (2014-08-25)
 -------------------
 - Moving provider local variables into definitions for RHEL provider
