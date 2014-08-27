@@ -22,7 +22,7 @@ Documentation:
 CyclomaticComplexity:
   Enabled: false
 
-PerceivedComplexity
+PerceivedComplexity:
   Enabled: false
 
 Style/FileName:
