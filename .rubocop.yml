@@ -22,5 +22,8 @@ Documentation:
 CyclomaticComplexity:
   Enabled: false
 
+PerceivedComplexity
+  Enabled: false
+
 Style/FileName:
   Enabled: false
