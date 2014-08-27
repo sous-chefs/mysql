@@ -19,6 +19,9 @@ HashSyntax:
 Documentation:
   Enabled: false
 
+PerceivedComplexity:
+  Enabled: false
+
 CyclomaticComplexity:
   Enabled: false
 
