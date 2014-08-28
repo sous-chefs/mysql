@@ -15,7 +15,7 @@ class Chef
           true
         end
 
-        include Mysql::Helpers::Suse
+        include MysqlCookbook::Helpers::Suse
 
         action :create do
           package 'mysql' do

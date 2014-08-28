@@ -12,7 +12,7 @@ class Chef
           true
         end
 
-        include Mysql::Helpers::Fedora
+        include MysqlCookbook::Helpers::Fedora
 
         action :create do
           package new_resource.parsed_package_name do

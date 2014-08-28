@@ -12,7 +12,7 @@ class Chef
           true
         end
 
-        include Mysql::Helpers::Ubuntu
+        include MysqlCookbook::Helpers::Ubuntu
 
         action :create do
           package 'debconf-utils' do

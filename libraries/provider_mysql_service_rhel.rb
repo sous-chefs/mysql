@@ -12,7 +12,7 @@ class Chef
           true
         end
 
-        include Mysql::Helpers::Rhel
+        include MysqlCookbook::Helpers::Rhel
 
         action :create do
           # we need to enable the yum-mysql-community repository to get packages

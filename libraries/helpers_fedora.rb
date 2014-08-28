@@ -1,4 +1,4 @@
-module Mysql
+module MysqlCookbook
   module Helpers
     module Fedora
       def include_dir

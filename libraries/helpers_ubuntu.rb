@@ -1,4 +1,4 @@
-module Mysql
+module MysqlCookbook
   module Helpers
     module Ubuntu
       def include_dir

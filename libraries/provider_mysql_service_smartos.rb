@@ -12,7 +12,7 @@ class Chef
           true
         end
 
-        include Mysql::Helpers::SmartOS
+        include MysqlCookbook::Helpers::SmartOS
 
         action :create do
           package new_resource.parsed_package_name do

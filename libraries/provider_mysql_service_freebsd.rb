@@ -14,7 +14,7 @@ class Chef
           true
         end
 
-        include Mysql::Helpers::FreeBSD
+        include MysqlCookbook::Helpers::FreeBSD
 
         action :create do
           package new_resource.parsed_package_name do
