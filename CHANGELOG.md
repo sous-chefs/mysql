@@ -2,6 +2,11 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v5.5.0 (2014-08-27)
+-------------------
+- Adding package version and action parameters to mysql_service resource
+- Fixing Debian pass_string
+
 v5.4.4 (2014-08-27)
 -------------------
 - Changing module namespace to MysqlCookbook
