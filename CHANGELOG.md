@@ -2,6 +2,10 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v5.5.1 (2014-09-2)
+------------------
+- Switching Ubuntu service provider to use SysVinit instead of Upstart
+
 v5.5.0 (2014-08-27)
 -------------------
 - Adding package version and action parameters to mysql_service resource
