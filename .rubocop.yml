@@ -28,6 +28,9 @@ CyclomaticComplexity:
 PerceivedComplexity:
   Enabled: false
 
+PerceivedComplexity:
+  Enabled: false
+
 Style/FileName:
   Enabled: false
 
