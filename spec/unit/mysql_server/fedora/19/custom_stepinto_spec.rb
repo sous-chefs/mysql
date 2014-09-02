@@ -139,4 +139,78 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
       expect(fedora_19_custom_run).to write_log('notify reload')
     end
   end
+
+  context 'when using non-default package_version parameter' do
+    let(:package_version) { '5.5.35-1.el6' }
+    let(:fedora_19_custom_run) do
+      ChefSpec::Runner.new(
+        :step_into => 'mysql_service',
+        :platform => 'fedora',
+        :version => '19'
+        ) do |node|
+        node.set['mysql']['service_name'] = 'fedora_19_custom'
+        node.set['mysql']['port'] = '3308'
+        node.set['mysql']['data_dir'] = '/data'
+        node.set['mysql']['template_source'] = 'custom.erb'
+        node.set['mysql']['allow_remote_root'] = true
+        node.set['mysql']['remove_anonymous_users'] = false
+        node.set['mysql']['remove_test_database'] = false
+        node.set['mysql']['root_network_acl'] = ['10.9.8.7/6', '1.2.3.4/5']
+        node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
+        node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
+        node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
+        node.set['mysql']['server_package_version'] = package_version
+      end.converge('mysql_test_custom::server')
+    end
+
+    it 'creates mysql_service[fedora_19_custom] with correct package_version' do
+      expect(fedora_19_custom_run).to create_mysql_service('fedora_19_custom').with(
+        :parsed_version => '5.5',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data',
+        :parsed_package_version => package_version
+        )
+    end
+
+    it 'steps into mysql_service and installs package[community-mysql-server]' do
+      expect(fedora_19_custom_run).to install_package('community-mysql-server').with(:version => package_version)
+    end
+  end
+
+  context 'when using non-default package_action parameter' do
+    let(:package_action) { 'upgrade' }
+    let(:fedora_19_custom_run) do
+      ChefSpec::Runner.new(
+        :step_into => 'mysql_service',
+        :platform => 'fedora',
+        :version => '19'
+        ) do |node|
+        node.set['mysql']['service_name'] = 'fedora_19_custom'
+        node.set['mysql']['port'] = '3308'
+        node.set['mysql']['data_dir'] = '/data'
+        node.set['mysql']['template_source'] = 'custom.erb'
+        node.set['mysql']['allow_remote_root'] = true
+        node.set['mysql']['remove_anonymous_users'] = false
+        node.set['mysql']['remove_test_database'] = false
+        node.set['mysql']['root_network_acl'] = ['10.9.8.7/6', '1.2.3.4/5']
+        node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
+        node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
+        node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
+        node.set['mysql']['server_package_action'] = package_action
+      end.converge('mysql_test_custom::server')
+    end
+
+    it 'creates mysql_service[fedora_19_custom] with correct package_action' do
+      expect(fedora_19_custom_run).to create_mysql_service('fedora_19_custom').with(
+        :parsed_version => '5.5',
+        :parsed_port => '3308',
+        :parsed_data_dir => '/data',
+        :parsed_package_action => package_action
+        )
+    end
+
+    it 'steps into mysql_service and upgrades package[community-mysql-server]' do
+      expect(fedora_19_custom_run).to upgrade_package('community-mysql-server')
+    end
+  end
 end

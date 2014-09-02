@@ -144,4 +144,80 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'1.2.3.4/5' IDENTIFIED BY 'YUNOSETPASSWORD
       expect(centos_5_8_custom3_run).to write_log('notify reload')
     end
   end
+
+  context 'when using non-default package_version parameter' do
+    let(:package_version) { '5.5.35-1.el6' }
+    let(:centos_5_8_custom3_run) do
+      ChefSpec::Runner.new(
+        :step_into => 'mysql_service',
+        :platform => 'centos',
+        :version => '5.8'
+        ) do |node|
+        node.set['mysql']['service_name'] = 'centos_5_8_custom3'
+        node.set['mysql']['version'] = '5.5'
+        node.set['mysql']['port'] = '3308'
+        node.set['mysql']['data_dir'] = '/data'
+        node.set['mysql']['template_source'] = 'custom.erb'
+        node.set['mysql']['allow_remote_root'] = true
+        node.set['mysql']['remove_anonymous_users'] = false
+        node.set['mysql']['remove_test_database'] = false
+        node.set['mysql']['root_network_acl'] = ['10.9.8.7/6', '1.2.3.4/5']
+        node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
+        node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
+        node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
+        node.set['mysql']['server_package_version'] = package_version
+      end.converge('mysql_test_custom::server')
+    end
+
+    it 'creates mysql_service[centos_5_8_custom3] with correct package_version' do
+      expect(centos_5_8_custom3_run).to create_mysql_service('centos_5_8_custom3').with(
+        :version => '5.5',
+        :port => '3308',
+        :data_dir => '/data',
+        :package_version => package_version
+        )
+    end
+
+    it 'steps into mysql_service and installs package[mysql55-mysql-server]' do
+      expect(centos_5_8_custom3_run).to install_package('mysql55-mysql-server').with(:version => package_version)
+    end
+  end
+
+  context 'when using non-default package_action parameter' do
+    let(:package_action) { 'upgrade' }
+    let(:centos_5_8_custom3_run) do
+      ChefSpec::Runner.new(
+        :step_into => 'mysql_service',
+        :platform => 'centos',
+        :version => '5.8'
+        ) do |node|
+        node.set['mysql']['service_name'] = 'centos_5_8_custom3'
+        node.set['mysql']['version'] = '5.5'
+        node.set['mysql']['port'] = '3308'
+        node.set['mysql']['data_dir'] = '/data'
+        node.set['mysql']['template_source'] = 'custom.erb'
+        node.set['mysql']['allow_remote_root'] = true
+        node.set['mysql']['remove_anonymous_users'] = false
+        node.set['mysql']['remove_test_database'] = false
+        node.set['mysql']['root_network_acl'] = ['10.9.8.7/6', '1.2.3.4/5']
+        node.set['mysql']['server_root_password'] = 'YUNOSETPASSWORD'
+        node.set['mysql']['server_debian_password'] = 'postinstallscriptsarestupid'
+        node.set['mysql']['server_repl_password'] = 'syncmebabyonemoretime'
+        node.set['mysql']['server_package_action'] = package_action
+      end.converge('mysql_test_custom::server')
+    end
+
+    it 'creates mysql_service[centos_5_8_custom3] with correct package_action' do
+      expect(centos_5_8_custom3_run).to create_mysql_service('centos_5_8_custom3').with(
+        :version => '5.5',
+        :port => '3308',
+        :data_dir => '/data',
+        :package_action => package_action
+        )
+    end
+
+    it 'steps into mysql_service and upgrades package[mysql55-mysql-server]' do
+      expect(centos_5_8_custom3_run).to upgrade_package('mysql55-mysql-server')
+    end
+  end
 end

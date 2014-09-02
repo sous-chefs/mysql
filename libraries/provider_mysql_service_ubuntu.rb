@@ -46,7 +46,8 @@ class Chef
           # package automatically initializes database and starts service.
           # ... because that's totally super convenient.
           package new_resource.parsed_package_name do
-            action :install
+            action new_resource.parsed_package_action
+            version new_resource.parsed_package_version
           end
 
           # service

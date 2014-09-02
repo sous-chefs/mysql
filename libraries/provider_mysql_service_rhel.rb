@@ -30,7 +30,8 @@ class Chef
           end
 
           package new_resource.parsed_package_name do
-            action :install
+            action new_resource.parsed_package_action
+            version new_resource.parsed_package_version
           end
 
           directory include_dir do

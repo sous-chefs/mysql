@@ -25,5 +25,12 @@ PerceivedComplexity:
 CyclomaticComplexity:
   Enabled: false
 
+PerceivedComplexity:
+  Enabled: false
+
 Style/FileName:
   Enabled: false
+
+AllCops:
+  Exclude:
+    - 'Guardfile'

@@ -21,6 +21,8 @@ class Chef
       attribute :service_name, :kind_of => String, :name_attribute => true
       attribute :template_source, :kind_of => String, :default => nil
       attribute :version, :kind_of => String, :default => nil
+      attribute :package_version, :kind_of => String, :default => nil
+      attribute :package_action, :kind_of => String, :default => nil
     end
 
     include Opscode::Mysql::Helpers
@@ -50,6 +52,14 @@ class Chef
         node['platform_version'],
         parsed_version
         )
+    end
+
+    def parsed_package_version
+      return package_version if package_version
+    end
+
+    def parsed_package_action
+      return package_action if package_action
     end
 
     def parsed_port
