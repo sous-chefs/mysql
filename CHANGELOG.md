@@ -2,6 +2,10 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v5.5.3 (2014-09-24)
+------------------
+- Reverting back to Upstart on Ubuntu 14.04
+
 v5.5.2 (2014-09-8)
 ------------------
 - Reverting commit that broke Debian pass_string
