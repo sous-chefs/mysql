@@ -48,7 +48,8 @@ class Chef
               :pid_file    => pid_file,
               :socket_file => socket_file,
               :port        => new_resource.parsed_port,
-              :lc_messages_dir => "#{base_dir}/share/mysql"
+              :lc_messages_dir => "#{base_dir}/share/mysql",
+              :enable_utf8 => new_resource.parsed_enable_utf8
               )
             action :create
             notifies :restart, 'service[mysql]'
