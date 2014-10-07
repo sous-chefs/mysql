@@ -58,6 +58,7 @@ class Chef
           end
 
           execute 'assign-root-password' do
+            sensitive true
             cmd = "#{prefix_dir}/bin/mysqladmin"
             cmd << ' -u root password '
             cmd << Shellwords.escape(new_resource.parsed_server_root_password)
@@ -67,6 +68,7 @@ class Chef
           end
 
           template '/etc/mysql_grants.sql' do
+            sensitive true
             cookbook 'mysql'
             source 'grants/grants.sql.erb'
             owner 'root'
@@ -78,6 +80,7 @@ class Chef
           end
 
           execute 'install-grants' do
+            sensitive true
             cmd = "#{prefix_dir}/bin/mysql"
             cmd << ' -u root '
             cmd << "#{pass_string} < /etc/mysql_grants.sql"
@@ -180,6 +183,7 @@ class Chef
           end
 
           execute 'create root marker' do
+            sensitive true
             cmd = '/bin/echo'
             cmd << " '#{Shellwords.escape(new_resource.parsed_server_root_password)}'"
             cmd << ' > /etc/.mysql_root'
