@@ -2,6 +2,10 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v5.5.4 (2014-10-07)
+------------------
+- Adding sensitive flag to execute resources to protect passwords from logs  
+
 v5.5.3 (2014-09-24)
 ------------------
 - Reverting back to Upstart on Ubuntu 14.04
