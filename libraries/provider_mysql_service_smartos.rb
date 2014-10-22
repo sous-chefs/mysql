@@ -1,5 +1,6 @@
 require 'chef/provider/lwrp_base'
 require 'shellwords'
+require_relative 'helpers'
 require_relative 'helpers_smartos'
 
 class Chef
@@ -13,8 +14,14 @@ class Chef
         end
 
         include MysqlCookbook::Helpers::SmartOS
+        include Opscode::Mysql::Helpers
 
         action :create do
+
+          unless sensitive_supported?
+            Chef::Log.debug("Sensitive attribute disabled, chef-client version #{Chef::VERSION} is lower than 11.14.0")
+          end
+
           package new_resource.parsed_package_name do
             version new_resource.parsed_version
             action :install
@@ -151,7 +158,9 @@ class Chef
           end
 
           execute 'assign-root-password' do
-            sensitive true
+            if sensitive_supported?
+              sensitive true
+            end
             cmd = "#{prefix_dir}/bin/mysqladmin"
             cmd << ' -u root password '
             cmd << Shellwords.escape(new_resource.parsed_server_root_password)
@@ -161,7 +170,9 @@ class Chef
           end
 
           template "#{prefix_dir}/etc/mysql_grants.sql" do
-            sensitive true
+            if sensitive_supported?
+              sensitive true
+            end
             cookbook 'mysql'
             source 'grants/grants.sql.erb'
             owner 'root'
@@ -173,7 +184,9 @@ class Chef
           end
 
           execute 'install-grants' do
-            sensitive true
+            if sensitive_supported?
+              sensitive true
+            end
             cmd = "#{prefix_dir}/bin/mysql"
             cmd << ' -u root '
             cmd << "#{pass_string} < #{prefix_dir}/etc/mysql_grants.sql"
@@ -183,7 +196,9 @@ class Chef
           end
 
           execute 'create root marker' do
-            sensitive true
+            if sensitive_supported?
+              sensitive true
+            end
             cmd = '/bin/echo'
             cmd << " '#{Shellwords.escape(new_resource.parsed_server_root_password)}'"
             cmd << " > #{prefix_dir}/etc/.mysql_root"

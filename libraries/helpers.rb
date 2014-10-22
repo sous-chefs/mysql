@@ -8,6 +8,11 @@ module Opscode
         nil
       end
 
+      def sensitive_supported?
+        chef_version = Chef::VersionConstraint.new(">= 11.14.0")
+        chef_version.include?(Chef::VERSION)
+      end
+
       def keyname_for(platform, platform_family, platform_version)
         case
         when platform_family == 'rhel'
