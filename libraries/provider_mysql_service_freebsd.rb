@@ -17,7 +17,7 @@ class Chef
 
         include MysqlCookbook::Helpers::FreeBSD
         include Opscode::Mysql::Helpers
-        
+
         action :create do
 
           unless sensitive_supported?
@@ -80,9 +80,7 @@ class Chef
           end
 
           execute 'assign-root-password' do
-            if sensitive_supported?
-              sensitive true
-            end
+            sensitive true if sensitive_supported?
             cmd = "#{prefix_dir}/bin/mysqladmin"
             cmd << ' -u root password '
             cmd << Shellwords.escape(new_resource.parsed_server_root_password)
@@ -92,9 +90,7 @@ class Chef
           end
 
           template '/etc/mysql_grants.sql' do
-            if sensitive_supported?
-              sensitive true
-            end
+            sensitive true if sensitive_supported?
             cookbook 'mysql'
             source 'grants/grants.sql.erb'
             owner 'root'
@@ -106,9 +102,7 @@ class Chef
           end
 
           execute 'install-grants' do
-            if sensitive_supported?
-              sensitive true
-            end
+            sensitive true if sensitive_supported?
             cmd = "#{prefix_dir}/bin/mysql"
             cmd << ' -u root '
             cmd << "#{pass_string} < /etc/mysql_grants.sql"
@@ -120,9 +114,7 @@ class Chef
           end
 
           execute 'create root marker' do
-            if sensitive_supported?
-              sensitive true
-            end
+            sensitive true if sensitive_supported?
             cmd = '/bin/echo'
             cmd << " '#{Shellwords.escape(new_resource.parsed_server_root_password)}'"
             cmd << ' > /etc/.mysql_root'

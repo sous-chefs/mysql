@@ -9,7 +9,7 @@ module Opscode
       end
 
       def sensitive_supported?
-        chef_version = Chef::VersionConstraint.new(">= 11.14.0")
+        chef_version = Chef::VersionConstraint.new('>= 11.14.0')
         chef_version.include?(Chef::VERSION)
       end
 
