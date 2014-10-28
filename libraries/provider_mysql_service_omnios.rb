@@ -1,5 +1,6 @@
 require 'chef/provider/lwrp_base'
 require 'shellwords'
+require_relative 'helpers'
 require_relative 'helpers_omnios'
 
 include Opscode::Mysql::Helpers
@@ -15,8 +16,14 @@ class Chef
         end
 
         include MysqlCookbook::Helpers::OmniOS
+        include Opscode::Mysql::Helpers
 
         action :create do
+
+          unless sensitive_supported?
+            Chef::Log.debug("Sensitive attribute disabled, chef-client version #{Chef::VERSION} is lower than 11.14.0")
+          end
+
           package new_resource.parsed_package_name do
             action :install
           end
@@ -154,7 +161,7 @@ class Chef
           end
 
           execute 'assign-root-password' do
-            sensitive true
+            sensitive true if sensitive_supported?
             cmd = "#{prefix_dir}/bin/mysqladmin"
             cmd << ' -u root password '
             cmd << Shellwords.escape(new_resource.parsed_server_root_password)
@@ -164,7 +171,7 @@ class Chef
           end
 
           template '/etc/mysql_grants.sql' do
-            sensitive true
+            sensitive true if sensitive_supported?
             cookbook 'mysql'
             source 'grants/grants.sql.erb'
             owner 'root'
@@ -176,7 +183,7 @@ class Chef
           end
 
           execute 'install-grants' do
-            sensitive true
+            sensitive true if sensitive_supported?
             cmd = "#{prefix_dir}/bin/mysql"
             cmd << ' -u root '
             cmd << "#{pass_string} < /etc/mysql_grants.sql"
@@ -188,7 +195,7 @@ class Chef
           end
 
           execute 'create root marker' do
-            sensitive true
+            sensitive true if sensitive_supported?
             cmd = '/bin/echo'
             cmd << " '#{Shellwords.escape(new_resource.parsed_server_root_password)}'"
             cmd << ' > /etc/.mysql_root'
