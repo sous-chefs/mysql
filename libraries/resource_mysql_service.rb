@@ -120,6 +120,8 @@ class Chef
         case node['platform_version']
         when 'jessie/sid', '12.04', '13.04', '13.10', '14.04'
           default_version = '5.5'
+        when '14.10'
+          default_version = '5.6'
         when '10.04'
           default_version = '5.1'
         end
