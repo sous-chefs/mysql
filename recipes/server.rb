@@ -30,5 +30,6 @@ mysql_service node['mysql']['service_name'] do
   root_network_acl node['mysql']['root_network_acl']
   package_version node['mysql']['server_package_version']
   package_action node['mysql']['server_package_action']
+  enable_utf8 node['mysql']['enable_utf8']
   action :create
 end

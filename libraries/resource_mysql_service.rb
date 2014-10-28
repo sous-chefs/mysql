@@ -23,6 +23,7 @@ class Chef
       attribute :version, :kind_of => String, :default => nil
       attribute :package_version, :kind_of => String, :default => nil
       attribute :package_action, :kind_of => String, :default => nil
+      attribute :enable_utf8, :kind_of => String, :default => false
     end
 
     include Opscode::Mysql::Helpers
@@ -133,6 +134,10 @@ class Chef
         default_version = '5.5'
       end
       default_version
+    end
+
+    def parsed_enable_utf8
+      return enable_utf8 if enable_utf8
     end
   end
 end
