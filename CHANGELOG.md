@@ -2,6 +2,10 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v5.6.1 (2014-10-29)
+------------------
+- Use Gem::Version instead of Chef::Version
+
 v5.6.0 (2014-10-29)
 ------------------
 - Changing default charset to utf8
