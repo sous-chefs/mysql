@@ -65,6 +65,13 @@ platforms:
     username: ec2-user
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
+- name: amazon-2014.09
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-0268d56a
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+
 - name: suse-11.3
   driver_plugin: ec2
   driver_config:
@@ -165,7 +172,8 @@ suites:
       'centos-5.8',
       'centos-6.5',
       'redhat-6.5',
-      'amazon-2013.09'
+      'amazon-2013.09',
+      'amazon-2014.09'
     ]
 
   #
@@ -200,7 +208,8 @@ suites:
       'centos-5.8',
       'centos-6.5',
       'redhat-6.5',
-      'amazon-2013.09'
+      'amazon-2013.09',
+      'amazon-2014.09'
     ]
     attributes:
       mysql:
@@ -214,7 +223,8 @@ suites:
       'centos-6.5',
       'redhat-6.5',
       'amazon-2013.09',
-      'amazon-2014.03'
+      'amazon-2014.03',
+      'amazon-2014.09'
     ]
     attributes:
       mysql:
@@ -235,6 +245,7 @@ suites:
       'centos-7.0',
       'redhat-6.5',
       'amazon-2014.03',
+      'amazon-2014.09',
       'fedora-19',
       'debian-7.0',
       'ubuntu-12.04',
@@ -257,6 +268,7 @@ suites:
       'centos-6.5',
       'centos-7.0',
       'amazon-2014.03',
+      'amazon-2014.09',
       'fedora-19',
       'debian-7.0',
       'ubuntu-12.04',
@@ -280,6 +292,7 @@ suites:
     - recipe[mysql_test_custom::server]
     includes: [
       'amazon-2014.03',
+      'amazon-2014.09',
       'centos-6.5',
       'centos-7.0',
       'redhat-6.5',
@@ -296,6 +309,7 @@ suites:
     - recipe[mysql_test_custom::server]
     includes: [
       'amazon-2014.03',
+      'amazon-2014.09',
       'centos-6.5',
       'centos-7.0',
       'redhat-6.5',
