@@ -119,10 +119,10 @@ class Chef
         return '5.1' if node['platform_version'].to_i == 6
         return '5.5' if node['platform_version'].to_i == 7
         case node['platform_version']
-        when 'jessie/sid', '12.04', '13.04', '13.10', '14.04'
-          default_version = '5.5'
         when '14.10'
           default_version = '5.6'
+        when 'jessie/sid', '12.04', '13.04', '13.10', '14.04'
+          default_version = '5.5'
         when '10.04'
           default_version = '5.1'
         end
