@@ -1,7 +1,7 @@
+#<% require 'kitchen-sync' %>
 ---
 driver_config:
   digitalocean_client_id: <%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>
-  digitalocean_api_key: <%= ENV['DIGITAL_OCEAN_API_KEY'] %>
   google_client_email: <%= ENV['GOOGLE_CLIENT_EMAIL'] %>
   google_key_location: <%= ENV['GOOGLE_KEY_LOCATION'] %>
   google_project: <%= ENV['GOOGLE_PROJECT'] %>
@@ -20,36 +20,31 @@ provisioner:
 
 platforms:
 - name: centos-5.8
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 6372321
-    flavor_id: 63
-    region_id: 4
+    size: 1gb
+    image: centos-5-8-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 - name: centos-6.5
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 3448641
-    flavor_id: 63
-    region_id: 4
+    size: 1gb
+    image: centos-6-5-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 - name: centos-7.0
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 6511101
-    flavor_id: 63
-    region_id: 8
+    size: 1gb
+    image: centos-7-0-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-  run_list:
-  - recipe[selinux]
-  attributes:
-    selinux:
-      state: disabled
 
 - name: amazon-2013.09
   driver_plugin: ec2
@@ -92,11 +87,11 @@ platforms:
       state: disabled
 
 - name: fedora-20
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 3243145
-    flavor_id: 63
-    region_id: 4
+    size: 1gb
+    image: fedora-20-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
@@ -113,23 +108,34 @@ platforms:
   run_list:
   - recipe[apt]
 
+# - name: ubuntu-10.04
+#   driver_plugin: digital_ocean
+#   driver_config:
+#     size: 1gb
+#     image: ubuntu-10-04-x64
+#     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+#     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+#     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+#  run_list:
+#  - recipe[apt]
+
 - name: ubuntu-12.04
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 5588928
-    flavor_id: 63
-    region_id: 8
+    size: 1gb
+    image: ubuntu-12-04-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
 
 - name: ubuntu-14.04
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 5141286
-    flavor_id: 63
-    region_id: 8
+    size: 1gb
+    image: ubuntu-14-04-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
@@ -149,17 +155,17 @@ platforms:
 #     sudo: false
 #     chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
 
-- name: omnios-151006
-  driver_plugin: ec2
-  driver_config:
-    image_id: ami-35eb835c
-    flavor_id: m3.medium
-    username: root
-    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
-  provisioner:
-    name: chef_zero
-  run_list:
-  - recipe[ips-omniti]
+# - name: omnios-151006
+#   driver_plugin: ec2
+#   driver_config:
+#     image_id: ami-35eb835c
+#     flavor_id: m3.medium
+#     username: root
+#     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+#   provisioner:
+#     name: chef_zero
+#   run_list:
+#   - recipe[ips-omniti]
 
 suites:
   #

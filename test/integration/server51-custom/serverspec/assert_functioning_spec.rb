@@ -1,7 +1,7 @@
 require 'serverspec'
 
-include Serverspec::Helper::Exec
+set :backend, :exec
 
 describe command("mysql -u root -pnondefault -e 'show databases;'") do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
