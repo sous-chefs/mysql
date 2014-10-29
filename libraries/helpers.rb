@@ -9,8 +9,7 @@ module Opscode
       end
 
       def sensitive_supported?
-        chef_version = Chef::VersionConstraint.new('>= 11.14.0')
-        chef_version.include?(Chef::VERSION)
+        Gem::Version.new(Chef::VERSION) >= Gem::Version.new('11.14.0')
       end
 
       def keyname_for(platform, platform_family, platform_version)
