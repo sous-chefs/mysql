@@ -103,6 +103,17 @@ module Opscode
               }
             }
           },
+          '2014.09' => {
+            '5.1' => {
+              'package_name' => 'mysql51-server'
+            },
+            '5.5' => {
+              'package_name' => 'mysql-server'
+            },
+            '5.6' => {
+              'package_name' => 'mysql-server'
+            },
+          },          
           'fedora' => {
             '19' => {
               '5.5' => {
