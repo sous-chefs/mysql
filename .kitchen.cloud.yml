@@ -68,7 +68,7 @@ platforms:
 - name: amazon-2014.09
   driver_plugin: ec2
   driver_config:
-    image_id: ami-0268d56a
+    image_id: ami-9a6ed3f2
     username: ec2-user
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
