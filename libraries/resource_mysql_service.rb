@@ -23,7 +23,7 @@ class Chef
       attribute :version, :kind_of => String, :default => nil
       attribute :package_version, :kind_of => String, :default => nil
       attribute :package_action, :kind_of => String, :default => nil
-      attribute :enable_utf8, :kind_of => String, :default => false
+      attribute :enable_utf8, :kind_of => [TrueClass, FalseClass], :default => false
     end
 
     include Opscode::Mysql::Helpers
