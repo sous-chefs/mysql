@@ -1,12 +1,19 @@
 module Opscode
   module Mysql
     module Helpers
+
       def package_name_for(platform, platform_family, platform_version, version)
         keyname = keyname_for(platform, platform_family, platform_version)
-        PlatformInfo.mysql_info[platform_family][keyname][version]['package_name']
-      rescue NoMethodError
-        nil
+        info = PlatformInfo.mysql_info[platform_family][keyname]
+        unless info[version]
+          Chef::Log.error("Unsupported Version: You requested to install a mysql-server version that is not supported by your platform version")
+          Chef::Log.error("Platform: #{platform_family} #{platform_version} - Request Mysql Server version: #{version}")
+          Chef::Log.error("Availabe versions for your platform are: #{info.map{|k,v| k}.join(' - ')}")
+          raise "Unsupported Mysql Server Version"
+        end
+        info[version]['package_name']
       end
+
 
       def sensitive_supported?
         Gem::Version.new(Chef::VERSION) >= Gem::Version.new('11.14.0')
