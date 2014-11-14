@@ -23,7 +23,7 @@ class Chef
           end
 
           # we need to enable the yum-mysql-community repository to get packages
-          unless node['platform_version'].to_i == 5
+          unless node['platform_version'].to_i == 5 || node['platform'] == 'amazon'
             case new_resource.parsed_version
             when '5.5'
               recipe_eval do
