@@ -19,3 +19,4 @@ supports 'freebsd'
 supports 'suse'
 
 depends 'yum-mysql-community'
+depends 'smf'

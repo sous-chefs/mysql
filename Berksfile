@@ -5,11 +5,11 @@ metadata
 group :integration do
   cookbook 'apt'
   cookbook 'freebsd'
-  cookbook 'selinux'
   cookbook 'ips-omniti'
+  cookbook 'selinux'
 end
 
-cookbook 'mysql_test_default', path: 'test/fixtures/cookbooks/mysql_test_default'
-cookbook 'mysql_test_custom', path: 'test/fixtures/cookbooks/mysql_test_custom'
-cookbook 'mysql_test_wrapper', path: 'test/fixtures/cookbooks/mysql_test_wrapper'
 cookbook 'mysql_client_test', path: 'test/fixtures/cookbooks/mysql_client_test'
+cookbook 'mysql_config_test', path: 'test/fixtures/cookbooks/mysql_config_test'
+cookbook 'mysql_replication_test', path: 'test/fixtures/cookbooks/mysql_replication_test'
+cookbook 'mysql_service_test', path: 'test/fixtures/cookbooks/mysql_service_test'

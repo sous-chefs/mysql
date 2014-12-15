@@ -13,8 +13,8 @@ MethodLength:
 LineLength:
   Enabled: false
 
-HashSyntax:
-  EnforcedStyle: hash_rockets
+# HashSyntax:
+#  EnforcedStyle: hash_rockets
 
 Documentation:
   Enabled: false
