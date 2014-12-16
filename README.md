@@ -9,7 +9,7 @@ Scope
 -----
 This cookbook is concerned with the "MySQL Community Server",
 particularly those shipped with F/OSS Unix and Linux distributions. It
-does not address forks and value-added repackaged MySQL distributions
+does not address forks or value-added repackaged MySQL distributions
 like Drizzle, MariaDB, or Percona.
 
 Requirements
@@ -23,33 +23,35 @@ Platform Support
 The following platforms have been tested with Test Kitchen:
 
 ```
-|---------------+-----+-----+-----+-----+-----|
-|               | 5.0 | 5.1 | 5.5 | 5.6 | 5.7 |
-|---------------+-----+-----+-----+-----+-----|
-| debian-7      |     |     | X   |     |     |
-|---------------+-----+-----+-----+-----+-----|
-| ubuntu-10.04  |     | X   |     |     |     |
-|---------------+-----+-----+-----+-----+-----|
-| ubuntu-12.04  |     |     | X   |     |     |
-|---------------+-----+-----+-----+-----+-----|
-| ubuntu-14.04  |     |     | X   | X   |     |
-|---------------+-----+-----+-----+-----+-----|
-| centos-5      |   X | X   | X   | X   | X   |
-|---------------+-----+-----+-----+-----+-----|
-| centos-6      |     | X   | X   | X   | X   |
-|---------------+-----+-----+-----+-----+-----|
-| centos-7      |     |     | X   | X   | X   |
-|---------------+-----+-----+-----+-----+-----|
-| amazon        |     |     | X   | X   | X   |
-|---------------+-----+-----+-----+-----+-----|
-| fedora-20     |     |     | X   | X   | X   |
-|---------------+-----+-----+-----+-----+-----|
-| suse-11.3     |     |     | X   |     |     |
-|---------------+-----+-----+-----+-----+-----|
-| omnios-151006 |     |     | X   | X   |     |
-|---------------+-----+-----+-----+-----+-----|
-| suse-14.3.0   |     |     | X   | X   |     |
-|---------------+-----+-----+-----+-----+-----|
+|----------------+-----+-----+-----+-----+-----|
+|                | 5.0 | 5.1 | 5.5 | 5.6 | 5.7 |
+|----------------+-----+-----+-----+-----+-----|
+| debian-7       |     |     | X   |     |     |
+|----------------+-----+-----+-----+-----+-----|
+| ubuntu-10.04   |     | X   |     |     |     |
+|----------------+-----+-----+-----+-----+-----|
+| ubuntu-12.04   |     |     | X   |     |     |
+|----------------+-----+-----+-----+-----+-----|
+| ubuntu-14.04   |     |     | X   | X   |     |
+|----------------+-----+-----+-----+-----+-----|
+| centos-5       |   X | X   | X   | X   | X   |
+|----------------+-----+-----+-----+-----+-----|
+| centos-6       |     | X   | X   | X   | X   |
+|----------------+-----+-----+-----+-----+-----|
+| centos-7       |     |     | X   | X   | X   |
+|----------------+-----+-----+-----+-----+-----|
+| amazon         |     |     | X   | X   | X   |
+|----------------+-----+-----+-----+-----+-----|
+| fedora-20      |     |     | X   | X   | X   |
+|----------------+-----+-----+-----+-----+-----|
+| suse-11.3      |     |     | X   |     |     |
+|----------------+-----+-----+-----+-----+-----|
+| suse-14.3.0    |     |     | X   | X   |     |
+|----------------+-----+-----+-----+-----+-----|
+| omnios-151006  |     |     | X   | X   |     |
+|----------------+-----+-----+-----+-----+-----|
+| smartos-14.3.0 |     |     | X   | X   |     |
+|----------------+-----+-----+-----+-----+-----|
 ```
 
 Cookbook Dependencies
@@ -59,7 +61,7 @@ Cookbook Dependencies
 
 Usage
 -----
-Place a dependency on the mysql cookbook in your cookbook's  metadata.rb
+Place a dependency on the mysql cookbook in your cookbook's metadata.rb
 ```ruby
 depends 'mysql', '~> 6.0'
 ```
@@ -92,13 +94,13 @@ The `:create` action handles package installation, support
 directories, socket files, and other operating system level concerns.
 The internal configuration file contains just enough to get the
 service up and running, then loads extra configuration from a conf.d
-directory. which should be managed by a `mysql_config` resource.
+directory. Further configurations managed with the `mysql_config` resource.
 
 - If the `data_dir`, is empty, a database will be initialized, and a
-root user will be set up with `initial_root_password`. If the
+root user will be set up with `initial_root_password`. If this
 directory already contains database files, no action will be taken.
 
-The `:start` action starts the service on the machine, using the
+The `:start` action starts the service on the machine using the
 appropriate provider for the platform. The `:create` action should be
 omitted when used in recipes designed to build containers.
 
@@ -120,19 +122,19 @@ to reference is `mysql_service[name]`, not `service[mysql]`.
 
 - `charset` - specifies the default character set. Defaults to `utf8`.
 
-- `data_dir` -determines where the actual data files are kept
+- `data_dir` - determines where the actual data files are kept
 on the machine. This is useful when mounting external storage. When
 omitted, it will default to the platform's native location.
 
 - `initial_root_password` - allows the user to specify the initial
-  root password for the mysql database initializing new databases.
+  root password for mysql when initializing new databases.
   This can be set explicitly in a recipe, driven from a node
   attribute, or from data_bags. When omitted, it defaults to
   `ilikerandompasswords`. Please be sure to change it.
 
 - `instance` - A string to identify the MySQL service. By convention,
   to allow for multiple instances of the `mysql_service`, directories
-  and files on disk are named "mysql-<instance>". Defaults to the
+  and files on disk are named `mysql-<instance_name>`. Defaults to the
   resource name.
 
 - `package_action` - Defaults to `:install`.
@@ -243,7 +245,7 @@ end
 - `:create` - Renders the template do disk at a path calculated using
   the instance parameter.
   
-- `:delete` - Deletes the file from the conf.d directory calculates
+- `:delete` - Deletes the file from the conf.d directory calculated
   using the instance parameter.
 
 #### More Examples
@@ -280,7 +282,7 @@ development libraries.
 It is an example of a "singleton" resource. Declaring two
 `mysql_client` resources on a machine usually won't yield two separate
 copies of the client binaries, except for platforms that support
-multiple versions (RHEL SCL, Omnios).
+multiple versions (RHEL SCL, OmniOS).
 
 #### Example
 ```ruby
@@ -298,7 +300,7 @@ end
 
 - `version` - Major MySQL version number of client packages. Only
   valid on for platforms that support multiple versions, such as RHEL
-  via Software Collections and Ominos.
+  via Software Collections and OmniOS.
   
 #### Actions
 - `:create` - Installs the client software
@@ -308,8 +310,8 @@ Advanced Usage Examples
 -----------------------
 There are a large number of configuration scenarios supported by the
 use of resource primitives in recipes. For example, you might want to
-run multiple instances of MySQL server, as different system users,
-and mount block devices that contain pre-existing database.
+run multiple instances of MySQL servers, as different system users,
+and mount block devices that contain pre-existing databases.
 
 ### Multiple Instances as Different Users
 
@@ -375,8 +377,8 @@ end
 
 ### Replication Testing
 Use multiple `mysql_service` instances to test a replication setup.
-This particular example services as a smoke test in Test Kitchen,
-because it exercises different resources and requires service restarts.
+This particular example serves as a smoke test in Test Kitchen because
+it exercises different resources and requires service restarts.
 
 https://github.com/someara/mysql/blob/9a588e25166ca411d6ba1777b1435ea6cd115913/test/fixtures/cookbooks/mysql_replication_test/recipes/default.rb
 
@@ -387,25 +389,24 @@ Frequently Asked Questions
 
 On Linux, the `mysql_service` resource uses the platform's underlying
 package manager to install software. For this to work behind
-firewalls, you'll need to either.
+firewalls, you'll need to either:
 
 - Configure the system yum/apt utilities to use a proxy server that
-  can reach the Internet.
-- Host a package repository locally that the machine can talk to.
+  can reach the Internet
+- Host a package repository locally that the machine can talk to
 
-On the RHEL platform_family, applying the 'yum::default' recipe will
-allow you to drive the `yum_globalconfig` to change global proxy
-settings.
+On the RHEL platform_family, applying the `yum::default` recipe will
+allow you to drive the `yum_globalconfig` resource with attributes and
+change global proxy settings.
 
-If hosting individual repository mirrors, applying one of the
-following recipes and adjusting the settings with node attributes is
-recommended.
+If hosting repository mirrors, applying one of the following recipes
+and adjusting the settings with node attributes is recommended.
 
-- 'recipe[yum-centos::default]' from the Supermarket
+- `recipe[yum-centos::default]` from the Supermarket
   https://supermarket.chef.io/cookbooks/yum-centos
   https://github.com/opscode-cookbooks/yum-centos
   
-- 'recipe[yum-mysql-community::default]' from the Supermarket
+- `recipe[yum-mysql-community::default]` from the Supermarket
   https://supermarket.chef.io/cookbooks/yum-mysql-community
   https://github.com/opscode-cookbooks/yum-mysql-community
   
@@ -418,7 +419,7 @@ adapting this cookbook, but there will be differences.
 
 Package repository locations, package version names, software major
 version numbers, supported platform matrix, and the availability of
-extra software such as XtraDB and Galera are the main factors that
+extra software such as XtraDB and Galera are the main reasons that
 would cause separate cookbooks to make sense.
 
 Hacking / Testing / TODO
