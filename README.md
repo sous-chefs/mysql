@@ -2,7 +2,7 @@ MySQL Cookbook
 =====================
 
 The Mysql Cookbook is a library cookbook that provides resource primitives
-(LWRPs) for use in recipes. It is designed to be reference example for
+(LWRPs) for use in recipes. It is designed to be a reference example for
 creating highly reusable cross-platform cookbooks.
 
 Scope
@@ -94,9 +94,9 @@ The `:create` action handles package installation, support
 directories, socket files, and other operating system level concerns.
 The internal configuration file contains just enough to get the
 service up and running, then loads extra configuration from a conf.d
-directory. Further configurations managed with the `mysql_config` resource.
+directory. Further configurations are managed with the `mysql_config` resource.
 
-- If the `data_dir`, is empty, a database will be initialized, and a
+- If the `data_dir` is empty, a database will be initialized, and a
 root user will be set up with `initial_root_password`. If this
 directory already contains database files, no action will be taken.
 
@@ -239,10 +239,10 @@ end
 - `version` - Version of the `mysql_service` instance the config is
   meant for. Used to calculate path. Only necessary when using
   packages with unique configuration paths, such as RHEL Software
-  Collections, or OmniOS. Defaults to 'nil'
+  Collections or OmniOS. Defaults to 'nil'
 
 #### Actions
-- `:create` - Renders the template do disk at a path calculated using
+- `:create` - Renders the template to disk at a path calculated using
   the instance parameter.
   
 - `:delete` - Deletes the file from the conf.d directory calculated
@@ -308,10 +308,10 @@ end
 
 Advanced Usage Examples
 -----------------------
-There are a large number of configuration scenarios supported by the
-use of resource primitives in recipes. For example, you might want to
-run multiple instances of MySQL servers, as different system users,
-and mount block devices that contain pre-existing databases.
+There are a number of configuration scenarios supported by the use of
+resource primitives in recipes. For example, you might want to run
+multiple MySQL services, as different users, and mount block devices
+that contain pre-existing databases.
 
 ### Multiple Instances as Different Users
 
@@ -393,14 +393,14 @@ firewalls, you'll need to either:
 
 - Configure the system yum/apt utilities to use a proxy server that
   can reach the Internet
-- Host a package repository locally that the machine can talk to
+- Host a package repository on a network that the machine can talk to
 
 On the RHEL platform_family, applying the `yum::default` recipe will
-allow you to drive the `yum_globalconfig` resource with attributes and
-change global proxy settings.
+allow you to drive the `yum_globalconfig` resource with attributes to
+change the global yum proxy settings.
 
 If hosting repository mirrors, applying one of the following recipes
-and adjusting the settings with node attributes is recommended.
+and adjust the settings with node attributes.
 
 - `recipe[yum-centos::default]` from the Supermarket
   https://supermarket.chef.io/cookbooks/yum-centos
@@ -413,14 +413,14 @@ and adjusting the settings with node attributes is recommended.
 ### What about MariaDB, Percona, Drizzle, WebScaleSQL, etc.
 
 MySQL forks are purposefully out of scope for this cookbook. This is
-mostly to reduce the size of the testing matrix to something manageable.
-Cookbooks for those technologies can easily be created by copying and
-adapting this cookbook, but there will be differences.
+mostly to reduce the testing matrix to a manageable size. Cookbooks
+for these technologies can easily be created by copying and adapting
+this cookbook. However, there will be differences.
 
 Package repository locations, package version names, software major
-version numbers, supported platform matrix, and the availability of
-extra software such as XtraDB and Galera are the main reasons that
-would cause separate cookbooks to make sense.
+version numbers, supported platform matrices, and the availability of
+software such as XtraDB and Galera are the main reasons that creating
+multiple cookbooks to make sense.
 
 Hacking / Testing / TODO
 -------------------------
