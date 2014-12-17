@@ -26,6 +26,9 @@ pid-file                       = <%= @pid_file %>
 <% if @socket_file %>
 socket                         = <%= @socket_file %>
 <% end %>
+<% if @config.bind_address %>
+bind-address                   = <%= @config.bind_address %>
+<% end %>
 <% if @config.port %>
 port                           = <%= @config.port %>
 <% end %>
