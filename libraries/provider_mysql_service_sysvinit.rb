@@ -26,9 +26,9 @@ class Chef
 
           service "#{new_resource.name} :start #{mysql_name}" do
             service_name mysql_name
-            provider Chef::Provider::Service::Init
+            provider Chef::Provider::Service::Init::Insserv if node['platform'] == 'debian'
             supports restart: true, status: true
-            action [:start]
+            action [:enable, :start]
           end
         end
 
