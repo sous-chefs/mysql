@@ -2,6 +2,10 @@ mysql Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the mysql cookbook.
 
+v6.0.2 (2014-12-17)
+------------------
+- Fixing sysvinit provider to survive reboots
+
 v6.0.1 (2014-12-16)
 ------------------
 - Fixing Upstart template to survive reboots
