@@ -33,7 +33,7 @@ class Chef
             service_name mysql_name
             provider Chef::Provider::Service::Systemd
             supports restart: true, status: true
-            action [:start]
+            action [:enable, :start]
           end
         end
 

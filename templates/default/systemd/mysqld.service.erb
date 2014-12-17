@@ -7,12 +7,9 @@ After=network.target
 Type=simple
 User=<%= @config.run_user %>
 Group=<%= @config.run_group %>
-
 ExecStart=/usr/bin/mysqld_safe --defaults-file=<%= @etc_dir %>/my.cnf --basedir=<%= @base_dir %>
 ExecStartPost=/usr/libexec/mysql-<%= @config.instance %>-wait-ready $MAINPID
-
 TimeoutSec=300
-
 PrivateTmp=true
 
 [Install]
