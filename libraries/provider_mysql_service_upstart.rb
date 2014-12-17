@@ -10,8 +10,10 @@ class Chef
             group 'root'
             mode '0644'
             variables(
-              mysql_name: mysql_name,
               defaults_file: defaults_file,
+              mysql_name: mysql_name,
+              run_group: new_resource.run_group,
+              run_user: new_resource.run_user,
               socket_file: socket_file
               )
             cookbook 'mysql'
