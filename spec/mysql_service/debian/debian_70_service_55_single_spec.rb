@@ -174,7 +174,7 @@ describe 'mysql_service_test::single on debian-7.0' do
       expect(debian_70_service_55_single).to start_service('default :start mysql-default')
         .with(
         service_name: 'mysql-default',
-        provider: Chef::Provider::Service::Init
+        provider: Chef::Provider::Service::Insserv
         )
     end
   end

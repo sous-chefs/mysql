@@ -237,7 +237,7 @@ describe 'mysql_service_test::single on debian-7.0' do
       expect(debian_70_service_55_multi).to start_service('instance-1 :start mysql-instance-1')
         .with(
         service_name: 'mysql-instance-1',
-        provider: Chef::Provider::Service::Init
+        provider: Chef::Provider::Service::Insserv
         )
     end
   end
@@ -374,7 +374,7 @@ describe 'mysql_service_test::single on debian-7.0' do
       expect(debian_70_service_55_multi).to start_service('instance-2 :start mysql-instance-2')
         .with(
         service_name: 'mysql-instance-2',
-        provider: Chef::Provider::Service::Init
+        provider: Chef::Provider::Service::Insserv
         )
     end
   end

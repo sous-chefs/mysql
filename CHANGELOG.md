@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.3 (2014-12-17)
+------------------
+- Adding bind_address parameter to mysql_service resource
+
 v6.0.2 (2014-12-17)
 ------------------
 - Fixing sysvinit provider to survive reboots

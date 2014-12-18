@@ -153,8 +153,7 @@ describe 'mysql_service_test::single on suse-11.3' do
     it 'starts service[default :start mysql-default]' do
       expect(suse_113_service_55_single).to start_service('default :start mysql-default')
         .with(
-        service_name: 'mysql-default',
-        provider: Chef::Provider::Service::Init
+        service_name: 'mysql-default'
         )
     end
   end
