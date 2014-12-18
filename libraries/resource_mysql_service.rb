@@ -15,6 +15,7 @@ class Chef
       attribute :package_action, kind_of: Symbol, default: :install
       attribute :package_name, kind_of: String, default: nil
       attribute :package_version, kind_of: String, default: nil
+      attribute :bind_address, kind_of: String, default: nil
       attribute :port, kind_of: String, default: '3306'
       attribute :run_group, kind_of: String, default: 'mysql'
       attribute :run_user, kind_of: String, default: 'mysql'

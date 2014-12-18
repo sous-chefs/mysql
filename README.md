@@ -68,6 +68,7 @@ Then, in a recipe:
 
 ```ruby
 mysql_service 'default' do
+  bind_address '0.0.0.0'
   port '3306'
   version '5.5'
   initial_root_password 'change me'
@@ -106,6 +107,7 @@ omitted when used in recipes designed to build containers.
 ```ruby
 mysql_service 'default' do
   version '5.7'
+  bind_address '0.0.0.0'
   port '3306'
   data_dir '/data'
   initial_root_password 'Ch4ng3me'
@@ -141,6 +143,12 @@ omitted, it will default to the platform's native location.
 
 - `package_version` - Specific version of the package to install,
   passed onto the underlying package manager. Defaults to `nil`.
+
+- `bind_address` - determines the listen IP address for the mysqld service. When
+  omitted, it will be determined by MySQL. If the address is "regular" IPv4/IPv6
+  address (e.g 127.0.0.1 or ::1), the server accepts TCP/IP connections only for
+  that particular address. If the address is "0.0.0.0" (IPv4) or "::" (IPv6), the
+  server accepts TCP/IP connections on all IPv4 or IPv6 interfaces.
 
 - `port` - determines the listen port for the mysqld service. When
   omitted, it will default to '3306'.
