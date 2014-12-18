@@ -27,6 +27,7 @@ end
 # hard code values where we can
 mysql_service 'instance-1' do
   version node['mysql']['version']
+  bind_address '0.0.0.0'
   port '3307'
   data_dir '/data/instance-1'
   run_user 'alice'
@@ -37,6 +38,7 @@ end
 # pass everything from node attributes
 mysql_service 'instance-2' do
   version node['mysql']['version']
+  bind_address '0.0.0.0'
   port node['mysql']['port']
   data_dir node['mysql']['data_dir']
   run_user node['mysql']['run_user']
