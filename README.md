@@ -100,7 +100,7 @@ root user will be set up with `initial_root_password`. If this
 directory already contains database files, no action will be taken.
 
 The `:start` action starts the service on the machine using the
-appropriate provider for the platform. The `:create` action should be
+appropriate provider for the platform. The `:start` action should be
 omitted when used in recipes designed to build containers.
 
 #### Example
