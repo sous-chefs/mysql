@@ -416,6 +416,18 @@ and adjust the settings with node attributes.
   https://supermarket.chef.io/cookbooks/yum-mysql-community
   https://github.com/opscode-cookbooks/yum-mysql-community
   
+### The mysql command line doesn't work
+
+If you log into the machine and type `mysql`, you may see an error
+like this one:
+
+`Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'`
+
+To connect to a database from the command line, you'll need to specify
+additional flags and connect over the network..
+
+`mysql -h 127.0.0.1 -Pwhatever`
+
 ### What about MariaDB, Percona, Drizzle, WebScaleSQL, etc.
 
 MySQL forks are purposefully out of scope for this cookbook. This is
