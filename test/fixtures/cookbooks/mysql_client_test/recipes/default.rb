@@ -1,3 +1,6 @@
+# comments!
+
 mysql_client 'default' do
-  action :create
+  version node['mysql']['version']
+  action [:create]
 end

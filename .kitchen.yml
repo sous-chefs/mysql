@@ -7,57 +7,42 @@ provisioner:
 platforms:
   - name: centos-5.10
   - name: centos-6.5
+  - name: centos-7.0
   - name: debian-7.4
     run_list:
       - recipe[apt]
-  - name: fedora-19
   - name: fedora-20
+  - name: ubuntu-14.04
+    run_list:
+      - recipe[apt]
   - name: freebsd-9.2
     run_list:
       - recipe[freebsd::portsnap]
   - name: freebsd-10.0 # unsupported until Chef 11.14.0
-  - name: omnios-r151006j-r1
+  - name: omnios-151006
     driver:
       box: omnios-r151006j-r1
       box_url: http://omnios.omniti.com/media/OmniOS_r151008j-r1.box
     run_list:
       - recipe[ips-omniti]
-  - name: ubuntu-10.04
-    run_list:
-      - recipe[apt]
-  - name: ubuntu-12.04
-    run_list:
-      - recipe[apt]
-  - name: ubuntu-14.04
-    run_list:
-      - recipe[apt]
  
 suites:
-  - name: client
+  #
+  # service
+  #
+  - name: service50-single
     run_list:
-      - recipe[mysql_client_test]
-
-  - name: server50-default
-    run_list:
-      - recipe[mysql_test_custom::server]
-    includes: [ 'centos-5.10' ]
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5.10'
+    ]
     attributes:
       mysql:
-        version: '5.0' 
+       version: '5.0'
 
-  - name: server50-custom
+  - name: service51-single
     run_list:
-      - recipe[mysql_test_custom::server]
-    includes: [ 'centos-5.10' ]
-    attributes:
-      mysql:
-        version: '5.0' 
-        port: '3308'
-        data_dir: '/data'
-
-  - name: server51-default
-    run_list:
-    - recipe[mysql_test_custom::server]
+    - recipe[mysql_service_test::single]
     includes: [
       'centos-5.10',
       'centos-6.5',
@@ -65,77 +50,331 @@ suites:
     ]
     attributes:
       mysql:
-        version: '5.1'
+       version: '5.1'
 
-  - name: server51-custom
+  - name: service55-single
     run_list:
-    - recipe[mysql_test_custom::server]
+    - recipe[mysql_service_test::single]
     includes: [
       'centos-5.10',
       'centos-6.5',
-      'ubuntu-10.04'
-    ]
-    attributes:
-      mysql:
-        version: '5.1'
-        port: '3308'
-        data_dir: '/data'
-
-  - name: server55-default
-    run_list:
-    - recipe[mysql_test_custom::server]
-    includes: [
-      'fedora-19',
-      'freebsd-9.2',
-      'freebsd-10.0',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20',
+      'suse-11.3',
       'debian-7.4',
-      'ubuntu-12.04',
-      'ubuntu-13.04',
       'ubuntu-14.04',
-      'omnios-r151006j-r1'
+      'omnios-151006',
+      'omnios-freebsd-9.2',
     ]
     attributes:
       mysql:
        version: '5.5'
 
-  - name: server55-custom
+  - name: service56-single
     run_list:
-    - recipe[mysql_test_custom::server]
+    - recipe[mysql_service_test::single]
     includes: [
-      'fedora-19',
-      'freebsd-9.2',
-      'freebsd-10.0',
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.6'
+
+  - name: service57-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20'
+    ]
+    attributes:
+      mysql:
+       version: '5.7'
+
+  - name: service50-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5.10'
+    ]
+    attributes:
+      mysql:
+       version: '5.0'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service51-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5.10',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+       version: '5.1'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service55-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20',
+      'suse-11.3',
+      'debian-7.4',
       'debian-7.4',
       'ubuntu-12.04',
-      'ubuntu-13.04',
-      'omnios-r151006j-r1'
+      'ubuntu-13.10',
+      'ubuntu-14.04',
+      'omnios-151006',
+      'smartos-14.3.0'
     ]
     attributes:
       mysql:
        version: '5.5'
        port: '3308'
-       data_dir: '/data'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
 
-  - name: server56-default
+  - name: service56-multi
     run_list:
-    - recipe[mysql_test_custom::server]
+    - recipe[mysql_service_test::multi]
     includes: [
-      'ubuntu-14.04',
-      'omnios-r151006j-r1'
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'fedora-20',
+      'amazon-2014.09',
+      'omnios-151006',
+      'smartos-14.3.0'
     ]
     attributes:
       mysql:
-        version: '5.6'
+       version: '5.6'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
 
-  - name: server56-custom
+  - name: service57-multi
     run_list:
-    - recipe[mysql_test_custom::server]
+    - recipe[mysql_service_test::multi]
     includes: [
-      'ubuntu-14.04',
-      'omnios-r151006j-r1'
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'fedora-20',
+      'amazon-2014.09'
     ]
     attributes:
       mysql:
-        version: '5.6'
-        port: '3308'
-        data_dir: '/data'
+       version: '5.7'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  #
+  # client
+  #
+  - name: client50
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.0'
+    includes: [
+      'centos-5.10'
+    ]
+
+  - name: client51
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.1'
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'ubuntu-10.04'
+    ]
+
+  - name: client55
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.5'
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20',
+      'suse-11.3',
+      'debian-7.4',
+      'debian-7.4',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'ubuntu-14.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+
+  - name: client56
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.6'
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+
+  - name: client57
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.7'
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20'
+    ]
+
+  #
+  # config
+  #
+  - name: config50
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.10'
+    ]
+    attributes:
+      mysql:
+       version: '5.0'
+
+  - name: config51
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.10',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+       version: '5.1'
+
+  - name: config55
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20',
+      'suse-11.3',
+      'debian-7.4',
+      'debian-7.4',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'ubuntu-14.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.5'
+
+  - name: config56
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.6'
+
+  - name: config57
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'redhat-6.5',
+      'centos-7.0',
+      'fedora-20',
+      'amazon-2014.09'
+    ]
+    attributes:
+      mysql:
+       version: '5.7'
+
+  #
+  # replication-test
+  #
+  - name: replication-test
+    run_list:
+    - recipe[mysql_replication_test]
+    includes: [
+      'centos-5.10',
+      'centos-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-20',
+      'suse-11.3',
+      'debian-7.4',
+      'ubuntu-10.04',
+      'ubuntu-12.04',
+      'ubuntu-14.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]

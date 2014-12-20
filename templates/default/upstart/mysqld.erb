@@ -1,0 +1,35 @@
+# <%= @mysql_name %> Service
+
+description     "MySQL service <%= @mysql_name %>"
+author          "chef-client"
+
+start on runlevel [2345]
+stop on starting rc RUNLEVEL=[016]
+
+respawn
+respawn limit 2 5
+
+env HOME=/etc/<%= @mysql_name %>
+umask 007
+
+kill timeout 300
+
+pre-start script
+[ -d /run/<%= @mysql_name %> ] || install -m 755 -o <%= @run_user %> -g <%= @run_group %> -d /run/<%= @mysql_name %>
+end script
+
+exec /usr/sbin/mysqld --defaults-file=<%= @defaults_file %>
+
+post-start script
+    for i in `seq 1 30` ; do
+        /usr/bin/mysqladmin --defaults-file=<%= @defaults_file %> ping
+        statusnow=`status <%= @mysql_name %>`
+        if echo $statusnow | grep -q 'stop/' ; then
+            exit 0
+        elif echo $statusnow | grep -q 'respawn/' ; then
+            exit 1
+        fi
+        sleep 1
+    done
+    exit 1
+end script

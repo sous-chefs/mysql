@@ -1,6 +1,32 @@
 mysql Cookbook CHANGELOG
 ========================
-This file is used to list changes made in each version of the mysql cookbook.
+
+v6.0.3 (2014-12-17)
+------------------
+- Adding bind_address parameter to mysql_service resource
+
+v6.0.2 (2014-12-17)
+------------------
+- Fixing sysvinit provider to survive reboots
+
+v6.0.1 (2014-12-16)
+------------------
+- Fixing Upstart template to survive reboots
+
+v6.0.0 (2014-12-15)
+------------------
+- Major version update
+- Cookbook now provides LWRPs instead of recipes
+- Platform providers re-factored into init system providers
+- Separated :create and :start actions for use in recipes that build containers
+- mysql_service now supports multiple instances on the same machine
+- mysql_service no longer attempts to manage user records
+- Removal of debian-sys-maint
+- Unified Sysvinit script that works on all platforms
+- mysql_config resource introduced
+- mysql_client fixed up
+- Refactored acceptance tests
+- Temporarily dropped FreeBSD support
 
 v5.6.1 (2014-10-29)
 ------------------
