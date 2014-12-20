@@ -278,7 +278,16 @@ EOSQL
 
     def package_name_for(platform, platform_family, platform_version, version, type)
       keyname = keyname_for(platform, platform_family, platform_version)
-      Pkginfo.pkginfo[platform_family.to_sym][keyname][version][type]
+      info = Pkginfo.pkginfo[platform_family.to_sym][keyname]
+      type_label = type.to_s.gsub('_package', '').capitalize       
+      unless info[version] 
+        # Show availabe versions if the requested is not available on the current platform
+        Chef::Log.error("Unsupported Version: You requested to install a Mysql #{type_label} version that is not supported by your platform")
+        Chef::Log.error("Platform: #{platform_family} #{platform_version} - Request Mysql #{type_label} version: #{version}")
+        Chef::Log.error("Availabe versions for your platform are: #{info.map{|k,v| k}.join(' - ')}")
+        raise "Unsupported Mysql #{type_label} Version"
+      end
+      info[version][type]
     end
 
     def keyname_for(platform, platform_family, platform_version)
