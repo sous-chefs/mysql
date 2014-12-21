@@ -342,7 +342,7 @@ mysql_service 'instance-1' do
   port '3307'
   run_user 'alice'
   data_dir '/mnt/data/mysql/instance-1'
-  action [:create,:start]
+  action [:create, :start]
 end
 
 mysql_config 'site config for instance-1' do
@@ -371,7 +371,7 @@ mysql_service 'instance-2' do
   port '3308'
   run_user 'bob'
   data_dir '/mnt/data/mysql/instance-2'
-  action [:create,:start]
+  action [:create, :start]
 end
 
 mysql_config 'site config for instance-2' do
