@@ -64,6 +64,15 @@ platforms:
 #   run_list:
 #   - recipe[selinux::disabled]
 
+- name: redhat-7.0
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-a8d369c0
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux::disabled]
+
 - name: fedora-20
   driver_plugin: digital_ocean
   driver_config:
@@ -181,8 +190,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',
@@ -203,8 +213,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20',
       'ubuntu-14.04',
@@ -221,8 +232,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20'
     ]
@@ -265,8 +277,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',
@@ -291,8 +304,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'fedora-20',
       'amazon-2014.09',
       'ubuntu-14.04',
@@ -313,8 +327,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'fedora-20',
       'amazon-2014.09'
     ]
@@ -360,8 +375,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',
@@ -382,8 +398,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20',
       'ubuntu-14.04',
@@ -400,8 +417,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20'
     ]
@@ -436,8 +454,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',
@@ -458,8 +477,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'amazon-2014.09',
       'fedora-20',
       'ubuntu-14.04',
@@ -476,8 +496,9 @@ suites:
     includes: [
       'centos-5.8',
       'centos-6.5',
-      'redhat-6.5',
       'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
       'fedora-20',
       'amazon-2014.09'
     ]
