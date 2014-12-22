@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.4 (2014-12-21)
+------------------
+- Suggest available versions if current is not available for current platform.
+
 v6.0.3 (2014-12-17)
 ------------------
 - Adding bind_address parameter to mysql_service resource
