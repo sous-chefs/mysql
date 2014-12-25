@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_client_test::default on ubuntu-12.04' do
   let(:ubuntu_1204_client_55) do
-    ChefSpec::Runner.new(
+    ChefSpec::SoloRunner.new(
       platform: 'ubuntu',
       version: '12.04',
       step_into: 'mysql_client'

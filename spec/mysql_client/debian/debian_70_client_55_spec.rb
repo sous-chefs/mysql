@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_client_test::default on debian-7.0' do
   let(:debian_70_client_55) do
-    ChefSpec::Runner.new(
+    ChefSpec::SoloRunner.new(
       platform: 'debian',
       version: '7.0',
       step_into: 'mysql_client'

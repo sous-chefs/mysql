@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_service_test::single on centos-5.8' do
   let(:centos_58_service_56_multi) do
-    ChefSpec::Runner.new(
+    ChefSpec::SoloRunner.new(
       platform: 'centos',
       version: '5.8',
       step_into: 'mysql_service'

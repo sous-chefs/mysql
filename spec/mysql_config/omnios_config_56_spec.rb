@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_config_test::default' do
   let(:omnios_config_56) do
-    ChefSpec::Runner.new(
+    ChefSpec::SoloRunner.new(
       platform: 'omnios',
       version: '151006',
       step_into: 'mysql_config'

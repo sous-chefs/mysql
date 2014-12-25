@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_config_test::default' do
   let(:centos_58_config_55) do
-    ChefSpec::Runner.new(
+    ChefSpec::SoloRunner.new(
       platform: 'centos',
       version: '5.8',
       step_into: 'mysql_config'

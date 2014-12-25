@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_client_test::default on amazon-2014.09' do
   let(:amazon_201409_client_56) do
-    ChefSpec::Runner.new(
+    ChefSpec::SoloRunner.new(
       platform: 'amazon',
       version: '2014.09',
       step_into: 'mysql_client'

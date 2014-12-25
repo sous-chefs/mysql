@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_config_test::default' do
   let(:linux_config_50) do
-    ChefSpec::Runner.new(
+    ChefSpec::SoloRunner.new(
       os: 'linux',
       step_into: 'mysql_config'
       ) do |node|

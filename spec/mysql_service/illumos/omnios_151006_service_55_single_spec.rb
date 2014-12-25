@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_service_test::single on omnios-151006' do
   let(:omnios_151006_service_55_single) do
-    ChefSpec::Runner.new(
+    ChefSpec::SoloRunner.new(
       platform: 'omnios',
       version: '151006',
       step_into: 'mysql_service'
