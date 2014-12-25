@@ -1,6 +1,11 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.5 (2014-12-25)
+------------------
+- Using 'include_recipe' instead of 'recipe_eval' in LWRP
+- Fixing type checking on package_name attribute in mysql_client resource.
+
 v6.0.4 (2014-12-21)
 ------------------
 - Suggest available versions if current is not available for current platform.
