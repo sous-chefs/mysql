@@ -9,7 +9,7 @@ class Chef
       default_action :create
 
       attribute :client_name, kind_of: String, name_attribute: true, required: true
-      attribute :package_name, kind_of: String, default: nil
+      attribute :package_name, kind_of: Array, default: nil
       attribute :package_version, kind_of: String, default: nil
       attribute :version, kind_of: String, default: nil # mysql_version
     end
