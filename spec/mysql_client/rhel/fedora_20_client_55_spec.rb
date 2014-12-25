@@ -22,7 +22,7 @@ describe 'mysql_client_test::default on fedora-20' do
   context 'stepping into mysql_client[default] resource' do
     it 'installs package[default :create community-mysql]' do
       expect(fedora_20_client_55).to install_package('default :create community-mysql')
-      .with(package_name: 'community-mysql')
+        .with(package_name: 'community-mysql')
     end
 
     it 'installs package[default :create community-mysql-devel]' do

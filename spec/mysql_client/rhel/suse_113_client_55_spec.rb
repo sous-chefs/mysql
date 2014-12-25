@@ -22,7 +22,7 @@ describe 'mysql_client_test::default on suse-11.3' do
   context 'stepping into mysql_client[default] resource' do
     it 'installs package[default :create mysql-client]' do
       expect(suse_113_client_55).to install_package('default :create mysql-client')
-      .with(package_name: 'mysql-client')
+        .with(package_name: 'mysql-client')
     end
   end
 end

@@ -22,7 +22,7 @@ describe 'mysql_client_test::default on amazon-2014.09' do
   context 'stepping into mysql_client[default] resource' do
     it 'installs package[default :create mysql-community-client]' do
       expect(amazon_201409_client_56).to install_package('default :create mysql-community-client')
-      .with(package_name: 'mysql-community-client')
+        .with(package_name: 'mysql-community-client')
     end
 
     it 'installs package[default :create mysql-community-devel]' do

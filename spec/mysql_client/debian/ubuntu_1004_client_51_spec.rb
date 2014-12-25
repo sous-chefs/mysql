@@ -22,7 +22,7 @@ describe 'mysql_client_test::default on ubuntu-10.04' do
   context 'stepping into mysql_client[default] resource' do
     it 'installs package[default :create mysql-client-5.1]' do
       expect(ubuntu_1004_client_51).to install_package('default :create mysql-client-5.1')
-      .with(package_name: 'mysql-client-5.1')
+        .with(package_name: 'mysql-client-5.1')
     end
 
     it 'installs package[default :create libmysqlclient-dev]' do

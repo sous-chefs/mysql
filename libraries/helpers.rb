@@ -1,5 +1,7 @@
 module MysqlCookbook
   module Helpers
+    include Chef::DSL::IncludeRecipe
+
     def base_dir
       prefix_dir || '/usr'
     end
@@ -12,17 +14,11 @@ module MysqlCookbook
         # Prefer packages from native repos
         return if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 5
         return if node['platform_family'] == 'fedora'
-        recipe_eval do
-          run_context.include_recipe 'yum-mysql-community::mysql55'
-        end
+        include_recipe('yum-mysql-community::mysql55')
       when '5.6'
-        recipe_eval do
-          run_context.include_recipe 'yum-mysql-community::mysql56'
-        end
+        include_recipe('yum-mysql-community::mysql56')
       when '5.7'
-        recipe_eval do
-          run_context.include_recipe 'yum-mysql-community::mysql57'
-        end
+        include_recipe('yum-mysql-community::mysql57')
       end
     end
 

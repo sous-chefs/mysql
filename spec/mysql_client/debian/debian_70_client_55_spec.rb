@@ -22,7 +22,7 @@ describe 'mysql_client_test::default on debian-7.0' do
   context 'stepping into mysql_client[default] resource' do
     it 'installs package[default :create mysql-client]' do
       expect(debian_70_client_55).to install_package('default :create mysql-client')
-      .with(package_name: 'mysql-client')
+        .with(package_name: 'mysql-client')
     end
 
     it 'installs package[default :create libmysqlclient-dev]' do

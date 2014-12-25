@@ -22,7 +22,7 @@ describe 'mysql_client_test::default on omnios-151006' do
   context 'stepping into mysql_client[default] resource' do
     it 'installs package[default :create database/mysql-55/library]' do
       expect(omnios_151006_client_55).to install_package('default :create database/mysql-55/library')
-      .with(package_name: 'database/mysql-55/library')
+        .with(package_name: 'database/mysql-55/library')
     end
   end
 end

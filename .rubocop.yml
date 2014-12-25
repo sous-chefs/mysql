@@ -25,10 +25,10 @@ PerceivedComplexity:
 CyclomaticComplexity:
   Enabled: false
 
-PerceivedComplexity:
+Style/FileName:
   Enabled: false
 
-Style/FileName:
+Metrics/AbcSize:
   Enabled: false
 
 AllCops:

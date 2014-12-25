@@ -22,7 +22,7 @@ describe 'mysql_client_test::default on centos-5.8' do
   context 'stepping into mysql_client[default] resource' do
     it 'installs package[default :create mysql51-mysql]' do
       expect(centos_58_client_51).to install_package('default :create mysql51-mysql')
-      .with(package_name: 'mysql51-mysql')
+        .with(package_name: 'mysql51-mysql')
     end
   end
 end
