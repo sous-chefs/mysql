@@ -7,7 +7,7 @@ end
 
 group :unit do
   gem 'berkshelf',  '~> 3.2'
-  gem 'chefspec',   '~> 4.2.0.beta.1'
+  gem 'chefspec',   '~> 4.0'
 end
 
 group :kitchen_common do

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_client_test::default on smartos-511' do
   let(:smartos_511_client_55) do
-    ChefSpec::SoloRunner.new(
+    ChefSpec::Runner.new(
       platform: 'smartos',
       version: '5.11',
       step_into: 'mysql_client'
