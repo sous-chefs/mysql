@@ -28,8 +28,8 @@ CyclomaticComplexity:
 Style/FileName:
   Enabled: false
 
-Metrics/AbcSize:
-  Enabled: false
+# Metrics/AbcSize:
+#   Enabled: false
 
 AllCops:
   Exclude:

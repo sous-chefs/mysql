@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.6 (2014-12-26)
+------------------
+- Fixing subtle bug where MysqlCookbook::Helper methods were polluting Chef::Resource
+
 v6.0.5 (2014-12-25)
 ------------------
 - Using 'include_recipe' instead of 'recipe_eval' in LWRP
