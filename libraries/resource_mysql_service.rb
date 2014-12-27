@@ -1,5 +1,4 @@
 require 'chef/resource/lwrp_base'
-require_relative 'helpers'
 
 class Chef
   class Resource
@@ -20,13 +19,13 @@ class Chef
       attribute :run_group, kind_of: String, default: 'mysql'
       attribute :run_user, kind_of: String, default: 'mysql'
       attribute :version, kind_of: String, default: nil
-    end
 
-    include MysqlCookbook::Helpers
+      include MysqlCookbook::Helpers
 
-    def server_package_name
-      return package_name if package_name
-      server_package
+      def server_package_name
+        return package_name if package_name
+        server_package
+      end
     end
   end
 end
