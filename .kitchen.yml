@@ -1,13 +1,21 @@
 driver:
   name: vagrant
+  customize:
+    memory: 1024
 
 provisioner:
   name: chef_zero
 
 platforms:
   - name: centos-5.10
-  - name: centos-6.5
+    run_list:
+    - recipe[selinux::disabled]
+  - name: centos-6.6
+    run_list:
+    - recipe[selinux::disabled]
   - name: centos-7.0
+    run_list:
+    - recipe[selinux::disabled]
   - name: debian-7.4
     run_list:
       - recipe[apt]
@@ -45,7 +53,7 @@ suites:
     - recipe[mysql_service_test::single]
     includes: [
       'centos-5.10',
-      'centos-6.5',
+      'centos-6.6',
       'ubuntu-10.04'
     ]
     attributes:
@@ -57,7 +65,7 @@ suites:
     - recipe[mysql_service_test::single]
     includes: [
       'centos-5.10',
-      'centos-6.5',
+      'centos-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20',
@@ -76,8 +84,8 @@ suites:
     - recipe[mysql_service_test::single]
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20',
@@ -93,8 +101,8 @@ suites:
     - recipe[mysql_service_test::single]
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20'
@@ -137,8 +145,8 @@ suites:
     - recipe[mysql_service_test::multi]
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20',
@@ -164,8 +172,8 @@ suites:
     - recipe[mysql_service_test::multi]
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'fedora-20',
       'amazon-2014.09',
@@ -185,8 +193,8 @@ suites:
     - recipe[mysql_service_test::multi]
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'fedora-20',
       'amazon-2014.09'
@@ -220,7 +228,7 @@ suites:
        version: '5.1'
     includes: [
       'centos-5.10',
-      'centos-6.5',
+      'centos-6.6',
       'ubuntu-10.04'
     ]
 
@@ -232,8 +240,8 @@ suites:
        version: '5.5'
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20',
@@ -255,8 +263,8 @@ suites:
        version: '5.6'
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20',
@@ -272,8 +280,8 @@ suites:
        version: '5.7'
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20'
@@ -308,8 +316,8 @@ suites:
     - recipe[mysql_config_test]
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20',
@@ -331,8 +339,8 @@ suites:
     - recipe[mysql_config_test]
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20',
@@ -348,8 +356,8 @@ suites:
     - recipe[mysql_config_test]
     includes: [
       'centos-5.10',
-      'centos-6.5',
-      'redhat-6.5',
+      'centos-6.6',
+      'redhat-6.6',
       'centos-7.0',
       'fedora-20',
       'amazon-2014.09'
@@ -366,7 +374,7 @@ suites:
     - recipe[mysql_replication_test]
     includes: [
       'centos-5.10',
-      'centos-6.5',
+      'centos-6.6',
       'centos-7.0',
       'amazon-2014.09',
       'fedora-20',

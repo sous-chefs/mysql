@@ -17,6 +17,7 @@ Requirements
 - Chef 11 or higher
 - Ruby 1.9 or higher (preferably from the Chef full-stack installer)
 - Network accessible package repositories
+- 'recipe[selinux::disabled]' on RHEL platforms
 
 Platform Support
 ----------------
