@@ -386,7 +386,7 @@ Use multiple `mysql_service` instances to test a replication setup.
 This particular example serves as a smoke test in Test Kitchen because
 it exercises different resources and requires service restarts.
 
-https://github.com/someara/mysql/blob/9a588e25166ca411d6ba1777b1435ea6cd115913/test/fixtures/cookbooks/mysql_replication_test/recipes/default.rb
+https://github.com/chef-cookbooks/mysql/blob/master/test/fixtures/cookbooks/mysql_replication_test/recipes/default.rb
 
 Frequently Asked Questions
 --------------------------
