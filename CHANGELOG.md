@@ -1,6 +1,11 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.7 (2015-01-14)
+------------------
+- Fixing timing issue with Upstart provider :restart and :reload
+  actions where service returns before being available
+
 v6.0.6 (2014-12-26)
 ------------------
 - Fixing subtle bug where MysqlCookbook::Helper methods were polluting Chef::Resource
