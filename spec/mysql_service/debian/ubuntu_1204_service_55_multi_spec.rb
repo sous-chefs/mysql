@@ -255,6 +255,18 @@ describe 'mysql_service_test::single on ubuntu-12.04' do
       expect(ubuntu_1204_service_55_multi).to_not run_bash('instance-1 :create initial records')
     end
 
+    it 'creates template[instance-1 :create /usr/sbin/mysql-instance-1-wait-ready]' do
+      expect(ubuntu_1204_service_55_multi).to create_template('instance-1 :start /usr/sbin/mysql-instance-1-wait-ready')
+        .with(
+        path: '/usr/sbin/mysql-instance-1-wait-ready',
+        source: 'upstart/mysqld-wait-ready.erb',
+        owner: 'root',
+        group: 'root',
+        mode: '0755',
+        cookbook: 'mysql'
+        )
+    end
+
     it 'creates template[instance-1 :create /etc/init/mysql-instance-1.conf]' do
       expect(ubuntu_1204_service_55_multi).to create_template('instance-1 :start /etc/init/mysql-instance-1.conf')
         .with(
@@ -448,6 +460,18 @@ describe 'mysql_service_test::single on ubuntu-12.04' do
 
     it 'runs bash[instance-2 :create initial records]' do
       expect(ubuntu_1204_service_55_multi).to_not run_bash('instance-2 :create initial records')
+    end
+
+    it 'creates template[instance-2 :create /usr/sbin/mysql-instance-2-wait-ready]' do
+      expect(ubuntu_1204_service_55_multi).to create_template('instance-2 :start /usr/sbin/mysql-instance-2-wait-ready')
+        .with(
+        path: '/usr/sbin/mysql-instance-2-wait-ready',
+        source: 'upstart/mysqld-wait-ready.erb',
+        owner: 'root',
+        group: 'root',
+        mode: '0755',
+        cookbook: 'mysql'
+        )
     end
 
     it 'creates template[instance-2 :create /etc/init/mysql-instance-2.conf]' do

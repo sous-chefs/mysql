@@ -196,6 +196,18 @@ describe 'mysql_service_test::single on ubuntu-12.04' do
       expect(ubuntu_1204_service_55_single).to_not run_bash('default :create initial records')
     end
 
+    it 'creates template[default :create /usr/sbin/mysql-default-wait-ready]' do
+      expect(ubuntu_1204_service_55_single).to create_template('default :start /usr/sbin/mysql-default-wait-ready')
+        .with(
+        path: '/usr/sbin/mysql-default-wait-ready',
+        source: 'upstart/mysqld-wait-ready.erb',
+        owner: 'root',
+        group: 'root',
+        mode: '0755',
+        cookbook: 'mysql'
+        )
+    end
+
     it 'creates template[default :create /etc/init/mysql-default.conf]' do
       expect(ubuntu_1204_service_55_single).to create_template('default :start /etc/init/mysql-default.conf')
         .with(
