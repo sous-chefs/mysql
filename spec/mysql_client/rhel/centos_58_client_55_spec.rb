@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_client_test::default on centos-5.8' do
-  let(:centos_58_client_55) do
-    ChefSpec::Runner.new(
+  cached(:centos_58_client_55) do
+    ChefSpec::SoloRunner.new(
       platform: 'centos',
       version: '5.8',
       step_into: 'mysql_client'

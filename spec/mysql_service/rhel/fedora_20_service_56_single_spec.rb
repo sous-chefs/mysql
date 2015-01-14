@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_service_test::single on fedora-20' do
-  let(:fedora_20_service_56_single) do
-    ChefSpec::Runner.new(
+  cached(:fedora_20_service_56_single) do
+    ChefSpec::SoloRunner.new(
       platform: 'fedora',
       version: '20',
       step_into: 'mysql_service'

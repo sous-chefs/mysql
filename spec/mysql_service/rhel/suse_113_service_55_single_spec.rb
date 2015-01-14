@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_service_test::single on suse-11.3' do
-  let(:suse_113_service_55_single) do
-    ChefSpec::Runner.new(
+  cached(:suse_113_service_55_single) do
+    ChefSpec::SoloRunner.new(
       platform: 'suse',
       version: '11.3',
       step_into: 'mysql_service'

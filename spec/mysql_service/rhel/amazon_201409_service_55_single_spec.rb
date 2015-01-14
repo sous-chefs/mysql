@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_service_test::single on amazon-2014.09' do
-  let(:amazon_201409_service_55_single) do
-    ChefSpec::Runner.new(
+  cached(:amazon_201409_service_55_single) do
+    ChefSpec::SoloRunner.new(
       platform: 'amazon',
       version: '2014.09',
       step_into: 'mysql_service'

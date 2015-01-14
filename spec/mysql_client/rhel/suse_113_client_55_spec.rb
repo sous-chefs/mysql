@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_client_test::default on suse-11.3' do
-  let(:suse_113_client_55) do
-    ChefSpec::Runner.new(
+  cached(:suse_113_client_55) do
+    ChefSpec::SoloRunner.new(
       platform: 'suse',
       version: '11.3',
       step_into: 'mysql_client'

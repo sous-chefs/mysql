@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_service_test::single on debian-7.0' do
-  let(:debian_70_service_55_single) do
-    ChefSpec::Runner.new(
+  cached(:debian_70_service_55_single) do
+    ChefSpec::SoloRunner.new(
       platform: 'debian',
       version: '7.0',
       step_into: 'mysql_service'

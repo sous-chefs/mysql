@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_service_test::single on ubuntu-12.04' do
-  let(:ubuntu_1204_service_55_multi) do
-    ChefSpec::Runner.new(
+  cached(:ubuntu_1204_service_55_multi) do
+    ChefSpec::SoloRunner.new(
       platform: 'ubuntu',
       version: '12.04',
       step_into: 'mysql_service'

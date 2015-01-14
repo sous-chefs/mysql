@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_client_test::default on omnios-151006' do
-  let(:omnios_151006_client_56) do
-    ChefSpec::Runner.new(
+  cached(:omnios_151006_client_56) do
+    ChefSpec::SoloRunner.new(
       platform: 'omnios',
       version: '151006',
       step_into: 'mysql_client'

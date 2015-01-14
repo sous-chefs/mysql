@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_client_test::default on fedora-20' do
-  let(:fedora_20_client_55) do
-    ChefSpec::Runner.new(
+  cached(:fedora_20_client_55) do
+    ChefSpec::SoloRunner.new(
       platform: 'fedora',
       version: '20',
       step_into: 'mysql_client'

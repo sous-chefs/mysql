@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_service_test::single on centos-7.0' do
-  let(:centos_70_service_56_multi) do
-    ChefSpec::Runner.new(
+  cached(:centos_70_service_56_multi) do
+    ChefSpec::SoloRunner.new(
       platform: 'centos',
       version: '7.0',
       step_into: 'mysql_service'

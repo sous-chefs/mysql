@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'mysql_service_test::multi on smartos-5.11' do
-  let(:smartos_511_service_56_multi) do
-    ChefSpec::Runner.new(
+  cached(:smartos_511_service_56_multi) do
+    ChefSpec::SoloRunner.new(
       platform: 'smartos',
       version: '5.11',
       step_into: 'mysql_service'
