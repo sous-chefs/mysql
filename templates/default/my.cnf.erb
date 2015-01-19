@@ -32,8 +32,8 @@ bind-address                   = <%= @config.bind_address %>
 <% if @config.port %>
 port                           = <%= @config.port %>
 <% end %>
-<% if @config.parsed_data_dir %>
-datadir                        = <%= @config.parsed_data_dir %>
+<% if @data_dir %>
+datadir                        = <%= @data_dir %>
 <% end %>
 <% if @tmp_dir %>
 tmpdir                         = <%= @tmp_dir %>
