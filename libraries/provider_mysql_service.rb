@@ -134,7 +134,8 @@ class Chef
             lc_messages_dir: lc_messages_dir,
             pid_file: pid_file,
             socket_file: socket_file,
-            tmp_dir: tmp_dir
+            tmp_dir: tmp_dir,
+            parsed_data_dir: parsed_data_dir
             )
           action :create
         end
