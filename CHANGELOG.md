@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.9 (2015-01-19)
+------------------
+- Fix #282 undefined method `parsed_data_dir' bug
+
 v6.0.8 (2015-01-19)
 ------------------
 - Refactoring helper methods out of resource classes
