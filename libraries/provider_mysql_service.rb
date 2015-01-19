@@ -27,9 +27,9 @@ class Chef
         configure_package_repositories
 
         # Software installation
-        package "#{new_resource.name} :create #{new_resource.server_package_name}" do
-          package_name new_resource.server_package_name
-          version new_resource.version if node['platform'] == 'smartos'
+        package "#{new_resource.name} :create #{server_package_name}" do
+          package_name server_package_name
+          version parsed_version if node['platform'] == 'smartos'
           version new_resource.package_version
           action new_resource.package_action
         end
@@ -110,8 +110,8 @@ class Chef
           action :create
         end
 
-        directory "#{new_resource.name} :create #{new_resource.parsed_data_dir}" do
-          path new_resource.parsed_data_dir
+        directory "#{new_resource.name} :create #{parsed_data_dir}" do
+          path parsed_data_dir
           owner new_resource.run_user
           group new_resource.run_group
           mode '0750'
@@ -143,7 +143,7 @@ class Chef
         bash "#{new_resource.name} :create initialize mysql database" do
           cwd prefix_dir
           code mysql_install_db_script
-          not_if "/usr/bin/test -f #{new_resource.parsed_data_dir}/mysql/user.frm"
+          not_if "/usr/bin/test -f #{parsed_data_dir}/mysql/user.frm"
           notifies :run, "bash[#{new_resource.name} :create initial records]"
           action :run
         end
@@ -227,7 +227,7 @@ class Chef
           group 'root'
           mode '0644'
           variables(
-            data_dir: new_resource.parsed_data_dir,
+            data_dir: parsed_data_dir,
             mysql_name: mysql_name,
             log_dir: log_dir,
             run_dir: run_dir,

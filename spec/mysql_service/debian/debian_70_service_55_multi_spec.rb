@@ -52,15 +52,12 @@ describe 'mysql_service_test::single on debian-7.0' do
       expect(debian_70_service_55_multi).to create_mysql_service('instance-1')
         .with(
         charset: 'utf8',
-        parsed_data_dir: '/data/instance-1',
         initial_root_password: 'ilikerandompasswords',
         instance: 'instance-1',
         package_action: :install,
-        server_package_name: 'mysql-server-5.5',
         port: '3307',
         run_group: 'alice',
-        run_user: 'alice',
-        parsed_version: '5.5'
+        run_user: 'alice'
         )
     end
 
@@ -68,15 +65,12 @@ describe 'mysql_service_test::single on debian-7.0' do
       expect(debian_70_service_55_multi).to create_mysql_service('instance-2')
         .with(
         charset: 'utf8',
-        parsed_data_dir: '/data/instance-2',
         initial_root_password: 'string with spaces',
         instance: 'instance-2',
         package_action: :install,
-        server_package_name: 'mysql-server-5.5',
         port: '3308',
         run_group: 'bob',
-        run_user: 'bob',
-        parsed_version: '5.5'
+        run_user: 'bob'
         )
     end
   end

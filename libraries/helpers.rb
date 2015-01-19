@@ -9,7 +9,7 @@ module MysqlCookbook
     def configure_package_repositories
       # we need to enable the yum-mysql-community repository to get packages
       return unless %w(rhel fedora).include? node['platform_family']
-      case new_resource.parsed_version
+      case parsed_version
       when '5.5'
         # Prefer packages from native repos
         return if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 5
@@ -20,6 +20,11 @@ module MysqlCookbook
       when '5.7'
         include_recipe('yum-mysql-community::mysql57')
       end
+    end
+
+    def client_package_name
+      return new_resource.package_name if new_resource.package_name
+      client_package
     end
 
     def defaults_file
@@ -53,7 +58,7 @@ module MysqlCookbook
     end
 
     def pkg_ver_string
-      new_resource.parsed_version.gsub('.', '') if node['platform_family'] == 'omnios'
+      parsed_version.gsub('.', '') if node['platform_family'] == 'omnios'
     end
 
     def prefix_dir
@@ -64,14 +69,14 @@ module MysqlCookbook
 
     def scl_name
       return unless node['platform_family'] == 'rhel'
-      return 'mysql51' if new_resource.parsed_version == '5.1' && node['platform_version'].to_i == 5
-      return 'mysql55' if new_resource.parsed_version == '5.5' && node['platform_version'].to_i == 5
+      return 'mysql51' if parsed_version == '5.1' && node['platform_version'].to_i == 5
+      return 'mysql55' if parsed_version == '5.5' && node['platform_version'].to_i == 5
     end
 
     def scl_package?
       return unless node['platform_family'] == 'rhel'
-      return true if new_resource.parsed_version == '5.1' && node['platform_version'].to_i == 5
-      return true if new_resource.parsed_version == '5.5' && node['platform_version'].to_i == 5
+      return true if parsed_version == '5.1' && node['platform_version'].to_i == 5
+      return true if parsed_version == '5.5' && node['platform_version'].to_i == 5
       false
     end
 
@@ -90,10 +95,10 @@ module MysqlCookbook
       if scl_package?
         <<-EOF
           scl enable #{scl_name} \
-          "#{mysql_install_db_bin} --datadir=#{new_resource.parsed_data_dir} --defaults-file=#{etc_dir}/my.cnf"
+          "#{mysql_install_db_bin} --datadir=#{parsed_data_dir} --defaults-file=#{etc_dir}/my.cnf"
           EOF
       else
-        "#{mysql_install_db_bin} --datadir=#{new_resource.parsed_data_dir} --defaults-file=#{etc_dir}/my.cnf"
+        "#{mysql_install_db_bin} --datadir=#{parsed_data_dir} --defaults-file=#{etc_dir}/my.cnf"
       end
     end
 
@@ -300,10 +305,10 @@ EOSQL
     end
 
     def parsed_data_dir
-      return data_dir if data_dir
-      return "/opt/local/lib/mysql-#{instance}" if node['os'] == 'solaris2'
-      return "/var/lib/mysql-#{instance}" if node['os'] == 'linux'
-      return "/var/db/mysql-#{instance}" if node['os'] == 'freebsd'
+      return new_resource.data_dir if new_resource.data_dir
+      return "/opt/local/lib/#{mysql_name}" if node['os'] == 'solaris2'
+      return "/var/lib/#{mysql_name}" if node['os'] == 'linux'
+      return "/var/db/#{mysql_name}" if node['os'] == 'freebsd'
     end
 
     def client_package
@@ -326,8 +331,13 @@ EOSQL
         )
     end
 
+    def server_package_name
+      return new_resource.package_name if new_resource.package_name
+      server_package
+    end
+
     def parsed_version
-      return version if version
+      return new_resource.version if new_resource.version
       return '5.0' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 5
       return '5.1' if node['platform_family'] == 'debian' && node['platform_version'] == '10.04'
       return '5.1' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 6

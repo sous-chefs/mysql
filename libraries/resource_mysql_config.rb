@@ -15,8 +15,6 @@ class Chef
       attribute :source, kind_of: String, default: nil
       attribute :variables, kind_of: [Hash], default: nil
       attribute :version, kind_of: String, default: nil
-
-      include MysqlCookbook::Helpers
     end
   end
 end

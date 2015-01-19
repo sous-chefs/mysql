@@ -11,13 +11,6 @@ class Chef
       attribute :package_name, kind_of: Array, default: nil
       attribute :package_version, kind_of: String, default: nil
       attribute :version, kind_of: String, default: nil # mysql_version
-
-      include MysqlCookbook::Helpers
-
-      def client_package_name
-        return package_name if package_name
-        client_package
-      end
     end
   end
 end

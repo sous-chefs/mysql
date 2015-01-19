@@ -21,15 +21,12 @@ describe 'mysql_service_test::single on debian-7.0' do
       expect(debian_70_service_55_single).to create_mysql_service('default')
         .with(
         charset: 'utf8',
-        parsed_data_dir: '/var/lib/mysql-default',
         initial_root_password: 'ilikerandompasswords',
         instance: 'default',
         package_action: :install,
-        server_package_name: 'mysql-server-5.5',
         port: '3306',
         run_group: 'mysql',
-        run_user: 'mysql',
-        parsed_version: '5.5'
+        run_user: 'mysql'
         )
     end
   end

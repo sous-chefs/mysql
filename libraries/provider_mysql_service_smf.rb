@@ -15,7 +15,7 @@ class Chef
             mode '0555'
             variables(
               base_dir: base_dir,
-              data_dir: new_resource.parsed_data_dir,
+              data_dir: parsed_data_dir,
               defaults_file: defaults_file,
               error_log: error_log,
               mysql_name: mysql_name,

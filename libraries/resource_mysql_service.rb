@@ -19,13 +19,6 @@ class Chef
       attribute :run_group, kind_of: String, default: 'mysql'
       attribute :run_user, kind_of: String, default: 'mysql'
       attribute :version, kind_of: String, default: nil
-
-      include MysqlCookbook::Helpers
-
-      def server_package_name
-        return package_name if package_name
-        server_package
-      end
     end
   end
 end
