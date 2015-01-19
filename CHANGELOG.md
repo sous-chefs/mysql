@@ -1,9 +1,13 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.10 (2015-01-19)
+------------------
+- Fix #282 - Fixing up data_dir template variable
+
 v6.0.9 (2015-01-19)
 ------------------
-- Fix #282 undefined method `parsed_data_dir' bug
+- Fix #282 - undefined method `parsed_data_dir' bug
 
 v6.0.8 (2015-01-19)
 ------------------
