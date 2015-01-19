@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.8 (2015-01-19)
+------------------
+- Refactoring helper methods out of resource classes
+
 v6.0.7 (2015-01-14)
 ------------------
 - Fixing timing issue with Upstart provider :restart and :reload
