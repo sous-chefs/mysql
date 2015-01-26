@@ -1,6 +1,4 @@
 language: ruby:2.1.5
-env:
 commands:
   - bundle install
   - rake spec
-
