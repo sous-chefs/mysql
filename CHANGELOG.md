@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.11 (2015-02-30)
+--------------------
+- Adding support for configurable socket files
+
 v6.0.10 (2015-01-19)
 ------------------
 - Fix #282 - Fixing up data_dir template variable
