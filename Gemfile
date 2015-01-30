@@ -7,32 +7,20 @@ end
 
 group :unit do
   gem 'berkshelf',  '~> 3.2'
-  gem 'chefspec',   '~> 4.0'
+  gem 'chefspec',   '~> 4.2'
 end
 
 group :kitchen_common do
-  gem 'test-kitchen', '~> 1.2'
+  gem 'test-kitchen', '~> 1.3'
 end
 
 group :kitchen_vagrant do
-  gem 'kitchen-vagrant', '~> 0.15'
+  gem 'kitchen-vagrant'
 end
 
 group :kitchen_cloud do
-  gem 'kitchen-digitalocean', '~> 0.8'
-  gem 'kitchen-ec2',          '~> 0.8'
-  gem 'kitchen-joyent',       '~> 0.1'
-  gem 'kitchen-gce',          '~> 0.2'
-end
-
-group :development do
-  gem 'ruby_gntp'
-  gem 'growl'
-  gem 'rb-fsevent'
-  gem 'guard', '~> 2.4'
-  gem 'guard-kitchen'
-  gem 'guard-foodcritic'
-  gem 'guard-rspec'
-  gem 'guard-rubocop'
-  gem 'rake'
+  gem 'kitchen-digital_ocean'
+  gem 'kitchen-ec2'
+  gem 'kitchen-joyent'
+  gem 'kitchen-gce'
 end

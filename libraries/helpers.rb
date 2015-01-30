@@ -182,6 +182,7 @@ EOSQL
     end
 
     def socket_file
+      return new_resource.socket if new_resource.socket
       "#{run_dir}/mysqld.sock"
     end
 

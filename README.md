@@ -159,6 +159,11 @@ omitted, it will default to the platform's native location.
 - `run_user` - The name of the system user the `mysql_service` should
   run as. Defaults to 'mysql'.
 
+- `socket` - determines where to write the socket file for the
+  `mysql_service` instance. Useful when configuring clients on the
+  same machine to talk over socket and skip the networking stack.
+  Defaults to a calculated value based on platform and instance name.
+
 - `version` - allows the user to select from the versions available
   for the platform, where applicable. When omitted, it will install
   the default MySQL version for the target platform. Available version
