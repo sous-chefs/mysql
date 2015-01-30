@@ -302,7 +302,7 @@ EOSQL
       return platform_version.to_i.to_s if platform_family == 'debian'
       return platform_version.to_i.to_s if platform_family == 'rhel'
       return platform_version.to_s if platform_family == 'debian' && platform_version =~ /sid$/
-      return platform_version_to_s if platform_family == 'freebsd'
+      return platform_version.to_s if platform_family == 'freebsd'
     end
 
     def parsed_data_dir
