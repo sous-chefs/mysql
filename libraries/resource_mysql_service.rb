@@ -18,6 +18,7 @@ class Chef
       attribute :port, kind_of: String, default: '3306'
       attribute :run_group, kind_of: String, default: 'mysql'
       attribute :run_user, kind_of: String, default: 'mysql'
+      attribute :socket, kind_of: String, default: nil
       attribute :version, kind_of: String, default: nil
     end
   end
