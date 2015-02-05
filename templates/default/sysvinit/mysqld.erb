@@ -85,7 +85,7 @@ print_start_success() {
 
 print_start_failure() {
     <% if node['platform_family'] == 'rhel' %>
-    action $"Starting <%= @mysql_name %>: " /bin/true
+    action $"Starting <%= @mysql_name %>: " /bin/false
     <% else %>
     echo "Could not start MySQL instance <%= @mysql_name %>"
     <% end %>
