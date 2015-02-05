@@ -1,4 +1,5 @@
 require 'chef/mixin/shell_out'
+require 'shellwords'
 include Chef::Mixin::ShellOut
 
 def start_slave_1
@@ -9,7 +10,7 @@ def start_slave_1
   query << ' MASTER_PORT=3306,'
   query << " MASTER_LOG_POS=#{::File.open('/root/position').read.chomp};"
   query << ' START SLAVE;'
-  shell_out("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3307 -pub3rs3kur3")
+  shell_out("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3307 -p#{Shellwords.escape('MyPa$$wordHasSpecialChars!')}")
 end
 
 def start_slave_2
@@ -20,5 +21,5 @@ def start_slave_2
   query << ' MASTER_PORT=3306,'
   query << " MASTER_LOG_POS=#{::File.open('/root/position').read.chomp};"
   query << ' START SLAVE;'
-  shell_out("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3308 -pub3rs3kur3")
+  shell_out("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3308 -p#{Shellwords.escape('MyPa$$wordHasSpecialChars!')}")
 end

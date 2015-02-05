@@ -1,6 +1,11 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.13 (2015-02-15)
+--------------------
+- Adding support for special characters in initial_root_password
+- Fixing failure status bug in sysvinit script
+
 v6.0.12 (2015-02-30)
 --------------------
 - No changes. Released a 6.0.11 that was identical to 6.0.10.
