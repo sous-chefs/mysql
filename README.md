@@ -415,11 +415,11 @@ and adjust the settings with node attributes.
 
 - `recipe[yum-centos::default]` from the Supermarket
   https://supermarket.chef.io/cookbooks/yum-centos
-  https://github.com/opscode-cookbooks/yum-centos
+  https://github.com/chef-cookbooks/yum-centos
   
 - `recipe[yum-mysql-community::default]` from the Supermarket
   https://supermarket.chef.io/cookbooks/yum-mysql-community
-  https://github.com/opscode-cookbooks/yum-mysql-community
+  https://github.com/chef-cookbooks/yum-mysql-community
   
 ### The mysql command line doesn't work
 
@@ -451,9 +451,9 @@ Please refer to the HACKING.md
 
 License & Authors
 -----------------
-- Author:: Joshua Timberman (<joshua@opscode.com>)
-- Author:: AJ Christensen (<aj@opscode.com>)
-- Author:: Seth Chisamore (<schisamo@opscode.com>)
+- Author:: Joshua Timberman (<joshua@chef.io>)
+- Author:: AJ Christensen (<aj@chef.io>)
+- Author:: Seth Chisamore (<schisamo@chef.io>)
 - Author:: Brian Bianco (<brian.bianco@gmail.com>)
 - Author:: Jesse Howarth (<him@jessehowarth.com>)
 - Author:: Andrew Crump (<andrew@kotirisoftware.com>)
