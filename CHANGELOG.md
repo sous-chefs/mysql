@@ -1,6 +1,12 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.14 (2015-02-26)
+--------------------
+- Fixed debian system service :disable action. Now survives reboot
+- Fixing centos-7 instance :enable action. Now survives
+- Not applying Apparmor policy if running in a Docker container
+
 v6.0.13 (2015-02-15)
 --------------------
 - Adding support for special characters in initial_root_password
