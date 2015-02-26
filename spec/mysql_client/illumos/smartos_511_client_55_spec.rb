@@ -23,8 +23,8 @@ describe 'mysql_client_test::default on smartos-511' do
     it 'installs package[default :create mysql-client]' do
       expect(smartos_511_client_55).to install_package('default :create mysql-client')
         .with(
-        package_name: 'mysql-client',
-        version: '5.5'
+          package_name: 'mysql-client',
+          version: '5.5'
         )
     end
   end

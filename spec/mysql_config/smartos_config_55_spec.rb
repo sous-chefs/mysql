@@ -37,21 +37,21 @@ describe 'mysql_config_test::default' do
     it 'creates directory[hello :create /opt/local/etc/mysql-default/conf.d]' do
       expect(smartos_config_55).to create_directory('hello :create /opt/local/etc/mysql-default/conf.d')
         .with(
-        path: '/opt/local/etc/mysql-default/conf.d',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/etc/mysql-default/conf.d',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[hello :create /opt/local/etc/mysql-default/conf.d/hello.cnf]' do
       expect(smartos_config_55).to create_template('hello :create /opt/local/etc/mysql-default/conf.d/hello.cnf')
         .with(
-        path: '/opt/local/etc/mysql-default/conf.d/hello.cnf',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0640'
+          path: '/opt/local/etc/mysql-default/conf.d/hello.cnf',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0640'
         )
     end
 
@@ -68,21 +68,21 @@ describe 'mysql_config_test::default' do
     it 'creates directory[hello_again :create /opt/local/etc/mysql-foo/conf.d]' do
       expect(smartos_config_55).to create_directory('hello_again :create /opt/local/etc/mysql-foo/conf.d')
         .with(
-        path: '/opt/local/etc/mysql-foo/conf.d',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/etc/mysql-foo/conf.d',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[hello_again :create /opt/local/etc/mysql-foo/conf.d/hello_again.cnf]' do
       expect(smartos_config_55).to create_template('hello_again :create /opt/local/etc/mysql-foo/conf.d/hello_again.cnf')
         .with(
-        path: '/opt/local/etc/mysql-foo/conf.d/hello_again.cnf',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0640'
+          path: '/opt/local/etc/mysql-foo/conf.d/hello_again.cnf',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0640'
         )
     end
   end

@@ -52,80 +52,80 @@ describe 'mysql_service_test::single on omnios-151006' do
     it 'creates link[default :create /opt/mysql56/usr/share/my-default.cnf]' do
       expect(omnios_151006_service_56_single).to create_link('default :create /opt/mysql56/usr/share/my-default.cnf')
         .with(
-        target_file: '/opt/mysql56/usr/share/my-default.cnf',
-        to: '/opt/mysql56/etc/mysql-default/my.cnf'
+          target_file: '/opt/mysql56/usr/share/my-default.cnf',
+          to: '/opt/mysql56/etc/mysql-default/my.cnf'
         )
     end
 
     it 'creates directory[default :create /opt/mysql56/etc/mysql-default]' do
       expect(omnios_151006_service_56_single).to create_directory('default :create /opt/mysql56/etc/mysql-default')
         .with(
-        path: '/opt/mysql56/etc/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/opt/mysql56/etc/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /opt/mysql56/etc/mysql-default/conf.d]' do
       expect(omnios_151006_service_56_single).to create_directory('default :create /opt/mysql56/etc/mysql-default/conf.d')
         .with(
-        path: '/opt/mysql56/etc/mysql-default/conf.d',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/opt/mysql56/etc/mysql-default/conf.d',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /var/run/mysql-default]' do
       expect(omnios_151006_service_56_single).to create_directory('default :create /var/run/mysql-default')
         .with(
-        path: '/var/run/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0755',
-        recursive: true
+          path: '/var/run/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0755',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /var/adm/log/mysql-default]' do
       expect(omnios_151006_service_56_single).to create_directory('default :create /var/adm/log/mysql-default')
         .with(
-        path: '/var/adm/log/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/var/adm/log/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /opt/local/lib/mysql-default]' do
       expect(omnios_151006_service_56_single).to create_directory('default :create /opt/local/lib/mysql-default')
         .with(
-        path: '/opt/local/lib/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/lib/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[default :create /opt/mysql56/etc/mysql-default/my.cnf]' do
       expect(omnios_151006_service_56_single).to create_template('default :create /opt/mysql56/etc/mysql-default/my.cnf')
         .with(
-        path: '/opt/mysql56/etc/mysql-default/my.cnf',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0600'
+          path: '/opt/mysql56/etc/mysql-default/my.cnf',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0600'
         )
     end
 
     it 'runs bash[default :create initialize mysql database]' do
       expect(omnios_151006_service_56_single).to_not run_bash('default :create initialize mysql database')
         .with(
-        cwd: '/opt/local/lib/mysql-default'
+          cwd: '/opt/local/lib/mysql-default'
         )
     end
 
@@ -136,30 +136,30 @@ describe 'mysql_service_test::single on omnios-151006' do
     it 'create template[default :start /lib/svc/method/mysql-default]' do
       expect(omnios_151006_service_56_single).to create_template('default :start /lib/svc/method/mysql-default')
         .with(
-        path: '/lib/svc/method/mysql-default',
-        source: 'smf/svc.method.mysqld.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0555',
-        cookbook: 'mysql'
+          path: '/lib/svc/method/mysql-default',
+          source: 'smf/svc.method.mysqld.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0555',
+          cookbook: 'mysql'
         )
     end
 
     it 'create template[default :start /lib/svc/method/mysql-default]' do
       expect(omnios_151006_service_56_single).to install_smf('mysql-default')
         .with(
-        name: 'mysql-default',
-        user: 'mysql',
-        group: 'mysql',
-        start_command: '/lib/svc/method/mysql-default start'
+          name: 'mysql-default',
+          user: 'mysql',
+          group: 'mysql',
+          start_command: '/lib/svc/method/mysql-default start'
         )
     end
 
     it 'starts service[default :start mysql-default]' do
       expect(omnios_151006_service_56_single).to enable_service('default :start mysql-default')
         .with(
-        service_name: 'mysql-default',
-        provider: Chef::Provider::Service::Solaris
+          service_name: 'mysql-default',
+          provider: Chef::Provider::Service::Solaris
         )
     end
   end

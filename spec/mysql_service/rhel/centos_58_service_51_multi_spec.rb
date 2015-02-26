@@ -116,80 +116,80 @@ describe 'mysql_service_test::single on centos-5.8' do
     it 'creates link[instance-1 :create /opt/rh/mysql51/root/usr/share/my-default.cnf]' do
       expect(centos_58_service_51_multi).to create_link('instance-1 :create /opt/rh/mysql51/root/usr/share/my-default.cnf')
         .with(
-        target_file: '/opt/rh/mysql51/root/usr/share/my-default.cnf',
-        to: '/opt/rh/mysql51/root/etc/mysql-instance-1/my.cnf'
+          target_file: '/opt/rh/mysql51/root/usr/share/my-default.cnf',
+          to: '/opt/rh/mysql51/root/etc/mysql-instance-1/my.cnf'
         )
     end
 
     it 'creates directory[instance-1 :create /opt/rh/mysql51/root/etc/mysql-instance-1]' do
       expect(centos_58_service_51_multi).to create_directory('instance-1 :create /opt/rh/mysql51/root/etc/mysql-instance-1')
         .with(
-        path: '/opt/rh/mysql51/root/etc/mysql-instance-1',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0750',
-        recursive: true
+          path: '/opt/rh/mysql51/root/etc/mysql-instance-1',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-1 :create /opt/rh/mysql51/root/etc/mysql-instance-1/conf.d]' do
       expect(centos_58_service_51_multi).to create_directory('instance-1 :create /opt/rh/mysql51/root/etc/mysql-instance-1/conf.d')
         .with(
-        path: '/opt/rh/mysql51/root/etc/mysql-instance-1/conf.d',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0750',
-        recursive: true
+          path: '/opt/rh/mysql51/root/etc/mysql-instance-1/conf.d',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-1 :create /opt/rh/mysql51/root/var/run/mysql-instance-1]' do
       expect(centos_58_service_51_multi).to create_directory('instance-1 :create /opt/rh/mysql51/root/var/run/mysql-instance-1')
         .with(
-        path: '/opt/rh/mysql51/root/var/run/mysql-instance-1',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0755',
-        recursive: true
+          path: '/opt/rh/mysql51/root/var/run/mysql-instance-1',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0755',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-1 :create /opt/rh/mysql51/root/var/log/mysql-instance-1]' do
       expect(centos_58_service_51_multi).to create_directory('instance-1 :create /opt/rh/mysql51/root/var/log/mysql-instance-1')
         .with(
-        path: '/opt/rh/mysql51/root/var/log/mysql-instance-1',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0750',
-        recursive: true
+          path: '/opt/rh/mysql51/root/var/log/mysql-instance-1',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-1 :create /data/instance-1]' do
       expect(centos_58_service_51_multi).to create_directory('instance-1 :create /data/instance-1')
         .with(
-        path: '/data/instance-1',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0750',
-        recursive: true
+          path: '/data/instance-1',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[instance-1 :create /opt/rh/mysql51/root/etc/mysql-instance-1/my.cnf]' do
       expect(centos_58_service_51_multi).to create_template('instance-1 :create /opt/rh/mysql51/root/etc/mysql-instance-1/my.cnf')
         .with(
-        path: '/opt/rh/mysql51/root/etc/mysql-instance-1/my.cnf',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0600'
+          path: '/opt/rh/mysql51/root/etc/mysql-instance-1/my.cnf',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0600'
         )
     end
 
     it 'runs bash[instance-1 :create initialize mysql database]' do
       expect(centos_58_service_51_multi).to_not run_bash('instance-1 :create initialize mysql database')
         .with(
-        cwd: '/data/instance-1'
+          cwd: '/data/instance-1'
         )
     end
 
@@ -200,19 +200,19 @@ describe 'mysql_service_test::single on centos-5.8' do
     it 'create template[instance-1 :start /etc/init.d/mysql-instance-1]' do
       expect(centos_58_service_51_multi).to create_template('instance-1 :start /etc/init.d/mysql-instance-1')
         .with(
-        path: '/etc/init.d/mysql-instance-1',
-        source: 'sysvinit/mysqld.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0755',
-        cookbook: 'mysql'
+          path: '/etc/init.d/mysql-instance-1',
+          source: 'sysvinit/mysqld.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0755',
+          cookbook: 'mysql'
         )
     end
 
     it 'starts service[instance-1 :start mysql-instance-1]' do
       expect(centos_58_service_51_multi).to start_service('instance-1 :start mysql-instance-1')
         .with(
-        service_name: 'mysql-instance-1'
+          service_name: 'mysql-instance-1'
         )
     end
   end
@@ -252,80 +252,80 @@ describe 'mysql_service_test::single on centos-5.8' do
     it 'creates link[instance-2 :create /opt/rh/mysql51/root/usr/share/my-default.cnf]' do
       expect(centos_58_service_51_multi).to create_link('instance-2 :create /opt/rh/mysql51/root/usr/share/my-default.cnf')
         .with(
-        target_file: '/opt/rh/mysql51/root/usr/share/my-default.cnf',
-        to: '/opt/rh/mysql51/root/etc/mysql-instance-2/my.cnf'
+          target_file: '/opt/rh/mysql51/root/usr/share/my-default.cnf',
+          to: '/opt/rh/mysql51/root/etc/mysql-instance-2/my.cnf'
         )
     end
 
     it 'creates directory[instance-2 :create /opt/rh/mysql51/root/etc/mysql-instance-2]' do
       expect(centos_58_service_51_multi).to create_directory('instance-2 :create /opt/rh/mysql51/root/etc/mysql-instance-2')
         .with(
-        path: '/opt/rh/mysql51/root/etc/mysql-instance-2',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0750',
-        recursive: true
+          path: '/opt/rh/mysql51/root/etc/mysql-instance-2',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-2 :create /opt/rh/mysql51/root/etc/mysql-instance-2/conf.d]' do
       expect(centos_58_service_51_multi).to create_directory('instance-2 :create /opt/rh/mysql51/root/etc/mysql-instance-2/conf.d')
         .with(
-        path: '/opt/rh/mysql51/root/etc/mysql-instance-2/conf.d',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0750',
-        recursive: true
+          path: '/opt/rh/mysql51/root/etc/mysql-instance-2/conf.d',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-2 :create /opt/rh/mysql51/root/var/run/mysql-instance-2]' do
       expect(centos_58_service_51_multi).to create_directory('instance-2 :create /opt/rh/mysql51/root/var/run/mysql-instance-2')
         .with(
-        path: '/opt/rh/mysql51/root/var/run/mysql-instance-2',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0755',
-        recursive: true
+          path: '/opt/rh/mysql51/root/var/run/mysql-instance-2',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0755',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-2 :create /opt/rh/mysql51/root/var/log/mysql-instance-2]' do
       expect(centos_58_service_51_multi).to create_directory('instance-2 :create /opt/rh/mysql51/root/var/log/mysql-instance-2')
         .with(
-        path: '/opt/rh/mysql51/root/var/log/mysql-instance-2',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0750',
-        recursive: true
+          path: '/opt/rh/mysql51/root/var/log/mysql-instance-2',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-2 :create /data/instance-2]' do
       expect(centos_58_service_51_multi).to create_directory('instance-2 :create /data/instance-2')
         .with(
-        path: '/data/instance-2',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0750',
-        recursive: true
+          path: '/data/instance-2',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[instance-2 :create /opt/rh/mysql51/root/etc/mysql-instance-2/my.cnf]' do
       expect(centos_58_service_51_multi).to create_template('instance-2 :create /opt/rh/mysql51/root/etc/mysql-instance-2/my.cnf')
         .with(
-        path: '/opt/rh/mysql51/root/etc/mysql-instance-2/my.cnf',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0600'
+          path: '/opt/rh/mysql51/root/etc/mysql-instance-2/my.cnf',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0600'
         )
     end
 
     it 'runs bash[instance-2 :create initialize mysql database]' do
       expect(centos_58_service_51_multi).to_not run_bash('instance-2 :create initialize mysql database')
         .with(
-        cwd: '/data/instance-2'
+          cwd: '/data/instance-2'
         )
     end
 
@@ -336,19 +336,19 @@ describe 'mysql_service_test::single on centos-5.8' do
     it 'create template[instance-2 :start /etc/init.d/mysql-instance-2]' do
       expect(centos_58_service_51_multi).to create_template('instance-2 :start /etc/init.d/mysql-instance-2')
         .with(
-        path: '/etc/init.d/mysql-instance-2',
-        source: 'sysvinit/mysqld.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0755',
-        cookbook: 'mysql'
+          path: '/etc/init.d/mysql-instance-2',
+          source: 'sysvinit/mysqld.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0755',
+          cookbook: 'mysql'
         )
     end
 
     it 'starts service[instance-2 :start mysql-instance-2]' do
       expect(centos_58_service_51_multi).to start_service('instance-2 :start mysql-instance-2')
         .with(
-        service_name: 'mysql-instance-2'
+          service_name: 'mysql-instance-2'
         )
     end
   end

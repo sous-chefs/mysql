@@ -67,29 +67,29 @@ describe 'mysql_service_test::multi on smartos-5.11' do
     it 'stops service[default :delete mysql-default]' do
       expect(smartos_511_service_56_multi).to stop_service('default :delete mysql-default')
         .with(
-        service_name: 'mysql-default',
-        provider: Chef::Provider::Service::Solaris
+          service_name: 'mysql-default',
+          provider: Chef::Provider::Service::Solaris
         )
     end
 
     it 'deletes directory[default :delete /opt/local/etc/mysql-default]' do
       expect(smartos_511_service_56_multi).to delete_directory('default :delete /opt/local/etc/mysql-default')
         .with(
-        path: '/opt/local/etc/mysql-default'
+          path: '/opt/local/etc/mysql-default'
         )
     end
 
     it 'deletes directory[default :delete /var/run/mysql-default]' do
       expect(smartos_511_service_56_multi).to delete_directory('default :delete /var/run/mysql-default')
         .with(
-        path: '/var/run/mysql-default'
+          path: '/var/run/mysql-default'
         )
     end
 
     it 'deletes directory[default :delete /opt/local/var/adm/log/mysql-default]' do
       expect(smartos_511_service_56_multi).to delete_directory('default :delete /opt/local/var/log/mysql-default')
         .with(
-        path: '/opt/local/var/log/mysql-default'
+          path: '/opt/local/var/log/mysql-default'
         )
     end
   end
@@ -99,8 +99,8 @@ describe 'mysql_service_test::multi on smartos-5.11' do
     it 'installs package[instance-1 :create mysql-server]' do
       expect(smartos_511_service_56_multi).to install_package('instance-1 :create mysql-server')
         .with(
-        package_name: 'mysql-server',
-        version: '5.6'
+          package_name: 'mysql-server',
+          version: '5.6'
         )
     end
 
@@ -127,80 +127,80 @@ describe 'mysql_service_test::multi on smartos-5.11' do
     it 'creates link[instance-1 :create /opt/local/usr/share/my-default.cnf]' do
       expect(smartos_511_service_56_multi).to create_link('instance-1 :create /opt/local/usr/share/my-default.cnf')
         .with(
-        target_file: '/opt/local/usr/share/my-default.cnf',
-        to: '/opt/local/etc/mysql-instance-1/my.cnf'
+          target_file: '/opt/local/usr/share/my-default.cnf',
+          to: '/opt/local/etc/mysql-instance-1/my.cnf'
         )
     end
 
     it 'creates directory[instance-1 :create /opt/local/etc/mysql-instance-1]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-1 :create /opt/local/etc/mysql-instance-1')
         .with(
-        path: '/opt/local/etc/mysql-instance-1',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/etc/mysql-instance-1',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-1 :create /opt/local/etc/mysql-instance-1/conf.d]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-1 :create /opt/local/etc/mysql-instance-1/conf.d')
         .with(
-        path: '/opt/local/etc/mysql-instance-1/conf.d',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/etc/mysql-instance-1/conf.d',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-1 :create /var/run/mysql-instance-1]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-1 :create /var/run/mysql-instance-1')
         .with(
-        path: '/var/run/mysql-instance-1',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0755',
-        recursive: true
+          path: '/var/run/mysql-instance-1',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0755',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-1 :create /opt/local/var/log/mysql-instance-1]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-1 :create /opt/local/var/log/mysql-instance-1')
         .with(
-        path: '/opt/local/var/log/mysql-instance-1',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/var/log/mysql-instance-1',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-1 :create /data/instance-1]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-1 :create /data/instance-1')
         .with(
-        path: '/data/instance-1',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0750',
-        recursive: true
+          path: '/data/instance-1',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[instance-1 :create /opt/local/etc/mysql-instance-1/my.cnf]' do
       expect(smartos_511_service_56_multi).to create_template('instance-1 :create /opt/local/etc/mysql-instance-1/my.cnf')
         .with(
-        path: '/opt/local/etc/mysql-instance-1/my.cnf',
-        owner: 'alice',
-        group: 'alice',
-        mode: '0600'
+          path: '/opt/local/etc/mysql-instance-1/my.cnf',
+          owner: 'alice',
+          group: 'alice',
+          mode: '0600'
         )
     end
 
     it 'runs bash[instance-1 :create initialize mysql database]' do
       expect(smartos_511_service_56_multi).to_not run_bash('instance-1 :create initialize mysql database')
         .with(
-        cwd: '/opt/local/lib/mysql-instance-1'
+          cwd: '/opt/local/lib/mysql-instance-1'
         )
     end
 
@@ -211,30 +211,30 @@ describe 'mysql_service_test::multi on smartos-5.11' do
     it 'create template[instance-1 :start /opt/local/lib/svc/method/mysql-instance-1]' do
       expect(smartos_511_service_56_multi).to create_template('instance-1 :start /opt/local/lib/svc/method/mysql-instance-1')
         .with(
-        path: '/opt/local/lib/svc/method/mysql-instance-1',
-        source: 'smf/svc.method.mysqld.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0555',
-        cookbook: 'mysql'
+          path: '/opt/local/lib/svc/method/mysql-instance-1',
+          source: 'smf/svc.method.mysqld.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0555',
+          cookbook: 'mysql'
         )
     end
 
     it 'create template[instance-1 :start /opt/local/lib/svc/method/mysql-instance-1]' do
       expect(smartos_511_service_56_multi).to install_smf('mysql-instance-1')
         .with(
-        name: 'mysql-instance-1',
-        user: 'alice',
-        group: 'alice',
-        start_command: '/opt/local/lib/svc/method/mysql-instance-1 start'
+          name: 'mysql-instance-1',
+          user: 'alice',
+          group: 'alice',
+          start_command: '/opt/local/lib/svc/method/mysql-instance-1 start'
         )
     end
 
     it 'starts service[instance-1 :start mysql-instance-1]' do
       expect(smartos_511_service_56_multi).to enable_service('instance-1 :start mysql-instance-1')
         .with(
-        service_name: 'mysql-instance-1',
-        provider: Chef::Provider::Service::Solaris
+          service_name: 'mysql-instance-1',
+          provider: Chef::Provider::Service::Solaris
         )
     end
   end
@@ -244,8 +244,8 @@ describe 'mysql_service_test::multi on smartos-5.11' do
     it 'installs package[instance-2 :create mysql-server]' do
       expect(smartos_511_service_56_multi).to install_package('instance-2 :create mysql-server')
         .with(
-        package_name: 'mysql-server',
-        version: '5.6'
+          package_name: 'mysql-server',
+          version: '5.6'
         )
     end
 
@@ -272,80 +272,80 @@ describe 'mysql_service_test::multi on smartos-5.11' do
     it 'creates link[instance-2 :create /opt/local/usr/share/my-default.cnf]' do
       expect(smartos_511_service_56_multi).to create_link('instance-2 :create /opt/local/usr/share/my-default.cnf')
         .with(
-        target_file: '/opt/local/usr/share/my-default.cnf',
-        to: '/opt/local/etc/mysql-instance-2/my.cnf'
+          target_file: '/opt/local/usr/share/my-default.cnf',
+          to: '/opt/local/etc/mysql-instance-2/my.cnf'
         )
     end
 
     it 'creates directory[instance-2 :create /opt/local/etc/mysql-instance-2]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-2 :create /opt/local/etc/mysql-instance-2')
         .with(
-        path: '/opt/local/etc/mysql-instance-2',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/etc/mysql-instance-2',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-2 :create /opt/local/etc/mysql-instance-2/conf.d]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-2 :create /opt/local/etc/mysql-instance-2/conf.d')
         .with(
-        path: '/opt/local/etc/mysql-instance-2/conf.d',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/etc/mysql-instance-2/conf.d',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-2 :create /var/run/mysql-instance-2]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-2 :create /var/run/mysql-instance-2')
         .with(
-        path: '/var/run/mysql-instance-2',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0755',
-        recursive: true
+          path: '/var/run/mysql-instance-2',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0755',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-2 :create /opt/local/var/log/mysql-instance-2]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-2 :create /opt/local/var/log/mysql-instance-2')
         .with(
-        path: '/opt/local/var/log/mysql-instance-2',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0750',
-        recursive: true
+          path: '/opt/local/var/log/mysql-instance-2',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[instance-2 :create /data/instance-2]' do
       expect(smartos_511_service_56_multi).to create_directory('instance-2 :create /data/instance-2')
         .with(
-        path: '/data/instance-2',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0750',
-        recursive: true
+          path: '/data/instance-2',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[instance-2 :create /opt/local/etc/mysql-instance-2/my.cnf]' do
       expect(smartos_511_service_56_multi).to create_template('instance-2 :create /opt/local/etc/mysql-instance-2/my.cnf')
         .with(
-        path: '/opt/local/etc/mysql-instance-2/my.cnf',
-        owner: 'bob',
-        group: 'bob',
-        mode: '0600'
+          path: '/opt/local/etc/mysql-instance-2/my.cnf',
+          owner: 'bob',
+          group: 'bob',
+          mode: '0600'
         )
     end
 
     it 'runs bash[instance-2 :create initialize mysql database]' do
       expect(smartos_511_service_56_multi).to_not run_bash('instance-2 :create initialize mysql database')
         .with(
-        cwd: '/opt/local/lib/mysql-instance-2'
+          cwd: '/opt/local/lib/mysql-instance-2'
         )
     end
 
@@ -356,30 +356,30 @@ describe 'mysql_service_test::multi on smartos-5.11' do
     it 'create template[instance-2 :start /opt/local/lib/svc/method/mysql-instance-2]' do
       expect(smartos_511_service_56_multi).to create_template('instance-2 :start /opt/local/lib/svc/method/mysql-instance-2')
         .with(
-        path: '/opt/local/lib/svc/method/mysql-instance-2',
-        source: 'smf/svc.method.mysqld.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0555',
-        cookbook: 'mysql'
+          path: '/opt/local/lib/svc/method/mysql-instance-2',
+          source: 'smf/svc.method.mysqld.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0555',
+          cookbook: 'mysql'
         )
     end
 
     it 'create template[instance-2 :start /opt/local/lib/svc/method/mysql-instance-2]' do
       expect(smartos_511_service_56_multi).to install_smf('mysql-instance-2')
         .with(
-        name: 'mysql-instance-2',
-        user: 'bob',
-        group: 'bob',
-        start_command: '/opt/local/lib/svc/method/mysql-instance-2 start'
+          name: 'mysql-instance-2',
+          user: 'bob',
+          group: 'bob',
+          start_command: '/opt/local/lib/svc/method/mysql-instance-2 start'
         )
     end
 
     it 'starts service[instance-2 :start mysql-instance-2]' do
       expect(smartos_511_service_56_multi).to enable_service('instance-2 :start mysql-instance-2')
         .with(
-        service_name: 'mysql-instance-2',
-        provider: Chef::Provider::Service::Solaris
+          service_name: 'mysql-instance-2',
+          provider: Chef::Provider::Service::Solaris
         )
     end
   end

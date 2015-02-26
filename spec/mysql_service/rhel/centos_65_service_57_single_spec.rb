@@ -57,80 +57,80 @@ describe 'mysql_service_test::single on centos-6.5' do
     it 'creates link[default :create /usr/share/my-default.cnf]' do
       expect(centos_65_service_57_single).to create_link('default :create /usr/share/my-default.cnf')
         .with(
-        target_file: '/usr/share/my-default.cnf',
-        to: '/etc/mysql-default/my.cnf'
+          target_file: '/usr/share/my-default.cnf',
+          to: '/etc/mysql-default/my.cnf'
         )
     end
 
     it 'creates directory[default :create /etc/mysql-default]' do
       expect(centos_65_service_57_single).to create_directory('default :create /etc/mysql-default')
         .with(
-        path: '/etc/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/etc/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /etc/mysql-default/conf.d]' do
       expect(centos_65_service_57_single).to create_directory('default :create /etc/mysql-default/conf.d')
         .with(
-        path: '/etc/mysql-default/conf.d',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/etc/mysql-default/conf.d',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /var/run/mysql-default]' do
       expect(centos_65_service_57_single).to create_directory('default :create /var/run/mysql-default')
         .with(
-        path: '/var/run/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0755',
-        recursive: true
+          path: '/var/run/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0755',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /var/log/mysql-default]' do
       expect(centos_65_service_57_single).to create_directory('default :create /var/log/mysql-default')
         .with(
-        path: '/var/log/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/var/log/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /var/lib/mysql-default]' do
       expect(centos_65_service_57_single).to create_directory('default :create /var/lib/mysql-default')
         .with(
-        path: '/var/lib/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/var/lib/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[default :create /etc/mysql-default/my.cnf]' do
       expect(centos_65_service_57_single).to create_template('default :create /etc/mysql-default/my.cnf')
         .with(
-        path: '/etc/mysql-default/my.cnf',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0600'
+          path: '/etc/mysql-default/my.cnf',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0600'
         )
     end
 
     it 'runs bash[default :create initialize mysql database]' do
       expect(centos_65_service_57_single).to_not run_bash('default :create initialize mysql database')
         .with(
-        cwd: '/var/lib/mysql-default'
+          cwd: '/var/lib/mysql-default'
         )
     end
 
@@ -141,19 +141,19 @@ describe 'mysql_service_test::single on centos-6.5' do
     it 'create template[default :start /etc/init.d/mysql-default]' do
       expect(centos_65_service_57_single).to create_template('default :start /etc/init.d/mysql-default')
         .with(
-        path: '/etc/init.d/mysql-default',
-        source: 'sysvinit/mysqld.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0755',
-        cookbook: 'mysql'
+          path: '/etc/init.d/mysql-default',
+          source: 'sysvinit/mysqld.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0755',
+          cookbook: 'mysql'
         )
     end
 
     it 'starts service[default :start mysql-default]' do
       expect(centos_65_service_57_single).to start_service('default :start mysql-default')
         .with(
-        service_name: 'mysql-default'
+          service_name: 'mysql-default'
         )
     end
   end

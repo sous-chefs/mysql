@@ -37,21 +37,21 @@ describe 'mysql_config_test::default' do
     it 'creates directory[hello :create /etc/mysql-default/conf.d]' do
       expect(centos_58_config_56).to create_directory('hello :create /etc/mysql-default/conf.d')
         .with(
-        path: '/etc/mysql-default/conf.d',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/etc/mysql-default/conf.d',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[hello :create /etc/mysql-default/conf.d/hello.cnf]' do
       expect(centos_58_config_56).to create_template('hello :create /etc/mysql-default/conf.d/hello.cnf')
         .with(
-        path: '/etc/mysql-default/conf.d/hello.cnf',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0640'
+          path: '/etc/mysql-default/conf.d/hello.cnf',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0640'
         )
     end
 
@@ -68,21 +68,21 @@ describe 'mysql_config_test::default' do
     it 'creates directory[hello_again :create /etc/mysql-foo/conf.d]' do
       expect(centos_58_config_56).to create_directory('hello_again :create /etc/mysql-foo/conf.d')
         .with(
-        path: '/etc/mysql-foo/conf.d',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/etc/mysql-foo/conf.d',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[hello_again :create /etc/mysql-foo/conf.d/hello_again.cnf]' do
       expect(centos_58_config_56).to create_template('hello_again :create /etc/mysql-foo/conf.d/hello_again.cnf')
         .with(
-        path: '/etc/mysql-foo/conf.d/hello_again.cnf',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0640'
+          path: '/etc/mysql-foo/conf.d/hello_again.cnf',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0640'
         )
     end
   end

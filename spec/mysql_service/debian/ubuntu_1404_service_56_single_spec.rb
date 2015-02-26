@@ -42,47 +42,47 @@ describe 'mysql_service_test::single on ubuntu-14.04' do
     it 'creates directory[default :create /etc/apparmor.d/local/mysql]' do
       expect(ubuntu_1404_service_56_single).to create_directory('default :create /etc/apparmor.d/local/mysql')
         .with(
-        path: '/etc/apparmor.d/local/mysql',
-        owner: 'root',
-        group: 'root',
-        mode: '0755',
-        recursive: true
+          path: '/etc/apparmor.d/local/mysql',
+          owner: 'root',
+          group: 'root',
+          mode: '0755',
+          recursive: true
         )
     end
 
     it 'creates template[default :create /etc/apparmor.d/local/usr.sbin.mysqld]' do
       expect(ubuntu_1404_service_56_single).to create_template('default :create /etc/apparmor.d/local/usr.sbin.mysqld')
         .with(
-        path: '/etc/apparmor.d/local/usr.sbin.mysqld',
-        cookbook: 'mysql',
-        source: 'apparmor/usr.sbin.mysqld-local.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0644'
+          path: '/etc/apparmor.d/local/usr.sbin.mysqld',
+          cookbook: 'mysql',
+          source: 'apparmor/usr.sbin.mysqld-local.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0644'
         )
     end
 
     it 'creates template[default :create /etc/apparmor.d/usr.sbin.mysqld]' do
       expect(ubuntu_1404_service_56_single).to create_template('default :create /etc/apparmor.d/usr.sbin.mysqld')
         .with(
-        path: '/etc/apparmor.d/usr.sbin.mysqld',
-        cookbook: 'mysql',
-        source: 'apparmor/usr.sbin.mysqld.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0644'
+          path: '/etc/apparmor.d/usr.sbin.mysqld',
+          cookbook: 'mysql',
+          source: 'apparmor/usr.sbin.mysqld.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0644'
         )
     end
 
     it 'creates template[default :create /etc/apparmor.d/local/mysql/default]' do
       expect(ubuntu_1404_service_56_single).to create_template('default :create /etc/apparmor.d/local/mysql/default')
         .with(
-        path: '/etc/apparmor.d/local/mysql/default',
-        cookbook: 'mysql',
-        source: 'apparmor/usr.sbin.mysqld-instance.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0644'
+          path: '/etc/apparmor.d/local/mysql/default',
+          cookbook: 'mysql',
+          source: 'apparmor/usr.sbin.mysqld-instance.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0644'
         )
     end
 
@@ -115,80 +115,80 @@ describe 'mysql_service_test::single on ubuntu-14.04' do
     it 'creates link[default :create /usr/share/my-default.cnf]' do
       expect(ubuntu_1404_service_56_single).to create_link('default :create /usr/share/my-default.cnf')
         .with(
-        target_file: '/usr/share/my-default.cnf',
-        to: '/etc/mysql-default/my.cnf'
+          target_file: '/usr/share/my-default.cnf',
+          to: '/etc/mysql-default/my.cnf'
         )
     end
 
     it 'creates directory[default :create /etc/mysql-default]' do
       expect(ubuntu_1404_service_56_single).to create_directory('default :create /etc/mysql-default')
         .with(
-        path: '/etc/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/etc/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /etc/mysql-default/conf.d]' do
       expect(ubuntu_1404_service_56_single).to create_directory('default :create /etc/mysql-default/conf.d')
         .with(
-        path: '/etc/mysql-default/conf.d',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/etc/mysql-default/conf.d',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /run/mysql-default]' do
       expect(ubuntu_1404_service_56_single).to create_directory('default :create /run/mysql-default')
         .with(
-        path: '/run/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0755',
-        recursive: true
+          path: '/run/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0755',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /var/log/mysql-default]' do
       expect(ubuntu_1404_service_56_single).to create_directory('default :create /var/log/mysql-default')
         .with(
-        path: '/var/log/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/var/log/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates directory[default :create /var/lib/mysql-default]' do
       expect(ubuntu_1404_service_56_single).to create_directory('default :create /var/lib/mysql-default')
         .with(
-        path: '/var/lib/mysql-default',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0750',
-        recursive: true
+          path: '/var/lib/mysql-default',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0750',
+          recursive: true
         )
     end
 
     it 'creates template[default :create /etc/mysql-default/my.cnf]' do
       expect(ubuntu_1404_service_56_single).to create_template('default :create /etc/mysql-default/my.cnf')
         .with(
-        path: '/etc/mysql-default/my.cnf',
-        owner: 'mysql',
-        group: 'mysql',
-        mode: '0600'
+          path: '/etc/mysql-default/my.cnf',
+          owner: 'mysql',
+          group: 'mysql',
+          mode: '0600'
         )
     end
 
     it 'runs bash[default :create initialize mysql database]' do
       expect(ubuntu_1404_service_56_single).to_not run_bash('default :create initialize mysql database')
         .with(
-        cwd: '/var/lib/mysql-default'
+          cwd: '/var/lib/mysql-default'
         )
     end
 
@@ -199,32 +199,32 @@ describe 'mysql_service_test::single on ubuntu-14.04' do
     it 'creates template[default :create /usr/sbin/mysql-default-wait-ready]' do
       expect(ubuntu_1404_service_56_single).to create_template('default :start /usr/sbin/mysql-default-wait-ready')
         .with(
-        path: '/usr/sbin/mysql-default-wait-ready',
-        source: 'upstart/mysqld-wait-ready.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0755',
-        cookbook: 'mysql'
+          path: '/usr/sbin/mysql-default-wait-ready',
+          source: 'upstart/mysqld-wait-ready.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0755',
+          cookbook: 'mysql'
         )
     end
 
     it 'creates template[default :create /etc/init/mysql-default.conf]' do
       expect(ubuntu_1404_service_56_single).to create_template('default :start /etc/init/mysql-default.conf')
         .with(
-        path: '/etc/init/mysql-default.conf',
-        source: 'upstart/mysqld.erb',
-        owner: 'root',
-        group: 'root',
-        mode: '0644',
-        cookbook: 'mysql'
+          path: '/etc/init/mysql-default.conf',
+          source: 'upstart/mysqld.erb',
+          owner: 'root',
+          group: 'root',
+          mode: '0644',
+          cookbook: 'mysql'
         )
     end
 
     it 'starts service[default :start mysql-default]' do
       expect(ubuntu_1404_service_56_single).to start_service('default :start mysql-default')
         .with(
-        service_name: 'mysql-default',
-        provider: Chef::Provider::Service::Upstart
+          service_name: 'mysql-default',
+          provider: Chef::Provider::Service::Upstart
         )
     end
   end
