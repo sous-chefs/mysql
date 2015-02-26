@@ -37,7 +37,7 @@ class Chef
         create_stop_system_service
 
         # Apparmor
-        configure_apparmor if node['platform'] == 'ubuntu'
+        configure_apparmor if node['platform'] == 'ubuntu' unless node['virtualization']['system'] == 'docker'
 
         # System users
         group "#{new_resource.name} :create mysql" do
