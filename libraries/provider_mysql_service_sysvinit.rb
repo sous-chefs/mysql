@@ -26,7 +26,8 @@ class Chef
 
           service "#{new_resource.name} :start #{mysql_name}" do
             service_name mysql_name
-            provider Chef::Provider::Service::Init::Insserv if node['platform'] == 'debian'
+            provider Chef::Provider::Service::Init::Redhat if node['platform_family'] == 'redhat'
+            provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
             supports restart: true, status: true
             action [:enable, :start]
           end
@@ -35,7 +36,8 @@ class Chef
         action :stop do
           service "#{new_resource.name} :stop #{mysql_name}" do
             service_name mysql_name
-            provider Chef::Provider::Service::Init
+            provider Chef::Provider::Service::Init::Redhat if node['platform_family'] == 'redhat'
+            provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
             supports restart: true, status: true
             action [:stop]
           end
@@ -44,7 +46,8 @@ class Chef
         action :restart do
           service "#{new_resource.name} :restart #{mysql_name}" do
             service_name mysql_name
-            provider Chef::Provider::Service::Init
+            provider Chef::Provider::Service::Init::Redhat if node['platform_family'] == 'redhat'
+            provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
             supports restart: true
             action :restart
           end
@@ -53,7 +56,8 @@ class Chef
         action :reload do
           service "#{new_resource.name} :reload #{mysql_name}" do
             service_name mysql_name
-            provider Chef::Provider::Service::Init
+            provider Chef::Provider::Service::Init::Redhat if node['platform_family'] == 'redhat'
+            provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
             action :reload
           end
         end
@@ -61,7 +65,8 @@ class Chef
         def create_stop_system_service
           service "#{new_resource.name} :create #{system_service_name}" do
             service_name system_service_name
-            provider Chef::Provider::Service::Init
+            provider Chef::Provider::Service::Init::Redhat if node['platform_family'] == 'redhat'
+            provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
             supports status: true
             action [:stop, :disable]
           end
@@ -70,7 +75,8 @@ class Chef
         def delete_stop_service
           service "#{new_resource.name} :delete #{mysql_name}" do
             service_name mysql_name
-            provider Chef::Provider::Service::Init
+            provider Chef::Provider::Service::Init::Redhat if node['platform_family'] == 'redhat'
+            provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
             supports status: true
             action [:disable, :stop]
             only_if { ::File.exist?("#{etc_dir}/init.d/#{mysql_name}") }
