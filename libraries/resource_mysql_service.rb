@@ -20,6 +20,7 @@ class Chef
       attribute :run_user, kind_of: String, default: 'mysql'
       attribute :socket, kind_of: String, default: nil
       attribute :version, kind_of: String, default: nil
+      attribute :apparmor, kind_of: Symbol, default: :on
     end
   end
 end
