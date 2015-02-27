@@ -34,3 +34,6 @@ Metrics/AbcSize:
 AllCops:
   Exclude:
     - 'Guardfile'
+
+Style/GuardClause:
+  Enabled: false
