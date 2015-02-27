@@ -4,7 +4,7 @@ maintainer_email 'cookbooks@chef.io'
 license 'Apache 2.0'
 description 'Provides mysql_service, mysql_config, and mysql_client resources'
 
-version '6.0.14'
+version '6.0.15'
 
 supports 'amazon'
 supports 'redhat'

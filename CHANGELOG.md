@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.15 (2015-02-26)
+--------------------
+- Updating docker detection fix to pass specs
+
 v6.0.14 (2015-02-26)
 --------------------
 - Fixed debian system service :disable action. Now survives reboot
