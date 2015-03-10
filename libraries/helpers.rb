@@ -97,10 +97,10 @@ module MysqlCookbook
       if scl_package?
         <<-EOF
           scl enable #{scl_name} \
-          "#{mysql_install_db_bin} --datadir=#{parsed_data_dir} --defaults-file=#{etc_dir}/my.cnf"
+          "#{mysql_install_db_bin} --defaults-file=#{etc_dir}/my.cnf --datadir=#{parsed_data_dir}"
           EOF
       else
-        "#{mysql_install_db_bin} --datadir=#{parsed_data_dir} --defaults-file=#{etc_dir}/my.cnf"
+        "#{mysql_install_db_bin} --defaults-file=#{etc_dir}/my.cnf --datadir=#{parsed_data_dir}"
       end
     end
 
