@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.15 (2015-03-10)
+--------------------
+- Moved --defaults-file as first option to mysql_install_db_script
+
 v6.0.15 (2015-02-26)
 --------------------
 - Updating docker detection fix to pass specs
