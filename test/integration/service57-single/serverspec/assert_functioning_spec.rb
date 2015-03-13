@@ -23,7 +23,7 @@ def mysql_cmd
   -P 3306 \
   -u root \
   -pilikerandompasswords \
-  -e "SELECT Host,User,Password FROM mysql.user WHERE User='root' AND Host='%';" \
+  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='%';" \
   --skip-column-names
   EOF
 end
@@ -34,7 +34,7 @@ end
 
 describe command(mysql_cmd) do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match(/| % | root | *4C45527A2EBB585B4F5BAC0C29F4A20FB268C591 |/) }
+  its(:stdout) { should match(/| % | root |/) }
 end
 
 describe command(mysqld_cmd) do

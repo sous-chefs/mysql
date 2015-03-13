@@ -26,7 +26,7 @@ def instance_1_cmd
   -P 3307 \
   -u root \
   -pilikerandompasswords \
-  -e "SELECT Host,User,Password FROM mysql.user WHERE User='root' AND Host='%';" \
+  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='%';" \
   --skip-column-names
   EOF
 end
@@ -38,7 +38,7 @@ def instance_2_cmd
   -P 3308 \
   -u root \
   -pstring\\ with\\ spaces \
-  -e "SELECT Host,User,Password FROM mysql.user WHERE User='root' AND Host='%';" \
+  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='%';" \
   --skip-column-names
   EOF
 end
@@ -49,12 +49,12 @@ end
 
 describe command(instance_1_cmd) do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match(/| % | root | *4C45527A2EBB585B4F5BAC0C29F4A20FB268C591 |/) }
+  its(:stdout) { should match(/| % | root |/) }
 end
 
 describe command(instance_2_cmd) do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match(/| % | root | *9569840FB7E1D2D0E3BEA14B2ABAC240A9F13DEE |/) }
+  its(:stdout) { should match(/| % | root |/) }
 end
 
 describe command(mysqld_cmd) do
