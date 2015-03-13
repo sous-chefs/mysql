@@ -1,7 +1,12 @@
 mysql Cookbook CHANGELOG
 ========================
 
-v6.0.15 (2015-03-10)
+v6.0.15 (2015-03-13)
+--------------------
+- Updated for MySQL 5.7.6.
+- Handing removal of mysql_install_db and mysqld_safe
+
+v6.0.16 (2015-03-10)
 --------------------
 - Moved --defaults-file as first option to mysql_install_db_script
 
