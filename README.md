@@ -428,24 +428,21 @@ like this one:
 
 `Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'`
 
-This is because the server LWRP deletes the hardcoded /etc/my.cnf to
-avoid multiple MySQL instances sharing that config file. The socket
-for the instance is set in /etc/mysql-[instance]/my.cnf.
+This is because MySQL is hardcoded to read the defined default my.cnf
+file, typically at /etc/my.cnf, and this LWRP deletes it to prevent
+overlap among multiple MySQL configurations. 
 
-To connect to the socket, use something like this based on the correct
-my.cnf file settings.
+To connect to the socket from the command line, check the socket in the relevant my.cnf file and use something like this:
 
 `mysql -S /var/run/mysql-default/mysqld.sock -Pwhatever`
 
-Or add something like this to your $HOME/.my.cnf:
-
-`[client]
-socket = /var/run/mysql-default/mysqld.sock'
-
-Or to connect to a database via the local network from the command line,
-you'll need to specify additional flags and connect over the network..
+Or to connect over the network, use something like this:
+connect over the network..
 
 `mysql -h 127.0.0.1 -Pwhatever`
+
+These network or socket ssettings can also be put in you
+$HOME/.my.cnf, if preferred.
 
 ### What about MariaDB, Percona, Drizzle, WebScaleSQL, etc.
 
