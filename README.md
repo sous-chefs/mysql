@@ -428,8 +428,22 @@ like this one:
 
 `Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'`
 
-To connect to a database from the command line, you'll need to specify
-additional flags and connect over the network..
+This is because the server LWRP deletes the hardcoded /etc/my.cnf to
+avoid multiple MySQL instances sharing that config file. The socket
+for the instance is set in /etc/mysql-[instance]/my.cnf.
+
+To connect to the socket, use something like this based on the correct
+my.cnf file settings.
+
+`mysql -S /var/run/mysql-default/mysqld.sock -Pwhatever`
+
+Or add something like this to your $HOME/.my.cnf:
+
+`[client]
+socket = /var/run/mysql-default/mysqld.sock'
+
+Or to connect to a database via the local network from the command line,
+you'll need to specify additional flags and connect over the network..
 
 `mysql -h 127.0.0.1 -Pwhatever`
 
@@ -444,6 +458,9 @@ Package repository locations, package version names, software major
 version numbers, supported platform matrices, and the availability of
 software such as XtraDB and Galera are the main reasons that creating
 multiple cookbooks to make sense.
+
+Warnings
+--------
 
 Hacking / Testing / TODO
 -------------------------
