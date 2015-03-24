@@ -254,6 +254,10 @@ EOSQL
         @pkginfo.set['debian']['6']['5.1']['server_package'] = 'mysql-server-5.1'
         @pkginfo.set['debian']['7']['5.5']['client_package'] = %w(mysql-client libmysqlclient-dev)
         @pkginfo.set['debian']['7']['5.5']['server_package'] = 'mysql-server-5.5'
+        @pkginfo.set['debian']['7']['5.6']['client_package'] = %w(mysql-client libmysqlclient-dev) # apt-repo from dotdeb
+        @pkginfo.set['debian']['7']['5.6']['server_package'] = 'mysql-server-5.6'
+        @pkginfo.set['debian']['7']['5.7']['client_package'] = %w(mysql-client libmysqlclient-dev) # apt-repo from dotdeb
+        @pkginfo.set['debian']['7']['5.7']['server_package'] = 'mysql-server-5.7'
         @pkginfo.set['debian']['jessie/sid']['5.5']['client_package'] = %w(mysql-client libmysqlclient-dev)
         @pkginfo.set['debian']['jessie/sid']['5.5']['server_package'] = 'mysql-server-5.5'
         @pkginfo.set['fedora']['20']['5.5']['client_package'] = %w(community-mysql community-mysql-devel)
