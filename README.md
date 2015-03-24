@@ -428,10 +428,21 @@ like this one:
 
 `Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'`
 
-To connect to a database from the command line, you'll need to specify
-additional flags and connect over the network..
+This is because MySQL is hardcoded to read the defined default my.cnf
+file, typically at /etc/my.cnf, and this LWRP deletes it to prevent
+overlap among multiple MySQL configurations. 
+
+To connect to the socket from the command line, check the socket in the relevant my.cnf file and use something like this:
+
+`mysql -S /var/run/mysql-default/mysqld.sock -Pwhatever`
+
+Or to connect over the network, use something like this:
+connect over the network..
 
 `mysql -h 127.0.0.1 -Pwhatever`
+
+These network or socket ssettings can also be put in you
+$HOME/.my.cnf, if preferred.
 
 ### What about MariaDB, Percona, Drizzle, WebScaleSQL, etc.
 
@@ -444,6 +455,9 @@ Package repository locations, package version names, software major
 version numbers, supported platform matrices, and the availability of
 software such as XtraDB and Galera are the main reasons that creating
 multiple cookbooks to make sense.
+
+Warnings
+--------
 
 Hacking / Testing / TODO
 -------------------------
