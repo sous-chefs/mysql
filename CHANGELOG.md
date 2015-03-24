@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.18 (2015-03-24)
+--------------------
+- Adding support for 5.6 and 5.7 packages from dotdeb repos on Debian 7
+
 v6.0.17 (2015-03-13)
 --------------------
 - Updated for MySQL 5.7.6.
