@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.19 (2015-03-25)
+--------------------
+- Adding support for Amazon Linux 2015.03
+
 v6.0.18 (2015-03-24)
 --------------------
 - Adding support for 5.6 and 5.7 packages from dotdeb repos on Debian 7
