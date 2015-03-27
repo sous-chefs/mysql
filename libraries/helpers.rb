@@ -221,6 +221,11 @@ EOSQL
       "#{run_dir}/mysqld.sock"
     end
 
+    def socket_dir
+      return File.dirname(new_resource.socket) if new_resource.socket
+      run_dir
+    end
+
     def tmp_dir
       '/tmp'
     end
