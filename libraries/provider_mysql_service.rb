@@ -146,7 +146,7 @@ class Chef
         bash "#{new_resource.name} :create initial records" do
           code init_records_script
           returns [0, 1, 2] # facepalm
-          not_if "/usr/bin/test -f #{parsed_data_dir}/mysql/user.frm"
+          not_if { ::File.exists?("#{parsed_data_dir}/mysql/user.frm") }
           action :run
         end
       end
