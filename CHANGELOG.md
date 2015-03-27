@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.20 (2015-03-27)
+--------------------
+- #318 - Fixing Upstart pre-start script to handle custom socket paths
+
 v6.0.19 (2015-03-25)
 --------------------
 - Adding support for Amazon Linux 2015.03
