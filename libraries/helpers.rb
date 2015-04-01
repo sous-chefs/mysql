@@ -121,6 +121,7 @@ module MysqlCookbook
       cmd = mysql_install_db_bin
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << " --datadir=#{parsed_data_dir}"
+      cmd << ' --explicit_defaults_for_timestamp' if v56plus
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
       cmd
     end
