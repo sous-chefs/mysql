@@ -1,6 +1,12 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.21 (2015-04-08)
+--------------------
+- Fix to Upstart prestart script  when using custom socket
+- Adding --explicit_defaults_for_timestamp mysql_install_db_cmd for
+  5.6 and above
+
 v6.0.20 (2015-03-27)
 --------------------
 - #318 - Fixing Upstart pre-start script to handle custom socket paths
