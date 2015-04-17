@@ -24,9 +24,9 @@ class Chef
       attribute :package_version, :kind_of => String, :default => nil
       attribute :package_action, :kind_of => String, :default => nil
       attribute :enable_utf8, :kind_of => String, :default => false
-    end
 
-    include Opscode::Mysql::Helpers
+      include Opscode::Mysql::Helpers
+    end
 
     def parsed_allow_remote_root
       return allow_remote_root unless allow_remote_root.nil?
