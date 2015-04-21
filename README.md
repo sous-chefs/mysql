@@ -110,7 +110,7 @@ socket                         = /var/run/mysql-foo/mysqld.sock
 You can put extra configuration into the conf.d directory by using the
 `mysql_config` resource, like this:
 
-```
+```ruby
 mysql_service 'foo' do
   port '3306'
   version '5.5'
