@@ -1,6 +1,8 @@
 MySQL Cookbook
 =====================
 
+[![Join the chat at https://gitter.im/chef-cookbooks/mysql](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/chef-cookbooks/mysql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The Mysql Cookbook is a library cookbook that provides resource primitives
 (LWRPs) for use in recipes. It is designed to be a reference example for
 creating highly reusable cross-platform cookbooks.
