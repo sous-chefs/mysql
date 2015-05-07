@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.22 (2015-05-07)
+--------------------
+- Debian 8 (Jessie) support
+
 v6.0.21 (2015-04-08)
 --------------------
 - Fix to Upstart prestart script  when using custom socket
