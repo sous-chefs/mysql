@@ -148,6 +148,9 @@ module Opscode
             '7' => {
               '5.5' => {
                 'package_name' => 'mysql-server-5.5'
+              },
+              '5.6' => {
+                'package_name' => 'mysql-server-5.6' # apt-repo from dotdeb
               }
             },
             'jessie/sid' => {
