@@ -42,9 +42,9 @@ pid_exists() {
     PID_EXISTS=1
     if [ -f <%= @pid_file %> ]; then
         MYSQLD_PID=`cat <%= @pid_file %> 2>/dev/null`
-	      if [ -n "$MYSQLD_PID" ] && [ -d "/proc/$MYSQLD_PID" ] ; then
-	          PID_EXISTS=0
-	      fi
+        if [ -n "$MYSQLD_PID" ] && [ -d "/proc/$MYSQLD_PID" ] ; then
+            PID_EXISTS=0
+        fi
     fi
     return $PID_EXISTS
 }
@@ -64,9 +64,9 @@ running() {
 
 writable_error_log() {
     WRITABLE_ERROR_LOG=1
-	  touch "<%= @error_log %>" 2>/dev/null
+    touch "<%= @error_log %>" 2>/dev/null
     touchret=$?
-	  if [ $touchret -eq 0 ]; then
+    if [ $touchret -eq 0 ]; then
         chown <%= @config.run_user %>:<%= @config.run_group %> <%= @error_log %>
         return 0
     else
@@ -177,16 +177,16 @@ start() {
             break
         fi
         sleep 1
-	      let TIMEOUT=${TIMEOUT}-1
+        let TIMEOUT=${TIMEOUT}-1
     done
 
     # Handle timeout
-	  if [ $TIMEOUT -eq 0 ]; then
+    if [ $TIMEOUT -eq 0 ]; then
         print_start_failure
         # clean up
         kill $start_pid 2>/dev/null
-	      return 1
-	  fi
+        return 1
+    fi
 
     # successbaby.gif
     print_start_success
@@ -231,7 +231,7 @@ stop() {
             if [ -e <%= @pid_file %> ]; then
             sleep 1
             fi
-	          let TIMEOUT=${TIMEOUT}-1
+            let TIMEOUT=${TIMEOUT}-1
         done
 
         return $kstat
