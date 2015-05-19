@@ -31,7 +31,7 @@
 ####
 
 STARTTIMEOUT=30
-STOPTIMEOUT=15
+STOPTIMEOUT=60
 
 ####
 # Helper functions
@@ -110,11 +110,16 @@ print_reload_failure() {
     return 0;
 }
 
+print_stopping() {
+    echo "Shutting down MySQL instance <%= @mysql_name %>"
+    return 0;
+}
+
 print_stop_success() {
     <% if node['platform_family'] == 'rhel' %>
-    action $"Stopping <%= @mysql_name %>: " /bin/true
+    action $"Stopped <%= @mysql_name %>: " /bin/true
     <% else %>
-    echo "Stopping MySQL instance <%= @mysql_name %>"
+    echo "MySQL instance <%= @mysql_name %> Stopped."
     <% end %>
     return 0;
 }
@@ -219,24 +224,35 @@ status() {
 # Stop <%= @mysql_name %>
 stop() {
     if running; then
-        echo "Stopping MySQL instance <%= @mysql_name %>"
+        print_stopping
         if [ -f <%= @pid_file %> ]; then
             /bin/kill `cat <%= @pid_file %> 2>/dev/null`
-            kstat=$?
+            ret=$?
         fi
 
         # Timeout loop
-        local TIMEOUT=$STARTTIMEOUT
+        local TIMEOUT=$STOPTIMEOUT
         while [ $TIMEOUT -gt 0 ]; do
-            if [ -e <%= @pid_file %> ]; then
-            sleep 1
+            if [ ! -e <%= @pid_file %> ]; then
+              break
             fi
+            sleep 1
             let TIMEOUT=${TIMEOUT}-1
         done
 
-        return $kstat
+        # Handle timeout
+        if [ $TIMEOUT -eq 0 ]; then
+            ret=1
+        fi
+
+        if [ $ret -eq 0 ]; then
+            print_stop_success;
+        else
+            print_stop_failure;
+        fi
+        return $ret
     else
-        echo "MySQL instance <%= @mysql_name %> Stopped."
+        print_stop_success
         return 0
     fi
 }
