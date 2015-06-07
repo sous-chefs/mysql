@@ -102,6 +102,7 @@ class Chef
             provider Chef::Provider::Service::Systemd
             supports status: true
             action [:stop, :disable]
+            only_if { ::File.exist?("/usr/lib/systemd/system/mysqld.service") }
           end
         end
 
