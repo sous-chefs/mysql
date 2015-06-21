@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.23 (2015-06-21)
+--------------------
+- #354 Better handling of long MySQL startup times
+
 v6.0.22 (2015-05-07)
 --------------------
 - Debian 8 (Jessie) support
