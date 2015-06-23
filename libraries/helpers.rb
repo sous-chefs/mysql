@@ -227,6 +227,11 @@ EOSQL
       run_dir
     end
 
+    def error_log
+      return new_resource.error_log if new_resource.error_log
+      error_log
+    end
+    
     def tmp_dir
       '/tmp'
     end
