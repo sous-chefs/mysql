@@ -149,6 +149,8 @@ module MysqlCookbook
 
         cat > /tmp/#{mysql_name}/my.sql <<-EOSQL
 DELETE FROM mysql.user ;
+CREATE USER 'root'@'127.0.0.1' IDENTIFIED BY '#{Shellwords.escape(new_resource.initial_root_password)}' ;
+GRANT ALL ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION ;
 CREATE USER 'root'@'localhost' IDENTIFIED BY '#{Shellwords.escape(new_resource.initial_root_password)}' ;
 GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION ;
 FLUSH PRIVILEGES;
