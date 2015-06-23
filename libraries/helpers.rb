@@ -33,10 +33,6 @@ module MysqlCookbook
       "#{etc_dir}/my.cnf"
     end
 
-    def error_log
-      "#{log_dir}/error.log"
-    end
-
     def etc_dir
       return "/opt/mysql#{pkg_ver_string}/etc/#{mysql_name}" if node['platform_family'] == 'omnios'
       return "#{prefix_dir}/etc/#{mysql_name}" if node['platform_family'] == 'smartos'
@@ -229,7 +225,7 @@ EOSQL
 
     def error_log
       return new_resource.error_log if new_resource.error_log
-      error_log
+      "#{log_dir}/error.log"
     end
     
     def tmp_dir
