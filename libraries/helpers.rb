@@ -148,11 +148,11 @@ module MysqlCookbook
         mkdir /tmp/#{mysql_name}
 
         cat > /tmp/#{mysql_name}/my.sql <<-EOSQL
-UPDATE mysql.user SET Password=PASSWORD('#{Shellwords.escape(new_resource.initial_root_password)}') WHERE user = 'root';
+UPDATE mysql.user SET password=PASSWORD('#{Shellwords.escape(new_resource.initial_root_password)}') WHERE user = 'root';
 DELETE FROM mysql.user WHERE USER LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
-DELETE FROM MYSQL.DB WHERE DB LIKE 'test%'
+DELETE FROM mysql.db WHERE db LIKE 'test%'
 DROP DATABASE IF EXISTS test ;
 EOSQL
 
