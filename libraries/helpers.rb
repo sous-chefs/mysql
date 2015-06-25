@@ -145,11 +145,15 @@ module MysqlCookbook
         mkdir /tmp/#{mysql_name}
 
         cat > /tmp/#{mysql_name}/my.sql <<-EOSQL
-DELETE FROM mysql.user ;
-CREATE USER 'root'@'%' IDENTIFIED BY '#{Shellwords.escape(new_resource.initial_root_password)}' ;
-GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+#DELETE FROM mysql.user ;
+#CREATE USER 'root'@'%' IDENTIFIED BY '#{Shellwords.escape(new_resource.initial_root_password)}' ;
+#GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+UPDATE mysql.user SET Password=PASSWORD('#{Shellwords.escape(new_resource.initial_root_password)}');
+DELETE FROM mysql.user WHERE user LIKE '';
+DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1','localhost');
+DROP DATABASE test;
+DELETE FROM mysql.db WHERE db LIKE 'test%'
 FLUSH PRIVILEGES;
-DROP DATABASE IF EXISTS test ;
 EOSQL
 
        #{db_init}
@@ -201,6 +205,7 @@ EOSQL
     end
 
     def pid_file
+      return new_resource.pid_file if new_resource.pid_file
       "#{run_dir}/mysqld.pid"
     end
 
@@ -228,8 +233,9 @@ EOSQL
       return new_resource.error_log if new_resource.error_log
       "#{log_dir}/error.log"
     end
-    
-    def tmp_dir
+
+    def tmp_dir 
+      return new_resource.tmp_dir if new_resource.tmp_dir
       '/tmp'
     end
 
