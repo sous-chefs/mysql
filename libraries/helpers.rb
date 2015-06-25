@@ -47,6 +47,7 @@ module MysqlCookbook
     end
 
     def log_dir
+      return File.dirname(new_resource.error_log) if new_resource.error_log
       return "/var/adm/log/#{mysql_name}" if node['platform_family'] == 'omnios'
       "#{prefix_dir}/var/log/#{mysql_name}"
     end
