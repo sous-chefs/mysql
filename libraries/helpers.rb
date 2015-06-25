@@ -33,10 +33,6 @@ module MysqlCookbook
       "#{etc_dir}/my.cnf"
     end
 
-    def error_log
-      "#{log_dir}/error.log"
-    end
-
     def etc_dir
       return "/opt/mysql#{pkg_ver_string}/etc/#{mysql_name}" if node['platform_family'] == 'omnios'
       return "#{prefix_dir}/etc/#{mysql_name}" if node['platform_family'] == 'smartos'
@@ -51,6 +47,7 @@ module MysqlCookbook
     end
 
     def log_dir
+      return File.dirname(new_resource.error_log) if new_resource.error_log
       return "/var/adm/log/#{mysql_name}" if node['platform_family'] == 'omnios'
       "#{prefix_dir}/var/log/#{mysql_name}"
     end
@@ -148,11 +145,12 @@ module MysqlCookbook
         mkdir /tmp/#{mysql_name}
 
         cat > /tmp/#{mysql_name}/my.sql <<-EOSQL
-DELETE FROM mysql.user ;
-CREATE USER 'root'@'%' IDENTIFIED BY '#{Shellwords.escape(new_resource.initial_root_password)}' ;
-GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+UPDATE mysql.user SET Password=PASSWORD('#{Shellwords.escape(new_resource.initial_root_password)}');
+DELETE FROM mysql.user WHERE user LIKE '';
+DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1','localhost');
+DROP DATABASE test;
+DELETE FROM mysql.db WHERE db LIKE 'test%'
 FLUSH PRIVILEGES;
-DROP DATABASE IF EXISTS test ;
 EOSQL
 
        #{db_init}
@@ -204,6 +202,7 @@ EOSQL
     end
 
     def pid_file
+      return new_resource.pid_file if new_resource.pid_file
       "#{run_dir}/mysqld.pid"
     end
 
@@ -227,7 +226,13 @@ EOSQL
       run_dir
     end
 
-    def tmp_dir
+    def error_log
+      return new_resource.error_log if new_resource.error_log
+      "#{log_dir}/error.log"
+    end
+
+    def tmp_dir 
+      return new_resource.tmp_dir if new_resource.tmp_dir
       '/tmp'
     end
 
