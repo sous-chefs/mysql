@@ -145,9 +145,6 @@ module MysqlCookbook
         mkdir /tmp/#{mysql_name}
 
         cat > /tmp/#{mysql_name}/my.sql <<-EOSQL
-#DELETE FROM mysql.user ;
-#CREATE USER 'root'@'%' IDENTIFIED BY '#{Shellwords.escape(new_resource.initial_root_password)}' ;
-#GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
 UPDATE mysql.user SET Password=PASSWORD('#{Shellwords.escape(new_resource.initial_root_password)}');
 DELETE FROM mysql.user WHERE user LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1','localhost');
