@@ -105,6 +105,11 @@ module MysqlCookbook
       true
     end
 
+    def password_column_name
+      return 'authentication_string' if v57plus
+      'password'
+    end
+
     # database and initial records
     # initialization commands
 
@@ -148,7 +153,7 @@ module MysqlCookbook
         mkdir /tmp/#{mysql_name}
 
         cat > /tmp/#{mysql_name}/my.sql <<-EOSQL
-UPDATE mysql.user SET password=PASSWORD('#{Shellwords.escape(new_resource.initial_root_password)}') WHERE user = 'root';
+UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{Shellwords.escape(new_resource.initial_root_password)}'), password_expired='N' WHERE user = 'root';
 DELETE FROM mysql.user WHERE USER LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
