@@ -16,23 +16,10 @@ def mysqld_bin
   '/usr/sbin/mysqld'
 end
 
-def mysql_cmd_1
+def mysql_cmd
   <<-EOF
   #{mysql_bin} \
-  -h 127.0.0.1 \
-  -P 3306 \
-  -u root \
-  -pilikerandompasswords \
-  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='127.0.0.1';" \
-  --skip-column-names
-  EOF
-end
-
-def mysql_cmd_2
-  <<-EOF
-  #{mysql_bin} \
-  -h 127.0.0.1 \
-  -P 3306 \
+  -S /var/run/mysql-default/mysqld.sock \
   -u root \
   -pilikerandompasswords \
   -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';" \
@@ -44,12 +31,7 @@ def mysqld_cmd
   "#{mysqld_bin} --version"
 end
 
-describe command(mysql_cmd_1) do
-  its(:exit_status) { should eq 0 }
-  its(:stdout) { should match(/| 127.0.0.1 | root |/) }
-end
-
-describe command(mysql_cmd_2) do
+describe command(mysql_cmd) do
   its(:exit_status) { should eq 0 }
   its(:stdout) { should match(/| localhost | root |/) }
 end
