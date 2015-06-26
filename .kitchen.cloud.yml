@@ -89,17 +89,28 @@ platforms:
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
 - name: debian-7.0
-  driver_plugin: gce
+  driver_plugin: digital_ocean
   driver_config:
-    image_name: debian-7-wheezy-v20131120
-    zone: <%= ENV['GCE_ZONE'] %>
-    area: <%= ENV['GCE_AREA'] %>
-    network: <%= ENV['GCE_NETWORK'] %>
-    username: <%= ENV['GCE_USERNAME'] %>
-    public_key_path: <%= ENV['GCE_PUBLIC_KEY_PATH'] %>
-    ssh_key: <%= ENV['GCE_SSH_KEY_PATH'] %>
+    size: 2gb
+    image: debian-7-0-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
   run_list:
   - recipe[apt]
+
+# - name: debian-7.0
+#   driver_plugin: gce
+#   driver_config:
+#     image_name: debian-7-wheezy-v20131120
+#     zone: <%= ENV['GCE_ZONE'] %>
+#     area: <%= ENV['GCE_AREA'] %>
+#     network: <%= ENV['GCE_NETWORK'] %>
+#     username: <%= ENV['GCE_USERNAME'] %>
+#     public_key_path: <%= ENV['GCE_PUBLIC_KEY_PATH'] %>
+#     ssh_key: <%= ENV['GCE_SSH_KEY_PATH'] %>
+#   run_list:
+#   - recipe[apt]
 
 - name: ubuntu-12.04
   driver_plugin: digital_ocean
