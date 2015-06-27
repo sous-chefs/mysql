@@ -105,6 +105,16 @@ module MysqlCookbook
       true
     end
 
+    def password_column_name
+      return 'authentication_string' if v57plus
+      'password'
+    end
+
+    def password_expired
+      return ", password_expired='N'" if v57plus
+      ''
+    end
+
     # database and initial records
     # initialization commands
 
@@ -148,10 +158,11 @@ module MysqlCookbook
         mkdir /tmp/#{mysql_name}
 
         cat > /tmp/#{mysql_name}/my.sql <<-EOSQL
-DELETE FROM mysql.user ;
-CREATE USER 'root'@'%' IDENTIFIED BY '#{Shellwords.escape(new_resource.initial_root_password)}' ;
-GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{Shellwords.escape(new_resource.initial_root_password)}')#{password_expired} WHERE user = 'root';
+DELETE FROM mysql.user WHERE USER LIKE '';
+DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
+DELETE FROM mysql.db WHERE db LIKE 'test%'
 DROP DATABASE IF EXISTS test ;
 EOSQL
 
@@ -272,6 +283,14 @@ EOSQL
         @pkginfo.set['fedora']['20']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo.set['fedora']['20']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
         @pkginfo.set['fedora']['20']['5.7']['server_package'] = 'mysql-community-server'
+        @pkginfo.set['fedora']['21']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
+        @pkginfo.set['fedora']['21']['5.6']['server_package'] = 'mysql-community-server'
+        @pkginfo.set['fedora']['21']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
+        @pkginfo.set['fedora']['21']['5.7']['server_package'] = 'mysql-community-server'
+        @pkginfo.set['fedora']['22']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
+        @pkginfo.set['fedora']['22']['5.6']['server_package'] = 'mysql-community-server'
+        @pkginfo.set['fedora']['22']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
+        @pkginfo.set['fedora']['22']['5.7']['server_package'] = 'mysql-community-server'
         @pkginfo.set['freebsd']['10']['5.5']['client_package'] = %w(mysql55-client)
         @pkginfo.set['freebsd']['10']['5.5']['server_package'] = 'mysql55-server'
         @pkginfo.set['freebsd']['9']['5.5']['client_package'] = %w(mysql55-client)
@@ -403,7 +422,6 @@ EOSQL
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '14.10'
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 8
-      return '5.5' if node['platform_family'] == 'fedora'
       return '5.5' if node['platform_family'] == 'freebsd'
       return '5.5' if node['platform_family'] == 'omnios'
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 2014
@@ -411,6 +429,7 @@ EOSQL
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'smartos'
       return '5.5' if node['platform_family'] == 'suse'
+      return '5.6' if node['platform_family'] == 'fedora'
     end
   end
 end

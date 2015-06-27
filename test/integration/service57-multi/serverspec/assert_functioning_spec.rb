@@ -19,11 +19,10 @@ end
 def instance_1_cmd
   <<-EOF
   #{mysql_bin} \
-  -h 127.0.0.1 \
-  -P 3307 \
+  -S /var/run/mysql-instance-1/mysqld.sock \
   -u root \
   -pilikerandompasswords \
-  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='%';" \
+  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';" \
   --skip-column-names
   EOF
 end
@@ -31,11 +30,10 @@ end
 def instance_2_cmd
   <<-EOF
   #{mysql_bin} \
-  -h 127.0.0.1 \
-  -P 3308 \
+  -S /var/run/mysql-instance-2/mysqld.sock \
   -u root \
   -pstring\\ with\\ spaces \
-  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='%';" \
+  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';" \
   --skip-column-names
   EOF
 end
@@ -46,12 +44,12 @@ end
 
 describe command(instance_1_cmd) do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match(/| % | root |/) }
+  its(:stdout) { should match(/| localhost | root |/) }
 end
 
 describe command(instance_2_cmd) do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match(/| % | root |/) }
+  its(:stdout) { should match(/| localhost | root |/) }
 end
 
 describe command(mysqld_cmd) do

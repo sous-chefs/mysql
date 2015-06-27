@@ -1,5 +1,6 @@
 driver:
   name: vagrant
+  require_chef_omnibus: 12.3.0
   customize:
     memory: 1024
 
