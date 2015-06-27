@@ -283,14 +283,10 @@ EOSQL
         @pkginfo.set['fedora']['20']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo.set['fedora']['20']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
         @pkginfo.set['fedora']['20']['5.7']['server_package'] = 'mysql-community-server'
-        @pkginfo.set['fedora']['21']['5.5']['client_package'] = %w(community-mysql community-mysql-devel)
-        @pkginfo.set['fedora']['21']['5.5']['server_package'] = 'community-mysql-server'
         @pkginfo.set['fedora']['21']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
         @pkginfo.set['fedora']['21']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo.set['fedora']['21']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
         @pkginfo.set['fedora']['21']['5.7']['server_package'] = 'mysql-community-server'
-        @pkginfo.set['fedora']['22']['5.5']['client_package'] = %w(community-mysql community-mysql-devel)
-        @pkginfo.set['fedora']['22']['5.5']['server_package'] = 'community-mysql-server'
         @pkginfo.set['fedora']['22']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
         @pkginfo.set['fedora']['22']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo.set['fedora']['22']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
@@ -426,7 +422,6 @@ EOSQL
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '14.10'
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 8
-      return '5.5' if node['platform_family'] == 'fedora'
       return '5.5' if node['platform_family'] == 'freebsd'
       return '5.5' if node['platform_family'] == 'omnios'
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 2014
@@ -434,6 +429,7 @@ EOSQL
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'smartos'
       return '5.5' if node['platform_family'] == 'suse'
+      return '5.6' if node['platform_family'] == 'fedora'
     end
   end
 end
