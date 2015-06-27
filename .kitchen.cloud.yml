@@ -72,14 +72,16 @@ platforms:
   run_list:
   - recipe[selinux::disabled]
 
-- name: fedora-20
+- name: fedora-21
   driver_plugin: digital_ocean
   driver_config:
     size: 2gb
-    image: fedora-20-x64
+    image: fedora-21-x64
     region: <%= ENV['DIGITALOCEAN_REGION'] %>
     ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
     ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux::disabled]
 
 - name: suse-11.3
   driver_plugin: ec2
@@ -193,7 +195,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-12.04',
@@ -216,7 +218,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'ubuntu-14.04',
       'omnios-151006',
       'smartos-14.3.0'
@@ -235,7 +237,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20'
+      'fedora-21'
     ]
     attributes:
       mysql:
@@ -280,7 +282,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-12.04',
@@ -306,7 +308,7 @@ suites:
       'centos-7.0',
       'redhat-6.5',
       'redhat-7.0',
-      'fedora-20',
+      'fedora-21',
       'amazon-2014.09',
       'ubuntu-14.04',
       'omnios-151006',
@@ -329,7 +331,7 @@ suites:
       'centos-7.0',
       'redhat-6.5',
       'redhat-7.0',
-      'fedora-20',
+      'fedora-21',
       'amazon-2014.09'
     ]
     attributes:
@@ -378,7 +380,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-12.04',
@@ -401,7 +403,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'ubuntu-14.04',
       'omnios-151006',
       'smartos-14.3.0'
@@ -420,7 +422,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20'
+      'fedora-21'
     ]
 
   #
@@ -457,7 +459,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-12.04',
@@ -480,7 +482,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'ubuntu-14.04',
       'omnios-151006',
       'smartos-14.3.0'
@@ -498,7 +500,7 @@ suites:
       'centos-7.0',
       'redhat-6.5',
       'redhat-7.0',
-      'fedora-20',
+      'fedora-21',
       'amazon-2014.09'
     ]
     attributes:
@@ -516,7 +518,7 @@ suites:
       'centos-6.5',
       'centos-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-10.04',
