@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.24 (2015-06-27)
+--------------------
+- #341 - Changing default GRANT for root from '%' to 'localhost' and '127.0.0.1'
+
 v6.0.23 (2015-06-21)
 --------------------
 - #354 Better handling of long MySQL startup times
