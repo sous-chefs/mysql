@@ -1,13 +1,14 @@
 #<% require 'kitchen-sync' %>
 ---
 driver_config:
-  digitalocean_access_token: <%= ENV['DIGITALOCEAN_API_TOKEN'] %>
-  # google_key_location: <%= ENV['GOOGLE_KEY_LOCATION'] %>
-  # google_project: <%= ENV['GOOGLE_PROJECT'] %>
-  # joyent_username: <%= ENV['SDC_CLI_ACCOUNT'] %>
-  # joyent_keyfile: <%= ENV['SDC_CLI_IDENTITY'] %>
-  # joyent_keyname: <%= ENV['SDC_CLI_KEY_ID'] %>
-  # joyent_url: <%= ENV['SDC_CLI_URL'] %>
+  digitalocean_api_token: <%= ENV['DIGITALOCEAN_API_TOKEN'] %>
+  google_client_email: <%= ENV['GOOGLE_CLIENT_EMAIL'] %>
+  google_key_location: <%= ENV['GOOGLE_KEY_LOCATION'] %>
+  google_project: <%= ENV['GOOGLE_PROJECT'] %>
+  joyent_username: <%= ENV['SDC_CLI_ACCOUNT'] %>
+  joyent_keyfile: <%= ENV['SDC_CLI_IDENTITY'] %>
+  joyent_keyname: <%= ENV['SDC_CLI_KEY_ID'] %>
+  joyent_url: <%= ENV['SDC_CLI_URL'] %>
   aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
@@ -16,11 +17,11 @@ driver_config:
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: latest
+  require_chef_omnibus: 12.3.0
 
 platforms:
 - name: centos-5.8
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: centos-5-8-x64
@@ -29,7 +30,7 @@ platforms:
     ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
 
 - name: centos-6.5
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: centos-6-5-x64
@@ -38,7 +39,7 @@ platforms:
     ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
 
 - name: centos-7.0
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: centos-7-0-x64
@@ -62,23 +63,25 @@ platforms:
 #   run_list:
 #   - recipe[selinux::disabled]
 
-# - name: redhat-7.0
-#   driver_plugin: ec2
-#   driver_config:
-#     image_id: ami-a8d369c0
-#     username: ec2-user
-#     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
-#   run_list:
-#   - recipe[selinux::disabled]
+- name: redhat-7.0
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-a8d369c0
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux::disabled]
 
 - name: fedora-21
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: fedora-21-x64
     region: <%= ENV['DIGITALOCEAN_REGION'] %>
     ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
     ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux::disabled]
 
 - name: suse-11.3
   driver_plugin: ec2
@@ -88,7 +91,7 @@ platforms:
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
 - name: debian-7.0
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: debian-7-0-x64
@@ -98,8 +101,21 @@ platforms:
   run_list:
   - recipe[apt]
 
+# - name: debian-7.0
+#   driver_plugin: gce
+#   driver_config:
+#     image_name: debian-7-wheezy-v20131120
+#     zone: <%= ENV['GCE_ZONE'] %>
+#     area: <%= ENV['GCE_AREA'] %>
+#     network: <%= ENV['GCE_NETWORK'] %>
+#     username: <%= ENV['GCE_USERNAME'] %>
+#     public_key_path: <%= ENV['GCE_PUBLIC_KEY_PATH'] %>
+#     ssh_key: <%= ENV['GCE_SSH_KEY_PATH'] %>
+#   run_list:
+#   - recipe[apt]
+
 - name: ubuntu-12.04
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: ubuntu-12-04-x64
@@ -110,7 +126,7 @@ platforms:
   - recipe[apt]
 
 - name: ubuntu-14.04
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: ubuntu-14-04-x64
@@ -179,7 +195,6 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-12.04',
@@ -202,7 +217,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'ubuntu-14.04',
       'omnios-151006',
       'smartos-14.3.0'
@@ -221,7 +236,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20'
+      'fedora-21'
     ]
     attributes:
       mysql:
@@ -266,7 +281,6 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-12.04',
@@ -292,7 +306,7 @@ suites:
       'centos-7.0',
       'redhat-6.5',
       'redhat-7.0',
-      'fedora-20',
+      'fedora-21',
       'amazon-2014.09',
       'ubuntu-14.04',
       'omnios-151006',
@@ -315,7 +329,7 @@ suites:
       'centos-7.0',
       'redhat-6.5',
       'redhat-7.0',
-      'fedora-20',
+      'fedora-21',
       'amazon-2014.09'
     ]
     attributes:
@@ -364,7 +378,6 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-12.04',
@@ -387,7 +400,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'ubuntu-14.04',
       'omnios-151006',
       'smartos-14.3.0'
@@ -406,7 +419,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20'
+      'fedora-21'
     ]
 
   #
@@ -443,7 +456,6 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-12.04',
@@ -466,7 +478,7 @@ suites:
       'redhat-6.5',
       'redhat-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'ubuntu-14.04',
       'omnios-151006',
       'smartos-14.3.0'
@@ -484,7 +496,7 @@ suites:
       'centos-7.0',
       'redhat-6.5',
       'redhat-7.0',
-      'fedora-20',
+      'fedora-21',
       'amazon-2014.09'
     ]
     attributes:
@@ -502,7 +514,7 @@ suites:
       'centos-6.5',
       'centos-7.0',
       'amazon-2014.09',
-      'fedora-20',
+      'fedora-21',
       'suse-11.3',
       'debian-7.0',
       'ubuntu-10.04',
