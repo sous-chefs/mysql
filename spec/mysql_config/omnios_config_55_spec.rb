@@ -6,7 +6,7 @@ describe 'mysql_config_test::default' do
       platform: 'omnios',
       version: '151006',
       step_into: 'mysql_config'
-      ) do |node|
+    ) do |node|
       node.set['mysql']['version'] = '5.5'
     end.converge('mysql_config_test::default')
   end

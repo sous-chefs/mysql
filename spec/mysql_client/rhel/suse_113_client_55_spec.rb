@@ -6,9 +6,9 @@ describe 'mysql_client_test::default on suse-11.3' do
       platform: 'suse',
       version: '11.3',
       step_into: 'mysql_client'
-      ) do |node|
-        node.set['mysql']['version'] = '5.5'
-      end.converge('mysql_client_test::default')
+    ) do |node|
+      node.set['mysql']['version'] = '5.5'
+    end.converge('mysql_client_test::default')
   end
 
   # Resource in mysql_client_test::default

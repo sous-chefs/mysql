@@ -14,7 +14,7 @@ platforms:
   - name: centos-6.6
     run_list:
     - recipe[selinux::disabled]
-  - name: centos-7.0
+  - name: centos-7.1
     run_list:
     - recipe[selinux::disabled]
   - name: debian-7.4
@@ -67,7 +67,7 @@ suites:
     includes: [
       'centos-5.10',
       'centos-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',
@@ -87,7 +87,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20',
       'omnios-151006',
@@ -104,7 +104,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20'
     ]
@@ -148,7 +148,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',
@@ -175,7 +175,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'fedora-20',
       'amazon-2014.09',
       'omnios-151006',
@@ -196,7 +196,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'fedora-20',
       'amazon-2014.09'
     ]
@@ -243,7 +243,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',
@@ -266,7 +266,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20',
       'omnios-151006',
@@ -283,7 +283,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20'
     ]
@@ -319,7 +319,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',
@@ -342,7 +342,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20',
       'omnios-151006',
@@ -359,7 +359,7 @@ suites:
       'centos-5.10',
       'centos-6.6',
       'redhat-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'fedora-20',
       'amazon-2014.09'
     ]
@@ -376,7 +376,7 @@ suites:
     includes: [
       'centos-5.10',
       'centos-6.6',
-      'centos-7.0',
+      'centos-7.1',
       'amazon-2014.09',
       'fedora-20',
       'suse-11.3',

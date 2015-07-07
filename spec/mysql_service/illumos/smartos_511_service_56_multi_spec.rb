@@ -6,7 +6,7 @@ describe 'mysql_service_test::multi on smartos-5.11' do
       platform: 'smartos',
       version: '5.11',
       step_into: 'mysql_service'
-      ) do |node|
+    ) do |node|
       node.set['mysql']['version'] = '5.6'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data/instance-2'

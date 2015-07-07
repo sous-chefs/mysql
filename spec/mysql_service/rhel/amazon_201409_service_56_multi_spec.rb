@@ -6,7 +6,7 @@ describe 'mysql_service_test::single on amazon-2014.09' do
       platform: 'amazon',
       version: '2014.09',
       step_into: 'mysql_service'
-      ) do |node|
+    ) do |node|
       node.set['mysql']['version'] = '5.6'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data/instance-2'
@@ -17,10 +17,8 @@ describe 'mysql_service_test::single on amazon-2014.09' do
   end
 
   before do
+    allow(Chef::Platform::ServiceHelpers).to receive(:service_resource_providers).and_return([:redhat])
     stub_command('/usr/bin/test -f /data/instance-1/mysql/user.frm').and_return(true)
-  end
-
-  before do
     stub_command('/usr/bin/test -f /data/instance-2/mysql/user.frm').and_return(true)
   end
 
