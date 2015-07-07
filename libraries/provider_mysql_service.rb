@@ -3,8 +3,9 @@ require_relative 'helpers'
 
 class Chef
   class Provider
-    class MysqlServiceBase < Chef::Provider::LWRPBase
-      use_inline_resources
+    class MysqlService < Chef::Provider::LWRPBase
+      # Chef 11 LWRP DSL Methods
+      use_inline_resources if defined?(use_inline_resources)
 
       def whyrun_supported?
         true
@@ -137,7 +138,7 @@ class Chef
             socket_file: socket_file,
             tmp_dir: tmp_dir,
             data_dir: parsed_data_dir
-          )
+            )
           action :create
         end
 
@@ -233,7 +234,7 @@ class Chef
                 run_dir: run_dir,
                 pid_file: pid_file,
                 socket_file: socket_file
-              )
+                )
               action :create
               notifies :restart, "service[#{new_resource.name} :create apparmor]", :immediately
             end

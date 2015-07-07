@@ -391,7 +391,7 @@ EOSQL
         node['platform_version'],
         parsed_version,
         :client_package
-      )
+        )
     end
 
     def server_package
@@ -401,7 +401,7 @@ EOSQL
         node['platform_version'],
         parsed_version,
         :server_package
-      )
+        )
     end
 
     def server_package_name
