@@ -6,9 +6,9 @@ describe 'mysql_service_test::single on smartos-5.11' do
       platform: 'smartos',
       version: '5.11',
       step_into: 'mysql_service'
-      ) do |node|
-        node.set['mysql']['version'] = '5.5'
-      end.converge('mysql_service_test::single')
+    ) do |node|
+      node.set['mysql']['version'] = '5.5'
+    end.converge('mysql_service_test::single')
   end
 
   before do

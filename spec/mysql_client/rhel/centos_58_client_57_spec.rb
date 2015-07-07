@@ -6,9 +6,9 @@ describe 'mysql_client_test::default on centos-5.8' do
       platform: 'centos',
       version: '5.8',
       step_into: 'mysql_client'
-      ) do |node|
-        node.set['mysql']['version'] = '5.7'
-      end.converge('mysql_client_test::default')
+    ) do |node|
+      node.set['mysql']['version'] = '5.7'
+    end.converge('mysql_client_test::default')
   end
 
   # Resource in mysql_client_test::default

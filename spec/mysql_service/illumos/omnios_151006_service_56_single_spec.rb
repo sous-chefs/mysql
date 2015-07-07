@@ -6,9 +6,9 @@ describe 'mysql_service_test::single on omnios-151006' do
       platform: 'omnios',
       version: '151006',
       step_into: 'mysql_service'
-      ) do |node|
-        node.set['mysql']['version'] = '5.6'
-      end.converge('mysql_service_test::single')
+    ) do |node|
+      node.set['mysql']['version'] = '5.6'
+    end.converge('mysql_service_test::single')
   end
 
   before do

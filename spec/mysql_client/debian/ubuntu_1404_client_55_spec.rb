@@ -6,9 +6,9 @@ describe 'mysql_client_test::default on ubuntu-14.04' do
       platform: 'ubuntu',
       version: '14.04',
       step_into: 'mysql_client'
-      ) do |node|
-        node.set['mysql']['version'] = '5.5'
-      end.converge('mysql_client_test::default')
+    ) do |node|
+      node.set['mysql']['version'] = '5.5'
+    end.converge('mysql_client_test::default')
   end
 
   # Resource in mysql_client_test::default

@@ -6,9 +6,9 @@ describe 'mysql_service_test::single on ubuntu-12.04' do
       platform: 'ubuntu',
       version: '12.04',
       step_into: 'mysql_service'
-      ) do |node|
-        node.set['mysql']['version'] = '5.5'
-      end.converge('mysql_service_test::single')
+    ) do |node|
+      node.set['mysql']['version'] = '5.5'
+    end.converge('mysql_service_test::single')
   end
 
   before do
@@ -89,7 +89,7 @@ describe 'mysql_service_test::single on ubuntu-12.04' do
     it 'creates service[default :create apparmor]' do
       expect(ubuntu_1204_service_55_single).to_not start_service('default :create apparmor').with(
         service_name: 'apparmor'
-        )
+      )
     end
 
     it 'creates group[default :create mysql]' do
