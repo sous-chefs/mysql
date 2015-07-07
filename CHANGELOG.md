@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.26 (2015-07-07)
+--------------------
+- Reverting breaking changes introduced in 6.0.25
+
 v6.0.25 (2015-07-06)
 --------------------
 - Fixes for 12.4.1
