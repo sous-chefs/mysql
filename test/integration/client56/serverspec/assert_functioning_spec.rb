@@ -5,8 +5,8 @@ set :backend, :exec
 puts "os: #{os}"
 
 def mysql_cmd
-  return '/opt/local/bin/mysql --version' if os[:family] =~ /smartos/
-  return '/opt/mysql56/bin/mysql --version' if os[:family] =~ /solaris/
+  return '/opt/local/bin/mysql --version' if os[:family] == "smartos"
+  return '/opt/mysql56/bin/mysql --version' if os[:family] == "solaris"
   '/usr/bin/mysql --version'
 end
 
