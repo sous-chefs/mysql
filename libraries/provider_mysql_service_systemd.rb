@@ -3,8 +3,10 @@ require_relative 'provider_mysql_service_base'
 class Chef
   class Provider
     class MysqlServiceSystemd < Chef::Provider::MysqlServiceBase
-      provides :mysql_service, os: 'linux' do |node|
-        Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
+      if defined?(provides)
+        provides :mysql_service, os: 'linux' do |node|
+          Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
+        end
       end
 
       action :start do

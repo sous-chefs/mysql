@@ -4,7 +4,7 @@ require_relative 'helpers'
 class Chef
   class Provider
     class MysqlServiceBase < Chef::Provider::LWRPBase
-      use_inline_resources
+      use_inline_resources if defined?(use_inline_resources)
 
       def whyrun_supported?
         true

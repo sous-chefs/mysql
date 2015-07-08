@@ -3,7 +3,11 @@ class Chef
     class MysqlServiceSmf < Chef::Provider::MysqlServiceBase
       # FIXME: we should have a service_helper to determine if the platform supports SMF similarly
       # to how we handle systemd on linux
-      provides :mysql_service, os: %w(solaris2 omnios smartos openindiana opensolaris nexentacore)
+      if defined?(provides)
+        provides :mysql_service, os: %w(solaris2 omnios smartos openindiana opensolaris nexentacore) do |node|
+          File.exist?("/usr/sbin/svccfg")
+        end
+      end
 
       action :start do
         method_script_path = "/lib/svc/method/#{mysql_name}" if node['platform'] == 'omnios'

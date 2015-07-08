@@ -3,9 +3,11 @@ require_relative 'provider_mysql_service_base'
 class Chef
   class Provider
     class MysqlServiceUpstart < Chef::Provider::MysqlServiceBase
-      provides :mysql_service, os: 'linux' do |node|
-        Chef::Platform::ServiceHelpers.service_resource_providers.include?(:upstart) &&
-          !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:redhat)
+      if defined?(provides)
+        provides :mysql_service, os: 'linux' do |node|
+          Chef::Platform::ServiceHelpers.service_resource_providers.include?(:upstart) &&
+            !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:redhat)
+        end
       end
 
       action :start do

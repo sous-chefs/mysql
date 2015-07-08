@@ -3,7 +3,7 @@ require_relative 'provider_mysql_service_base'
 class Chef
   class Provider
     class MysqlServiceSysvinit < Chef::Provider::MysqlServiceBase
-      provides :mysql_service, os: '!windows'
+      provides :mysql_service, os: '!windows' if defined?(provides)
 
       action :start do
         template "#{new_resource.name} :start /etc/init.d/#{mysql_name}" do
