@@ -5,7 +5,7 @@ set :backend, :exec
 puts "os: #{os}"
 
 def mysql_cmd
-  return "scl enable mysql51 \"mysql --version\"" if os[:release] =~ /^5\./
+  return "scl enable mysql51 \"mysql --version\"" if os[:family] == "redhat" && os[:release] =~ /^5\./
   '/usr/bin/mysql --version'
 end
 
