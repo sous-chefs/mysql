@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.27 (2015-07-09)
+--------------------
+- Allowing integer value for port number
+
 v6.0.26 (2015-07-07)
 --------------------
 - Reverting breaking changes introduced in 6.0.25
