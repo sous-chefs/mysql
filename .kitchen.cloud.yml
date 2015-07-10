@@ -17,8 +17,9 @@ driver_config:
 
 provisioner:
   name: chef_zero
-  # require_chef_omnibus: latest
-  require_chef_omnibus: 12.3.0
+  require_chef_omnibus: latest
+  # require_chef_omnibus: 11.8.2
+  # require_chef_omnibus: 12.3.0
 
 platforms:
 - name: centos-5.8
