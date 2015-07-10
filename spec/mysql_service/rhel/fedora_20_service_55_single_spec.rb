@@ -6,12 +6,13 @@ describe 'mysql_service_test::single on fedora-20' do
       platform: 'fedora',
       version: '20',
       step_into: 'mysql_service'
-      ) do |node|
-        node.set['mysql']['version'] = '5.5'
-      end.converge('mysql_service_test::single')
+    ) do |node|
+      node.set['mysql']['version'] = '5.5'
+    end.converge('mysql_service_test::single')
   end
 
   before do
+    allow(Chef::Platform::ServiceHelpers).to receive(:service_resource_providers).and_return([:redhat, :systemd])
     stub_command('/usr/bin/test -f /var/lib/mysql-default/mysql/user.frm').and_return(true)
   end
 

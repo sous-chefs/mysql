@@ -6,7 +6,7 @@ describe 'mysql_service_test::single on ubuntu-10.04' do
       platform: 'ubuntu',
       version: '10.04',
       step_into: 'mysql_service'
-      ) do |node|
+    ) do |node|
       node.set['mysql']['version'] = '5.1'
       node.set['mysql']['port'] = '3308'
       node.set['mysql']['data_dir'] = '/data/instance-2'
@@ -148,7 +148,7 @@ describe 'mysql_service_test::single on ubuntu-10.04' do
     it 'creates service[instance-1 :create apparmor]' do
       expect(ubuntu_1004_service_51_multi).to_not start_service('instance-1 :create apparmor').with(
         service_name: 'apparmor'
-        )
+      )
     end
 
     it 'creates group[instance-1 :create mysql]' do
@@ -355,7 +355,7 @@ describe 'mysql_service_test::single on ubuntu-10.04' do
     it 'creates service[instance-2 :create apparmor]' do
       expect(ubuntu_1004_service_51_multi).to_not start_service('instance-2 :create apparmor').with(
         service_name: 'apparmor'
-        )
+      )
     end
 
     it 'creates group[instance-2 :create mysql]' do

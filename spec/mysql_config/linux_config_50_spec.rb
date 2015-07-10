@@ -5,7 +5,7 @@ describe 'mysql_config_test::default' do
     ChefSpec::SoloRunner.new(
       os: 'linux',
       step_into: 'mysql_config'
-      ) do |node|
+    ) do |node|
       node.set['mysql']['version'] = '5.0'
     end.converge('mysql_config_test::default')
   end

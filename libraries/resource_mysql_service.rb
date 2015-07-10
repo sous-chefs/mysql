@@ -3,6 +3,8 @@ require 'chef/resource/lwrp_base'
 class Chef
   class Resource
     class MysqlService < Chef::Resource::LWRPBase
+      provides :mysql_service
+
       self.resource_name = :mysql_service
       actions :create, :delete, :start, :stop, :restart, :reload
       default_action :create
