@@ -85,7 +85,7 @@ The configuration file is at `/etc/mysql-foo/my.cnf`. It contains the
 minimum options to get the service running. It looks like this.
 
 ```
-# Chef generated my.cnf for instance mysql-default
+# Chef generated my.cnf for instance mysql-foo
 
 [client]
 default-character-set          = utf8
@@ -503,7 +503,7 @@ overlap among multiple MySQL configurations.
 
 To connect to the socket from the command line, check the socket in the relevant my.cnf file and use something like this:
 
-`mysql -S /var/run/mysql-default/mysqld.sock -Pwhatever`
+`mysql -S /var/run/mysql-foo/mysqld.sock -Pwhatever`
 
 Or to connect over the network, use something like this:
 connect over the network..
