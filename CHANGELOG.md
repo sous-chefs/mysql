@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.31 (2015-07-13)
+--------------------
+- Reverting create_stop_system_service checks
+
 v6.0.30 (2015-07-13)
 --------------------
 - Ubuntu 15.04 support
