@@ -1,6 +1,11 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.30 (2015-07-13)
+--------------------
+- Ubuntu 15.04 support
+- Check for scripts and unit files during create_stop_system_service
+
 v6.0.29 (2015-07-12)
 --------------------
 - Patch to allow blank root password
