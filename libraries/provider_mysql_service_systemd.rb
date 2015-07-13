@@ -4,7 +4,7 @@ class Chef
   class Provider
     class MysqlServiceSystemd < Chef::Provider::MysqlServiceBase
       if defined?(provides)
-        provides :mysql_service, os: 'linux' do |node|
+        provides :mysql_service, os: 'linux' do
           Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
         end
       end

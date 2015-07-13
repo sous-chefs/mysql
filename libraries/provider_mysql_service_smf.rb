@@ -4,8 +4,8 @@ class Chef
       # FIXME: we should have a service_helper to determine if the platform supports SMF similarly
       # to how we handle systemd on linux
       if defined?(provides)
-        provides :mysql_service, os: %w(solaris2 omnios smartos openindiana opensolaris nexentacore) do |node|
-          File.exist?("/usr/sbin/svccfg")
+        provides :mysql_service, os: %w(solaris2 omnios smartos openindiana opensolaris nexentacore) do
+          File.exist?('/usr/sbin/svccfg')
         end
       end
 
