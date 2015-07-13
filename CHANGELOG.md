@@ -1,6 +1,11 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.0.29 (2015-07-12)
+--------------------
+- Patch to allow blank root password
+- Adding package information for Suse 12.0
+
 v6.0.28 (2015-07-10)
 --------------------
 - Fixes for 12.4.x
