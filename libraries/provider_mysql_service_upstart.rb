@@ -98,6 +98,7 @@ class Chef
           provider Chef::Provider::Service::Upstart
           supports status: true
           action [:stop, :disable]
+          only_if { ::File.exist?("#{etc_dir}/init/#{system_service_name}") }
         end
       end
 

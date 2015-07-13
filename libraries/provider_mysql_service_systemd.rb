@@ -117,6 +117,7 @@ class Chef
           provider Chef::Provider::Service::Systemd
           supports status: true
           action [:stop, :disable]
+          only_if { ::File.exist?("/usr/lib/systemd/system/#{system_service_name}.service") }
         end
       end
 

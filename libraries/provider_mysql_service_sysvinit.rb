@@ -71,6 +71,7 @@ class Chef
           provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
           supports status: true
           action [:stop, :disable]
+          only_if { ::File.exist?("#{etc_dir}/init.d/#{system_service_name}") }
         end
       end
 
