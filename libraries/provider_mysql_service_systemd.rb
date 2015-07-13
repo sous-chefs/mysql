@@ -10,6 +10,14 @@ class Chef
       end
 
       action :start do
+        # Needed for Debian / Ubuntu
+        directory '/usr/libexec' do
+          owner 'root'
+          group 'root'
+          mode '0755'
+          action :create
+        end
+
         # this script is called by the main systemd unit file, and
         # spins around until the service is actually up and running.
         template "#{new_resource.name} :start /usr/libexec/#{mysql_name}-wait-ready" do
@@ -24,8 +32,8 @@ class Chef
         end
 
         # this is the main systemd unit file
-        template "#{new_resource.name} :start /usr/lib/systemd/system/#{mysql_name}.service" do
-          path "/usr/lib/systemd/system/#{mysql_name}.service"
+        template "#{new_resource.name} :start /lib/systemd/system/#{mysql_name}.service" do
+          path "/lib/systemd/system/#{mysql_name}.service"
           source 'systemd/mysqld.service.erb'
           owner 'root'
           group 'root'
@@ -43,7 +51,7 @@ class Chef
 
         # avoid 'Unit file changed on disk' warning
         execute "#{new_resource.name} :start systemctl daemon-reload" do
-          command '/usr/bin/systemctl daemon-reload'
+          command '/bin/systemctl daemon-reload'
           action :nothing
         end
 
@@ -105,7 +113,7 @@ class Chef
       def create_stop_system_service
         # service management resource
         service "#{new_resource.name} :create mysql" do
-          service_name 'mysqld'
+          service_name system_service_name
           provider Chef::Provider::Service::Systemd
           supports status: true
           action [:stop, :disable]

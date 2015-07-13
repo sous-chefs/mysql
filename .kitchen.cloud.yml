@@ -138,6 +138,17 @@ platforms:
   run_list:
   - recipe[apt]
 
+- name: ubuntu-15.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: ubuntu-15-04-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
 # - name: omnios-151006
 #   driver_plugin: ec2
 #   driver_config:
@@ -221,6 +232,7 @@ suites:
       'amazon-2014.09',
       'fedora-21',
       'ubuntu-14.04',
+      'ubuntu-15.04',
       'omnios-151006',
       'smartos-14.3.0'
     ]
@@ -311,6 +323,7 @@ suites:
       'fedora-21',
       'amazon-2014.09',
       'ubuntu-14.04',
+      'ubuntu-15.04',
       'omnios-151006',
       'smartos-14.3.0'
     ]
@@ -404,6 +417,7 @@ suites:
       'amazon-2014.09',
       'fedora-21',
       'ubuntu-14.04',
+      'ubuntu-15.04',
       'omnios-151006',
       'smartos-14.3.0'
     ]
@@ -482,6 +496,7 @@ suites:
       'amazon-2014.09',
       'fedora-21',
       'ubuntu-14.04',
+      'ubuntu-15.04',
       'omnios-151006',
       'smartos-14.3.0'
     ]
@@ -522,6 +537,7 @@ suites:
       'ubuntu-10.04',
       'ubuntu-12.04',
       'ubuntu-14.04',
+      'ubuntu-15.04',
       'omnios-151006',
       'smartos-14.3.0'
     ]
