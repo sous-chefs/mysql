@@ -353,6 +353,8 @@ EOSQL
         @pkginfo.set['smartos']['5.11']['5.6']['server_package'] = 'mysql-server'
         @pkginfo.set['suse']['11.3']['5.5']['client_package'] = %w(mysql-client)
         @pkginfo.set['suse']['11.3']['5.5']['server_package'] = 'mysql'
+        @pkginfo.set['suse']['12.0']['5.5']['client_package'] = %w(mysql-client)
+        @pkginfo.set['suse']['12.0']['5.5']['server_package'] = 'mysql'
 
         @pkginfo
       end
