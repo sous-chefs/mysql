@@ -34,6 +34,7 @@ module MysqlCookbook
     end
 
     def error_log
+      return new_resource.error_log if new_resource.error_log
       "#{log_dir}/error.log"
     end
 
@@ -223,6 +224,7 @@ EOSQL
     end
 
     def pid_file
+      return new_resource.pid_file if new_resource.pid_file
       "#{run_dir}/mysqld.pid"
     end
 
@@ -247,6 +249,7 @@ EOSQL
     end
 
     def tmp_dir
+      return new_resource.tmp_dir if new_resource.tmp_dir
       '/tmp'
     end
 
