@@ -171,7 +171,7 @@ UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{root_password}')#{pass
 DELETE FROM mysql.user WHERE USER LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
-DELETE FROM mysql.db WHERE db LIKE 'test%'
+DELETE FROM mysql.db WHERE db LIKE 'test%';
 DROP DATABASE IF EXISTS test ;
 EOSQL
 
