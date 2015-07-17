@@ -22,6 +22,9 @@ class Chef
       attribute :run_user, kind_of: String, default: 'mysql'
       attribute :socket, kind_of: String, default: nil
       attribute :version, kind_of: String, default: nil
+      attribute :error_log, kind_of: String, default: nil
+      attribute :tmp_dir, kind_of: String, default: nil
+      attribute :pid_file, kind_of: String, default: nil
     end
   end
 end

@@ -34,6 +34,7 @@ module MysqlCookbook
     end
 
     def error_log
+      return new_resource.error_log if new_resource.error_log
       "#{log_dir}/error.log"
     end
 
@@ -170,7 +171,7 @@ UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{root_password}')#{pass
 DELETE FROM mysql.user WHERE USER LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
-DELETE FROM mysql.db WHERE db LIKE 'test%'
+DELETE FROM mysql.db WHERE db LIKE 'test%';
 DROP DATABASE IF EXISTS test ;
 EOSQL
 
@@ -223,6 +224,7 @@ EOSQL
     end
 
     def pid_file
+      return new_resource.pid_file if new_resource.pid_file
       "#{run_dir}/mysqld.pid"
     end
 
@@ -247,6 +249,7 @@ EOSQL
     end
 
     def tmp_dir
+      return new_resource.tmp_dir if new_resource.tmp_dir
       '/tmp'
     end
 
