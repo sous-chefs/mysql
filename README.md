@@ -197,6 +197,8 @@ to reference is `mysql_service[name]`, not `service[mysql]`.
 on the machine. This is useful when mounting external storage. When
 omitted, it will default to the platform's native location.
 
+- `error_log` - Tunable location of the error_log
+
 - `initial_root_password` - allows the user to specify the initial
   root password for mysql when initializing new databases.
   This can be set explicitly in a recipe, driven from a node
@@ -221,6 +223,14 @@ omitted, it will default to the platform's native location.
   that particular address. If the address is "0.0.0.0" (IPv4) or "::" (IPv6), the
   server accepts TCP/IP connections on all IPv4 or IPv6 interfaces.
 
+- `mysqld_options` - A key value hash of options to be rendered into
+  the main my.cnf. WARNING - It is highly recommended that you use the
+  `mysql_config` resource instead of sending extra config into a
+  `mysql_service` resource. This will allow you to set up
+  notifications and subscriptions between the service and its
+  configuration. That being said, this can be useful for adding extra
+  options needed for database initialization at first run.
+
 - `port` - determines the listen port for the mysqld service. When
   omitted, it will default to '3306'.
 
@@ -230,10 +240,14 @@ omitted, it will default to the platform's native location.
 - `run_user` - The name of the system user the `mysql_service` should
   run as. Defaults to 'mysql'.
 
+- `pid_file` - Tunable location of the pid file.
+
 - `socket` - determines where to write the socket file for the
   `mysql_service` instance. Useful when configuring clients on the
   same machine to talk over socket and skip the networking stack.
   Defaults to a calculated value based on platform and instance name.
+
+- `tmp_dir` - Tunable location of the tmp_dir
 
 - `version` - allows the user to select from the versions available
   for the platform, where applicable. When omitted, it will install
