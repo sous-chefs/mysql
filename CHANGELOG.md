@@ -1,6 +1,11 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.1.0 (2015-07-17)
+--------------------
+- Adding tunables for tmp_dir, error_log, and pid_file
+- Adding mysqld_options hash interface for main my.cnf template
+
 v6.0.31 (2015-07-13)
 --------------------
 - Reverting create_stop_system_service checks
