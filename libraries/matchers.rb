@@ -1,4 +1,17 @@
 if defined?(ChefSpec)
+  if ChefSpec.respond_to?(:define_matcher)
+    # ChefSpec >= 4.1
+    ChefSpec.define_matcher :mysql_config
+    ChefSpec.define_matcher :mysql_service
+    ChefSpec.define_matcher :mysql_client
+  elsif defined?(ChefSpec::Runner) &&
+        ChefSpec::Runner.respond_to?(:define_runner_method)
+    # ChefSpec < 4.1
+    ChefSpec::Runner.define_runner_method :mysql_config
+    ChefSpec::Runner.define_runner_method :mysql_service
+    ChefSpec::Runner.define_runner_method :mysql_client
+  end
+
   # config
   def create_mysql_config(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:mysql_config, :create, resource_name)
