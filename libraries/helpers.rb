@@ -61,7 +61,7 @@ module MysqlCookbook
     end
 
     def pkg_ver_string
-      parsed_version.gsub('.', '') if node['platform_family'] == 'omnios'
+      parsed_version.delete('.') if node['platform_family'] == 'omnios'
     end
 
     def prefix_dir
