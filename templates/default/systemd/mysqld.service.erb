@@ -1,5 +1,5 @@
 [Unit]
-Description=mysql_service[mysql-<%= @config.instance %>]
+Description=mysql_service[<%= @mysql_name %>]
 After=syslog.target
 After=network.target
 
@@ -8,7 +8,7 @@ Type=simple
 User=<%= @config.run_user %>
 Group=<%= @config.run_group %>
 ExecStart=<%= @mysqld_bin %> --defaults-file=<%= @etc_dir %>/my.cnf --basedir=<%= @base_dir %>
-ExecStartPost=/usr/libexec/mysql-<%= @config.instance %>-wait-ready $MAINPID
+ExecStartPost=/usr/libexec/<%= @mysql_name %>-wait-ready $MAINPID
 TimeoutSec=300
 PrivateTmp=true
 
