@@ -1,6 +1,10 @@
 mysql Cookbook CHANGELOG
 ========================
 
+v6.1.2 (2015-10-05)
+--------------------
+- Amazon Linux 2015.09
+
 v6.1.1 (2015-09-24)
 --------------------
 - Completing ChefSpec matchers
