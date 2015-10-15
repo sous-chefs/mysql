@@ -59,6 +59,7 @@ class Chef
         # setting up multiple services.
         file "#{new_resource.name} :create #{prefix_dir}/etc/mysql/my.cnf" do
           path "#{prefix_dir}/etc/mysql/my.cnf"
+          not_if { new_resource.instance == '' }
           action :delete
         end
 
