@@ -144,6 +144,7 @@ class Chef
         # initialize database and create initial records
         bash "#{new_resource.name} :create initial records" do
           code init_records_script
+          umask '022'
           returns [0, 1, 2] # facepalm
           not_if "/usr/bin/test -f #{parsed_data_dir}/mysql/user.frm"
           action :run
