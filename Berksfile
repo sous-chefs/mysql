@@ -12,4 +12,3 @@ group :integration do
   cookbook 'mysql_replication_test', path: 'test/fixtures/cookbooks/mysql_replication_test'
   cookbook 'mysql_service_test', path: 'test/fixtures/cookbooks/mysql_service_test'
 end
-
