@@ -46,7 +46,9 @@ The following platforms have been tested with Test Kitchen:
 |----------------+-----+-----+-----+-----+-----|
 | amazon         |     |     | X   | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
-| fedora-20      |     |     | X   | X   | X   |
+| fedora-21      |     |     | X   | X   | X   |
+|----------------+-----+-----+-----+-----+-----|
+| fedora-22      |     |     | X   | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
 ```
 
@@ -172,7 +174,7 @@ omitted when used in recipes designed to build containers.
 mysql_service 'default' do
   version '5.7'
   bind_address '0.0.0.0'
-  port '3306'  
+  port '3306'
   data_dir '/data'
   initial_root_password 'Ch4ng3me'
   action [:create, :start]
@@ -333,7 +335,7 @@ end
 #### Actions
 - `:create` - Renders the template to disk at a path calculated using
   the instance parameter.
-  
+
 - `:delete` - Deletes the file from the conf.d directory calculated
   using the instance parameter.
 
@@ -366,7 +368,7 @@ end
 
 ### mysql_client
 The `mysql_client` resource manages the MySQL client binaries and
-development libraries. 
+development libraries.
 
 It is an example of a "singleton" resource. Declaring two
 `mysql_client` resources on a machine usually won't yield two separate
@@ -382,7 +384,7 @@ end
 
 #### Parameters
 - `package_name` - An array of packages to be installed. Defaults to a
-  value looked up in an internal map.  
+  value looked up in an internal map.
 
 - `package_version` - Specific versions of the package to install,
   passed onto the underlying package manager. Defaults to `nil`.
@@ -390,7 +392,7 @@ end
 - `version` - Major MySQL version number of client packages. Only
   valid on for platforms that support multiple versions, such as RHEL
   via Software Collections and OmniOS.
-  
+
 #### Actions
 - `:create` - Installs the client software
 - `:delete` - Removes the client software
@@ -494,11 +496,11 @@ and adjust the settings with node attributes.
 - `recipe[yum-centos::default]` from the Supermarket
   https://supermarket.chef.io/cookbooks/yum-centos
   https://github.com/chef-cookbooks/yum-centos
-  
+
 - `recipe[yum-mysql-community::default]` from the Supermarket
   https://supermarket.chef.io/cookbooks/yum-mysql-community
   https://github.com/chef-cookbooks/yum-mysql-community
-  
+
 ### The mysql command line doesn't work
 
 If you log into the machine and type `mysql`, you may see an error
@@ -508,7 +510,7 @@ like this one:
 
 This is because MySQL is hardcoded to read the defined default my.cnf
 file, typically at /etc/my.cnf, and this LWRP deletes it to prevent
-overlap among multiple MySQL configurations. 
+overlap among multiple MySQL configurations.
 
 To connect to the socket from the command line, check the socket in the relevant my.cnf file and use something like this:
 
