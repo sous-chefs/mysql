@@ -1,0 +1,543 @@
+#<% require 'kitchen-sync' %>
+---
+driver_config:
+  digitalocean_api_token: <%= ENV['DIGITALOCEAN_API_TOKEN'] %>
+  google_client_email: <%= ENV['GOOGLE_CLIENT_EMAIL'] %>
+  google_key_location: <%= ENV['GOOGLE_KEY_LOCATION'] %>
+  google_project: <%= ENV['GOOGLE_PROJECT'] %>
+  joyent_username: <%= ENV['SDC_CLI_ACCOUNT'] %>
+  joyent_keyfile: <%= ENV['SDC_CLI_IDENTITY'] %>
+  joyent_keyname: <%= ENV['SDC_CLI_KEY_ID'] %>
+  joyent_url: <%= ENV['SDC_CLI_URL'] %>
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
+  flavor_id: <%= ENV['EC2_FLAVOR_ID'] %>
+  availability_zone: <%= ENV['AWS_AVAILABILITY_ZONE'] %>
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: latest
+  # require_chef_omnibus: 11.8.2
+  # require_chef_omnibus: 12.3.0
+
+platforms:
+- name: centos-5.8
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: centos-5-8-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+
+- name: centos-6.5
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: centos-6-5-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+
+- name: centos-7.0
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: centos-7-0-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+
+- name: amazon-2014.09
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-9a6ed3f2
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+
+# - name: redhat-6.5
+#   driver_plugin: ec2
+#   driver_config:
+#     image_id: ami-8d756fe4
+#     username: ec2-user
+#     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+#   run_list:
+#   - recipe[selinux::disabled]
+
+- name: redhat-7.0
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-a8d369c0
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux::disabled]
+
+- name: fedora-21
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: fedora-21-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[selinux::disabled]
+
+- name: suse-11.3
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-e8084981
+    username: root
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+
+- name: debian-7.0
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: debian-7-0-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+# - name: debian-7.0
+#   driver_plugin: gce
+#   driver_config:
+#     image_name: debian-7-wheezy-v20131120
+#     zone: <%= ENV['GCE_ZONE'] %>
+#     area: <%= ENV['GCE_AREA'] %>
+#     network: <%= ENV['GCE_NETWORK'] %>
+#     username: <%= ENV['GCE_USERNAME'] %>
+#     public_key_path: <%= ENV['GCE_PUBLIC_KEY_PATH'] %>
+#     ssh_key: <%= ENV['GCE_SSH_KEY_PATH'] %>
+#   run_list:
+#   - recipe[apt]
+
+- name: ubuntu-12.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: ubuntu-12-04-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+- name: ubuntu-14.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: ubuntu-14-04-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+- name: ubuntu-15.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: ubuntu-15-04-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+# - name: omnios-151006
+#   driver_plugin: ec2
+#   driver_config:
+#     image_id: ami-35eb835c
+#     flavor_id: m3.large
+#     username: root
+#     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+#   run_list:
+#   - recipe[ips-omniti]
+
+# - name: smartos-14.3.0
+#   driver_plugin: joyent
+#   driver_config:
+#     joyent_image_id: 62f148f8-6e84-11e4-82c5-efca60348b9f
+#     joyent_flavor_id: g3-standard-4-smartos
+#     username: root
+#     ssh_key: <%= ENV['SDC_CLI_IDENTITY'] %>
+#   busser:
+#     ruby_bindir: '/opt/local/bin/'
+#   provisioner:
+#     sudo: false
+#     chef_omnibus_url: https://raw.github.com/test-kitchen/kitchen-joyent/master/scripts/install-smartos.sh
+
+suites:
+  #
+  # service
+  #
+  - name: service50-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5.8'
+    ]
+    attributes:
+      mysql:
+       version: '5.0'
+
+  - name: service51-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+       version: '5.1'
+
+  - name: service55-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'suse-11.3',
+      'debian-7.0',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'ubuntu-14.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.5'
+
+  - name: service56-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'fedora-21',
+      'ubuntu-14.04',
+      'ubuntu-15.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.6'
+
+  - name: service57-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'fedora-21'
+    ]
+    attributes:
+      mysql:
+       version: '5.7'
+
+  - name: service50-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5.8'
+    ]
+    attributes:
+      mysql:
+       version: '5.0'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service51-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5.8',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+       version: '5.1'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service55-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'suse-11.3',
+      'debian-7.0',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'ubuntu-14.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.5'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service56-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'fedora-21',
+      'amazon-2014.09',
+      'ubuntu-14.04',
+      'ubuntu-15.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.6'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service57-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'fedora-21',
+      'amazon-2014.09'
+    ]
+    attributes:
+      mysql:
+       version: '5.7'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  #
+  # client
+  #
+  - name: client50
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.0'
+    includes: [
+      'centos-5.8'
+    ]
+
+  - name: client51
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.1'
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'ubuntu-10.04'
+    ]
+
+  - name: client55
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.5'
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'suse-11.3',
+      'debian-7.0',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'ubuntu-14.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+
+  - name: client56
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.6'
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'fedora-21',
+      'ubuntu-14.04',
+      'ubuntu-15.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+
+  - name: client57
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.7'
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'fedora-21'
+    ]
+
+  #
+  # config
+  #
+  - name: config50
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.8'
+    ]
+    attributes:
+      mysql:
+       version: '5.0'
+
+  - name: config51
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.8',
+      'ubuntu-10.04'
+    ]
+    attributes:
+      mysql:
+       version: '5.1'
+
+  - name: config55
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'suse-11.3',
+      'debian-7.0',
+      'ubuntu-12.04',
+      'ubuntu-13.10',
+      'ubuntu-14.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.5'
+
+  - name: config56
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'amazon-2014.09',
+      'fedora-21',
+      'ubuntu-14.04',
+      'ubuntu-15.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
+    attributes:
+      mysql:
+       version: '5.6'
+
+  - name: config57
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'redhat-6.5',
+      'redhat-7.0',
+      'fedora-21',
+      'amazon-2014.09'
+    ]
+    attributes:
+      mysql:
+       version: '5.7'
+
+  #
+  # replication-test
+  #
+  - name: replication-test
+    run_list:
+    - recipe[mysql_replication_test]
+    includes: [
+      'centos-5.8',
+      'centos-6.5',
+      'centos-7.0',
+      'amazon-2014.09',
+      'fedora-21',
+      'suse-11.3',
+      'debian-7.0',
+      'ubuntu-10.04',
+      'ubuntu-12.04',
+      'ubuntu-14.04',
+      'ubuntu-15.04',
+      'omnios-151006',
+      'smartos-14.3.0'
+    ]
