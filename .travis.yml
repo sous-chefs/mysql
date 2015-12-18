@@ -16,22 +16,22 @@ services: docker
 
 env:
   matrix:
-  -service50-multi-centos-5
-  -service55-multi-centos-5
-  -service55-multi-centos-6
-  -service55-multi-centos-7
-  -service55-multi-ubuntu-1204
-  -service55-multi-ubuntu-1404
-  -service56-multi-centos-5
-  -service56-multi-centos-6
-  -service56-multi-centos-7
-  -service56-multi-fedora-21
-  -service56-multi-ubuntu-1404
-  -service56-multi-ubuntu-1504
-  -service57-multi-centos-5
-  -service57-multi-centos-6
-  -service57-multi-centos-7
-  -service57-multi-fedora-21
+  - service50-multi-centos-5
+  - service55-multi-centos-5
+  - service55-multi-centos-6
+  - service55-multi-centos-7
+  - service55-multi-ubuntu-1204
+  - service55-multi-ubuntu-1404
+  - service56-multi-centos-5
+  - service56-multi-centos-6
+  - service56-multi-centos-7
+  - service56-multi-fedora-21
+  - service56-multi-ubuntu-1404
+  - service56-multi-ubuntu-1504
+  - service57-multi-centos-5
+  - service57-multi-centos-6
+  - service57-multi-centos-7
+  - service57-multi-fedora-21
   fast_finish: true
 
 before_script:
