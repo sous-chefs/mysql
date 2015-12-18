@@ -1,5 +1,7 @@
-# Use Travis's cointainer based infrastructure
-sudo: false
+rvm: 2.2
+
+sudo: required
+
 addons:
   apt:
     sources:
@@ -7,22 +9,45 @@ addons:
     packages:
       - chefdk
 
-# Don't `bundle install`
 install: echo "skip bundle install"
 
-branches:
-  only:
-    - master
+services: docker
 
-# Ensure we make ChefDK's Ruby the default
+env:
+  matrix:
+  -service50-multi-centos-5
+  -service55-multi-centos-5
+  -service55-multi-centos-6
+  -service55-multi-centos-7
+  -service55-multi-ubuntu-1204
+  -service55-multi-ubuntu-1404
+  -service56-multi-centos-5
+  -service56-multi-centos-6
+  -service56-multi-centos-7
+  -service56-multi-fedora-21
+  -service56-multi-ubuntu-1404
+  -service56-multi-ubuntu-1504
+  -service57-multi-centos-5
+  -service57-multi-centos-6
+  -service57-multi-centos-7
+  -service57-multi-fedora-21
+  fast_finish: true
+
 before_script:
+  - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  # We have to install chef-sugar for ChefSpec
-  - /opt/chefdk/embedded/bin/chef gem install chef-sugar
+  - /opt/chefdk/embedded/bin/chef gem install kitchen-dokken
+
 script:
   - /opt/chefdk/embedded/bin/chef --version
   - /opt/chefdk/embedded/bin/rubocop --version
   - /opt/chefdk/embedded/bin/rubocop
   - /opt/chefdk/embedded/bin/foodcritic --version
   - /opt/chefdk/embedded/bin/foodcritic . --exclude spec
-  - /opt/chefdk/embedded/bin/rspec spec
+  - /opt/chefdk/embedded/bin/rspec
+  - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml kitchen verify ${INSTANCE}
+
+after_script:
+  - docker images
+  - docker ps -a
+  - cat .kitchen/logs/kitchen.log
