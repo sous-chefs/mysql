@@ -144,6 +144,7 @@ suites:
     run_list:
     - recipe[mysql_service_test::multi]
     - recipe[mysql_service_test::outth-ini]
+    - recipe[sparrow]
     includes: [
       'centos-5'
     ]
