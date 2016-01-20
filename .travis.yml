@@ -37,4 +37,3 @@ after_script:
   - docker images
   - docker ps -a
   - cat .kitchen/logs/kitchen.log
- 
