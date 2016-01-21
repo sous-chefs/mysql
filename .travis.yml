@@ -18,6 +18,7 @@ env:
   matrix:
   - INSTANCE=service55-multi-centos-7
   - INSTANCE=service55-multi-ubuntu-1204
+  - INSTANCE=service55-multi-ubuntu-1404
   fast_finish: true
 
 before_script:
