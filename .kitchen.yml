@@ -158,7 +158,7 @@ suites:
       sparrow:
        plugin:
          list: [
-             'swat-mysql-cookbook'
+             'outth-mysql-cookbook'
          ]
 
   - name: service51-multi
