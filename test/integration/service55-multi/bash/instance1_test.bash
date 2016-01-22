@@ -1,4 +1,4 @@
-# here we go!
+# here we go
 PATH=$PATH:/usr/local/bin/
 sparrow 1>/dev/null || exit 1
 sparrow project create foo
