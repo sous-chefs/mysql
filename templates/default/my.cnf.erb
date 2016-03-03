@@ -17,6 +17,9 @@ default-character-set          = <%= @config.charset %>
 <% end %>
 
 [mysqld]
+<% if @config.charset %>
+character-set-server           = <%= @config.charset %>
+<% end %>
 <% if @config.run_user %>
 user                           = <%= @config.run_user %>
 <% end %>
