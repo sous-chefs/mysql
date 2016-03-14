@@ -392,7 +392,7 @@ EOSQL
         Chef::Log.error("Unsupported Version: You requested to install a Mysql #{type_label} version that is not supported by your platform")
         Chef::Log.error("Platform: #{platform_family} #{platform_version} - Request Mysql #{type_label} version: #{version}")
         Chef::Log.error("Availabe versions for your platform are: #{info.map { |k, _v| k }.join(' - ')}")
-        fail "Unsupported Mysql #{type_label} Version"
+        raise "Unsupported Mysql #{type_label} Version"
       end
       info[version][type]
     end

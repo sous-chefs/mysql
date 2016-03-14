@@ -4,7 +4,7 @@ set :backend, :exec
 
 puts "os: #{os}"
 
-os[:family] == 'redhat' ? prefix_dir = '/opt/rh/mysql51/root' : prefix_dir = nil
+prefix_dir = os[:family] == 'redhat' ? '/opt/rh/mysql51/root' : nil
 
 if %w(debian ubuntu redhat suse fedora).include? os[:family]
   describe file("#{prefix_dir}/etc/mysql-default") do

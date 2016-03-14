@@ -34,9 +34,9 @@ begin
       out << project_lieutenant
       out << all_maintainers
 
-      File.open(TARGET, 'w') { |fn|
+      File.open(TARGET, 'w') do |fn|
         fn.write out
-      }
+      end
     end
   end
 

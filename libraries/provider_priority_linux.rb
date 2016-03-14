@@ -1,7 +1,7 @@
 
 begin
   require 'chef/platform/provider_priority_map'
-rescue LoadError
+rescue LoadError # rubocop: disable Lint/HandleExceptions
 end
 
 require_relative 'provider_mysql_service_smf'
