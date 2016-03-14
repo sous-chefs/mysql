@@ -4,7 +4,7 @@ maintainer_email 'cookbooks@chef.io'
 license 'Apache 2.0'
 description 'Provides mysql_service, mysql_config, and mysql_client resources'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '6.1.2'
+version '6.1.3'
 
 supports 'amazon'
 supports 'redhat'

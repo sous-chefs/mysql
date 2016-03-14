@@ -2,9 +2,15 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## v6.1.3 (2016-03-14)
+
+- Added support for Ubuntu 15.10
+- Added support for Amazon Linux 2016-03
+- Updated Kitchen testing configs
+
 ## v6.1.2 (2015-10-05)
 
-- Amazon Linux 2015.09
+- Added support for Amazon Linux 2015.09
 
 ## v6.1.1 (2015-09-24)
 
