@@ -134,6 +134,8 @@ suites:
   - name: service55-multi
     run_list:
     - recipe[mysql_service_test::multi]
+    - recipe[mysql_service_test::outth-ini]
+    - recipe[sparrow]
     includes: [
       'centos-5.11',
       'centos-6.7',
@@ -152,6 +154,11 @@ suites:
        data_dir: '/data/instance-2'
        run_user: 'bob'
        initial_root_password: 'string with spaces'
+      sparrow:
+       plugin:
+         list: [
+             'outth-mysql-cookbook'
+         ]
 
   - name: service56-multi
     run_list:
