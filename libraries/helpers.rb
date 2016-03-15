@@ -165,6 +165,7 @@ module MysqlCookbook
         set -e
         rm -rf /tmp/#{mysql_name}
         mkdir /tmp/#{mysql_name}
+        chown mysql /tmp/#{mysql_name}
 
         cat > /tmp/#{mysql_name}/my.sql <<-EOSQL
 UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{root_password}')#{password_expired} WHERE user = 'root';
@@ -174,6 +175,7 @@ FLUSH PRIVILEGES;
 DELETE FROM mysql.db WHERE db LIKE 'test%';
 DROP DATABASE IF EXISTS test ;
 EOSQL
+       chown mysql /tmp/#{mysql_name}/my.sql
 
        #{db_init}
        #{record_init}
