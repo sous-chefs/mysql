@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## Unreleased
+
+- Adding umask to bash resource that sets root password PR #386 @gziskind
+ 
 ## v6.1.3 (2016-03-14)
 
 - Added support for Ubuntu 15.10
