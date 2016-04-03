@@ -49,8 +49,8 @@ class Chef
       end
 
       action :delete do
-        file "#{new_resource.name} :delete #{include_dir}/#{new_resource.config_name}.conf" do
-          path "#{include_dir}/#{new_resource.config_name}.conf"
+        file "#{new_resource.name} :delete #{include_dir}/#{new_resource.config_name}.cnf" do
+          path "#{include_dir}/#{new_resource.config_name}.cnf"
           action :delete
         end
       end
