@@ -261,15 +261,8 @@ EOSQL
       def self.pkginfo
         # Autovivification is Perl.
         @pkginfo = Chef::Node.new
-
-        @pkginfo.set['debian']['10.04']['5.1']['client_package'] = %w(mysql-client-5.1 libmysqlclient-dev)
-        @pkginfo.set['debian']['10.04']['5.1']['server_package'] = 'mysql-server-5.1'
         @pkginfo.set['debian']['12.04']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
         @pkginfo.set['debian']['12.04']['5.5']['server_package'] = 'mysql-server-5.5'
-        @pkginfo.set['debian']['13.04']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
-        @pkginfo.set['debian']['13.04']['5.5']['server_package'] = 'mysql-server-5.5'
-        @pkginfo.set['debian']['13.10']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
-        @pkginfo.set['debian']['13.10']['5.5']['server_package'] = 'mysql-server-5.5'
         @pkginfo.set['debian']['14.04']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
         @pkginfo.set['debian']['14.04']['5.5']['server_package'] = 'mysql-server-5.5'
         @pkginfo.set['debian']['14.04']['5.6']['client_package'] = %w(mysql-client-5.6 libmysqlclient-dev)
@@ -282,8 +275,6 @@ EOSQL
         @pkginfo.set['debian']['15.04']['5.6']['server_package'] = 'mysql-server-5.6'
         @pkginfo.set['debian']['15.10']['5.6']['client_package'] = %w(mysql-client-5.6 libmysqlclient-dev)
         @pkginfo.set['debian']['15.10']['5.6']['server_package'] = 'mysql-server-5.6'
-        @pkginfo.set['debian']['6']['5.1']['client_package'] = %w(mysql-client libmysqlclient-dev)
-        @pkginfo.set['debian']['6']['5.1']['server_package'] = 'mysql-server-5.1'
         @pkginfo.set['debian']['7']['5.5']['client_package'] = %w(mysql-client libmysqlclient-dev)
         @pkginfo.set['debian']['7']['5.5']['server_package'] = 'mysql-server-5.5'
         @pkginfo.set['debian']['7']['5.6']['client_package'] = %w(mysql-client libmysqlclient-dev) # apt-repo from dotdeb
