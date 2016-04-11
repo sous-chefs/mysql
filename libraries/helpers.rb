@@ -424,14 +424,9 @@ EOSQL
     def parsed_version
       return new_resource.version if new_resource.version
       return '5.0' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 5
-      return '5.1' if node['platform_family'] == 'debian' && node['platform_version'] == '10.04'
-      return '5.1' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 6
       return '5.1' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 6
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '12.04'
-      return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '13.04'
-      return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '13.10'
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '14.04'
-      return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '14.10'
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 8
       return '5.5' if node['platform_family'] == 'freebsd'
@@ -443,7 +438,6 @@ EOSQL
       return '5.5' if node['platform_family'] == 'smartos'
       return '5.5' if node['platform_family'] == 'suse'
       return '5.6' if node['platform_family'] == 'fedora'
-      return '5.6' if node['platform_family'] == 'debian' && node['platform_version'] == '15.04'
       return '5.6' if node['platform_family'] == 'debian' && node['platform_version'] == '15.10'
     end
   end
