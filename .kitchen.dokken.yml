@@ -79,7 +79,7 @@ suites:
     run_list:
     - recipe[mysql_service_test::single]
     includes: [
-      'centos-5.8'
+      'centos-5'
     ]
     attributes:
       mysql:
@@ -158,7 +158,7 @@ suites:
     run_list:
     - recipe[mysql_service_test::multi]
     includes: [
-      'centos-5.8'
+      'centos-5'
     ]
     attributes:
       mysql:
