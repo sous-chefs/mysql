@@ -87,7 +87,7 @@ class Chef
           provider Chef::Provider::Service::Systemd
           supports status: true
           action [:disable, :stop]
-          only_if { ::File.exist?("/usr/lib/systemd/system/#{mysql_name}.service") }
+          only_if { ::File.exist?("/lib/systemd/system/#{mysql_name}.service") }
         end
       end
 
@@ -127,7 +127,7 @@ class Chef
           provider Chef::Provider::Service::Systemd
           supports status: true
           action [:disable, :stop]
-          only_if { ::File.exist?("/usr/lib/systemd/system/#{mysql_name}.service") }
+          only_if { ::File.exist?("/lib/systemd/system/#{mysql_name}.service") }
         end
       end
     end
