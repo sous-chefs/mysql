@@ -45,7 +45,7 @@ suites:
     - recipe[mysql_service_test::single]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.7'
     ]
     attributes:
       mysql:
@@ -76,8 +76,6 @@ suites:
       'centos-7.2',
       'fedora-22',
       'fedora-23',
-      'debian-7.9',
-      'ubuntu-12.04',
       'ubuntu-14.04'
     ]
     attributes:
@@ -92,10 +90,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
     attributes:
       mysql:
@@ -160,8 +155,6 @@ suites:
       'centos-7.2',
       'fedora-22',
       'fedora-23',
-      'debian-7.9',
-      'ubuntu-12.04',
       'ubuntu-14.04'
     ]
     attributes:
@@ -180,10 +173,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
     attributes:
       mysql:
@@ -214,8 +204,7 @@ suites:
        version: '5.1'
     includes: [
       'centos-5.11',
-      'centos-6.7',
-      'ubuntu-12.04'
+      'centos-6.7'
     ]
 
   - name: client55
@@ -247,10 +236,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
 
   - name: client57
@@ -264,10 +250,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
 
   #
@@ -287,7 +270,7 @@ suites:
     run_list:
     - recipe[mysql_config_test]
     includes: [
-      'centos-5.11',
+      'centos-5.11'
     ]
     attributes:
       mysql:
@@ -320,8 +303,6 @@ suites:
       'centos-7.2',
       'fedora-22',
       'fedora-23',
-      'debian-7.9',
-      'ubuntu-12.04',
       'ubuntu-14.04'
     ]
     attributes:
@@ -336,10 +317,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
     attributes:
       mysql:
