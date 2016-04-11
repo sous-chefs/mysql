@@ -8,6 +8,14 @@ module MysqlCookbook
       prefix_dir || '/usr'
     end
 
+    def systemd_unit_path
+      if node['platform_family'] == 'suse'
+        '/usr/lib/systemd/system'
+      else
+        '/lib/systemd/system'
+      end
+    end
+
     def configure_package_repositories
       # we need to enable the yum-mysql-community repository to get packages
       return unless %w(rhel fedora).include? node['platform_family']
@@ -353,6 +361,8 @@ EOSQL
         @pkginfo.set['smartos']['5.11']['5.5']['server_package'] = 'mysql-server'
         @pkginfo.set['smartos']['5.11']['5.6']['client_package'] = %w(mysql-client)
         @pkginfo.set['smartos']['5.11']['5.6']['server_package'] = 'mysql-server'
+        @pkginfo.set['suse']['13']['5.6']['client_package'] = %w(mysql-community-server-client)
+        @pkginfo.set['suse']['13']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo
       end
     end
@@ -377,7 +387,7 @@ EOSQL
       return platform_version if platform_family == 'omnios'
       return platform_version if platform_family == 'rhel' && platform == 'amazon'
       return platform_version if platform_family == 'smartos'
-      return platform_version if platform_family == 'suse'
+      return platform_version.to_i.to_s if platform_family == 'suse'
       return platform_version.to_i.to_s if platform_family == 'debian'
       return platform_version.to_i.to_s if platform_family == 'rhel'
       return platform_version.to_s if platform_family == 'debian' && platform_version =~ /sid$/
@@ -431,7 +441,7 @@ EOSQL
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 2016
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'smartos'
-      return '5.5' if node['platform_family'] == 'suse'
+      return '5.6' if node['platform_family'] == 'suse'
       return '5.6' if node['platform_family'] == 'fedora'
       return '5.6' if node['platform_family'] == 'debian' && node['platform_version'] == '15.10'
     end
