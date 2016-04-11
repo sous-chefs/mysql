@@ -131,8 +131,6 @@ suites:
       'centos-5.11',
       'centos-6.7',
       'centos-7.2',
-      'fedora-22',
-      'fedora-23',
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
