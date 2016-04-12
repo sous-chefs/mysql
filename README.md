@@ -11,7 +11,6 @@ This cookbook is concerned with the "MySQL Community Server", particularly those
 ## Requirements
 
 - Chef 11 or higher
-- Ruby 1.9 or higher (preferably from the Chef full-stack installer)
 - Network accessible package repositories
 - 'recipe[selinux::disabled]' on RHEL platforms
 
@@ -39,11 +38,11 @@ The following platforms have been tested with Test Kitchen:
 |----------------+-----+-----+-----+-----+-----|
 | centos-7       |     |     | X   | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
-| amazon         |     |     | X   | X   | X   |
+| fedora-22      |     |     |     | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
-| fedora-22      |     |     | X   | X   | X   |
+| fedora-23      |     |     |     | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
-| fedora-23      |     |     | X   | X   | X   |
+| openSUSE 13.2  |     |     |     | X   |     |
 |----------------+-----+-----+-----+-----+-----|
 ```
 
