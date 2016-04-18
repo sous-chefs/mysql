@@ -38,9 +38,18 @@ platforms:
       - RUN yum -y install net-tools lsof
     pid_one_command: /usr/lib/systemd/systemd
 
-- name: fedora-21
+- name: fedora-22
   driver:
-    image: fedora:21
+    image: fedora:22
+    intermediate_instructions:
+    - RUN yum clean all
+    pid_one_command: /usr/lib/systemd/systemd
+    intermediate_instructions:
+      - RUN yum -y install tar
+
+- name: fedora-23
+  driver:
+    image: fedora:23
     intermediate_instructions:
     - RUN yum clean all
     pid_one_command: /usr/lib/systemd/systemd
@@ -79,7 +88,7 @@ suites:
     run_list:
     - recipe[mysql_service_test::single]
     includes: [
-      'centos-5.8'
+      'centos-5'
     ]
     attributes:
       mysql:
@@ -104,7 +113,7 @@ suites:
       'centos-6',
       'centos-7',
       'ubuntu-12.04',
-      'ubuntu-14.04',
+      'ubuntu-14.04'
     ]
     attributes:
       mysql:
@@ -117,7 +126,8 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-21',
+      'fedora-22',
+      'fedora-23',
       'ubuntu-14.04',
       'ubuntu-15.04'
     ]
@@ -134,7 +144,8 @@ suites:
       'centos-7',
       'redhat-6',
       'redhat-7',
-      'fedora-21'
+      'fedora-22',
+      'fedora-23'
     ]
     attributes:
       mysql:
@@ -158,7 +169,7 @@ suites:
     run_list:
     - recipe[mysql_service_test::multi]
     includes: [
-      'centos-5.8'
+      'centos-5'
     ]
     attributes:
       mysql:
@@ -176,7 +187,7 @@ suites:
       'centos-6',
       'centos-7',
       'ubuntu-12.04',
-      'ubuntu-14.04',
+      'ubuntu-14.04'
     ]
     attributes:
       mysql:
@@ -193,7 +204,8 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-21',
+      'fedora-22',
+      'fedora-23',
       'ubuntu-14.04',
       'ubuntu-15.04'
     ]
@@ -212,7 +224,8 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-21',
+      'fedora-22',
+      'fedora-23'
     ]
     attributes:
       mysql:
@@ -257,7 +270,7 @@ suites:
       'centos-6',
       'centos-7',
       'ubuntu-12.04',
-      'ubuntu-14.04',
+      'ubuntu-14.04'
     ]
 
   - name: client56
@@ -270,7 +283,8 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-21',
+      'fedora-22',
+      'fedora-23',
       'ubuntu-14.04',
       'ubuntu-15.04'
     ]
@@ -285,7 +299,8 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-21'
+      'fedora-22',
+      'fedora-23'
     ]
 
   #
@@ -332,7 +347,8 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-21',
+      'fedora-22',
+      'fedora-23',
       'ubuntu-14.04',
       'ubuntu-15.04'
     ]
@@ -349,7 +365,8 @@ suites:
       'centos-7',
       'redhat-6',
       'redhat-7',
-      'fedora-21'
+      'fedora-22',
+      'fedora-23'
     ]
     attributes:
       mysql:
@@ -365,7 +382,8 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-21',
+      'fedora-22',
+      'fedora-23',
       'ubuntu-12.04',
       'ubuntu-14.04',
       'ubuntu-15.04'

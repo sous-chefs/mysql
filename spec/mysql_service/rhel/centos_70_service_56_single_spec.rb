@@ -151,10 +151,10 @@ describe 'mysql_service_test::single on centos-7.0' do
         )
     end
 
-    it 'create template[default :start /usr/lib/systemd/system/mysql-default.service]' do
-      expect(centos_70_service_56_single).to create_template('default :start /usr/lib/systemd/system/mysql-default.service')
+    it 'create template[default :start /lib/systemd/system/mysql-default.service]' do
+      expect(centos_70_service_56_single).to create_template('default :start /lib/systemd/system/mysql-default.service')
         .with(
-          path: '/usr/lib/systemd/system/mysql-default.service',
+          path: '/lib/systemd/system/mysql-default.service',
           source: 'systemd/mysqld.service.erb',
           owner: 'root',
           group: 'root',

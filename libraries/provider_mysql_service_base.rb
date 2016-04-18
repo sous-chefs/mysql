@@ -4,7 +4,7 @@ require_relative 'helpers'
 class Chef
   class Provider
     class MysqlServiceBase < Chef::Provider::LWRPBase
-      use_inline_resources if defined?(use_inline_resources)
+      use_inline_resources
 
       def whyrun_supported?
         true
@@ -33,6 +33,19 @@ class Chef
           version parsed_version if node['platform'] == 'smartos'
           version new_resource.package_version
           action new_resource.package_action
+          notifies :install, 'package[perl-Sys-Hostname-Long]', :immediately if platform_family?('suse')
+          notifies :run, 'execute[Initial DB setup script]', :immediately if platform_family?('suse')
+        end
+
+        # hostname perl module needed by suse
+        package 'perl-Sys-Hostname-Long' do
+          action :nothing
+        end
+
+        execute 'Initial DB setup script' do
+          environment 'INSTANCE' => new_resource.name
+          command '/usr/lib/mysql/mysql-systemd-helper install '
+          action :nothing
         end
 
         create_stop_system_service

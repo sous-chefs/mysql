@@ -26,6 +26,7 @@ else
   Chef::Platform.set platform: :centos, version: '>= 7.0', resource: :mysql_service, provider: Chef::Provider::MysqlServiceSystemd
   Chef::Platform.set platform: :scientific, version: '>= 7.0', resource: :mysql_service, provider: Chef::Provider::MysqlServiceSystemd
   Chef::Platform.set platform: :oracle, version: '>= 7.0', resource: :mysql_service, provider: Chef::Provider::MysqlServiceSystemd
+  Chef::Platform.set platform: :opensuse, version: '>= 13.0', resource: :mysql_service, provider: Chef::Provider::MysqlServiceSystemd
 
   # smf service
   Chef::Platform.set platform: :omnios, resource: :mysql_service, provider: Chef::Provider::MysqlServiceSmf

@@ -207,10 +207,10 @@ describe 'mysql_service_test::single on centos-7.0' do
         )
     end
 
-    it 'create template[instance-1 :start /usr/lib/systemd/system/mysql-instance-1.service]' do
-      expect(centos_70_service_57_multi).to create_template('instance-1 :start /usr/lib/systemd/system/mysql-instance-1.service')
+    it 'create template[instance-1 :start /lib/systemd/system/mysql-instance-1.service]' do
+      expect(centos_70_service_57_multi).to create_template('instance-1 :start /lib/systemd/system/mysql-instance-1.service')
         .with(
-          path: '/usr/lib/systemd/system/mysql-instance-1.service',
+          path: '/lib/systemd/system/mysql-instance-1.service',
           source: 'systemd/mysqld.service.erb',
           owner: 'root',
           group: 'root',
@@ -368,10 +368,10 @@ describe 'mysql_service_test::single on centos-7.0' do
         )
     end
 
-    it 'create template[instance-2 :start /usr/lib/systemd/system/mysql-instance-2.service]' do
-      expect(centos_70_service_57_multi).to create_template('instance-2 :start /usr/lib/systemd/system/mysql-instance-2.service')
+    it 'create template[instance-2 :start /lib/systemd/system/mysql-instance-2.service]' do
+      expect(centos_70_service_57_multi).to create_template('instance-2 :start /lib/systemd/system/mysql-instance-2.service')
         .with(
-          path: '/usr/lib/systemd/system/mysql-instance-2.service',
+          path: '/lib/systemd/system/mysql-instance-2.service',
           source: 'systemd/mysqld.service.erb',
           owner: 'root',
           group: 'root',

@@ -15,7 +15,7 @@ platforms:
     run_list: selinux::disabled
   - name: debian-7.9
     run_list: apt::default
-  - name: debian-8.2
+  - name: debian-8.3
     run_list: apt::default
   - name: fedora-22
     run_list: yum::dnf_yum_compat
@@ -25,6 +25,7 @@ platforms:
     run_list: apt::default
   - name: ubuntu-14.04
     run_list: apt::default
+  - name: opensuse-13.2
 
 suites:
   #
@@ -45,7 +46,7 @@ suites:
     - recipe[mysql_service_test::single]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.7'
     ]
     attributes:
       mysql:
@@ -76,10 +77,8 @@ suites:
       'centos-7.2',
       'fedora-22',
       'fedora-23',
-      'debian-7.9',
-      'debian-8.2',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'opensuse-13.2'
     ]
     attributes:
       mysql:
@@ -93,11 +92,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'debian-8.2',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
     attributes:
       mysql:
@@ -138,8 +133,6 @@ suites:
       'centos-5.11',
       'centos-6.7',
       'centos-7.2',
-      'fedora-22',
-      'fedora-23',
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
@@ -162,10 +155,8 @@ suites:
       'centos-7.2',
       'fedora-22',
       'fedora-23',
-      'debian-7.9',
-      'debian-8.2',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'opensuse-13.2'
     ]
     attributes:
       mysql:
@@ -183,11 +174,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'debian-8.2',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
     attributes:
       mysql:
@@ -218,8 +205,7 @@ suites:
        version: '5.1'
     includes: [
       'centos-5.11',
-      'centos-6.7',
-      'ubuntu-12.04'
+      'centos-6.7'
     ]
 
   - name: client55
@@ -232,8 +218,6 @@ suites:
       'centos-5.11',
       'centos-6.7',
       'centos-7.2',
-      'fedora-22',
-      'fedora-23',
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
@@ -251,11 +235,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'debian-8.2',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
 
   - name: client57
@@ -269,11 +249,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'debian-8.2',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
 
   #
@@ -293,7 +269,7 @@ suites:
     run_list:
     - recipe[mysql_config_test]
     includes: [
-      'centos-5.11',
+      'centos-5.11'
     ]
     attributes:
       mysql:
@@ -306,8 +282,6 @@ suites:
       'centos-5.11',
       'centos-6.7',
       'centos-7.2',
-      'fedora-22',
-      'fedora-23',
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
@@ -326,10 +300,8 @@ suites:
       'centos-7.2',
       'fedora-22',
       'fedora-23',
-      'debian-7.9',
-      'debian-8.2',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'opensuse-13.2'
     ]
     attributes:
       mysql:
@@ -343,11 +315,7 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23',
-      'debian-7.9',
-      'debian-8.2',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
+      'fedora-23'
     ]
     attributes:
       mysql:
@@ -368,5 +336,6 @@ suites:
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'opensuse-13.2'
     ]

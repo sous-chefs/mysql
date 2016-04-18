@@ -8,6 +8,14 @@ module MysqlCookbook
       prefix_dir || '/usr'
     end
 
+    def systemd_unit_path
+      if node['platform_family'] == 'suse'
+        '/usr/lib/systemd/system'
+      else
+        '/lib/systemd/system'
+      end
+    end
+
     def configure_package_repositories
       # we need to enable the yum-mysql-community repository to get packages
       return unless %w(rhel fedora).include? node['platform_family']
@@ -261,29 +269,14 @@ EOSQL
       def self.pkginfo
         # Autovivification is Perl.
         @pkginfo = Chef::Node.new
-
-        @pkginfo.set['debian']['10.04']['5.1']['client_package'] = %w(mysql-client-5.1 libmysqlclient-dev)
-        @pkginfo.set['debian']['10.04']['5.1']['server_package'] = 'mysql-server-5.1'
         @pkginfo.set['debian']['12.04']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
         @pkginfo.set['debian']['12.04']['5.5']['server_package'] = 'mysql-server-5.5'
-        @pkginfo.set['debian']['13.04']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
-        @pkginfo.set['debian']['13.04']['5.5']['server_package'] = 'mysql-server-5.5'
-        @pkginfo.set['debian']['13.10']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
-        @pkginfo.set['debian']['13.10']['5.5']['server_package'] = 'mysql-server-5.5'
         @pkginfo.set['debian']['14.04']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
         @pkginfo.set['debian']['14.04']['5.5']['server_package'] = 'mysql-server-5.5'
         @pkginfo.set['debian']['14.04']['5.6']['client_package'] = %w(mysql-client-5.6 libmysqlclient-dev)
         @pkginfo.set['debian']['14.04']['5.6']['server_package'] = 'mysql-server-5.6'
-        @pkginfo.set['debian']['14.10']['5.5']['client_package'] = %w(mysql-client-5.5 libmysqlclient-dev)
-        @pkginfo.set['debian']['14.10']['5.5']['server_package'] = 'mysql-server-5.5'
-        @pkginfo.set['debian']['14.10']['5.6']['client_package'] = %w(mysql-client-5.6 libmysqlclient-dev)
-        @pkginfo.set['debian']['14.10']['5.6']['server_package'] = 'mysql-server-5.6'
-        @pkginfo.set['debian']['15.04']['5.6']['client_package'] = %w(mysql-client-5.6 libmysqlclient-dev)
-        @pkginfo.set['debian']['15.04']['5.6']['server_package'] = 'mysql-server-5.6'
         @pkginfo.set['debian']['15.10']['5.6']['client_package'] = %w(mysql-client-5.6 libmysqlclient-dev)
         @pkginfo.set['debian']['15.10']['5.6']['server_package'] = 'mysql-server-5.6'
-        @pkginfo.set['debian']['6']['5.1']['client_package'] = %w(mysql-client libmysqlclient-dev)
-        @pkginfo.set['debian']['6']['5.1']['server_package'] = 'mysql-server-5.1'
         @pkginfo.set['debian']['7']['5.5']['client_package'] = %w(mysql-client libmysqlclient-dev)
         @pkginfo.set['debian']['7']['5.5']['server_package'] = 'mysql-server-5.5'
         @pkginfo.set['debian']['7']['5.6']['client_package'] = %w(mysql-client libmysqlclient-dev) # apt-repo from dotdeb
@@ -292,20 +285,14 @@ EOSQL
         @pkginfo.set['debian']['7']['5.7']['server_package'] = 'mysql-server-5.7'
         @pkginfo.set['debian']['8']['5.5']['client_package'] = %w(mysql-client libmysqlclient-dev)
         @pkginfo.set['debian']['8']['5.5']['server_package'] = 'mysql-server-5.5'
-        @pkginfo.set['fedora']['20']['5.5']['client_package'] = %w(community-mysql community-mysql-devel)
-        @pkginfo.set['fedora']['20']['5.5']['server_package'] = 'community-mysql-server'
-        @pkginfo.set['fedora']['20']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
-        @pkginfo.set['fedora']['20']['5.6']['server_package'] = 'mysql-community-server'
-        @pkginfo.set['fedora']['20']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
-        @pkginfo.set['fedora']['20']['5.7']['server_package'] = 'mysql-community-server'
-        @pkginfo.set['fedora']['21']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
-        @pkginfo.set['fedora']['21']['5.6']['server_package'] = 'mysql-community-server'
-        @pkginfo.set['fedora']['21']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
-        @pkginfo.set['fedora']['21']['5.7']['server_package'] = 'mysql-community-server'
         @pkginfo.set['fedora']['22']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
         @pkginfo.set['fedora']['22']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo.set['fedora']['22']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
         @pkginfo.set['fedora']['22']['5.7']['server_package'] = 'mysql-community-server'
+        @pkginfo.set['fedora']['23']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
+        @pkginfo.set['fedora']['23']['5.6']['server_package'] = 'mysql-community-server'
+        @pkginfo.set['fedora']['23']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
+        @pkginfo.set['fedora']['23']['5.7']['server_package'] = 'mysql-community-server'
         @pkginfo.set['freebsd']['10']['5.5']['client_package'] = %w(mysql55-client)
         @pkginfo.set['freebsd']['10']['5.5']['server_package'] = 'mysql55-server'
         @pkginfo.set['freebsd']['9']['5.5']['client_package'] = %w(mysql55-client)
@@ -374,11 +361,8 @@ EOSQL
         @pkginfo.set['smartos']['5.11']['5.5']['server_package'] = 'mysql-server'
         @pkginfo.set['smartos']['5.11']['5.6']['client_package'] = %w(mysql-client)
         @pkginfo.set['smartos']['5.11']['5.6']['server_package'] = 'mysql-server'
-        @pkginfo.set['suse']['11.3']['5.5']['client_package'] = %w(mysql-client)
-        @pkginfo.set['suse']['11.3']['5.5']['server_package'] = 'mysql'
-        @pkginfo.set['suse']['12.0']['5.5']['client_package'] = %w(mysql-client)
-        @pkginfo.set['suse']['12.0']['5.5']['server_package'] = 'mysql'
-
+        @pkginfo.set['suse']['13']['5.6']['client_package'] = %w(mysql-community-server-client)
+        @pkginfo.set['suse']['13']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo
       end
     end
@@ -403,7 +387,7 @@ EOSQL
       return platform_version if platform_family == 'omnios'
       return platform_version if platform_family == 'rhel' && platform == 'amazon'
       return platform_version if platform_family == 'smartos'
-      return platform_version if platform_family == 'suse'
+      return platform_version.to_i.to_s if platform_family == 'suse'
       return platform_version.to_i.to_s if platform_family == 'debian'
       return platform_version.to_i.to_s if platform_family == 'rhel'
       return platform_version.to_s if platform_family == 'debian' && platform_version =~ /sid$/
@@ -445,14 +429,9 @@ EOSQL
     def parsed_version
       return new_resource.version if new_resource.version
       return '5.0' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 5
-      return '5.1' if node['platform_family'] == 'debian' && node['platform_version'] == '10.04'
-      return '5.1' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 6
       return '5.1' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 6
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '12.04'
-      return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '13.04'
-      return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '13.10'
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '14.04'
-      return '5.5' if node['platform_family'] == 'debian' && node['platform_version'] == '14.10'
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 8
       return '5.5' if node['platform_family'] == 'freebsd'
@@ -462,9 +441,8 @@ EOSQL
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 2016
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'smartos'
-      return '5.5' if node['platform_family'] == 'suse'
+      return '5.6' if node['platform_family'] == 'suse'
       return '5.6' if node['platform_family'] == 'fedora'
-      return '5.6' if node['platform_family'] == 'debian' && node['platform_version'] == '15.04'
       return '5.6' if node['platform_family'] == 'debian' && node['platform_version'] == '15.10'
     end
   end
