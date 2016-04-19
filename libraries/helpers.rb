@@ -8,14 +8,6 @@ module MysqlCookbook
       prefix_dir || '/usr'
     end
 
-    def systemd_unit_path
-      if node['platform_family'] == 'suse'
-        '/usr/lib/systemd/system'
-      else
-        '/lib/systemd/system'
-      end
-    end
-
     def configure_package_repositories
       # we need to enable the yum-mysql-community repository to get packages
       return unless %w(rhel fedora).include? node['platform_family']
