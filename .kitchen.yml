@@ -26,6 +26,9 @@ platforms:
   - name: ubuntu-14.04
     run_list: apt::default
   - name: opensuse-13.2
+  - name: omnios-r151014
+    driver:
+      box: omnios/r151014
 
 suites:
   #
@@ -62,7 +65,8 @@ suites:
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'omnios-r151014'
     ]
     attributes:
       mysql:
@@ -78,7 +82,8 @@ suites:
       'fedora-22',
       'fedora-23',
       'ubuntu-14.04',
-      'opensuse-13.2'
+      'opensuse-13.2',
+      'omnios-r151014'
     ]
     attributes:
       mysql:
@@ -136,7 +141,8 @@ suites:
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'omnios-r151014'
     ]
     attributes:
       mysql:
@@ -156,7 +162,8 @@ suites:
       'fedora-22',
       'fedora-23',
       'ubuntu-14.04',
-      'opensuse-13.2'
+      'opensuse-13.2',
+      'omnios-r151014'
     ]
     attributes:
       mysql:
@@ -221,7 +228,8 @@ suites:
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'omnios-r151014'
     ]
 
   - name: client56
@@ -235,7 +243,8 @@ suites:
       'centos-6.7',
       'centos-7.2',
       'fedora-22',
-      'fedora-23'
+      'fedora-23',
+      'omnios-r151014'
     ]
 
   - name: client57
@@ -285,7 +294,8 @@ suites:
       'debian-7.9',
       'debian-8.2',
       'ubuntu-12.04',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'omnios-r151014'
     ]
     attributes:
       mysql:
@@ -301,7 +311,8 @@ suites:
       'fedora-22',
       'fedora-23',
       'ubuntu-14.04',
-      'opensuse-13.2'
+      'opensuse-13.2',
+      'omnios-r151014'
     ]
     attributes:
       mysql:
@@ -337,5 +348,6 @@ suites:
       'debian-8.2',
       'ubuntu-12.04',
       'ubuntu-14.04',
-      'opensuse-13.2'
+      'opensuse-13.2',
+      'omnios-r151014'
     ]
