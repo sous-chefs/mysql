@@ -39,6 +39,7 @@ module MysqlCookbook
     end
 
     def etc_dir
+      return "/opt/mysql#{pkg_ver_string}/etc/#{mysql_name}" if node['platform_family'] == 'omnios'
       return "#{prefix_dir}/etc/#{mysql_name}" if node['platform_family'] == 'smartos'
       "#{prefix_dir}/etc/#{mysql_name}"
     end
@@ -51,6 +52,7 @@ module MysqlCookbook
     end
 
     def log_dir
+      return "/var/adm/log/#{mysql_name}" if node['platform_family'] == 'omnios'
       "#{prefix_dir}/var/log/#{mysql_name}"
     end
 
@@ -58,7 +60,12 @@ module MysqlCookbook
       "mysql-#{new_resource.instance}"
     end
 
+    def pkg_ver_string
+      parsed_version.delete('.') if node['platform_family'] == 'omnios'
+    end
+
     def prefix_dir
+      return "/opt/mysql#{pkg_ver_string}" if node['platform_family'] == 'omnios'
       return '/opt/local' if node['platform_family'] == 'smartos'
       return "/opt/rh/#{scl_name}/root" if scl_package?
     end
@@ -83,6 +90,7 @@ module MysqlCookbook
       return 'mysqld' if node['platform_family'] == 'fedora'
       return 'mysql' if node['platform_family'] == 'debian'
       return 'mysql' if node['platform_family'] == 'suse'
+      return 'mysql' if node['platform_family'] == 'omnios'
       return 'mysql' if node['platform_family'] == 'smartos'
     end
 
@@ -179,10 +187,12 @@ EOSQL
 
     def mysql_bin
       return "#{prefix_dir}/bin/mysql" if node['platform_family'] == 'smartos'
+      return "#{base_dir}/bin/mysql" if node['platform_family'] == 'omnios'
       "#{prefix_dir}/usr/bin/mysql"
     end
 
     def mysql_install_db_bin
+      return "#{base_dir}/scripts/mysql_install_db" if node['platform_family'] == 'omnios'
       return "#{prefix_dir}/bin/mysql_install_db" if node['platform_family'] == 'smartos'
       'mysql_install_db'
     end
@@ -199,6 +209,7 @@ EOSQL
 
     def mysqld_bin
       return "#{prefix_dir}/libexec/mysqld" if node['platform_family'] == 'smartos'
+      return "#{base_dir}/bin/mysqld" if node['platform_family'] == 'omnios'
       return '/usr/sbin/mysqld' if node['platform_family'] == 'fedora' && v56plus
       return '/usr/libexec/mysqld' if node['platform_family'] == 'fedora'
       return 'mysqld' if scl_package?
@@ -207,6 +218,7 @@ EOSQL
 
     def mysqld_safe_bin
       return "#{prefix_dir}/bin/mysqld_safe" if node['platform_family'] == 'smartos'
+      return "#{base_dir}/bin/mysqld_safe" if node['platform_family'] == 'omnios'
       return 'mysqld_safe' if scl_package?
       "#{prefix_dir}/usr/bin/mysqld_safe"
     end
@@ -281,6 +293,10 @@ EOSQL
         @pkginfo.set['freebsd']['10']['5.5']['server_package'] = 'mysql55-server'
         @pkginfo.set['freebsd']['9']['5.5']['client_package'] = %w(mysql55-client)
         @pkginfo.set['freebsd']['9']['5.5']['server_package'] = 'mysql55-server'
+        @pkginfo.set['omnios']['151006']['5.5']['client_package'] = %w(database/mysql-55/library)
+        @pkginfo.set['omnios']['151006']['5.5']['server_package'] = 'database/mysql-55'
+        @pkginfo.set['omnios']['151006']['5.6']['client_package'] = %w(database/mysql-56)
+        @pkginfo.set['omnios']['151006']['5.6']['server_package'] = 'database/mysql-56'
         @pkginfo.set['rhel']['2014.09']['5.1']['server_package'] = %w(mysql51 mysql51-devel)
         @pkginfo.set['rhel']['2014.09']['5.1']['server_package'] = 'mysql51-server'
         @pkginfo.set['rhel']['2014.09']['5.5']['client_package'] = %w(mysql-community-client mysql-community-devel)
@@ -364,6 +380,7 @@ EOSQL
     def keyname_for(platform, platform_family, platform_version)
       return platform_version if platform_family == 'debian' && platform == 'ubuntu'
       return platform_version if platform_family == 'fedora'
+      return platform_version if platform_family == 'omnios'
       return platform_version if platform_family == 'rhel' && platform == 'amazon'
       return platform_version if platform_family == 'smartos'
       return platform_version.to_i.to_s if platform_family == 'suse'
@@ -414,6 +431,7 @@ EOSQL
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 7
       return '5.5' if node['platform_family'] == 'debian' && node['platform_version'].to_i == 8
       return '5.5' if node['platform_family'] == 'freebsd'
+      return '5.5' if node['platform_family'] == 'omnios'
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 2014
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 2015
       return '5.5' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 2016
