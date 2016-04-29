@@ -19,6 +19,9 @@ platforms:
   driver:
     image: debian:8
     pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
 
 - name: centos-5
   driver:
@@ -37,15 +40,6 @@ platforms:
       - RUN yum clean all
       - RUN yum -y install net-tools lsof
     pid_one_command: /usr/lib/systemd/systemd
-
-- name: fedora-22
-  driver:
-    image: fedora:22
-    intermediate_instructions:
-    - RUN yum clean all
-    pid_one_command: /usr/lib/systemd/systemd
-    intermediate_instructions:
-      - RUN yum -y install tar
 
 - name: fedora-23
   driver:
@@ -72,7 +66,7 @@ platforms:
       - RUN /usr/bin/apt-get update
       - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
 
-- name: ubuntu-15.04
+- name: ubuntu-16.04
   driver:
     image: ubuntu:15.04
     pid_one_command: /bin/systemd

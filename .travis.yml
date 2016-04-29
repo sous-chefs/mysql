@@ -26,14 +26,11 @@ env:
   - INSTANCE=service56-multi-centos-5
   - INSTANCE=service56-multi-centos-6
   - INSTANCE=service56-multi-centos-7
-  - INSTANCE=service56-multi-fedora-22
   - INSTANCE=service56-multi-fedora-23
   - INSTANCE=service56-multi-ubuntu-1404
-  - INSTANCE=service56-multi-ubuntu-1504
   - INSTANCE=service57-multi-centos-5
   - INSTANCE=service57-multi-centos-6
   - INSTANCE=service57-multi-centos-7
-  - INSTANCE=service57-multi-fedora-22
   - INSTANCE=service57-multi-fedora-23
   fast_finish: true
 

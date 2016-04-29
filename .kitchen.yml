@@ -13,9 +13,9 @@ platforms:
     run_list: selinux::disabled
   - name: centos-7.2
     run_list: selinux::disabled
-  - name: debian-7.9
+  - name: debian-7.10
     run_list: apt::default
-  - name: debian-8.3
+  - name: debian-8.4
     run_list: apt::default
   - name: fedora-22
     run_list: yum::dnf_yum_compat
