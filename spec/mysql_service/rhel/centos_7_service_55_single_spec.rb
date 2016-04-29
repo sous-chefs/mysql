@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'mysql_service_test::single on centos-7.0' do
-  cached(:centos_70_service_55_single) do
+  cached(:centos_7_service_55_single) do
     ChefSpec::SoloRunner.new(
       platform: 'centos',
-      version: '7.0',
+      version: '7.2.1511',
       step_into: 'mysql_service'
     ) do |node|
       node.set['mysql']['version'] = '5.5'
@@ -19,44 +19,44 @@ describe 'mysql_service_test::single on centos-7.0' do
   # Resource in mysql_service_test::single
   context 'compiling the test recipe' do
     it 'creates mysql_service[default]' do
-      expect(centos_70_service_55_single).to create_mysql_service('default')
+      expect(centos_7_service_55_single).to create_mysql_service('default')
     end
   end
 
   # mysql_service resource internal implementation
   context 'stepping into mysql_service[default] resource' do
     it 'installs package[default :create mysql-community-server]' do
-      expect(centos_70_service_55_single).to install_package('default :create mysql-community-server')
+      expect(centos_7_service_55_single).to install_package('default :create mysql-community-server')
         .with(package_name: 'mysql-community-server', version: nil)
     end
 
     it 'stops service[default :create mysql]' do
-      expect(centos_70_service_55_single).to disable_service('default :create mysql')
-      expect(centos_70_service_55_single).to stop_service('default :create mysql')
+      expect(centos_7_service_55_single).to disable_service('default :create mysql')
+      expect(centos_7_service_55_single).to stop_service('default :create mysql')
     end
 
     it 'creates group[default :create mysql]' do
-      expect(centos_70_service_55_single).to create_group('default :create mysql')
+      expect(centos_7_service_55_single).to create_group('default :create mysql')
         .with(group_name: 'mysql')
     end
 
     it 'creates user[default :create mysql]' do
-      expect(centos_70_service_55_single).to create_user('default :create mysql')
+      expect(centos_7_service_55_single).to create_user('default :create mysql')
         .with(username: 'mysql')
     end
 
     it 'deletes file[default :create /etc/mysql/my.cnf]' do
-      expect(centos_70_service_55_single).to delete_file('default :create /etc/mysql/my.cnf')
+      expect(centos_7_service_55_single).to delete_file('default :create /etc/mysql/my.cnf')
         .with(path: '/etc/mysql/my.cnf')
     end
 
     it 'deletes file[default :create /etc/my.cnf]' do
-      expect(centos_70_service_55_single).to delete_file('default :create /etc/my.cnf')
+      expect(centos_7_service_55_single).to delete_file('default :create /etc/my.cnf')
         .with(path: '/etc/my.cnf')
     end
 
     it 'creates link[default :create /usr/share/my-default.cnf]' do
-      expect(centos_70_service_55_single).to create_link('default :create /usr/share/my-default.cnf')
+      expect(centos_7_service_55_single).to create_link('default :create /usr/share/my-default.cnf')
         .with(
           target_file: '/usr/share/my-default.cnf',
           to: '/etc/mysql-default/my.cnf'
@@ -64,7 +64,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'creates directory[default :create /etc/mysql-default]' do
-      expect(centos_70_service_55_single).to create_directory('default :create /etc/mysql-default')
+      expect(centos_7_service_55_single).to create_directory('default :create /etc/mysql-default')
         .with(
           path: '/etc/mysql-default',
           owner: 'mysql',
@@ -75,7 +75,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'creates directory[default :create /etc/mysql-default/conf.d]' do
-      expect(centos_70_service_55_single).to create_directory('default :create /etc/mysql-default/conf.d')
+      expect(centos_7_service_55_single).to create_directory('default :create /etc/mysql-default/conf.d')
         .with(
           path: '/etc/mysql-default/conf.d',
           owner: 'mysql',
@@ -86,7 +86,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'creates directory[default :create /var/run/mysql-default]' do
-      expect(centos_70_service_55_single).to create_directory('default :create /var/run/mysql-default')
+      expect(centos_7_service_55_single).to create_directory('default :create /var/run/mysql-default')
         .with(
           path: '/var/run/mysql-default',
           owner: 'mysql',
@@ -97,7 +97,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'creates directory[default :create /var/log/mysql-default]' do
-      expect(centos_70_service_55_single).to create_directory('default :create /var/log/mysql-default')
+      expect(centos_7_service_55_single).to create_directory('default :create /var/log/mysql-default')
         .with(
           path: '/var/log/mysql-default',
           owner: 'mysql',
@@ -108,7 +108,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'creates directory[default :create /var/lib/mysql-default]' do
-      expect(centos_70_service_55_single).to create_directory('default :create /var/lib/mysql-default')
+      expect(centos_7_service_55_single).to create_directory('default :create /var/lib/mysql-default')
         .with(
           path: '/var/lib/mysql-default',
           owner: 'mysql',
@@ -119,7 +119,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'creates template[default :create /etc/mysql-default/my.cnf]' do
-      expect(centos_70_service_55_single).to create_template('default :create /etc/mysql-default/my.cnf')
+      expect(centos_7_service_55_single).to create_template('default :create /etc/mysql-default/my.cnf')
         .with(
           path: '/etc/mysql-default/my.cnf',
           owner: 'mysql',
@@ -129,18 +129,18 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'runs bash[default :create initialize mysql database]' do
-      expect(centos_70_service_55_single).to_not run_bash('default :create initialize mysql database')
+      expect(centos_7_service_55_single).to_not run_bash('default :create initialize mysql database')
         .with(
           cwd: '/var/lib/mysql-default'
         )
     end
 
     it 'runs bash[default :create initial records]' do
-      expect(centos_70_service_55_single).to_not run_bash('default :create initial records')
+      expect(centos_7_service_55_single).to_not run_bash('default :create initial records')
     end
 
     it 'create template[default :start /usr/libexec/mysql-default-wait-ready]' do
-      expect(centos_70_service_55_single).to create_template('default :start /usr/libexec/mysql-default-wait-ready')
+      expect(centos_7_service_55_single).to create_template('default :start /usr/libexec/mysql-default-wait-ready')
         .with(
           path: '/usr/libexec/mysql-default-wait-ready',
           source: 'systemd/mysqld-wait-ready.erb',
@@ -152,7 +152,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'create template[default :start /etc/systemd/system/mysql-default.service]' do
-      expect(centos_70_service_55_single).to create_template('default :start /etc/systemd/system/mysql-default.service')
+      expect(centos_7_service_55_single).to create_template('default :start /etc/systemd/system/mysql-default.service')
         .with(
           path: '/etc/systemd/system/mysql-default.service',
           source: 'systemd/mysqld.service.erb',
@@ -164,7 +164,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'create template[default :start /usr/lib/tmpfiles.d/mysql-default.conf]' do
-      expect(centos_70_service_55_single).to create_template('default :start /usr/lib/tmpfiles.d/mysql-default.conf')
+      expect(centos_7_service_55_single).to create_template('default :start /usr/lib/tmpfiles.d/mysql-default.conf')
         .with(
           path: '/usr/lib/tmpfiles.d/mysql-default.conf',
           source: 'tmpfiles.d.conf.erb',
@@ -176,7 +176,7 @@ describe 'mysql_service_test::single on centos-7.0' do
     end
 
     it 'starts service[default :start mysql-default]' do
-      expect(centos_70_service_55_single).to start_service('default :start mysql-default')
+      expect(centos_7_service_55_single).to start_service('default :start mysql-default')
         .with(
           service_name: 'mysql-default',
           provider: Chef::Provider::Service::Systemd

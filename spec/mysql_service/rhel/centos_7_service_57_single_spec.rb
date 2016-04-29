@@ -4,7 +4,7 @@ describe 'mysql_service_test::single on centos-7.0' do
   cached(:centos_70_service_57_single) do
     ChefSpec::SoloRunner.new(
       platform: 'centos',
-      version: '7.0',
+      version: '7.2.1511',
       step_into: 'mysql_service'
     ) do |node|
       node.set['mysql']['version'] = '5.6'
