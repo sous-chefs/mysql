@@ -48,7 +48,7 @@ platforms:
     - RUN yum clean all
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
-      - RUN yum -y install tar
+      - RUN yum -y install tar yum
 
 - name: ubuntu-12.04
   driver:
