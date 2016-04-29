@@ -151,10 +151,10 @@ describe 'mysql_service_test::single on fedora-23' do
         )
     end
 
-    it 'creates template[default :start /lib/systemd/system/mysql-default.service]' do
-      expect(fedora_23_service_57_single).to create_template('default :start /lib/systemd/system/mysql-default.service')
+    it 'creates template[default :start /etc/systemd/system/mysql-default.service]' do
+      expect(fedora_23_service_57_single).to create_template('default :start /etc/systemd/system/mysql-default.service')
         .with(
-          path: '/lib/systemd/system/mysql-default.service',
+          path: '/etc/systemd/system/mysql-default.service',
           source: 'systemd/mysqld.service.erb',
           owner: 'root',
           group: 'root',

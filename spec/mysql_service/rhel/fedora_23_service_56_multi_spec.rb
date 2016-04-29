@@ -207,10 +207,10 @@ describe 'mysql_service_test::single on fedora-23' do
         )
     end
 
-    it 'creates template[instance-1 :start /lib/systemd/system/mysql-instance-1.service]' do
-      expect(fedora_23_service_56_multi).to create_template('instance-1 :start /lib/systemd/system/mysql-instance-1.service')
+    it 'creates template[instance-1 :start /etc/systemd/system/mysql-instance-1.service]' do
+      expect(fedora_23_service_56_multi).to create_template('instance-1 :start /etc/systemd/system/mysql-instance-1.service')
         .with(
-          path: '/lib/systemd/system/mysql-instance-1.service',
+          path: '/etc/systemd/system/mysql-instance-1.service',
           source: 'systemd/mysqld.service.erb',
           owner: 'root',
           group: 'root',
@@ -356,10 +356,10 @@ describe 'mysql_service_test::single on fedora-23' do
         )
     end
 
-    it 'creates template[instance-2 :start /lib/systemd/system/mysql-instance-2.service]' do
-      expect(fedora_23_service_56_multi).to create_template('instance-2 :start /lib/systemd/system/mysql-instance-2.service')
+    it 'creates template[instance-2 :start /etc/systemd/system/mysql-instance-2.service]' do
+      expect(fedora_23_service_56_multi).to create_template('instance-2 :start /etc/systemd/system/mysql-instance-2.service')
         .with(
-          path: '/lib/systemd/system/mysql-instance-2.service',
+          path: '/etc/systemd/system/mysql-instance-2.service',
           source: 'systemd/mysqld.service.erb',
           owner: 'root',
           group: 'root',
