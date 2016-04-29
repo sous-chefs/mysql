@@ -12,6 +12,10 @@ describe 'mysql_service_test::single on smartos-5.11' do
   end
 
   before do
+    # chefspec is producing errors with the below, but not with the open ended
+    # uncommented code. We'll live with this for now
+    #allow(File).to receive(:exist?).with('/usr/sbin/svccfg').and_return(true)
+    allow(File).to receive(:exist?).and_return(true)
     stub_command('/usr/bin/test -f /opt/local/lib/mysql-default/mysql/user.frm').and_return(true)
   end
 

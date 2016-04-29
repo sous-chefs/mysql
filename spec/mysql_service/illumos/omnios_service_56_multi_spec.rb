@@ -17,14 +17,12 @@ describe 'mysql_service_test::multi on omnios-151014' do
   end
 
   before do
+    # chefspec is producing errors with the below, but not with the open ended
+    # uncommented code. We'll live with this for now
+    #allow(File).to receive(:exist?).with('/usr/sbin/svccfg').and_return(true)
+    allow(File).to receive(:exist?).and_return(true)
     stub_command('/usr/bin/test -f /data/instance-1/mysql/user.frm').and_return(true)
-  end
-
-  before do
     stub_command('/usr/bin/test -f /data/instance-2/mysql/user.frm').and_return(true)
-  end
-
-  before do
     stub_command('/usr/bin/test -f /var/lib/mysql/mysql/user.frm').and_return(true)
   end
 
