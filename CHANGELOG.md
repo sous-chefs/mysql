@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## v7.1.0 (2016-05-11)
+
+- Added support for Ubuntu 16.04
+
 ## v7.0.0 (2016-04-19)
 
 - Removed support for legacy distros: Ubuntu 10.04/13.04/14.10/15.04, Fedora 20/21, OmniOS r151006, opensuse 11.3/12.0
