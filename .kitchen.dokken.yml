@@ -1,7 +1,7 @@
 ---
 driver:
   name: dokken
-  chef_version: 12.5.1
+  chef_version: latest
   privileged: true # because Docker and SystemD/Upstart
 
 transport:
@@ -68,7 +68,7 @@ platforms:
 
 - name: ubuntu-16.04
   driver:
-    image: ubuntu:15.04
+    image: ubuntu:16.04
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
@@ -83,7 +83,7 @@ suites:
     - recipe[mysql_service_test::single]
     includes: [
       'centos-5'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.0'
@@ -94,7 +94,7 @@ suites:
     includes: [
       'centos-5',
       'centos-6'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.1'
@@ -108,7 +108,7 @@ suites:
       'centos-7',
       'ubuntu-12.04',
       'ubuntu-14.04'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.5'
@@ -120,11 +120,9 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-22',
       'fedora-23',
-      'ubuntu-14.04',
-      'ubuntu-15.04'
-    ]
+      'ubuntu-14.04'
+     ]
     attributes:
       mysql:
        version: '5.6'
@@ -138,9 +136,9 @@ suites:
       'centos-7',
       'redhat-6',
       'redhat-7',
-      'fedora-22',
-      'fedora-23'
-    ]
+      'fedora-23',
+      'ubuntu-16.04'
+     ]
     attributes:
       mysql:
        version: '5.7'
@@ -150,7 +148,7 @@ suites:
     - recipe[mysql_service_test::multi]
     includes: [
       'centos-5'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.0'
@@ -164,7 +162,7 @@ suites:
     - recipe[mysql_service_test::multi]
     includes: [
       'centos-5'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.1'
@@ -182,7 +180,7 @@ suites:
       'centos-7',
       'ubuntu-12.04',
       'ubuntu-14.04'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.5'
@@ -198,11 +196,9 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-22',
       'fedora-23',
-      'ubuntu-14.04',
-      'ubuntu-15.04'
-    ]
+      'ubuntu-14.04'
+     ]
     attributes:
       mysql:
        version: '5.6'
@@ -218,9 +214,9 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-22',
-      'fedora-23'
-    ]
+      'fedora-23',
+      'ubuntu-16.04'
+     ]
     attributes:
       mysql:
        version: '5.7'
@@ -240,7 +236,7 @@ suites:
        version: '5.0'
     includes: [
       'centos-5'
-    ]
+     ]
 
   - name: client51
     run_list:
@@ -251,7 +247,7 @@ suites:
     includes: [
       'centos-5',
       'centos-6'
-    ]
+     ]
 
   - name: client55
     run_list:
@@ -265,7 +261,7 @@ suites:
       'centos-7',
       'ubuntu-12.04',
       'ubuntu-14.04'
-    ]
+     ]
 
   - name: client56
     run_list:
@@ -277,11 +273,9 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-22',
       'fedora-23',
-      'ubuntu-14.04',
-      'ubuntu-15.04'
-    ]
+      'ubuntu-14.04'
+     ]
 
   - name: client57
     run_list:
@@ -293,9 +287,9 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-22',
-      'fedora-23'
-    ]
+      'fedora-23',
+      'ubuntu-16.04'
+     ]
 
   #
   # config
@@ -305,7 +299,7 @@ suites:
     - recipe[mysql_config_test]
     includes: [
       'centos-5'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.0'
@@ -315,7 +309,7 @@ suites:
     - recipe[mysql_config_test]
     includes: [
       'centos-5'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.1'
@@ -329,7 +323,7 @@ suites:
       'centos-7',
       'ubuntu-12.04',
       'ubuntu-14.04'
-    ]
+     ]
     attributes:
       mysql:
        version: '5.5'
@@ -341,11 +335,9 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-22',
       'fedora-23',
-      'ubuntu-14.04',
-      'ubuntu-15.04'
-    ]
+      'ubuntu-14.04'
+     ]
     attributes:
       mysql:
        version: '5.6'
@@ -359,9 +351,10 @@ suites:
       'centos-7',
       'redhat-6',
       'redhat-7',
-      'fedora-22',
-      'fedora-23'
-    ]
+      'fedora-23',
+      'ubuntu-16.04'
+
+     ]
     attributes:
       mysql:
        version: '5.7'
@@ -376,9 +369,8 @@ suites:
       'centos-5',
       'centos-6',
       'centos-7',
-      'fedora-22',
       'fedora-23',
       'ubuntu-12.04',
       'ubuntu-14.04',
-      'ubuntu-15.04'
-    ]
+      'ubuntu-16.04'
+     ]
