@@ -30,15 +30,13 @@ The following platforms have been tested with Test Kitchen:
 |----------------+-----+-----+-----+-----+-----|
 | ubuntu-14.04   |     |     | X   | X   |     |
 |----------------+-----+-----+-----+-----+-----|
-| ubuntu-15.04   |     |     |     | X   |     |
+| ubuntu-16.04   |     |     |     |     | X   |
 |----------------+-----+-----+-----+-----+-----|
 | centos-5       |   X | X   | X   | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
 | centos-6       |     | X   | X   | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
 | centos-7       |     |     | X   | X   | X   |
-|----------------+-----+-----+-----+-----+-----|
-| fedora-22      |     |     |     | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
 | fedora-23      |     |     |     | X   | X   |
 |----------------+-----+-----+-----+-----+-----|
@@ -181,7 +179,7 @@ Please note that when using `notifies` or `subscribes`, the resource to referenc
 - `:create` - Configures everything but the underlying operating system service.
 - `:delete` - Removes everything but the package and data_dir.
 - `:start` - Starts the underlying operating system service
-- `:stop`-  Stops the underlying operating system service
+- `:stop`- Stops the underlying operating system service
 - `:restart` - Restarts the underlying operating system service
 - `:reload` - Reloads the underlying operating system service
 
