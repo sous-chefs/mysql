@@ -54,7 +54,7 @@ The following platforms have been tested with Test Kitchen:
 Place a dependency on the mysql cookbook in your cookbook's metadata.rb
 
 ```ruby
-depends 'mysql', '~> 6.0'
+depends 'mysql', '~> 7.0'
 ```
 
 Then, in a recipe:
