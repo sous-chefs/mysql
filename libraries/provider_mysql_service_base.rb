@@ -246,7 +246,8 @@ class Chef
                 log_dir: log_dir,
                 run_dir: run_dir,
                 pid_file: pid_file,
-                socket_file: socket_file
+                socket_file: socket_file,
+                tmp_dir: tmp_dir
               )
               action :create
               notifies :restart, "service[#{new_resource.name} :create apparmor]", :immediately
