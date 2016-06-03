@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## v7.1.1 (2016-06-03)
+
+- Fix apparmor blocking writes to non-default tmp_dirs
+- Updated apparmor config to allow read & write to sock.lock file
+- Use cookstyle instead of Rubocop directly
+
 ## v7.1.0 (2016-05-11)
 
 - Added support for Ubuntu 16.04
