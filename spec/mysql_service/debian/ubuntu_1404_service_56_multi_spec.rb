@@ -24,6 +24,10 @@ describe 'mysql_service_test::single on ubuntu-14.04' do
     stub_command('/usr/bin/test -f /data/instance-2/mysql/user.frm').and_return(true)
   end
 
+  before do
+    allow(Chef::Platform::ServiceHelpers).to receive(:service_resource_providers).and_return([:ubuntu, :upstart])
+  end
+
   #
   # Resource in mysql_service_test::single
   #

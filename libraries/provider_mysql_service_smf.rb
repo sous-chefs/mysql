@@ -5,7 +5,7 @@ class Chef
       # to how we handle systemd on linux
       if defined?(provides) # foodcritic ~FC023
         provides :mysql_service, os: %w(solaris2 omnios smartos openindiana opensolaris nexentacore) do
-          File.exist?('/usr/sbin/svccfg')
+          ::File.exist?('/usr/sbin/svccfg')
         end
       end
 

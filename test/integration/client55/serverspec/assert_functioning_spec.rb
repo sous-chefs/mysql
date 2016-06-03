@@ -5,7 +5,7 @@ set :backend, :exec
 puts "os: #{os}"
 
 def mysql_cmd
-  return "scl enable mysql55 \"mysql --version\"" if os[:family] == 'redhat' && os[:release] =~ /^5\./
+  return 'scl enable mysql55 "mysql --version"' if os[:family] == 'redhat' && os[:release] =~ /^5\./
   return '/opt/local/bin/mysql --version' if os[:family] == 'smartos'
   return '/opt/omni/bin/mysql --version' if os[:family] == 'solaris'
   '/usr/bin/mysql --version'

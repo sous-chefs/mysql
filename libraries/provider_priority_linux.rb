@@ -1,7 +1,7 @@
 
 begin
   require 'chef/platform/provider_priority_map'
-rescue LoadError
+rescue LoadError # rubocop: disable Lint/HandleExceptions
 end
 
 require_relative 'provider_mysql_service_smf'
@@ -26,6 +26,7 @@ else
   Chef::Platform.set platform: :centos, version: '>= 7.0', resource: :mysql_service, provider: Chef::Provider::MysqlServiceSystemd
   Chef::Platform.set platform: :scientific, version: '>= 7.0', resource: :mysql_service, provider: Chef::Provider::MysqlServiceSystemd
   Chef::Platform.set platform: :oracle, version: '>= 7.0', resource: :mysql_service, provider: Chef::Provider::MysqlServiceSystemd
+  Chef::Platform.set platform: :opensuse, version: '>= 13.0', resource: :mysql_service, provider: Chef::Provider::MysqlServiceSystemd
 
   # smf service
   Chef::Platform.set platform: :omnios, resource: :mysql_service, provider: Chef::Provider::MysqlServiceSmf

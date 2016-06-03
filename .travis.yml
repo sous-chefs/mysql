@@ -2,6 +2,7 @@
 rvm: 2.2
 
 sudo: required
+dist: trusty
 
 addons:
   apt:
@@ -17,6 +18,7 @@ services: docker
 env:
   matrix:
   - INSTANCE=service50-multi-centos-5
+  - INSTANCE=service51-multi-centos-5
   - INSTANCE=service55-multi-centos-5
   - INSTANCE=service55-multi-centos-6
   - INSTANCE=service55-multi-centos-7
@@ -25,13 +27,13 @@ env:
   - INSTANCE=service56-multi-centos-5
   - INSTANCE=service56-multi-centos-6
   - INSTANCE=service56-multi-centos-7
-  - INSTANCE=service56-multi-fedora-21
+  - INSTANCE=service56-multi-fedora-23
   - INSTANCE=service56-multi-ubuntu-1404
-  - INSTANCE=service56-multi-ubuntu-1504
   - INSTANCE=service57-multi-centos-5
   - INSTANCE=service57-multi-centos-6
   - INSTANCE=service57-multi-centos-7
-  - INSTANCE=service57-multi-fedora-21
+  - INSTANCE=service57-multi-fedora-23
+  - INSTANCE=service57-multi-ubuntu-1604
   fast_finish: true
 
 before_script:
@@ -41,11 +43,11 @@ before_script:
 
 script:
   - /opt/chefdk/embedded/bin/chef --version
-  # - /opt/chefdk/embedded/bin/rubocop --version
-  # - /opt/chefdk/embedded/bin/rubocop
-  # - /opt/chefdk/embedded/bin/foodcritic --version
-  # - /opt/chefdk/embedded/bin/foodcritic . --exclude spec
-  # - /opt/chefdk/embedded/bin/rspec
+  - /opt/chefdk/embedded/bin/rubocop --version
+  - /opt/chefdk/embedded/bin/rubocop
+  - /opt/chefdk/embedded/bin/foodcritic --version
+  - /opt/chefdk/embedded/bin/foodcritic . --exclude spec -f any
+  - /opt/chefdk/embedded/bin/rspec
   - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml kitchen verify ${INSTANCE}
 
 after_script:
