@@ -85,6 +85,7 @@ class Chef
           target_file "#{prefix_dir}/usr/share/my-default.cnf"
           to "#{etc_dir}/my.cnf"
           action :create
+          not_if "/usr/bin/test -f #{parsed_data_dir}/mysql/user.frm"
         end
 
         # Support directories
