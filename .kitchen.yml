@@ -106,6 +106,16 @@ suites:
       mysql:
        version: '5.7'
 
+  - name: service57-empty-instance
+    run_list:
+    - recipe[mysql_service_test::empty-instance]
+    includes: [
+      'centos-7.2'
+    ]
+    attributes:
+      mysql:
+       version: '5.7'
+
   - name: service50-multi
     run_list:
     - recipe[mysql_service_test::multi]

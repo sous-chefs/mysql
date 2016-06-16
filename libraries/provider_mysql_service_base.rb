@@ -72,6 +72,7 @@ class Chef
         # setting up multiple services.
         file "#{new_resource.name} :create #{prefix_dir}/etc/mysql/my.cnf" do
           path "#{prefix_dir}/etc/mysql/my.cnf"
+          not_if { new_resource.instance == '' }
           action :delete
         end
 
@@ -233,8 +234,8 @@ class Chef
               notifies :restart, "service[#{new_resource.name} :create apparmor]", :immediately
             end
 
-            template "#{new_resource.name} :create /etc/apparmor.d/local/mysql/#{new_resource.instance}" do
-              path "/etc/apparmor.d/local/mysql/#{new_resource.instance}"
+            template "#{new_resource.name} :create /etc/apparmor.d/local/mysql/#{mysql_name}" do
+              path "/etc/apparmor.d/local/mysql/#{mysql_name}"
               cookbook 'mysql'
               source 'apparmor/usr.sbin.mysqld-instance.erb'
               owner 'root'

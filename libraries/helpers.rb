@@ -57,6 +57,7 @@ module MysqlCookbook
     end
 
     def mysql_name
+      return 'mysql' if new_resource.instance == ''
       "mysql-#{new_resource.instance}"
     end
 
