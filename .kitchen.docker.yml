@@ -1,0 +1,385 @@
+---
+driver:
+  name: dokken
+  chef_version: latest
+  privileged: true # because Docker and SystemD/Upstart
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+
+verifier:
+  root_path: '/opt/verifier'
+  sudo: false
+
+platforms:
+- name: debian-8
+  driver:
+    image: debian:8
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: centos-5
+  driver:
+    image: centos:5
+    platform: rhel
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN yum install -y which initscripts
+
+- name: centos-6
+  driver:
+    image: centos:6
+    platform: rhel
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN yum -y install which initscripts
+
+- name: centos-7
+  driver:
+    image: centos:7
+    platform: rhel
+    pid_one_command: /usr/lib/systemd/systemd
+    intermediate_instructions:
+      - RUN yum -y install net-tools lsof
+
+- name: fedora-23
+  driver:
+    image: fedora:23
+    pid_one_command: /usr/lib/systemd/systemd
+    intermediate_instructions:
+      - RUN dnf -y install yum which
+
+- name: ubuntu-12.04
+  driver:
+    image: ubuntu-upstart:12.04
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: ubuntu-14.04
+  driver:
+    image: ubuntu-upstart:14.04
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: ubuntu-16.04
+  driver:
+    image: ubuntu:16.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: opensuse-13.2
+  driver:
+    image: opensuse:13.2
+    pid_one_command: /bin/systemd
+
+suites:
+  #
+  # service
+  #
+  - name: service50-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5'
+     ]
+    attributes:
+      mysql:
+       version: '5.0'
+
+  - name: service51-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5',
+      'centos-6'
+     ]
+    attributes:
+      mysql:
+       version: '5.1'
+
+  - name: service55-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'ubuntu-12.04',
+      'ubuntu-14.04'
+     ]
+    attributes:
+      mysql:
+       version: '5.5'
+
+  - name: service56-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'fedora-23',
+      'ubuntu-14.04'
+     ]
+    attributes:
+      mysql:
+       version: '5.6'
+
+  - name: service57-single
+    run_list:
+    - recipe[mysql_service_test::single]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'redhat-6',
+      'redhat-7',
+      'fedora-23',
+      'ubuntu-16.04'
+     ]
+    attributes:
+      mysql:
+       version: '5.7'
+
+  - name: service50-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5'
+     ]
+    attributes:
+      mysql:
+       version: '5.0'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service51-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5'
+     ]
+    attributes:
+      mysql:
+       version: '5.1'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service55-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'ubuntu-12.04',
+      'ubuntu-14.04'
+     ]
+    attributes:
+      mysql:
+       version: '5.5'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service56-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'fedora-23',
+      'ubuntu-14.04'
+     ]
+    attributes:
+      mysql:
+       version: '5.6'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  - name: service57-multi
+    run_list:
+    - recipe[mysql_service_test::multi]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'fedora-23',
+      'ubuntu-16.04'
+     ]
+    attributes:
+      mysql:
+       version: '5.7'
+       port: '3308'
+       data_dir: '/data/instance-2'
+       run_user: 'bob'
+       initial_root_password: 'string with spaces'
+
+  #
+  # client
+  #
+  - name: client50
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.0'
+    includes: [
+      'centos-5'
+     ]
+
+  - name: client51
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.1'
+    includes: [
+      'centos-5',
+      'centos-6'
+     ]
+
+  - name: client55
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.5'
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'ubuntu-12.04',
+      'ubuntu-14.04'
+     ]
+
+  - name: client56
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.6'
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'fedora-23',
+      'ubuntu-14.04'
+     ]
+
+  - name: client57
+    run_list:
+    - recipe[mysql_client_test]
+    attributes:
+      mysql:
+       version: '5.7'
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'fedora-23',
+      'ubuntu-16.04'
+     ]
+
+  #
+  # config
+  #
+  - name: config50
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5'
+     ]
+    attributes:
+      mysql:
+       version: '5.0'
+
+  - name: config51
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5'
+     ]
+    attributes:
+      mysql:
+       version: '5.1'
+
+  - name: config55
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'ubuntu-12.04',
+      'ubuntu-14.04'
+     ]
+    attributes:
+      mysql:
+       version: '5.5'
+
+  - name: config56
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'fedora-23',
+      'ubuntu-14.04'
+     ]
+    attributes:
+      mysql:
+       version: '5.6'
+
+  - name: config57
+    run_list:
+    - recipe[mysql_config_test]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'redhat-6',
+      'redhat-7',
+      'fedora-23',
+      'ubuntu-16.04'
+
+     ]
+    attributes:
+      mysql:
+       version: '5.7'
+
+  #
+  # replication-test
+  #
+  - name: replication-test
+    run_list:
+    - recipe[mysql_replication_test]
+    includes: [
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'fedora-23',
+      'ubuntu-12.04',
+      'ubuntu-14.04',
+      'ubuntu-16.04'
+     ]

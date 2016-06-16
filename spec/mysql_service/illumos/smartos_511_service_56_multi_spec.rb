@@ -17,14 +17,10 @@ describe 'mysql_service_test::multi on smartos-5.11' do
   end
 
   before do
+    allow(File).to receive(:exist?).and_call_original
+    allow(File).to receive(:exist?).with('/usr/sbin/svccfg').and_return(true)
     stub_command('/usr/bin/test -f /data/instance-1/mysql/user.frm').and_return(true)
-  end
-
-  before do
     stub_command('/usr/bin/test -f /data/instance-2/mysql/user.frm').and_return(true)
-  end
-
-  before do
     stub_command('/usr/bin/test -f /var/lib/mysql/mysql/user.frm').and_return(true)
   end
 

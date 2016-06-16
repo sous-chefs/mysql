@@ -15,6 +15,10 @@ describe 'mysql_service_test::single on ubuntu-12.04' do
     stub_command('/usr/bin/test -f /var/lib/mysql-default/mysql/user.frm').and_return(true)
   end
 
+  before do
+    allow(Chef::Platform::ServiceHelpers).to receive(:service_resource_providers).and_return([:ubuntu, :upstart])
+  end
+
   # Resource in mysql_service_test::single
   context 'compiling the test recipe' do
     it 'creates mysql_service[default]' do

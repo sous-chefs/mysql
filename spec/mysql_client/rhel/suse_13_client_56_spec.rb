@@ -1,0 +1,28 @@
+require 'spec_helper'
+
+describe 'mysql_client_test::default on suse-13.2' do
+  cached(:suse_13_client_56) do
+    ChefSpec::SoloRunner.new(
+      platform: 'opensuse',
+      version: '13.2',
+      step_into: 'mysql_client'
+    ) do |node|
+      node.set['mysql']['version'] = '5.6'
+    end.converge('mysql_client_test::default')
+  end
+
+  # Resource in mysql_client_test::default
+  context 'compiling the test recipe' do
+    it 'creates mysql_client[default]' do
+      expect(suse_13_client_56).to create_mysql_client('default')
+    end
+  end
+
+  # mysql_service resource internal implementation
+  context 'stepping into mysql_client[default] resource' do
+    it 'installs package[default :create mysql-community-server-client]' do
+      expect(suse_13_client_56).to install_package('default :create mysql-community-server-client')
+        .with(package_name: 'mysql-community-server-client')
+    end
+  end
+end

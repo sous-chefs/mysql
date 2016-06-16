@@ -4,7 +4,7 @@ describe 'mysql_config_test::default' do
   cached(:omnios_config_56) do
     ChefSpec::SoloRunner.new(
       platform: 'omnios',
-      version: '151006',
+      version: '151014',
       step_into: 'mysql_config'
     ) do |node|
       node.set['mysql']['version'] = '5.6'

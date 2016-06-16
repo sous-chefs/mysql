@@ -3,7 +3,7 @@ require_relative 'provider_mysql_service_base'
 class Chef
   class Provider
     class MysqlServiceSystemd < Chef::Provider::MysqlServiceBase
-      if defined?(provides)
+      if defined?(provides) # foodcritic ~FC023
         provides :mysql_service, os: 'linux' do
           Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
         end
@@ -32,8 +32,8 @@ class Chef
         end
 
         # this is the main systemd unit file
-        template "#{new_resource.name} :start /lib/systemd/system/#{mysql_name}.service" do
-          path "/lib/systemd/system/#{mysql_name}.service"
+        template "#{new_resource.name} :start /etc/systemd/system/#{mysql_name}.service" do
+          path "/etc/systemd/system/#{mysql_name}.service"
           source 'systemd/mysqld.service.erb'
           owner 'root'
           group 'root'
@@ -88,7 +88,7 @@ class Chef
           provider Chef::Provider::Service::Systemd
           supports status: true
           action [:disable, :stop]
-          only_if { ::File.exist?("/usr/lib/systemd/system/#{mysql_name}.service") }
+          only_if { ::File.exist?("/etc/systemd/system/#{mysql_name}.service") }
         end
       end
 
@@ -128,7 +128,7 @@ class Chef
           provider Chef::Provider::Service::Systemd
           supports status: true
           action [:disable, :stop]
-          only_if { ::File.exist?("/usr/lib/systemd/system/#{mysql_name}.service") }
+          only_if { ::File.exist?("/etc/systemd/system/#{mysql_name}.service") }
         end
       end
     end

@@ -1,0 +1,60 @@
+sudo: required
+dist: trusty
+
+# install the pre-release chef-dk.  Use chef-stable-precise to install the stable release
+addons:
+  apt:
+    sources:
+      - chef-current-precise
+    packages:
+      - chefdk
+
+branches:
+  only:
+  - master
+
+services: docker
+
+env:
+  matrix:
+  - INSTANCE=service50-multi-centos-5
+  - INSTANCE=service51-multi-centos-5
+  - INSTANCE=service55-multi-centos-5
+  - INSTANCE=service55-multi-centos-6
+  - INSTANCE=service55-multi-centos-7
+  - INSTANCE=service55-multi-ubuntu-1204
+  - INSTANCE=service55-multi-ubuntu-1404
+  - INSTANCE=service56-multi-centos-5
+  - INSTANCE=service56-multi-centos-6
+  - INSTANCE=service56-multi-centos-7
+  - INSTANCE=service56-multi-fedora-23
+  - INSTANCE=service56-multi-ubuntu-1404
+  - INSTANCE=service57-multi-centos-5
+  - INSTANCE=service57-multi-centos-6
+  - INSTANCE=service57-multi-centos-7
+  - INSTANCE=service57-multi-fedora-23
+  - INSTANCE=service57-multi-ubuntu-1604
+
+# Don't `bundle install`
+install: echo "skip bundle install"
+
+# Ensure we make ChefDK's Ruby the default
+before_script:
+  # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
+  - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
+  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+  - /opt/chefdk/embedded/bin/chef gem install kitchen-dokken
+  - /opt/chefdk/embedded/bin/chef --version
+  - /opt/chefdk/embedded/bin/cookstyle --version
+  - /opt/chefdk/embedded/bin/foodcritic --version
+
+script: KITCHEN_LOCAL_YAML=.kitchen.docker.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+
+matrix:
+  include:
+  - script: /opt/chefdk/embedded/bin/cookstyle
+    env:  COOKSTYLE=1
+  - script: /opt/chefdk/embedded/bin/foodcritic . --exclude spec -f any
+    env:  FOODCRITIC=1
+  - script: /opt/chefdk/embedded/bin/rspec
+    env:  CHEFSPEC=1
