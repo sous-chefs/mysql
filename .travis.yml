@@ -17,19 +17,14 @@ services: docker
 
 env:
   matrix:
-  - INSTANCE=service50-multi-centos-5
-  - INSTANCE=service51-multi-centos-5
-  - INSTANCE=service55-multi-centos-5
   - INSTANCE=service55-multi-centos-6
   - INSTANCE=service55-multi-centos-7
   - INSTANCE=service55-multi-ubuntu-1204
   - INSTANCE=service55-multi-ubuntu-1404
-  - INSTANCE=service56-multi-centos-5
   - INSTANCE=service56-multi-centos-6
   - INSTANCE=service56-multi-centos-7
   - INSTANCE=service56-multi-fedora-23
   - INSTANCE=service56-multi-ubuntu-1404
-  - INSTANCE=service57-multi-centos-5
   - INSTANCE=service57-multi-centos-6
   - INSTANCE=service57-multi-centos-7
   - INSTANCE=service57-multi-fedora-23
