@@ -9,6 +9,9 @@ addons:
     packages:
       - chefdk
 
+# Don't `bundle install` which takes about 1.5 mins
+install: echo "skip bundle install"
+
 branches:
   only:
   - master
@@ -23,15 +26,12 @@ env:
   - INSTANCE=service55-multi-ubuntu-1404
   - INSTANCE=service56-multi-centos-6
   - INSTANCE=service56-multi-centos-7
-  - INSTANCE=service56-multi-fedora-23
+  - INSTANCE=service56-multi-fedora-latest
   - INSTANCE=service56-multi-ubuntu-1404
   - INSTANCE=service57-multi-centos-6
   - INSTANCE=service57-multi-centos-7
-  - INSTANCE=service57-multi-fedora-23
+  - INSTANCE=service57-multi-fedora-latest
   - INSTANCE=service57-multi-ubuntu-1604
-
-# Don't `bundle install`
-install: echo "skip bundle install"
 
 # Ensure we make ChefDK's Ruby the default
 before_script:
