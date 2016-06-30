@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## v7.1.2 (2016-06-30)
+
+- Avoid deprecation warnings on the upcoming Chef 12.12 release
+
 ## v7.1.1 (2016-06-03)
 
 - Fix apparmor blocking writes to non-default tmp_dirs
