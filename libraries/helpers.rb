@@ -289,6 +289,10 @@ EOSQL
         @pkginfo.normal['fedora']['23']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo.normal['fedora']['23']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
         @pkginfo.normal['fedora']['23']['5.7']['server_package'] = 'mysql-community-server'
+        @pkginfo.normal['fedora']['24']['5.6']['client_package'] = %w(mysql-community-client mysql-community-devel)
+        @pkginfo.normal['fedora']['24']['5.6']['server_package'] = 'mysql-community-server'
+        @pkginfo.normal['fedora']['24']['5.7']['client_package'] = %w(mysql-community-client mysql-community-devel)
+        @pkginfo.normal['fedora']['24']['5.7']['server_package'] = 'mysql-community-server'
         @pkginfo.normal['freebsd']['10']['5.5']['client_package'] = %w(mysql55-client)
         @pkginfo.normal['freebsd']['10']['5.5']['server_package'] = 'mysql55-server'
         @pkginfo.normal['freebsd']['9']['5.5']['client_package'] = %w(mysql55-client)
@@ -363,6 +367,8 @@ EOSQL
         @pkginfo.normal['smartos']['5.11']['5.6']['server_package'] = 'mysql-server'
         @pkginfo.normal['suse']['13']['5.6']['client_package'] = %w(mysql-community-server-client)
         @pkginfo.normal['suse']['13']['5.6']['server_package'] = 'mysql-community-server'
+        @pkginfo.normal['suse']['49']['5.6']['client_package'] = %w(mysql-community-server-client)
+        @pkginfo.normal['suse']['49']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo
       end
     end
