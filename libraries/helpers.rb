@@ -367,8 +367,8 @@ EOSQL
         @pkginfo.normal['smartos']['5.11']['5.6']['server_package'] = 'mysql-server'
         @pkginfo.normal['suse']['13']['5.6']['client_package'] = %w(mysql-community-server-client)
         @pkginfo.normal['suse']['13']['5.6']['server_package'] = 'mysql-community-server'
-        @pkginfo.normal['suse']['49']['5.6']['client_package'] = %w(mysql-community-server-client)
-        @pkginfo.normal['suse']['49']['5.6']['server_package'] = 'mysql-community-server'
+        @pkginfo.normal['suse']['42']['5.6']['client_package'] = %w(mysql-community-server-client)
+        @pkginfo.normal['suse']['42']['5.6']['server_package'] = 'mysql-community-server'
         @pkginfo
       end
     end

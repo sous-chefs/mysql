@@ -134,7 +134,9 @@ suites:
       'centos-6',
       'centos-7',
       'fedora-latest',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'opensuse-13.2',
+      'opensuse-42.1'
      ]
     attributes:
       mysql:
@@ -210,7 +212,9 @@ suites:
       'centos-6',
       'centos-7',
       'fedora-latest',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'opensuse-13.2',
+      'opensuse-42.1'
      ]
     attributes:
       mysql:
@@ -287,7 +291,9 @@ suites:
       'centos-6',
       'centos-7',
       'fedora-latest',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'opensuse-13.2',
+      'opensuse-42.1'
      ]
 
   - name: client57
@@ -349,7 +355,9 @@ suites:
       'centos-6',
       'centos-7',
       'fedora-latest',
-      'ubuntu-14.04'
+      'ubuntu-14.04',
+      'opensuse-13.2',
+      'opensuse-42.1'
      ]
     attributes:
       mysql:
