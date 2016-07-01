@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## v7.2.0 (2016-06-30)
+
+- Support openeSUSE leap
+- Support Fedora 24
+
 ## v7.1.2 (2016-06-30)
 
 - Avoid deprecation warnings on the upcoming Chef 12.12 release
