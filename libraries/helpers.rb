@@ -42,49 +42,14 @@ module MysqlCookbook
       false
     end
 
-    def lucid?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '10.04'
-      false
-    end
-
     def precise?
       return true if node['platform'] == 'ubuntu' && node['platform_version'] == '12.04'
-      false
-    end
-
-    def quantal?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '12.10'
-      false
-    end
-
-    def raring?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '13.04'
-      false
-    end
-
-    def saucy?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '13.10'
       false
     end
 
     def trusty?
       return true if node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
       return true if node['platform'] == 'linuxmint' && node['platform_version'] =~ /^17\.[0-9]$/
-      false
-    end
-
-    def utopic?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '14.10'
-      false
-    end
-
-    def vivid?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '15.04'
-      false
-    end
-
-    def wily?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '15.10'
       false
     end
 
@@ -136,20 +101,12 @@ module MysqlCookbook
       return '5.5' if jessie?
 
       # ubuntu
-      return '5.1' if lucid?
       return '5.5' if precise?
-      return '5.5' if raring?
-      return '5.5' if saucy?
       return '5.5' if trusty?
-      return '5.5' if utopic?
-      return '5.6' if vivid?
-      return '5.6' if wily?
       return '5.7' if xenial?
 
       # misc
-      return '5.5' if node['platform'] == 'freebsd'
-      return '5.5' if node['platform'] == 'omnios'
-      return '5.5' if node['platform'] == 'smartos'
+      return '5.6' if node['platform'] == 'freebsd'
       return '5.6' if node['platform'] == 'fedora'
       return '5.6' if node['platform_family'] == 'suse'
     end
@@ -224,8 +181,6 @@ module MysqlCookbook
       return '5.5.49-0ubuntu0.12.04.1' if major_version == '5.5' && precise?
       return '5.5.49-0ubuntu0.14.04.1' if major_version == '5.5' && trusty?
       return '5.6.30-0ubuntu0.14.04.1' if major_version == '5.6' && trusty?
-      return '5.6.30-0ubuntu0.15.04.1' if major_version == '5.6' && vivid?
-      return '5.6.30-0ubuntu0.15.10.1' if major_version == '5.6' && wily?
       return '5.7.12-0ubuntu1.1' if major_version == '5.7' && xenial?
 
       # suse
