@@ -12,6 +12,7 @@ provisioner:
 
 verifier:
   name: inspec
+  format: doc
 
 platforms:
 - name: centos-5
@@ -115,8 +116,7 @@ suites:
       mysql:
        version: '5.0'
     includes: [
-      'centos-5',
-      'ubuntu-10.04'
+      'centos-5'
     ]
 
   - name: installation_client_package-51
@@ -186,8 +186,7 @@ suites:
       mysql:
        version: '5.0'
     includes: [
-      'centos-5',
-      'ubuntu-10.04'
+      'centos-5'
     ]
 
   - name: installation_server_package-51
