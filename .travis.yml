@@ -20,24 +20,20 @@ services: docker
 
 env:
   matrix:
-  - INSTANCE=service55-multi-centos-6
-  - INSTANCE=service55-multi-centos-7
-  - INSTANCE=service55-multi-ubuntu-1204
-  - INSTANCE=service55-multi-ubuntu-1404
-  - INSTANCE=service56-multi-centos-6
-  - INSTANCE=service56-multi-centos-7
-  - INSTANCE=service56-multi-fedora-latest
-  - INSTANCE=service56-multi-ubuntu-1404
-  - INSTANCE=service56-multi-opensuse-132
-  - INSTANCE=service56-multi-opensuse-421
-  - INSTANCE=service57-multi-centos-6
-  - INSTANCE=service57-multi-centos-7
-  - INSTANCE=service57-multi-fedora-latest
-  - INSTANCE=service57-multi-ubuntu-1604
+  - INSTANCE=smoke-centos-6
+  - INSTANCE=smoke-centos-7
+  - INSTANCE=smoke-fedora-latest
+  - INSTANCE=smoke-debian-7
+  - INSTANCE=smoke-debian-8
+  - INSTANCE=smoke-ubuntu-1204
+  - INSTANCE=smoke-ubuntu-1404
+  - INSTANCE=smoke-ubuntu-1604
+  - INSTANCE=smoke-opensuse-132
+  - INSTANCE=smoke-opensuse-421
 
 # Ensure we make ChefDK's Ruby the default
 before_script:
-  # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
+  # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889  
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
   - /opt/chefdk/embedded/bin/chef gem install kitchen-dokken
@@ -45,8 +41,13 @@ before_script:
   - /opt/chefdk/embedded/bin/cookstyle --version
   - /opt/chefdk/embedded/bin/foodcritic --version
 
-script: KITCHEN_LOCAL_YAML=.kitchen.docker.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+script: KITCHEN_LOCAL_YAML=.kitchen.dokken.yml kitchen verify ${INSTANCE}
 
+after_script:
+  - docker images
+  - docker ps -a
+  - cat .kitchen/logs/kitchen.log
+  
 matrix:
   include:
   - script: /opt/chefdk/embedded/bin/cookstyle
