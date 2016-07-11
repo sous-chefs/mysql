@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe 'mysql_test::installation_client' do
-  let(:installation_client_package_centos_58) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.8') }
-  let(:installation_client_package_centos_67) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.7') }
-  let(:installation_client_package_centos_70) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7.0') }
+  let(:installation_client_package_centos_58) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') }
+  let(:installation_client_package_centos_67) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8') }
+  let(:installation_client_package_centos_70) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') }
   let(:installation_client_package_fedora_23) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '23') }
   let(:installation_client_package_debian_7) { ChefSpec::ServerRunner.new(platform: 'debian', version: '7.9') }
-  let(:installation_client_package_debian_8) { ChefSpec::ServerRunner.new(platform: 'debian', version: '8.2') }
+  let(:installation_client_package_debian_8) { ChefSpec::ServerRunner.new(platform: 'debian', version: '8.4') }
   let(:installation_client_package_ubuntu_1204) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '12.04') }
   let(:installation_client_package_ubuntu_1404) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') }
   let(:installation_client_package_ubuntu_1604) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') }
