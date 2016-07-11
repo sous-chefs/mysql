@@ -2,6 +2,17 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+# v8.0.0 (2016-07-11)
+
+- Converting from LWRP to custom resources
+- Removing yum-mysql and other dependencies.
+- ^ BREAKING CHANGE: RHELish users are now responsible
+  for including a recipe from the "yum-mysql" or equivalent
+  cookbook before utilizing the mysql_* resources.
+- More thoughtful ChefSpec
+- Renaming "replication" test suite to "smoke"
+- Moving to Inspec
+
 ## v7.2.0 (2016-06-30)
 
 - Support openeSUSE leap
