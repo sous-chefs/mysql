@@ -12,7 +12,38 @@ if defined?(ChefSpec)
     ChefSpec::Runner.define_runner_method :mysql_client
   end
 
-  # config
+  # mysql_client_client_installation_package
+  def install_mysql_client_installation_package(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:mysql_client_installation_package, :install, resource_name)
+  end
+
+  def remove_mysql_client_installation_package(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:mysql_client_installation_package, :remove, resource_name)
+  end
+
+  # mysql_server_server_installation_package
+  def install_mysql_server_installation_package(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:mysql_server_installation_package, :install, resource_name)
+  end
+
+  def remove_mysql_server_installation_package(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:mysql_server_installation_package, :remove, resource_name)
+  end
+
+  #####
+  # old
+  #####
+
+  # client
+  def create_mysql_client(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:mysql_client, :create, resource_name)
+  end
+
+  def delete_mysql_client(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:mysql_client, :delete, resource_name)
+  end
+
+  # mysql_config
   def create_mysql_config(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:mysql_config, :create, resource_name)
   end
@@ -46,12 +77,4 @@ if defined?(ChefSpec)
     ChefSpec::Matchers::ResourceMatcher.new(:mysql_service, :reload, resource_name)
   end
 
-  # client
-  def create_mysql_client(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:mysql_client, :create, resource_name)
-  end
-
-  def delete_mysql_client(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:mysql_client, :delete, resource_name)
-  end
 end

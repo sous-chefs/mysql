@@ -10,7 +10,7 @@ This cookbook is concerned with the "MySQL Community Server", particularly those
 
 ## Requirements
 
-- Chef 11 or higher
+- Chef 12.5 or higher
 - Network accessible package repositories
 - 'recipe[selinux::disabled]' on RHEL platforms
 
@@ -48,15 +48,17 @@ The following platforms have been tested with Test Kitchen:
 
 ## Cookbook Dependencies
 
-- yum-mysql-community
-- smf
+There are no hard coupled dependencies.
+However, there is a loose dependency on `yum-mysql-community` for RHEL/Centos platforms.
+As of the 8.0 version of this cookbook, configuration of the package repos is now the
+responsibility of the user.
 
 ## Usage
 
 Place a dependency on the mysql cookbook in your cookbook's metadata.rb
 
 ```ruby
-depends 'mysql', '~> 7.0'
+depends 'mysql', '~> 8.0'
 ```
 
 Then, in a recipe:
@@ -275,7 +277,7 @@ mysql_client 'default' do
 end
 ```
 
-#### Parameters
+#### Properties
 
 - `package_name` - An array of packages to be installed. Defaults to a value looked up in an internal map.
 - `package_version` - Specific versions of the package to install, passed onto the underlying package manager. Defaults to `nil`.
@@ -423,7 +425,7 @@ Please refer to the HACKING.md
 - Author:: Jesse Howarth ([him@jessehowarth.com](mailto:him@jessehowarth.com))
 - Author:: Andrew Crump ([andrew@kotirisoftware.com](mailto:andrew@kotirisoftware.com))
 - Author:: Christoph Hartmann ([chris@lollyrock.com](mailto:chris@lollyrock.com))
-- Author:: Sean OMeara ([sean@chef.io](mailto:sean@chef.io))
+- Author:: Sean OMeara ([sean@chef.io](mailto:sean@sean.io))
 
 ```text
 Copyright:: 2009-2014 Chef Software, Inc

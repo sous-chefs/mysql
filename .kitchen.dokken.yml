@@ -1,33 +1,110 @@
+---
 driver:
-  name: vagrant
-  customize:
-    memory: 1024
+  name: dokken
+  chef_version: latest
+  privileged: true # because Docker and SystemD/Upstart
+
+transport:
+  name: dokken
 
 provisioner:
-  name: chef_zero
+  name: dokken
+
+verifier:
+  name: inspec
+  format: doc
 
 platforms:
-  - name: centos-5.11
-    run_list: selinux::disabled
-  - name: centos-6.7
-    run_list: selinux::disabled
-  - name: centos-7.2
-    run_list: selinux::disabled
-  - name: debian-7.10
-    run_list: apt::default
-  - name: debian-8.4    
-    run_list: apt::default
-  - name: fedora-22
-    run_list: yum::dnf_yum_compat
-  - name: fedora-23
-    run_list: yum::dnf_yum_compat        
-  - name: ubuntu-12.04
-    run_list: apt::default
-  - name: ubuntu-14.04
-    run_list: apt::default
-  - name: ubuntu-16.04
-    run_list: apt::default
+- name: centos-5
+  driver:
+    image: centos:5       
+    platform: rhel
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN yum install -y which initscripts
+  run_list:
+    - recipe[mysql_test::yum_repo]
       
+- name: centos-6
+  driver:
+    image: centos:6
+    platform: rhel
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN yum -y install which initscripts
+  run_list:
+    - recipe[mysql_test::yum_repo]
+      
+- name: centos-7
+  driver:
+    image: centos:7
+    platform: rhel
+    pid_one_command: /usr/lib/systemd/systemd
+    intermediate_instructions:
+      - RUN yum clean all
+      - RUN yum -y install net-tools lsof
+  run_list:
+    - recipe[mysql_test::yum_repo]
+
+- name: fedora-latest
+  driver:
+    image: fedora:latest
+    pid_one_command: /usr/lib/systemd/systemd
+    intermediate_instructions:
+      - RUN dnf -y install yum which
+  run_list:
+    - recipe[mysql_test::yum_repo]
+
+# FIXME: debian-7 multi is broken for some reason
+# - name: debian-7
+#   driver:
+#     image: debian:7
+#     intermediate_instructions:
+#       - RUN /usr/bin/apt-get update
+#       - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: debian-8
+  driver:
+    image: debian:8
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: ubuntu-12.04
+  driver:
+    image: ubuntu-upstart:12.04
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: ubuntu-14.04
+  driver:
+    image: ubuntu-upstart:14.04
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: ubuntu-16.04
+  driver:
+    image: ubuntu:16.04
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+
+- name: opensuse-13.2
+  driver:
+    image: opensuse:13.2
+    pid_one_command: /bin/systemd
+
+- name: opensuse-42.1
+  driver:
+    image: opensuse:42.1
+    pid_one_command: /bin/systemd
+
 suites:
   #
   # client
@@ -39,7 +116,7 @@ suites:
       mysql:
        version: '5.0'
     includes: [
-      'centos-5.11'
+      'centos-5'
     ]
 
   - name: installation_client_package-51
@@ -49,8 +126,8 @@ suites:
       mysql:
        version: '5.1'
     includes: [
-      'centos-5.11',
-      'centos-6.7'
+      'centos-5',
+      'centos-6'
     ]
 
   - name: installation_client_package-55
@@ -60,11 +137,11 @@ suites:
       mysql:
        version: '5.5'
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
-      'debian-7.9',
-      'debian-8.4',
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'debian-7',
+      'debian-8',
       'ubuntu-12.04',
       'ubuntu-14.04'
     ]
@@ -76,9 +153,9 @@ suites:
       mysql:
        version: '5.6'
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
       'fedora-latest',
       'ubuntu-14.04',
       'opensuse-13.2',
@@ -92,9 +169,9 @@ suites:
       mysql:
        version: '5.7'
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
       'fedora-latest',
       'ubuntu-16.04'
     ]
@@ -109,7 +186,7 @@ suites:
       mysql:
        version: '5.0'
     includes: [
-      'centos-5.11'
+      'centos-5'
     ]
 
   - name: installation_server_package-51
@@ -119,8 +196,8 @@ suites:
       mysql:
        version: '5.1'
     includes: [
-      'centos-5.11',
-      'centos-6.7'
+      'centos-5',
+      'centos-6'
     ]
 
   - name: installation_server_package-55
@@ -130,11 +207,11 @@ suites:
       mysql:
        version: '5.5'
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
-      'debian-7.9',
-      'debian-8.4',
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'debian-7',
+      'debian-8',
       'ubuntu-12.04',
       'ubuntu-14.04'
     ]
@@ -146,9 +223,9 @@ suites:
       mysql:
        version: '5.6'
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
       'fedora-latest',
       'ubuntu-14.04',
       'opensuse-13.2',
@@ -162,9 +239,9 @@ suites:
       mysql:
        version: '5.7'
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
       'fedora-latest',
       'ubuntu-16.04'
     ]
@@ -200,11 +277,11 @@ suites:
     run_list:
     - recipe[mysql_test::service_single]
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
-      'debian-7.9',
-      'debian-8.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'debian-7',
+      'debian-8',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -278,11 +355,11 @@ suites:
     run_list:
     - recipe[mysql_test::service_multi]
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
-      'debian-7.9',
-      'debian-8.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'debian-7',
+      'debian-8',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -361,11 +438,11 @@ suites:
     run_list:
     - recipe[mysql_test::config]
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
-      'debian-7.9',
-      'debian-8.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
+      'debian-7',
+      'debian-8',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -377,9 +454,9 @@ suites:
     run_list:
     - recipe[mysql_test::config]
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
       'fedora-latest',
       'ubuntu-14.04',
       'opensuse-13.2',
@@ -393,9 +470,9 @@ suites:
     run_list:
     - recipe[mysql_test::config]
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
       'redhat-6',
       'redhat-7',
       'fedora-latest',
@@ -412,10 +489,12 @@ suites:
     run_list:
     - recipe[mysql_test::smoke]
     includes: [
-      'centos-5.11',
-      'centos-6.7',
-      'centos-7.2',
+      'centos-5',
+      'centos-6',
+      'centos-7',
       'fedora-latest',
+      'debian-7',
+      'debian-8',
       'ubuntu-12.04',
       'ubuntu-14.04',
       'ubuntu-16.04',
