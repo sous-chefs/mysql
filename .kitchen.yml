@@ -6,6 +6,10 @@ driver:
 provisioner:
   name: chef_zero
 
+verifier:
+  name: inspec
+  format: doc
+
 platforms:
   - name: centos-5.11
     run_list: selinux::disabled
