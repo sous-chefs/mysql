@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+# v8.0.1 (2016-07-20)
+- Fixed a regression in the mysql_client resource where the action was changed from create to install in the 8.0 release
+- Added oracle, opensuse, and opensuseleap as supported platforms in the metadata
+
 # v8.0.0 (2016-07-11)
 
 - Converting from LWRP to custom resources
