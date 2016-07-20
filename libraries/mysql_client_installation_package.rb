@@ -14,7 +14,7 @@ module MysqlCookbook
     property :package_version, [String, nil], default: lazy { default_package_version }, desired_state: false
 
     # Actions
-    action :install do
+    action :create do
       package package_name do
         version package_version if package_version
         options package_options if package_options
