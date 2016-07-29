@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe 'mysql_test::installation_client' do
-  let(:installation_client_package_centos_58) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') }
-  let(:installation_client_package_centos_67) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8') }
-  let(:installation_client_package_centos_70) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') }
+  let(:installation_client_package_centos_5) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') }
+  let(:installation_client_package_centos_6) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8') }
+  let(:installation_client_package_centos_7) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') }
   let(:installation_client_package_fedora_23) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '23') }
   let(:installation_client_package_debian_7) { ChefSpec::ServerRunner.new(platform: 'debian', version: '7.9') }
   let(:installation_client_package_debian_8) { ChefSpec::ServerRunner.new(platform: 'debian', version: '8.4') }
@@ -13,9 +13,9 @@ describe 'mysql_test::installation_client' do
 
   context 'using el5' do
     it 'installs mysql_client_installation_package[default] when version is 5.0' do
-      installation_client_package_centos_58.node.set['mysql']['version'] = '5.0'
-      installation_client_package_centos_58.converge(described_recipe)
-      expect(installation_client_package_centos_58).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_5.node.set['mysql']['version'] = '5.0'
+      installation_client_package_centos_5.converge(described_recipe)
+      expect(installation_client_package_centos_5).to install_mysql_client_installation_package('default').with(
         version: '5.0',
         package_name: 'mysql',
         package_version: '5.0.95-5.el5_9'
@@ -23,9 +23,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.1' do
-      installation_client_package_centos_58.node.set['mysql']['version'] = '5.1'
-      installation_client_package_centos_58.converge(described_recipe)
-      expect(installation_client_package_centos_58).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_5.node.set['mysql']['version'] = '5.1'
+      installation_client_package_centos_5.converge(described_recipe)
+      expect(installation_client_package_centos_5).to install_mysql_client_installation_package('default').with(
         version: '5.1',
         package_name: 'mysql51-mysql',
         package_version: '5.1.70-1.el5'
@@ -33,9 +33,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
-      installation_client_package_centos_58.node.set['mysql']['version'] = '5.5'
-      installation_client_package_centos_58.converge(described_recipe)
-      expect(installation_client_package_centos_58).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_5.node.set['mysql']['version'] = '5.5'
+      installation_client_package_centos_5.converge(described_recipe)
+      expect(installation_client_package_centos_5).to install_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: 'mysql55-mysql',
         package_version: '5.5.45-1.el5'
@@ -43,9 +43,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.6' do
-      installation_client_package_centos_58.node.set['mysql']['version'] = '5.6'
-      installation_client_package_centos_58.converge(described_recipe)
-      expect(installation_client_package_centos_58).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_5.node.set['mysql']['version'] = '5.6'
+      installation_client_package_centos_5.converge(described_recipe)
+      expect(installation_client_package_centos_5).to install_mysql_client_installation_package('default').with(
         version: '5.6',
         package_name: 'mysql-community-client',
         package_version: '5.6.29-2.el5'
@@ -53,9 +53,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.7' do
-      installation_client_package_centos_58.node.set['mysql']['version'] = '5.7'
-      installation_client_package_centos_58.converge(described_recipe)
-      expect(installation_client_package_centos_58).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_5.node.set['mysql']['version'] = '5.7'
+      installation_client_package_centos_5.converge(described_recipe)
+      expect(installation_client_package_centos_5).to install_mysql_client_installation_package('default').with(
         version: '5.7',
         package_name: 'mysql-community-client',
         package_version: '5.7.11-1.el5'
@@ -65,9 +65,9 @@ describe 'mysql_test::installation_client' do
 
   context 'using el6' do
     it 'installs mysql_client_installation_package[default] when version is 5.1' do
-      installation_client_package_centos_67.node.set['mysql']['version'] = '5.1'
-      installation_client_package_centos_67.converge(described_recipe)
-      expect(installation_client_package_centos_67).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_6.node.set['mysql']['version'] = '5.1'
+      installation_client_package_centos_6.converge(described_recipe)
+      expect(installation_client_package_centos_6).to install_mysql_client_installation_package('default').with(
         version: '5.1',
         package_name: 'mysql',
         package_version: '5.1.73-7.el6'
@@ -75,9 +75,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
-      installation_client_package_centos_67.node.set['mysql']['version'] = '5.5'
-      installation_client_package_centos_67.converge(described_recipe)
-      expect(installation_client_package_centos_67).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_6.node.set['mysql']['version'] = '5.5'
+      installation_client_package_centos_6.converge(described_recipe)
+      expect(installation_client_package_centos_6).to install_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: 'mysql-community-client',
         package_version: '5.5.48-2.el6'
@@ -85,9 +85,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.6' do
-      installation_client_package_centos_67.node.set['mysql']['version'] = '5.6'
-      installation_client_package_centos_67.converge(described_recipe)
-      expect(installation_client_package_centos_67).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_6.node.set['mysql']['version'] = '5.6'
+      installation_client_package_centos_6.converge(described_recipe)
+      expect(installation_client_package_centos_6).to install_mysql_client_installation_package('default').with(
         version: '5.6',
         package_name: 'mysql-community-client',
         package_version: '5.6.29-2.el6'
@@ -95,9 +95,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.7' do
-      installation_client_package_centos_67.node.set['mysql']['version'] = '5.7'
-      installation_client_package_centos_67.converge(described_recipe)
-      expect(installation_client_package_centos_67).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_6.node.set['mysql']['version'] = '5.7'
+      installation_client_package_centos_6.converge(described_recipe)
+      expect(installation_client_package_centos_6).to install_mysql_client_installation_package('default').with(
         version: '5.7',
         package_name: 'mysql-community-client',
         package_version: '5.7.11-1.el6'
@@ -107,9 +107,9 @@ describe 'mysql_test::installation_client' do
 
   context 'using el7' do
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
-      installation_client_package_centos_70.node.set['mysql']['version'] = '5.5'
-      installation_client_package_centos_70.converge(described_recipe)
-      expect(installation_client_package_centos_70).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_7.node.set['mysql']['version'] = '5.5'
+      installation_client_package_centos_7.converge(described_recipe)
+      expect(installation_client_package_centos_7).to install_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: 'mysql-community-client',
         package_version: '5.5.48-2.el7'
@@ -117,9 +117,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.6' do
-      installation_client_package_centos_70.node.set['mysql']['version'] = '5.6'
-      installation_client_package_centos_70.converge(described_recipe)
-      expect(installation_client_package_centos_70).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_7.node.set['mysql']['version'] = '5.6'
+      installation_client_package_centos_7.converge(described_recipe)
+      expect(installation_client_package_centos_7).to install_mysql_client_installation_package('default').with(
         version: '5.6',
         package_name: 'mysql-community-client',
         package_version: '5.6.29-2.el7'
@@ -127,9 +127,9 @@ describe 'mysql_test::installation_client' do
     end
 
     it 'installs mysql_client_installation_package[default] when version is 5.7' do
-      installation_client_package_centos_70.node.set['mysql']['version'] = '5.7'
-      installation_client_package_centos_70.converge(described_recipe)
-      expect(installation_client_package_centos_70).to install_mysql_client_installation_package('default').with(
+      installation_client_package_centos_7.node.set['mysql']['version'] = '5.7'
+      installation_client_package_centos_7.converge(described_recipe)
+      expect(installation_client_package_centos_7).to install_mysql_client_installation_package('default').with(
         version: '5.7',
         package_name: 'mysql-community-client',
         package_version: '5.7.11-1.el7'
