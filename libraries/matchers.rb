@@ -5,7 +5,7 @@ if defined?(ChefSpec)
 
   # mysql_client_client_installation_package
   def install_mysql_client_installation_package(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:mysql_client_installation_package, :install, resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:mysql_client_installation_package, :create, resource_name)
   end
 
   def remove_mysql_client_installation_package(resource_name)
