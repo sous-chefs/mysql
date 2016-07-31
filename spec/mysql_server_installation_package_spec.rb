@@ -202,7 +202,7 @@ describe 'mysql_test::installation_server' do
       expect(installation_server_package_ubuntu_1404).to install_mysql_server_installation_package('default').with(
         version: '5.5',
         package_name: 'mysql-server-5.5',
-        package_version: '5.5.49-0ubuntu0.14.04.1'
+        package_version: '5.5.50-0ubuntu0.14.04.1'
       )
     end
   end
@@ -214,7 +214,7 @@ describe 'mysql_test::installation_server' do
       expect(installation_server_package_ubuntu_1404).to install_mysql_server_installation_package('default').with(
         version: '5.6',
         package_name: 'mysql-server-5.6',
-        package_version: '5.6.30-0ubuntu0.14.04.1'
+        package_version: '5.6.31-0ubuntu0.14.04.2'
       )
     end
   end
