@@ -29,8 +29,8 @@ module MysqlCookbook
       create_system_user
       stop_system_service
       create_config
-      initialize_database
       configure_apparmor
+      initialize_database
     end
 
     action :start do
