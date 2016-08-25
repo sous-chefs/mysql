@@ -180,7 +180,7 @@ describe 'mysql_test::installation_client' do
       expect(installation_client_package_ubuntu_1204).to install_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: 'mysql-client-5.5',
-        package_version: '5.5.49-0ubuntu0.12.04.1'
+        package_version: '5.5.50-0ubuntu0.12.04.1'
       )
     end
   end
@@ -216,7 +216,7 @@ describe 'mysql_test::installation_client' do
       expect(installation_client_package_ubuntu_1604).to install_mysql_client_installation_package('default').with(
         version: '5.7',
         package_name: 'mysql-client-5.7',
-        package_version: '5.7.12-0ubuntu1.1'
+        package_version: '5.7.13-0ubuntu0.16.04.2'
       )
     end
   end
