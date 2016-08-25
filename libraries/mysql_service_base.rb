@@ -185,7 +185,10 @@ module MysqlCookbook
               owner 'root'
               group 'root'
               mode '0644'
-              variables(config: new_resource)
+              variables(
+                config: new_resource,
+                mysql_name: mysql_name
+              )
               action :create
               notifies :restart, "service[#{instance} apparmor]", :immediately
             end
