@@ -178,10 +178,10 @@ module MysqlCookbook
       return '5.5.49-0+deb8u1' if major_version == '5.5' && jessie?
 
       # ubuntu
-      return '5.5.49-0ubuntu0.12.04.1' if major_version == '5.5' && precise?
-      return '5.5.49-0ubuntu0.14.04.1' if major_version == '5.5' && trusty?
-      return '5.6.30-0ubuntu0.14.04.1' if major_version == '5.6' && trusty?
-      return '5.7.12-0ubuntu1.1' if major_version == '5.7' && xenial?
+      return '5.5.50-0ubuntu0.12.04.1' if major_version == '5.5' && precise?
+      return '5.5.50-0ubuntu0.14.04.1' if major_version == '5.5' && trusty?
+      return '5.6.31-0ubuntu0.14.04.2' if major_version == '5.6' && trusty?
+      return '5.7.13-0ubuntu0.16.04.2' if major_version == '5.7' && xenial?
 
       # suse
       return '5.6.30-2.20.2' if major_version == '5.6' && opensuse?
