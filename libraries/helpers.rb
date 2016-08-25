@@ -166,6 +166,11 @@ module MysqlCookbook
       return '5.6.29-2.el7' if major_version == '5.6' && el7?
       return '5.7.11-1.el7' if major_version == '5.7' && el7?
 
+      # amazon
+      return '5.5.48-2.el6' if major_version == '5.5' && amazon?
+      return '5.6.31-2.el6' if major_version == '5.6' && amazon?
+      return '5.7.11-1.el6' if major_version == '5.7' && amazon?
+
       # N-1 fedora
       return '5.6.31-1.fc23' if major_version == '5.6' && fc23?
       return '5.7.13-1.fc23' if major_version == '5.7' && fc23?
