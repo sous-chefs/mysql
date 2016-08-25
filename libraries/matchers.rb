@@ -1,7 +1,7 @@
 if defined?(ChefSpec)
-    ChefSpec.define_matcher :mysql_config
-    ChefSpec.define_matcher :mysql_service
-    ChefSpec.define_matcher :mysql_client
+  ChefSpec.define_matcher :mysql_config
+  ChefSpec.define_matcher :mysql_service
+  ChefSpec.define_matcher :mysql_client
 
   # mysql_client_client_installation_package
   def install_mysql_client_installation_package(resource_name)
