@@ -1,7 +1,7 @@
 require 'shellwords'
 
 # variables
-root_pass = 'MyPa$$wordHasSpecialChars!'
+root_pass = 'MyPa$$word\Has_"Special\'Chars%!'
 
 # master
 mysql_service 'master' do
@@ -111,14 +111,14 @@ end
 
 # start replication on slave-1
 ruby_block 'start_slave_1' do
-  block { start_slave_1 } # libraries/helpers.rb
+  block { start_slave_1(root_pass) } # libraries/helpers.rb
   not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
   action :run
 end
 
 # start replication on slave-2
 ruby_block 'start_slave_2' do
-  block { start_slave_2 } # libraries/helpers.rb
+  block { start_slave_2(root_pass) } # libraries/helpers.rb
   not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
   action :run
 end
