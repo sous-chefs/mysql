@@ -100,7 +100,7 @@ module MysqlCookbook
           cookbook 'mysql'
           owner run_user
           group run_group
-          mode '0600'
+          mode '0700'
           variables(config: new_resource)
           action :create
         end
