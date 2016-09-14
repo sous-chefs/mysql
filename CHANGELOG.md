@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## 8.0.3 (2016-09-14)
+- [GH-390] Fix #390 incorrect escaping of initial_root_password
+- Updated package versions for Ubuntu 16.04
+- Testing updates
+
 # v8.0.2 (2016-08-25)
 - Various bug fixed and updates to package version strings
 
