@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015 Chef Software, Inc.
+# Copyright:: Copyright (c) 2015-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ TARGET = File.join(File.dirname(__FILE__), '..', 'MAINTAINERS.md')
 
 begin
   require 'tomlrb'
-  task default: :generate
+  task default: 'maintainers:generate'
 
   namespace :maintainers do
     desc 'Generate MarkDown version of MAINTAINERS file'
@@ -41,7 +41,7 @@ begin
   end
 
 rescue LoadError
-  STDERR.puts "\n*** TomlRb not available.\n\n"
+  STDERR.puts "\n*** TomlRb not available. Skipping the Maintainers Rake task\n\n"
 end
 
 private
