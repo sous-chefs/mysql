@@ -425,7 +425,7 @@ Please refer to the HACKING.md
 - Author:: Jesse Howarth ([him@jessehowarth.com](mailto:him@jessehowarth.com))
 - Author:: Andrew Crump ([andrew@kotirisoftware.com](mailto:andrew@kotirisoftware.com))
 - Author:: Christoph Hartmann ([chris@lollyrock.com](mailto:chris@lollyrock.com))
-- Author:: Sean OMeara ([sean@chef.io](mailto:sean@sean.io))
+- Author:: Sean OMeara ([sean@sean.io](mailto:sean@sean.io))
 
 ```text
 Copyright:: 2009-2014 Chef Software, Inc
