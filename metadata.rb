@@ -19,3 +19,4 @@ supports 'opensuseleap'
 
 source_url 'https://github.com/chef-cookbooks/mysql'
 issues_url 'https://github.com/chef-cookbooks/mysql/issues'
+chef_version '>= 12.1'
