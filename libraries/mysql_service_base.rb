@@ -180,15 +180,14 @@ module MysqlCookbook
               notifies :restart, "service[#{instance} apparmor]", :immediately
             end
 
-	    apparmor_template = 'apparmor/usr.sbin.mysqld-instance.erb'
-	    if package_version == '5.7.15-0ubuntu0.16.04.1'
-		apparmor_template = 'apparmor/usr.sbin.mysqld-5.7.15-instance.erb'
-	    end
-		
+            apparmor_template = 'apparmor/usr.sbin.mysqld-instance.erb'
+            if package_version == '5.7.15-0ubuntu0.16.04.1'
+              apparmor_template = 'apparmor/usr.sbin.mysqld-5.7.15-instance.erb'
+            end
 
             template "/etc/apparmor.d/local/mysql/#{instance}" do
               cookbook 'mysql'
-              source apparmor_template 
+              source apparmor_template
               owner 'root'
               group 'root'
               mode '0644'
