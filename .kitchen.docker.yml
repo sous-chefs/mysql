@@ -1,4 +1,3 @@
----
 driver:
   name: dokken
   chef_version: latest
@@ -12,12 +11,11 @@ provisioner:
 
 verifier:
   name: inspec
-  format: doc
 
 platforms:
 - name: centos-5
   driver:
-    image: centos:5       
+    image: centos:5
     platform: rhel
     pid_one_command: /sbin/init
     intermediate_instructions:

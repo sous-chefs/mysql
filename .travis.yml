@@ -1,11 +1,11 @@
 sudo: required
 dist: trusty
 
-# install the pre-release chef-dk.  Use chef-stable-precise to install the stable release
+# install the pre-release chef-dk.  Use chef-stable-trusty to install the stable release
 addons:
   apt:
     sources:
-      - chef-stable-trusty
+      - chef-current-trusty
     packages:
       - chefdk
 
@@ -14,7 +14,7 @@ install: echo "skip bundle install"
 
 branches:
   only:
-  - master
+    - master
 
 services: docker
 
@@ -30,28 +30,19 @@ env:
   - INSTANCE=smoke-opensuse-132
   - INSTANCE=smoke-opensuse-421
 
-# Ensure we make ChefDK's Ruby the default
 before_script:
-  # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889  
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - /opt/chefdk/embedded/bin/chef gem install kitchen-dokken
-  - /opt/chefdk/embedded/bin/chef --version
-  - /opt/chefdk/embedded/bin/cookstyle --version
-  - /opt/chefdk/embedded/bin/foodcritic --version
 
-script: KITCHEN_LOCAL_YAML=.kitchen.dokken.yml kitchen verify ${INSTANCE}
+script: KITCHEN_LOCAL_YAML=.kitchen.docker.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
 
-after_script:
-  - docker images
-  - docker ps -a
-  - cat .kitchen/logs/kitchen.log
-  
 matrix:
   include:
-  - script: /opt/chefdk/embedded/bin/cookstyle
-    env:  COOKSTYLE=1
-  - script: /opt/chefdk/embedded/bin/foodcritic . --exclude spec -f any -P
-    env:  FOODCRITIC=1
-  - script: /opt/chefdk/embedded/bin/rspec
-    env:  CHEFSPEC=1
+    - before_script:
+      - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+      - /opt/chefdk/embedded/bin/chef --version
+      - /opt/chefdk/embedded/bin/cookstyle --version
+      - /opt/chefdk/embedded/bin/foodcritic --version
+    - script:
+      - /opt/chefdk/bin/chef exec rake
+      env: UNIT_AND_LINT=1
