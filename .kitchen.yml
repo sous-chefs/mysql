@@ -12,26 +12,30 @@ verifier:
 
 platforms:
   - name: centos-5.11
-    run_list: selinux::disabled
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
   - name: centos-6.8
-    run_list: selinux::disabled
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
   - name: centos-7.2
-    run_list: selinux::disabled
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
   - name: debian-7.11
     run_list: apt::default
-  - name: debian-8.5    
+  - name: debian-8.5
     run_list: apt::default
-  - name: fedora-22
-    run_list: yum::dnf_yum_compat
   - name: fedora-24
-    run_list: yum::dnf_yum_compat        
+    run_list: yum::dnf_yum_compat
   - name: ubuntu-12.04
     run_list: apt::default
   - name: ubuntu-14.04
     run_list: apt::default
   - name: ubuntu-16.04
     run_list: apt::default
-      
+
 suites:
   #
   # client
@@ -178,7 +182,7 @@ suites:
   #
 
   # singles
-  
+
   - name: service50-single
     run_list:
     - recipe[mysql_test::service_single]
@@ -247,7 +251,7 @@ suites:
        version: '5.7'
 
   # multi
-       
+
   - name: service50-multi
     run_list:
     - recipe[mysql_test::service_multi]
