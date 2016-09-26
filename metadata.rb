@@ -3,7 +3,7 @@ maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
 license 'Apache 2.0'
 description 'Provides mysql_service, mysql_config, and mysql_client resources'
-version '8.0.3'
+version '8.0.4'
 
 supports 'amazon'
 supports 'redhat'
@@ -19,4 +19,4 @@ supports 'opensuseleap'
 
 source_url 'https://github.com/chef-cookbooks/mysql'
 issues_url 'https://github.com/chef-cookbooks/mysql/issues'
-chef_version '>= 12.1'
+chef_version '>= 12.1' if respond_to?(:chef_version)

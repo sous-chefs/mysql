@@ -2,6 +2,14 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## 8.0.4 (2016-09-26)
+- Bump debian version
+- Updated packages for 12.04 and 14.04 too
+- Add chef_version metadata
+- Update platforms in the kitchen file
+- Add selinux to the Berksfile for testing
+- Make sure yum repos are setup in local Test Kitchen
+
 ## 8.0.3 (2016-09-14)
 - [GH-390] Fix #390 incorrect escaping of initial_root_password
 - Updated package versions for Ubuntu 16.04
