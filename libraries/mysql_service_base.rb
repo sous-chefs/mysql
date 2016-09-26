@@ -11,6 +11,7 @@ module MysqlCookbook
     property :port, [String, Integer], default: '3306', desired_state: false
     property :socket, String, default: lazy { default_socket_file }, desired_state: false
     property :tmp_dir, String, desired_state: false
+    property :package_version, [String, nil], default: lazy { default_package_version }, desired_state: false
 
     alias socket_file socket
 
@@ -179,9 +180,14 @@ module MysqlCookbook
               notifies :restart, "service[#{instance} apparmor]", :immediately
             end
 
+            apparmor_template = 'apparmor/usr.sbin.mysqld-instance.erb'
+            if package_version == '5.7.15-0ubuntu0.16.04.1'
+              apparmor_template = 'apparmor/usr.sbin.mysqld-5.7.15-instance.erb'
+            end
+
             template "/etc/apparmor.d/local/mysql/#{instance}" do
               cookbook 'mysql'
-              source 'apparmor/usr.sbin.mysqld-instance.erb'
+              source apparmor_template
               owner 'root'
               group 'root'
               mode '0644'
