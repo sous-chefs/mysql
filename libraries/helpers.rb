@@ -180,7 +180,7 @@ module MysqlCookbook
 
       # debian
       return '5.5.49-0+deb7u1' if major_version == '5.5' && wheezy?
-      return '5.5.49-0+deb8u1' if major_version == '5.5' && jessie?
+      return '5.5.52-0+deb8u1' if major_version == '5.5' && jessie?
 
       # ubuntu
       return '5.5.52-0ubuntu0.12.04.1' if major_version == '5.5' && precise?
