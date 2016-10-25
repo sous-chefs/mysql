@@ -128,9 +128,9 @@ module MysqlCookbook
       return 'mysql51-mysql' if major_version == '5.1' && el5?
       return 'mysql' if major_version == '5.1' && el6?
       return 'mysql55-mysql' if major_version == '5.5' && el5?
-      return 'mysql-client-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
-      return 'mysql-client-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
-      return 'mysql-client-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian'
       return 'mysql-community-server-client' if major_version == '5.6' && node['platform_family'] == 'suse'
       'mysql-community-client'
     end
@@ -179,13 +179,13 @@ module MysqlCookbook
       return '5.7.13-1.fc24' if major_version == '5.7' && fc24?
 
       # debian
-      return '5.5.50-0+deb7u1' if major_version == '5.5' && wheezy?
+      return '5.5.47-0+deb7u1' if major_version == '5.5' && wheezy?
       return '5.5.50-0+deb8u1' if major_version == '5.5' && jessie?
 
       # ubuntu
       return '5.5.52-0ubuntu0.12.04.1' if major_version == '5.5' && precise?
       return '5.5.52-0ubuntu0.14.04.1' if major_version == '5.5' && trusty?
-      return '5.6.31-0ubuntu0.14.04.2' if major_version == '5.6' && trusty?
+      return '5.6.33-0ubuntu0.14.04.1' if major_version == '5.6' && trusty?
       return '5.7.15-0ubuntu0.16.04.1' if major_version == '5.7' && xenial?
 
       # suse

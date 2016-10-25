@@ -9,3 +9,7 @@ describe command(mysql_cmd) do
   its(:exit_status) { should eq 0 }
   its(:stdout) { should match(/Distrib 5.5/) }
 end
+
+describe command('ldconfig -p | grep -q "libmysqlclient.so$"') do
+  its(:exit_status) { should eq 0 }
+end
