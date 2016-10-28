@@ -12,7 +12,7 @@ module MysqlCookbook
     property :major_version, String, default: lazy { major_from_full(version) }, desired_state: false
     property :package_name, String, default: lazy { default_package_name }, desired_state: false
     property :package_options, [String, nil], desired_state: false
-    property :package_version, [String, nil], default: lazy { default_package_version }, desired_state: false
+    property :package_version, [String, nil], default: nil, desired_state: false
 
     ################
     # Helper Methods

@@ -147,54 +147,6 @@ module MysqlCookbook
       'mysql-community-server'
     end
 
-    def default_package_version
-      # el5
-      return '5.0.95-5.el5_9' if major_version == '5.0' && el5?
-      return '5.1.70-1.el5' if major_version == '5.1' && el5?
-      return '5.5.45-1.el5' if major_version == '5.5' && el5?
-      return '5.6.29-2.el5' if major_version == '5.6' && el5?
-      return '5.7.11-1.el5' if major_version == '5.7' && el5?
-
-      # el6
-      return '5.1.73-7.el6' if major_version == '5.1' && el6?
-      return '5.5.48-2.el6' if major_version == '5.5' && el6?
-      return '5.6.29-2.el6' if major_version == '5.6' && el6?
-      return '5.7.11-1.el6' if major_version == '5.7' && el6?
-
-      # el7
-      return '5.5.48-2.el7' if major_version == '5.5' && el7?
-      return '5.6.29-2.el7' if major_version == '5.6' && el7?
-      return '5.7.11-1.el7' if major_version == '5.7' && el7?
-
-      # amazon
-      return '5.5.48-2.el6' if major_version == '5.5' && amazon?
-      return '5.6.31-2.el6' if major_version == '5.6' && amazon?
-      return '5.7.11-1.el6' if major_version == '5.7' && amazon?
-
-      # N-1 fedora
-      return '5.6.31-1.fc23' if major_version == '5.6' && fc23?
-      return '5.7.13-1.fc23' if major_version == '5.7' && fc23?
-
-      return '5.6.31-1.fc24' if major_version == '5.6' && fc24?
-      return '5.7.13-1.fc24' if major_version == '5.7' && fc24?
-
-      # debian
-      return '5.5.50-0+deb7u1' if major_version == '5.5' && wheezy?
-      return '5.5.50-0+deb8u1' if major_version == '5.5' && jessie?
-
-      # ubuntu
-      return '5.5.52-0ubuntu0.12.04.1' if major_version == '5.5' && precise?
-      return '5.5.52-0ubuntu0.14.04.1' if major_version == '5.5' && trusty?
-      return '5.6.31-0ubuntu0.14.04.2' if major_version == '5.6' && trusty?
-      return '5.7.15-0ubuntu0.16.04.1' if major_version == '5.7' && xenial?
-
-      # suse
-      return '5.6.30-2.20.2' if major_version == '5.6' && opensuse?
-      return '5.6.30-16.2' if major_version == '5.6' && opensuseleap?
-
-      raise "No package version found for version #{major_version} on #{node['platform']} #{node['platform_version']}. Aborting."
-    end
-
     def socket_dir
       File.dirname(socket)
     end
