@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## 8.1.0 (2016-10-29)
+
+- Drop hardcoded, specific package version logic that broke many users
+
 ## 8.0.4 (2016-09-26)
 - Bump debian version
 - Updated packages for 12.04 and 14.04 too
