@@ -2,6 +2,9 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## 8.1.1 (2016-10-31)
+- Fixing CVE-2016-6662 - Reverting execure bit on mysql config
+
 ## 8.1.0 (2016-10-29)
 
 - Drop hardcoded, specific package version logic that broke many users
