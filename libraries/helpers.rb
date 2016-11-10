@@ -130,7 +130,7 @@ module MysqlCookbook
       return 'mysql55-mysql' if major_version == '5.5' && el5?
       return 'mysql-client-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
       return 'mysql-client-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
-      return 'mysql' if major_version == '5.6' && node['platform_family'] == 'amazon'
+      #return 'mysql' if major_version == '5.6' && node['platform_family'] == 'amazon'
       return 'mysql-client-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
       return 'mysql-community-server-client' if major_version == '5.6' && node['platform_family'] == 'suse'
       'mysql-community-client'
@@ -143,7 +143,7 @@ module MysqlCookbook
       return 'mysql55-mysql-server' if major_version == '5.5' && el5?
       return 'mysql-server-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
       return 'mysql-server-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
-      return 'mysql56-server' if major_version == '5.6' && node['platform_family'] == 'amazon'
+      #return 'mysql56-server' if major_version == '5.6' && node['platform_family'] == 'amazon'
       return 'mysql-server-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
       return 'mysql-community-server' if major_version == '5.6' && node['platform_family'] == 'suse'
       'mysql-community-server'
@@ -170,7 +170,8 @@ module MysqlCookbook
 
       # amazon
       return '5.5.48-2.el6' if major_version == '5.5' && amazon?
-      return '5.6.33-1.21.amzn1' if major_version == '5.6' && amazon?
+      #return '5.6.33-1.21.amzn1' if major_version == '5.6' && amazon?
+      return '5.6.31-2.el6' if major_version == '5.6' && amazon?
       return '5.7.11-1.el6' if major_version == '5.7' && amazon?
 
       # N-1 fedora

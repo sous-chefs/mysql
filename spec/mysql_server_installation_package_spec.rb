@@ -89,7 +89,7 @@ describe 'mysql_test::installation_server' do
       installation_server_package_centos_6.converge(described_recipe)
       expect(installation_server_package_centos_6).to install_mysql_server_installation_package('default').with(
         version: '5.6',
-        package_name: 'mysql56-server',
+        package_name: 'mysql-community-server',
         package_version: '5.6.29-2.el6'
       )
     end
