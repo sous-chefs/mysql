@@ -142,7 +142,7 @@ describe 'mysql_test::installation_client' do
       installation_client_package_debian_7.converge(described_recipe)
       expect(installation_client_package_debian_7).to install_mysql_client_installation_package('default').with(
         version: '5.5',
-        package_name: 'mysql-client-5.5'
+        package_name: ['mysql-client-5.5', 'libmysqlclient-dev']
       )
     end
   end
@@ -153,7 +153,7 @@ describe 'mysql_test::installation_client' do
       installation_client_package_debian_8.converge(described_recipe)
       expect(installation_client_package_debian_8).to install_mysql_client_installation_package('default').with(
         version: '5.5',
-        package_name: 'mysql-client-5.5'
+        package_name: ['mysql-client-5.5', 'libmysqlclient-dev']
       )
     end
   end
@@ -164,7 +164,7 @@ describe 'mysql_test::installation_client' do
       installation_client_package_ubuntu_1204.converge(described_recipe)
       expect(installation_client_package_ubuntu_1204).to install_mysql_client_installation_package('default').with(
         version: '5.5',
-        package_name: 'mysql-client-5.5'
+        package_name: ['mysql-client-5.5', 'libmysqlclient-dev']
       )
     end
   end
@@ -175,7 +175,7 @@ describe 'mysql_test::installation_client' do
       installation_client_package_ubuntu_1404.converge(described_recipe)
       expect(installation_client_package_ubuntu_1404).to install_mysql_client_installation_package('default').with(
         version: '5.5',
-        package_name: 'mysql-client-5.5'
+        package_name: ['mysql-client-5.5', 'libmysqlclient-dev']
       )
     end
   end
@@ -186,7 +186,7 @@ describe 'mysql_test::installation_client' do
       installation_client_package_ubuntu_1404.converge(described_recipe)
       expect(installation_client_package_ubuntu_1404).to install_mysql_client_installation_package('default').with(
         version: '5.6',
-        package_name: 'mysql-client-5.6'
+        package_name: ['mysql-client-5.6', 'libmysqlclient-dev']
       )
     end
   end
@@ -197,7 +197,7 @@ describe 'mysql_test::installation_client' do
       installation_client_package_ubuntu_1604.converge(described_recipe)
       expect(installation_client_package_ubuntu_1604).to install_mysql_client_installation_package('default').with(
         version: '5.7',
-        package_name: 'mysql-client-5.7'
+        package_name: ['mysql-client-5.7', 'libmysqlclient-dev']
       )
     end
   end

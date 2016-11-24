@@ -9,7 +9,7 @@ module MysqlCookbook
     provides :mysql_client_installation, os: 'linux'
     provides :mysql_client, os: 'linux'
 
-    property :package_name, String, default: lazy { default_client_package_name }, desired_state: false
+    property :package_name, [String, Array], default: lazy { default_client_package_name }, desired_state: false
     property :package_options, [String, nil], desired_state: false
     property :package_version, [String, nil], default: nil, desired_state: false
 

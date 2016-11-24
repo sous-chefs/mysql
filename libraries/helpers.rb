@@ -128,9 +128,9 @@ module MysqlCookbook
       return 'mysql51-mysql' if major_version == '5.1' && el5?
       return 'mysql' if major_version == '5.1' && el6?
       return 'mysql55-mysql' if major_version == '5.5' && el5?
-      return 'mysql-client-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
-      return 'mysql-client-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
-      return 'mysql-client-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian'
       return 'mysql-community-server-client' if major_version == '5.6' && node['platform_family'] == 'suse'
       'mysql-community-client'
     end
