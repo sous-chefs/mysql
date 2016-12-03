@@ -124,15 +124,15 @@ module MysqlCookbook
     end
 
     def default_client_package_name
-      return 'mysql' if major_version == '5.0' && el5?
-      return 'mysql51-mysql' if major_version == '5.1' && el5?
-      return 'mysql' if major_version == '5.1' && el6?
-      return 'mysql55-mysql' if major_version == '5.5' && el5?
-      return 'mysql-client-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
-      return 'mysql-client-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
-      return 'mysql-client-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
+      return ['mysql', 'mysql-devel'] if major_version == '5.0' && el5?
+      return ['mysql51-mysql', 'mysql51-mysql-libs'] if major_version == '5.1' && el5?
+      return ['mysql', 'mysql-devel'] if major_version == '5.1' && el6?
+      return ['mysql55-mysql', 'mysql55-mysql-devel'] if major_version == '5.5' && el5?
+      return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian'
       return 'mysql-community-server-client' if major_version == '5.6' && node['platform_family'] == 'suse'
-      'mysql-community-client'
+      ['mysql-community-client', 'mysql-community-devel']
     end
 
     def default_server_package_name
