@@ -2,12 +2,12 @@ module MysqlCookbook
   class MysqlServiceManagerSysvinit < MysqlServiceBase
     resource_name :mysql_service_manager_sysvinit
 
-    provides :mysql_service_manager, platform: %w(redhat centos scientific oracle) do |node| # ~FC005
-      node['platform_version'].to_f <= 7.0
+    provides :mysql_service_manager, os: 'linux' do |_node|
+      (Chef::Platform::ServiceHelpers.service_resource_providers.include?(:invokercd) ||
+        Chef::Platform::ServiceHelpers.service_resource_providers.include?(:redhat)) &&
+        !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd) &&
+        !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:upstart)
     end
-
-    provides :mysql_service_manager, platform: 'suse'
-    provides :mysql_service_manager, platform: 'debian'
 
     action :create do
       # from base
