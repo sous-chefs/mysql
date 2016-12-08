@@ -4,7 +4,7 @@ module MysqlCookbook
 
     provides :mysql_service_manager, platform: 'fedora'
 
-    provides :mysql_service_manager, platform: %w(redhat centos scientific) do |node| # ~FC005
+    provides :mysql_service_manager, platform: %w(redhat centos scientific oracle) do |node| # ~FC005
       node['platform_version'].to_f >= 7.0
     end
 
