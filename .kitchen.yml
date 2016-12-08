@@ -25,9 +25,9 @@ platforms:
       - recipe[mysql_test::yum_repo]
   - name: debian-7.11
     run_list: apt::default
-  - name: debian-8.5
+  - name: debian-8.6
     run_list: apt::default
-  - name: fedora-24
+  - name: fedora-25
     run_list:
       - recipe[yum::dnf_yum_compat]
       - recipe[selinux::disabled]
@@ -75,7 +75,7 @@ suites:
       'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
     ]
@@ -90,7 +90,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
       'opensuse-42.1'
@@ -106,7 +106,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-16.04'
     ]
 
@@ -145,7 +145,7 @@ suites:
       'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
     ]
@@ -160,7 +160,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
       'opensuse-42.1'
@@ -212,10 +212,10 @@ suites:
     - recipe[mysql_test::service_single]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -230,7 +230,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
       'opensuse-42.1'
@@ -246,7 +246,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-16.04'
      ]
     attributes:
@@ -290,10 +290,10 @@ suites:
     - recipe[mysql_test::service_multi]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -313,7 +313,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
       'opensuse-42.1'
@@ -334,7 +334,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-16.04'
      ]
     attributes:
@@ -373,10 +373,10 @@ suites:
     - recipe[mysql_test::config]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -391,7 +391,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
       'opensuse-42.1'
@@ -405,9 +405,9 @@ suites:
     - recipe[mysql_test::config]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-16.04'
      ]
     attributes:
@@ -424,7 +424,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-12.04',
       'ubuntu-14.04',
       'ubuntu-16.04',
