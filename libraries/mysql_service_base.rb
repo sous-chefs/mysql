@@ -17,7 +17,8 @@ module MysqlCookbook
     require_relative 'helpers'
     include MysqlCookbook::HelpersBase
 
-    # FIXME: comment about what this does
+    # action class methods are available within the actions and work as if the coded
+    # was inline the action. No messing with classes or passing in the new_resource
     declare_action_class.class_eval do
       def create_system_user
         group 'mysql' do
