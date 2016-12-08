@@ -17,11 +17,6 @@ module MysqlCookbook
       false
     end
 
-    def squeeze?
-      return true if node['platform'] == 'debian' && node['platform_version'].to_i == 6
-      false
-    end
-
     def wheezy?
       return true if node['platform'] == 'debian' && node['platform_version'].to_i == 7
       false
@@ -74,7 +69,6 @@ module MysqlCookbook
       return '5.5' if node['platform'] == 'amazon'
 
       # debian
-      return '5.1' if squeeze?
       return '5.5' if wheezy?
       return '5.5' if jessie?
 
