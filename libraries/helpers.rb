@@ -48,8 +48,8 @@ module MysqlCookbook
     end
 
     def default_data_dir
-      return "/opt/local/lib/#{mysql_name}" if node['os'] == 'solaris2'
       return "/var/lib/#{mysql_name}" if node['os'] == 'linux'
+      return "/opt/local/lib/#{mysql_name}" if node['os'] == 'solaris2'
       return "/var/db/#{mysql_name}" if node['os'] == 'freebsd'
     end
 
