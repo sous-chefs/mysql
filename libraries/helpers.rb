@@ -163,7 +163,7 @@ module MysqlCookbook
       return 'mysql55-mysqld' if node['platform_family'] == 'rhel' && scl_name == 'mysql55'
       return 'mysqld' if node['platform_family'] == 'rhel'
       return 'mysqld' if node['platform_family'] == 'fedora'
-      return 'mysql' # not one of the above
+      'mysql' # not one of the above
     end
 
     def v56plus
