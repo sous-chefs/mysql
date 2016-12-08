@@ -17,16 +17,6 @@ module MysqlCookbook
       false
     end
 
-    def fc23?
-      return true if node['platform'] == 'fedora' && node['platform_version'].to_i == 23
-      false
-    end
-
-    def fc24?
-      return true if node['platform'] == 'fedora' && node['platform_version'].to_i == 24
-      false
-    end
-
     def squeeze?
       return true if node['platform'] == 'debian' && node['platform_version'].to_i == 6
       false
@@ -58,18 +48,6 @@ module MysqlCookbook
       false
     end
 
-    def amazon?
-      return true if node['platform'] == 'amazon'
-    end
-
-    def opensuse?
-      return true if node['platform'] == 'opensuse'
-    end
-
-    def opensuseleap?
-      return true if node['platform'] == 'opensuseleap'
-    end
-
     def defaults_file
       "#{etc_dir}/my.cnf"
     end
@@ -93,7 +71,7 @@ module MysqlCookbook
       return '5.0' if el5?
       return '5.1' if el6?
       return '5.6' if el7?
-      return '5.5' if amazon?
+      return '5.5' if node['platform'] == 'amazon'
 
       # debian
       return '5.1' if squeeze?
