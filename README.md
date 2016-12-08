@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chef-cookbooks/mysql.svg?branch=master)](https://travis-ci.org/chef-cookbooks/mysql) [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
 
-The Mysql Cookbook is a library cookbook that provides resource primitives (LWRPs) for use in recipes. It is designed to be a reference example for creating highly reusable cross-platform cookbooks.
+The MySQL Cookbook is a library cookbook that provides resource primitives (LWRPs) for use in recipes. It is designed to be a reference example for creating highly reusable cross-platform cookbooks.
 
 ## Scope
 
@@ -48,10 +48,7 @@ The following platforms have been tested with Test Kitchen:
 
 ## Cookbook Dependencies
 
-There are no hard coupled dependencies.
-However, there is a loose dependency on `yum-mysql-community` for RHEL/Centos platforms.
-As of the 8.0 version of this cookbook, configuration of the package repos is now the
-responsibility of the user.
+There are no hard coupled dependencies. However, there is a loose dependency on `yum-mysql-community` for RHEL/Centos platforms. As of the 8.0 version of this cookbook, configuration of the package repos is now the responsibility of the user.
 
 ## Usage
 
