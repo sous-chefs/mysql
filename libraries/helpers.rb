@@ -187,8 +187,7 @@ module MysqlCookbook
       "#{prefix_dir}/var/log/#{mysql_name}"
     end
 
-    def lc_messages_dir
-    end
+    def lc_messages_dir; end
 
     def init_records_script
       # Note: shell-escaping passwords in a SQL file may cause corruption - eg
