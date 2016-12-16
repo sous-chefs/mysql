@@ -178,7 +178,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-latest',
+      'fedora-24',
       'ubuntu-16.04'
     ]
 

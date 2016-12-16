@@ -22,7 +22,7 @@ env:
   matrix:
   - INSTANCE=smoke-centos-6
   - INSTANCE=smoke-centos-7
-  - INSTANCE=smoke-fedora-latest
+  - INSTANCE=smoke-fedora-24
   - INSTANCE=smoke-debian-8
   - INSTANCE=smoke-ubuntu-1204
   - INSTANCE=smoke-ubuntu-1404
