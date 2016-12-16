@@ -2,12 +2,7 @@ module MysqlCookbook
   class MysqlServiceManagerSysvinit < MysqlServiceBase
     resource_name :mysql_service_manager_sysvinit
 
-    provides :mysql_service_manager, os: 'linux' do |_node|
-      (Chef::Platform::ServiceHelpers.service_resource_providers.include?(:invokercd) ||
-        Chef::Platform::ServiceHelpers.service_resource_providers.include?(:redhat)) &&
-        !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd) &&
-        !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:upstart)
-    end
+    provides :mysql_service_manager, os: 'linux'
 
     action :create do
       # from base
@@ -39,8 +34,6 @@ module MysqlCookbook
       end
 
       service mysql_name do
-        provider Chef::Provider::Service::Init::Redhat if %w(rhel fedora suse).include?(node['platform_family'])
-        provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
         supports restart: true, status: true
         action [:enable, :start]
       end
@@ -48,8 +41,6 @@ module MysqlCookbook
 
     action :stop do
       service mysql_name do
-        provider Chef::Provider::Service::Init::Redhat if %w(rhel fedora suse).include?(node['platform_family'])
-        provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
         supports restart: true, status: true
         action [:stop]
       end
@@ -57,8 +48,6 @@ module MysqlCookbook
 
     action :restart do
       service mysql_name do
-        provider Chef::Provider::Service::Init::Redhat if %w(rhel fedora suse).include?(node['platform_family'])
-        provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
         supports restart: true
         action :restart
       end
@@ -66,8 +55,6 @@ module MysqlCookbook
 
     action :reload do
       service mysql_name do
-        provider Chef::Provider::Service::Init::Redhat if %w(rhel fedora suse).include?(node['platform_family'])
-        provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
         action :reload
       end
     end
@@ -75,8 +62,6 @@ module MysqlCookbook
     declare_action_class.class_eval do
       def stop_system_service
         service system_service_name do
-          provider Chef::Provider::Service::Init::Redhat if %w(rhel fedora suse).include?(node['platform_family'])
-          provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
           supports status: true
           action [:stop, :disable]
         end
@@ -84,8 +69,6 @@ module MysqlCookbook
 
       def delete_stop_service
         service mysql_name do
-          provider Chef::Provider::Service::Init::Redhat if %w(rhel fedora suse).include?(node['platform_family'])
-          provider Chef::Provider::Service::Init::Insserv if node['platform_family'] == 'debian'
           supports status: true
           action [:disable, :stop]
           only_if { ::File.exist?("#{etc_dir}/init.d/#{mysql_name}") }
