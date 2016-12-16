@@ -27,6 +27,8 @@ platforms:
     run_list: apt::default
   - name: debian-8.6
     run_list: apt::default
+  - name: opensuse-13.2
+  - name: opensuse-leap-42.1
   - name: fedora-25
     run_list:
       - recipe[yum::dnf_yum_compat]
@@ -93,7 +95,7 @@ suites:
       'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
     ]
 
   - name: installation_client_package-57
@@ -163,7 +165,7 @@ suites:
       'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
     ]
 
   - name: installation_server_package-57
@@ -233,7 +235,7 @@ suites:
       'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
      ]
     attributes:
       mysql:
@@ -316,7 +318,7 @@ suites:
       'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
      ]
     attributes:
       mysql:
@@ -394,7 +396,7 @@ suites:
       'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
      ]
     attributes:
       mysql:
@@ -429,5 +431,5 @@ suites:
       'ubuntu-14.04',
       'ubuntu-16.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
      ]
