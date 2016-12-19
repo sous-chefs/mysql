@@ -2,11 +2,6 @@ module MysqlCookbook
   module HelpersBase
     require 'shellwords'
 
-    def el5?
-      return true if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 5
-      false
-    end
-
     def el6?
       return true if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 6
       false
@@ -63,7 +58,6 @@ module MysqlCookbook
 
     def default_major_version
       # rhelish
-      return '5.0' if el5?
       return '5.1' if el6?
       return '5.6' if el7?
       return '5.5' if node['platform'] == 'amazon'
@@ -96,10 +90,7 @@ module MysqlCookbook
     end
 
     def default_client_package_name
-      return ['mysql', 'mysql-devel'] if major_version == '5.0' && el5?
-      return ['mysql51-mysql', 'mysql51-mysql-libs'] if major_version == '5.1' && el5?
       return ['mysql', 'mysql-devel'] if major_version == '5.1' && el6?
-      return ['mysql55-mysql', 'mysql55-mysql-devel'] if major_version == '5.5' && el5?
       return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
       return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && node['platform_family'] == 'debian'
       return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian'
@@ -108,10 +99,7 @@ module MysqlCookbook
     end
 
     def default_server_package_name
-      return 'mysql-server' if major_version == '5.0' && el5?
-      return 'mysql51-mysql-server' if major_version == '5.1' && el5?
       return 'mysql-server' if major_version == '5.1' && el6?
-      return 'mysql55-mysql-server' if major_version == '5.5' && el5?
       return 'mysql-server-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
       return 'mysql-server-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
       return 'mysql-server-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'

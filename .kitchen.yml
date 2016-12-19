@@ -35,15 +35,6 @@ suites:
   #
   # client
   #
-  - name: installation_client_package-50
-    run_list:
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.0'
-    includes: [
-      'centos-5.11'
-    ]
 
   - name: installation_client_package-51
     run_list:
@@ -105,16 +96,6 @@ suites:
   #
   # server
   #
-  - name: installation_server_package-50
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.0'
-    includes: [
-      'centos-5.11'
-    ]
-
   - name: installation_server_package-51
     run_list:
     - recipe[mysql_test::installation_server]
@@ -178,16 +159,6 @@ suites:
 
   # singles
 
-  - name: service50-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.0'
-
   - name: service51-single
     run_list:
     - recipe[mysql_test::service_single]
@@ -246,21 +217,6 @@ suites:
        version: '5.7'
 
   # multi
-
-  - name: service50-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.0'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
 
   - name: service51-multi
     run_list:
@@ -340,16 +296,6 @@ suites:
   #
   # config
   #
-  - name: config50
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.0'
-
   - name: config51
     run_list:
     - recipe[mysql_test::config]
