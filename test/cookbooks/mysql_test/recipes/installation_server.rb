@@ -5,7 +5,6 @@ def configure_package_repositories
   return unless %w(rhel fedora).include? node['platform_family']
   case node['mysql']['version']
   when '5.5'
-    return if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 5
     return if node['platform_family'] == 'fedora'
     include_recipe 'yum-mysql-community::mysql55'
   when '5.6'

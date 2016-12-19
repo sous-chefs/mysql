@@ -10,10 +10,6 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-5.11
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[mysql_test::yum_repo]
   - name: centos-6.8
     run_list:
       - recipe[selinux::disabled]
@@ -26,7 +22,7 @@ platforms:
   - name: debian-8.6
   - name: opensuse-13.2
   - name: opensuse-leap-42.1
-  - name: fedora-25
+  - name: fedora-24 # there is not a 25 repo yet
     run_list:
       - recipe[yum::dnf_yum_compat]
       - recipe[selinux::disabled]

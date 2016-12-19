@@ -1,4 +1,3 @@
-# comments!
 mysql_server_installation_package 'default' do
   version node['mysql']['version']
   action :install
