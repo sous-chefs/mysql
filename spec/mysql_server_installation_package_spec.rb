@@ -11,44 +11,6 @@ describe 'mysql_test::installation_server' do
   let(:installation_server_package_ubuntu_1404) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') }
   let(:installation_server_package_ubuntu_1604) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') }
 
-  context 'using el5' do
-    it 'installs mysql_server_installation_package[default] when version is 5.1' do
-      installation_server_package_centos_5.node.normal['mysql']['version'] = '5.1'
-      installation_server_package_centos_5.converge(described_recipe)
-      expect(installation_server_package_centos_5).to install_mysql_server_installation_package('default').with(
-        version: '5.1',
-        package_name: 'mysql51-mysql-server'
-      )
-    end
-
-    it 'installs mysql_server_installation_package[default] when version is 5.5' do
-      installation_server_package_centos_5.node.normal['mysql']['version'] = '5.5'
-      installation_server_package_centos_5.converge(described_recipe)
-      expect(installation_server_package_centos_5).to install_mysql_server_installation_package('default').with(
-        version: '5.5',
-        package_name: 'mysql55-mysql-server'
-      )
-    end
-
-    it 'installs mysql_server_installation_package[default] when version is 5.6' do
-      installation_server_package_centos_5.node.normal['mysql']['version'] = '5.6'
-      installation_server_package_centos_5.converge(described_recipe)
-      expect(installation_server_package_centos_5).to install_mysql_server_installation_package('default').with(
-        version: '5.6',
-        package_name: 'mysql-community-server'
-      )
-    end
-
-    it 'installs mysql_server_installation_package[default] when version is 5.7' do
-      installation_server_package_centos_5.node.normal['mysql']['version'] = '5.7'
-      installation_server_package_centos_5.converge(described_recipe)
-      expect(installation_server_package_centos_5).to install_mysql_server_installation_package('default').with(
-        version: '5.7',
-        package_name: 'mysql-community-server'
-      )
-    end
-  end
-
   context 'using el6' do
     it 'installs mysql_server_installation_package[default] when version is 5.1' do
       installation_server_package_centos_6.node.normal['mysql']['version'] = '5.1'
