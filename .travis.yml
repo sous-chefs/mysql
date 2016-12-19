@@ -28,7 +28,7 @@ env:
   - INSTANCE=smoke-ubuntu-1404
   - INSTANCE=smoke-ubuntu-1604
   - INSTANCE=smoke-opensuse-132
-  - INSTANCE=smoke-opensuse-421
+  - INSTANCE=smoke-opensuse-leap
 
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
