@@ -1,4 +1,4 @@
-# comments!
+apt_update 'update'
 
 def configure_package_repositories
   # we need to enable the yum-mysql-community repository to get packages
