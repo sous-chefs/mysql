@@ -2,26 +2,8 @@ module MysqlCookbook
   class MysqlServiceManagerSystemd < MysqlServiceBase
     resource_name :mysql_service_manager_systemd
 
-    provides :mysql_service_manager, platform: 'fedora'
-
-    provides :mysql_service_manager, platform: %w(redhat centos scientific) do |node| # ~FC005
-      node['platform_version'].to_f >= 7.0
-    end
-
-    provides :mysql_service_manager, platform: 'debian' do |node|
-      node['platform_version'].to_f >= 8.0
-    end
-
-    provides :mysql_service_manager, platform: 'ubuntu' do |node|
-      node['platform_version'].to_f >= 15.04
-    end
-
-    provides :mysql_service_manager, platform: 'opensuse' do |node|
-      node['platform_version'].to_f >= 13.0
-    end
-
-    provides :mysql_service_manager, platform: 'opensuseleap' do |node|
-      node['platform_version'].to_f >= 42.0
+    provides :mysql_service_manager, os: 'linux' do |_node|
+      Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
     end
 
     action :create do

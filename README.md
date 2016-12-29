@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chef-cookbooks/mysql.svg?branch=master)](https://travis-ci.org/chef-cookbooks/mysql) [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
 
-The Mysql Cookbook is a library cookbook that provides resource primitives (LWRPs) for use in recipes. It is designed to be a reference example for creating highly reusable cross-platform cookbooks.
+The MySQL Cookbook is a library cookbook that provides resource primitives (LWRPs) for use in recipes. It is designed to be a reference example for creating highly reusable cross-platform cookbooks.
 
 ## Scope
 
@@ -19,39 +19,34 @@ This cookbook is concerned with the "MySQL Community Server", particularly those
 The following platforms have been tested with Test Kitchen:
 
 ```
-|----------------+-----+-----+-----+-----+-----|
-|                | 5.0 | 5.1 | 5.5 | 5.6 | 5.7 |
-|----------------+-----+-----+-----+-----+-----|
-| debian-7       |     |     | X   |     |     |
-|----------------+-----+-----+-----+-----+-----|
-| debian-8       |     |     | X   |     |     |
-|----------------+-----+-----+-----+-----+-----|
-| ubuntu-12.04   |     |     | X   |     |     |
-|----------------+-----+-----+-----+-----+-----|
-| ubuntu-14.04   |     |     | X   | X   |     |
-|----------------+-----+-----+-----+-----+-----|
-| ubuntu-16.04   |     |     |     |     | X   |
-|----------------+-----+-----+-----+-----+-----|
-| centos-5       |   X | X   | X   | X   | X   |
-|----------------+-----+-----+-----+-----+-----|
-| centos-6       |     | X   | X   | X   | X   |
-|----------------+-----+-----+-----+-----+-----|
-| centos-7       |     |     | X   | X   | X   |
-|----------------+-----+-----+-----+-----+-----|
-| fedora         |     |     |     | X   | X   |
-|----------------+-----+-----+-----+-----+-----|
-| openSUSE 13.2  |     |     |     | X   |     |
-|----------------+-----+-----+-----+-----+-----|
-| openSUSE 42.1  |     |     |     | X   |     |
-|----------------+-----+-----+-----+-----+-----|
+|----------------+-----+-----+-----+-----|
+|                | 5.1 | 5.5 | 5.6 | 5.7 |
+|----------------+-----+-----+-----+-----|
+| debian-7       |     | X   |     |     |
+|----------------+-----+-----+-----+-----|
+| debian-8       |     | X   |     |     |
+|----------------+-----+-----+-----+-----|
+| ubuntu-12.04   |     | X   |     |     |
+|----------------+-----+-----+-----+-----|
+| ubuntu-14.04   |     | X   | X   |     |
+|----------------+-----+-----+-----+-----|
+| ubuntu-16.04   |     |     |     | X   |
+|----------------+-----+-----+-----+-----|
+| centos-6       | X   | X   | X   | X   |
+|----------------+-----+-----+-----+-----|
+| centos-7       |     | X   | X   | X   |
+|----------------+-----+-----+-----+-----|
+| fedora         |     |     | X   | X   |
+|----------------+-----+-----+-----+-----|
+| openSUSE 13.2  |     |     | X   |     |
+|----------------+-----+-----+-----+-----|
+| openSUSE 42.1  |     |     | X   |     |
+|----------------+-----+-----+-----+-----|
 ```
 
 ## Cookbook Dependencies
 
-There are no hard coupled dependencies.
-However, there is a loose dependency on `yum-mysql-community` for RHEL/Centos platforms.
-As of the 8.0 version of this cookbook, configuration of the package repos is now the
-responsibility of the user.
+There are no hard coupled dependencies. However, there is a loose dependency on `yum-mysql-community` for RHEL/Centos platforms. As of the 8.0 version of this cookbook, configuration of the package repos is now the responsibility of the user.
 
 ## Usage
 

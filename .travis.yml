@@ -22,13 +22,13 @@ env:
   matrix:
   - INSTANCE=smoke-centos-6
   - INSTANCE=smoke-centos-7
-  - INSTANCE=smoke-fedora-latest
+  - INSTANCE=smoke-fedora-24
   - INSTANCE=smoke-debian-8
   - INSTANCE=smoke-ubuntu-1204
   - INSTANCE=smoke-ubuntu-1404
   - INSTANCE=smoke-ubuntu-1604
   - INSTANCE=smoke-opensuse-132
-  - INSTANCE=smoke-opensuse-421
+  - INSTANCE=smoke-opensuse-leap
 
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )

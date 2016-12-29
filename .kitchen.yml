@@ -8,13 +8,8 @@ provisioner:
 
 verifier:
   name: inspec
-  format: doc
 
 platforms:
-  - name: centos-5.11
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[mysql_test::yum_repo]
   - name: centos-6.8
     run_list:
       - recipe[selinux::disabled]
@@ -24,34 +19,22 @@ platforms:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
   - name: debian-7.11
-    run_list: apt::default
-  - name: debian-8.5
-    run_list: apt::default
-  - name: fedora-24
+  - name: debian-8.6
+  - name: opensuse-13.2
+  - name: opensuse-leap-42.1
+  - name: fedora-24 # there is not a 25 repo yet
     run_list:
       - recipe[yum::dnf_yum_compat]
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
   - name: ubuntu-12.04
-    run_list: apt::default
   - name: ubuntu-14.04
-    run_list: apt::default
   - name: ubuntu-16.04
-    run_list: apt::default
 
 suites:
   #
   # client
   #
-  - name: installation_client_package-50
-    run_list:
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.0'
-    includes: [
-      'centos-5.11'
-    ]
 
   - name: installation_client_package-51
     run_list:
@@ -75,7 +58,7 @@ suites:
       'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
     ]
@@ -90,10 +73,10 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
     ]
 
   - name: installation_client_package-57
@@ -106,23 +89,13 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-16.04'
     ]
 
   #
   # server
   #
-  - name: installation_server_package-50
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.0'
-    includes: [
-      'centos-5.11'
-    ]
-
   - name: installation_server_package-51
     run_list:
     - recipe[mysql_test::installation_server]
@@ -145,7 +118,7 @@ suites:
       'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
     ]
@@ -160,10 +133,10 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
     ]
 
   - name: installation_server_package-57
@@ -176,7 +149,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-latest',
+      'fedora-24',
       'ubuntu-16.04'
     ]
 
@@ -185,16 +158,6 @@ suites:
   #
 
   # singles
-
-  - name: service50-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.0'
 
   - name: service51-single
     run_list:
@@ -212,10 +175,10 @@ suites:
     - recipe[mysql_test::service_single]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -230,10 +193,10 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
      ]
     attributes:
       mysql:
@@ -246,7 +209,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-16.04'
      ]
     attributes:
@@ -254,21 +217,6 @@ suites:
        version: '5.7'
 
   # multi
-
-  - name: service50-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.0'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
 
   - name: service51-multi
     run_list:
@@ -290,10 +238,10 @@ suites:
     - recipe[mysql_test::service_multi]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -313,10 +261,10 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
      ]
     attributes:
       mysql:
@@ -334,7 +282,7 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-16.04'
      ]
     attributes:
@@ -348,16 +296,6 @@ suites:
   #
   # config
   #
-  - name: config50
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.0'
-
   - name: config51
     run_list:
     - recipe[mysql_test::config]
@@ -373,10 +311,10 @@ suites:
     - recipe[mysql_test::config]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.8',
       'centos-7.2',
       'debian-7.11',
-      'debian-8.5',
+      'debian-8.6',
       'ubuntu-12.04',
       'ubuntu-14.04'
      ]
@@ -391,10 +329,10 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
      ]
     attributes:
       mysql:
@@ -405,9 +343,9 @@ suites:
     - recipe[mysql_test::config]
     includes: [
       'centos-5.11',
-      'centos-6.7',
+      'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-16.04'
      ]
     attributes:
@@ -424,10 +362,10 @@ suites:
       'centos-5.11',
       'centos-6.8',
       'centos-7.2',
-      'fedora-24',
+      'fedora-25',
       'ubuntu-12.04',
       'ubuntu-14.04',
       'ubuntu-16.04',
       'opensuse-13.2',
-      'opensuse-42.1'
+      'opensuse-leap-42.1'
      ]

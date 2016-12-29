@@ -1,5 +1,3 @@
-# comments!
-
 group 'alice' do
   action :create
 end
