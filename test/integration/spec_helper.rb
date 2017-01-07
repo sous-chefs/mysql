@@ -17,8 +17,6 @@ def mysqld_bin(version = nil)
     "/opt/mysql#{version.delete('.')}/bin/mysqld"
   when 'smartos'
     '/opt/local/bin/mysqld'
-  when 'fedora'
-    '/usr/libexec/mysqld'
   when 'centos'
     '/usr/libexec/mysqld'
   else
@@ -37,23 +35,40 @@ def check_mysql_client(version)
 
   lib_name = "libmysql#{version_short}client.so" if os[:family] == 'suse'
 
+  # Binary
+  describe file(mysql_bin) do
+    it { should exist }
+  end
+
+  # Version
   describe command("#{mysql_bin} --version") do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match(/Distrib #{version}/) }
   end
 
+  # Shared lib
   describe command('ldconfig -p') do
     its(:stdout) { should match(/#{lib_name}/) }
   end
 
-  describe file('/usr/include/mysql/mysql.h') do
-    it { should exist }
+  # For some reasons in OSS-update repo devel lib for community server doesn't exists
+  unless os[:family] == 'suse'
+    # Header file
+    describe file('/usr/include/mysql/mysql.h') do
+      it { should exist }
+    end
   end
 end
 
 # Check MySQL server version
 # @param [String] version MySQL version
 def check_mysql_server(version)
+  # Binary
+  describe file(mysqld_bin) do
+    it { should exist }
+  end
+
+  # Version
   describe command("#{mysqld_bin} --version") do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match(/Ver #{version}/) }
@@ -62,13 +77,13 @@ end
 
 # Check single instance of MySQL
 # @param [String] port MySQL port
-def check_mysql_server_instance(port = '3306')
+def check_mysql_server_instance(port = '3306', password = 'ilikerandompasswords')
   mysql_cmd_1 = <<-EOF
 #{mysql_bin} \
   -h 127.0.0.1 \
   -P #{port} \
   -u root \
-  -pilikerandompasswords \
+  -p'#{password}' \
   -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='127.0.0.1';" \
   --skip-column-names
   EOF
@@ -78,7 +93,7 @@ def check_mysql_server_instance(port = '3306')
   -h 127.0.0.1 \
   -P #{port} \
   -u root \
-  -pilikerandompasswords \
+  -p'#{password}' \
   -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';" \
   --skip-column-names
 EOF
@@ -98,12 +113,12 @@ end
 # @param [String] version MySQL version
 def check_mysql_server_multi(version)
   check_mysql_server(version)
-  check_mysql_server_instance('3307')
-  check_mysql_server_instance('3308')
+  check_mysql_server_instance('3307', 'ilikerandompasswords')
+  check_mysql_server_instance('3308', 'string with spaces')
 end
 
 # Check single installation of MySQL
 def check_mysql_server_single(version)
   check_mysql_server(version)
-  check_mysql_server_instance('3306')
+  check_mysql_server_instance('3306', 'ilikerandompasswords')
 end

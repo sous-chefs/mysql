@@ -20,6 +20,15 @@ services: docker
 
 env:
   matrix:
+  - INSTANCE=smoke-centos-6
+  - INSTANCE=smoke-centos-7
+  - INSTANCE=smoke-fedora-24
+  - INSTANCE=smoke-debian-8
+  - INSTANCE=smoke-ubuntu-1204
+  - INSTANCE=smoke-ubuntu-1404
+  - INSTANCE=smoke-ubuntu-1604
+  - INSTANCE=smoke-opensuse-132
+  - INSTANCE=smoke-opensuse-leap
   - INSTANCE=installation-client-package-51-centos-6
   - INSTANCE=installation-client-package-55-centos-6
   - INSTANCE=installation-client-package-55-centos-7
