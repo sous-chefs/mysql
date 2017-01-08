@@ -18,7 +18,7 @@ def mysqld_bin(version = nil)
   when 'smartos'
     '/opt/local/bin/mysqld'
   when 'redhat'
-    version ==  '5.1' ? '/usr/libexec/mysqld' : '/usr/sbin/mysqld'
+    version == '5.1' ? '/usr/libexec/mysqld' : '/usr/sbin/mysqld'
   else
     '/usr/sbin/mysqld'
   end
@@ -51,25 +51,26 @@ def check_mysql_client(version)
     its(:stdout) { should match(/#{lib_name}/) }
   end
 
-  # For some reasons in OSS-update repo devel lib for community server doesn't exists
-  unless os[:family] == 'suse'
-    # Header file
-    describe file('/usr/include/mysql/mysql.h') do
-      it { should exist }
-    end
+  # For some reasons there is no devel lib for community server in OSS-update repo
+  return if os[:family] == 'suse'
+
+  # Header file
+  describe file('/usr/include/mysql/mysql.h') do
+    it { should exist }
   end
 end
 
 # Check MySQL server version
 # @param [String] version MySQL version
 def check_mysql_server(version)
+  mysqld = mysqld_bin(version)
   # Binary
-  describe file(mysqld_bin) do
+  describe file(mysqld) do
     it { should exist }
   end
 
   # Version
-  describe command("#{mysqld_bin} --version") do
+  describe command("#{mysqld} --version") do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match(/Ver #{version}/) }
   end
