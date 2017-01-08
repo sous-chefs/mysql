@@ -17,8 +17,8 @@ def mysqld_bin(version = nil)
     "/opt/mysql#{version.delete('.')}/bin/mysqld"
   when 'smartos'
     '/opt/local/bin/mysqld'
-  when 'centos'
-    '/usr/libexec/mysqld'
+  when 'redhat'
+    version ==  '5.1' ? '/usr/libexec/mysqld' : '/usr/sbin/mysqld'
   else
     '/usr/sbin/mysqld'
   end
