@@ -42,6 +42,7 @@ def check_mysql_client(version)
   describe command("#{mysql_bin} --version") do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match(/Distrib #{version}/) }
+    its(:stderr) { should eq '' }
   end
 
   # Shared lib
@@ -71,6 +72,7 @@ def check_mysql_server(version)
   describe command("#{mysqld} --version") do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match(/Ver #{version}/) }
+    its(:stderr) { should eq '' }
   end
 end
 
@@ -84,7 +86,6 @@ def mysql_query(query, root_pass, host = '127.0.0.1', port = 3006)
 -D databass \
 -e "#{query}"
   EOF
-
 end
 
 # Check single instance of MySQL

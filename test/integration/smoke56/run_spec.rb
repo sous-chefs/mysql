@@ -4,7 +4,7 @@
 require_relative '../spec_helper'
 
 # Extract version
-version = File.basename(Dir.pwd).gsub(/\D/, '').chars.join('.')
+version = '5.6'
 # Client version
 check_mysql_client(version)
 # Server version
