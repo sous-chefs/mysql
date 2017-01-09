@@ -186,7 +186,7 @@ suites:
     - recipe[mysql_test::smoke]
     attributes:
       mysql:
-       version: '5.5'
+       version: '5.6'
     includes: [
       'centos-6',
       'centos-7',
@@ -205,7 +205,7 @@ suites:
     - recipe[mysql_test::smoke]
     attributes:
       mysql:
-       version: '5.5'
+       version: '5.7'
     includes: [
       'centos-6',
       'centos-7',

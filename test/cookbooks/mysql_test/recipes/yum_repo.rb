@@ -3,7 +3,6 @@
 unless node['mysql'].nil?
   case node['mysql']['version']
   when '5.5'
-    return if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 5
     include_recipe 'yum-mysql-community::mysql55'
   when '5.6'
     include_recipe 'yum-mysql-community::mysql56'
