@@ -24,8 +24,6 @@ def mysqld_bin(version = nil)
   end
 end
 
-
-
 # Check MySQL Client
 #
 # @param [String] version expected client version, for example '5.5'
