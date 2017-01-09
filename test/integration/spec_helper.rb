@@ -82,7 +82,7 @@ def mysql_query(query, root_pass, host = '127.0.0.1', port = 3006)
 -h #{host} \
 -P #{port} \
 -u root \
--p"#{Shellwords.escape(root_pass)}"
+-p#{Shellwords.escape(root_pass)}
 -D databass \
 -e "#{query}"
   EOF
