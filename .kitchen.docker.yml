@@ -159,275 +159,17 @@ suites:
       'ubuntu-16.04'
     ]
 
-  #
-  # server
-  #
-  - name: installation_server_package-51
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.1'
-    includes: [
-      'centos-5',
-      'centos-6'
-    ]
-
-  - name: installation_server_package-55
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.5'
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'debian-7',
-      'debian-8',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-    ]
-
-  - name: installation_server_package-56
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.6'
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap'
-    ]
-
-  - name: installation_server_package-57
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.7'
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-16.04'
-    ]
-
-  #
-  # service
-  #
-
-  # singles
-
-  - name: service51-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5',
-      'centos-6'
-     ]
-    attributes:
-      mysql:
-       version: '5.1'
-
-  - name: service55-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'debian-7',
-      'debian-8',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.5'
-
-  - name: service56-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap'
-     ]
-    attributes:
-      mysql:
-       version: '5.6'
-
-  - name: service57-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-16.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.7'
-
-  # multi
-
-  - name: service51-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.1'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
-
-  - name: service55-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'debian-7',
-      'debian-8',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.5'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
-
-  - name: service56-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap'
-     ]
-    attributes:
-      mysql:
-       version: '5.6'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
-
-  - name: service57-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-16.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.7'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
-  #
-  # config
-  #
-  - name: config51
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.1'
-
-  - name: config55
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'debian-7',
-      'debian-8',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.5'
-
-  - name: config56
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap'
-     ]
-    attributes:
-      mysql:
-       version: '5.6'
-
-  - name: config57
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'redhat-6',
-      'redhat-7',
-      'fedora-24',
-      'ubuntu-16.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.7'
 
   #
   # smoke
   #
-  - name: smoke
+  - name: smoke55
     run_list:
     - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.5'
     includes: [
-      'centos-5',
       'centos-6',
       'centos-7',
       'fedora-24',
@@ -436,7 +178,44 @@ suites:
       'ubuntu-12.04',
       'ubuntu-14.04',
       'ubuntu-16.04',
+      'opensuse-13.2',
+      'opensuse-leap'
+     ]
+
+  - name: smoke56
+    run_list:
+    - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.5'
+    includes: [
+      'centos-6',
+      'centos-7',
       'fedora-24',
+      'debian-7',
+      'debian-8',
+      'ubuntu-12.04',
+      'ubuntu-14.04',
+      'ubuntu-16.04',
+      'opensuse-13.2',
+      'opensuse-leap'
+     ]
+
+  - name: smoke57
+    run_list:
+    - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.5'
+    includes: [
+      'centos-6',
+      'centos-7',
+      'fedora-24',
+      'debian-7',
+      'debian-8',
+      'ubuntu-12.04',
+      'ubuntu-14.04',
+      'ubuntu-16.04',
       'opensuse-13.2',
       'opensuse-leap'
      ]

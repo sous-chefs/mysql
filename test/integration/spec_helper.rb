@@ -74,28 +74,24 @@ def check_mysql_server(version)
   end
 end
 
+def mysql_query(query, root_pass, host = '127.0.0.1', port = 3006)
+  <<-EOF
+#{mysql_bin} \
+-h #{host} \
+-P #{port} \
+-u root \
+-p'#{Shellwords.escape(root_pass)}'
+-D databass \
+-e "#{query}"
+  EOF
+
+end
+
 # Check single instance of MySQL
 # @param [String] port MySQL port
 def check_mysql_server_instance(port = '3306', password = 'ilikerandompasswords')
-  mysql_cmd_1 = <<-EOF
-#{mysql_bin} \
-  -h 127.0.0.1 \
-  -P #{port} \
-  -u root \
-  -p'#{password}' \
-  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='127.0.0.1';" \
-  --skip-column-names
-  EOF
-
-  mysql_cmd_2 = <<-EOF
-#{mysql_bin} \
-  -h 127.0.0.1 \
-  -P #{port} \
-  -u root \
-  -p'#{password}' \
-  -e "SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';" \
-  --skip-column-names
-EOF
+  mysql_cmd_1 = mysql_query("SELECT Host,User FROM mysql.user WHERE User='root' AND Host='127.0.0.1';", password, '127.0.0.1', port)
+  mysql_cmd_2 = mysql_query("SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';", password, '127.0.0.1', port)
 
   describe command(mysql_cmd_1) do
     its(:exit_status) { should eq 0 }
@@ -120,4 +116,26 @@ end
 def check_mysql_server_single(version)
   check_mysql_server(version)
   check_mysql_server_instance('3306', 'ilikerandompasswords')
+end
+
+def check_master_slave
+  root_pass = 'MyPa$$word\Has_"Special\'Chars%!'
+  root_pass_slave = 'An0th3r_Pa%%w0rd!'
+
+  mysql_cmd_1 = mysql_query('select * from table1', root_pass_slave, '127.0.0.1', 3307)
+  mysql_cmd_2 = mysql_query('select * from table1', root_pass_slave, '127.0.0.1', 3308)
+
+  describe command(mysql_cmd_1) do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match(/awesome/) }
+  end
+
+  describe command(mysql_cmd_2) do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match(/awesome/) }
+  end
+
+  check_mysql_server_instance(3306, root_pass)
+  check_mysql_server_instance(3307, root_pass_slave)
+  check_mysql_server_instance(3308, root_pass_slave)
 end
