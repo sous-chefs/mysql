@@ -129,11 +129,13 @@ def check_master_slave
   describe command(mysql_cmd_1) do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match(/awesome/) }
+    its(:stderr) { should eq '' }
   end
 
   describe command(mysql_cmd_2) do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match(/awesome/) }
+    its(:stderr) { should eq '' }
   end
 
   check_mysql_server_instance(3306, root_pass)

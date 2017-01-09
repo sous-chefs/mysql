@@ -115,14 +115,14 @@ end
 
 # start replication on slave-1
 ruby_block 'start_slave_1' do
-  block { start_slave_1(root_pass_master) } # libraries/helpers.rb
+  block { start_slave_1(root_pass_slave) } # libraries/helpers.rb
   not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass_slave)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
   action :run
 end
 
 # start replication on slave-2
 ruby_block 'start_slave_2' do
-  block { start_slave_2(root_pass_master) } # libraries/helpers.rb
+  block { start_slave_2(root_pass_slave) } # libraries/helpers.rb
   not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass_slave)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
   action :run
 end
