@@ -21,6 +21,11 @@ mysql_config 'master replication' do
   action :create
 end
 
+# MySQL client
+mysql_client 'master' do
+  action :create
+end
+
 # slave-1
 mysql_service 'slave-1' do
   port '3307'
