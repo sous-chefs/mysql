@@ -43,13 +43,12 @@ platforms:
   run_list:
     - recipe[mysql_test::yum_repo]
 
-# FIXME: debian-7 multi is broken for some reason
-# - name: debian-7
-#   driver:
-#     image: debian:7
-#     intermediate_instructions:
-#       - RUN /usr/bin/apt-get update
-#       - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
+- name: debian-7
+  driver:
+    image: debian:7
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
 
 - name: debian-8
   driver:
@@ -101,7 +100,6 @@ suites:
   #
   # client
   #
-
   - name: installation_client_package-51
     run_list:
     - recipe[mysql_test::installation_client]
@@ -163,6 +161,16 @@ suites:
   #
   # smoke
   #
+  - name: smoke51
+    run_list:
+    - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.1'
+    includes: [
+      'centos-6'
+     ]
+
   - name: smoke55
     run_list:
     - recipe[mysql_test::smoke]
@@ -176,9 +184,7 @@ suites:
       'debian-7',
       'debian-8',
       'ubuntu-12.04',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap'
+      'ubuntu-14.04'
      ]
 
   - name: smoke56
@@ -191,11 +197,7 @@ suites:
       'centos-6',
       'centos-7',
       'fedora-24',
-      'debian-7',
-      'debian-8',
-      'ubuntu-12.04',
       'ubuntu-14.04',
-      'ubuntu-16.04',
       'opensuse-13.2',
       'opensuse-leap'
      ]
@@ -210,11 +212,6 @@ suites:
       'centos-6',
       'centos-7',
       'fedora-24',
-      'debian-7',
-      'debian-8',
       'ubuntu-12.04',
-      'ubuntu-14.04',
-      'ubuntu-16.04',
-      'opensuse-13.2',
-      'opensuse-leap'
+      'ubuntu-14.04'
      ]

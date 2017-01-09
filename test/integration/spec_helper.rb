@@ -1,4 +1,5 @@
 # MySQL Client bin path
+#
 def mysql_bin
   case os[:family]
   when 'smartos'
@@ -11,6 +12,7 @@ def mysql_bin
 end
 
 # MySQL Server binary path
+#
 def mysqld_bin(version = nil)
   case os[:family]
   when 'solaris'
@@ -26,7 +28,6 @@ end
 
 # Check MySQL Client
 #
-# @param [String] version expected client version, for example '5.5'
 def check_mysql_client(version)
   lib_name = 'libmysqlclient.so'
   version_short = version.delete('.')
@@ -60,7 +61,7 @@ def check_mysql_client(version)
 end
 
 # Check MySQL server version
-# @param [String] version MySQL version
+#
 def check_mysql_server(version)
   mysqld = mysqld_bin(version)
   # Binary
@@ -76,20 +77,22 @@ def check_mysql_server(version)
   end
 end
 
-def mysql_query(query, root_pass, host = '127.0.0.1', port = 3006)
+# Return MySQL query shell command
+#
+def mysql_query(query, root_pass, host = '127.0.0.1', port = 3006, database = 'mysql')
   <<-EOF
 #{mysql_bin} \
 -h #{host} \
 -P #{port} \
 -u root \
 -p#{Shellwords.escape(root_pass)} \
--D databass \
+-D #{database} \
 -e "#{query}"
   EOF
 end
 
 # Check single instance of MySQL
-# @param [String] port MySQL port
+#
 def check_mysql_server_instance(port = '3306', password = 'ilikerandompasswords')
   mysql_cmd_1 = mysql_query("SELECT Host,User FROM mysql.user WHERE User='root' AND Host='127.0.0.1';", password, '127.0.0.1', port)
   mysql_cmd_2 = mysql_query("SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';", password, '127.0.0.1', port)
@@ -105,26 +108,14 @@ def check_mysql_server_instance(port = '3306', password = 'ilikerandompasswords'
   end
 end
 
-# Check installation of MySQL with two instances on one server
-# @param [String] version MySQL version
-def check_mysql_server_multi(version)
-  check_mysql_server(version)
-  check_mysql_server_instance('3307', 'ilikerandompasswords')
-  check_mysql_server_instance('3308', 'string with spaces')
-end
-
-# Check single installation of MySQL
-def check_mysql_server_single(version)
-  check_mysql_server(version)
-  check_mysql_server_instance('3306', 'ilikerandompasswords')
-end
-
+# Check Master-Slave configuration defined by mysql_test::smoke recipe
+#
 def check_master_slave
   root_pass = 'MyPa$$word\Has_"Special\'Chars%!'
   root_pass_slave = 'An0th3r_Pa%%w0rd!'
 
-  mysql_cmd_1 = mysql_query('select * from table1', root_pass_slave, '127.0.0.1', 3307)
-  mysql_cmd_2 = mysql_query('select * from table1', root_pass_slave, '127.0.0.1', 3308)
+  mysql_cmd_1 = mysql_query('SELECT * FROM table1', root_pass_slave, '127.0.0.1', 3307, 'databass')
+  mysql_cmd_2 = mysql_query('SELECT * FROM table1', root_pass_slave, '127.0.0.1', 3308, 'databass')
 
   describe command(mysql_cmd_1) do
     its(:exit_status) { should eq 0 }
