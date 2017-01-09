@@ -1,9 +1,3 @@
-# Set a version for modern distros.
-# centos-7 and fedora ship MariaDB out of the box.
-
-node.default['mysql']['version'] = '5.6' if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 7
-node.default['mysql']['version'] = '5.6' if node['platform_family'] == 'fedora'
-
 # Before that, we use "native" versions
 
 unless node['mysql'].nil?
