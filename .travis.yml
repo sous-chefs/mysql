@@ -37,7 +37,6 @@ env:
   - INSTANCE=smoke55-debian-8
   - INSTANCE=smoke55-ubuntu-1204
   - INSTANCE=smoke55-ubuntu-1404
-  - INSTANCE=smoke55-ubuntu-1604
   - INSTANCE=smoke55-opensuse-132
   - INSTANCE=smoke55-opensuse-leap
   - INSTANCE=smoke56-centos-6
@@ -78,5 +77,6 @@ env:
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+  - /opt/chefdk/embedded/bin/chef --version
 
 script: KITCHEN_LOCAL_YAML=.kitchen.docker.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}

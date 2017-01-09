@@ -177,7 +177,6 @@ suites:
       'debian-8',
       'ubuntu-12.04',
       'ubuntu-14.04',
-      'ubuntu-16.04',
       'opensuse-13.2',
       'opensuse-leap'
      ]
