@@ -1,12 +1,17 @@
 require 'shellwords'
 
 # variables
-root_pass = 'MyPa$$word\Has_"Special\'Chars%!'
+root_pass_master = 'MyPa$$word\Has_"Special\'Chars%!'
+root_pass_slave = 'An0th3r_Pa%%w0rd!'
+
+# Debug message
+Chef::Log.error "\n\n" + '=' * 80 + "\n\nTesting MySQL version '#{node['mysql']['version']}'\n\n" + '=' * 80
 
 # master
 mysql_service 'master' do
   port '3306'
-  initial_root_password root_pass
+  version node['mysql']['version']
+  initial_root_password root_pass_master
   action [:create, :start]
 end
 
@@ -19,10 +24,16 @@ mysql_config 'master replication' do
   action :create
 end
 
+# MySQL client
+mysql_client 'master' do
+  action :create
+end
+
 # slave-1
 mysql_service 'slave-1' do
   port '3307'
-  initial_root_password root_pass
+  version node['mysql']['version']
+  initial_root_password root_pass_slave
   action [:create, :start]
 end
 
@@ -37,7 +48,8 @@ end
 # slave-2
 mysql_service 'slave-2' do
   port '3308'
-  initial_root_password root_pass
+  version node['mysql']['version']
+  initial_root_password root_pass_slave
   action [:create, :start]
 end
 
@@ -52,10 +64,10 @@ end
 # Create user repl on master
 bash 'create replication user' do
   code <<-EOF
-  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass)} -D mysql -e "CREATE USER 'repl'@'127.0.0.1' IDENTIFIED BY 'REPLICAAATE';"
-  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass)} -D mysql -e "GRANT REPLICATION SLAVE ON *.* TO 'repl'@'127.0.0.1';"
+  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -D mysql -e "CREATE USER 'repl'@'127.0.0.1' IDENTIFIED BY 'REPLICAAATE';"
+  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -D mysql -e "GRANT REPLICATION SLAVE ON *.* TO 'repl'@'127.0.0.1';"
   EOF
-  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass)} -e 'select User,Host from mysql.user' | grep repl"
+  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -e 'select User,Host from mysql.user' | grep repl"
   action :run
 end
 
@@ -67,7 +79,7 @@ bash 'create /root/dump.sql' do
     --defaults-file=/etc/mysql-master/my.cnf \
     -u root \
     --protocol=tcp \
-    -p#{Shellwords.escape(root_pass)} \
+    -p#{Shellwords.escape(root_pass_master)} \
     --skip-lock-tables \
     --single-transaction \
     --flush-logs \
@@ -97,39 +109,39 @@ end
 # import dump into slaves
 bash 'slave-1 import' do
   user 'root'
-  code "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass)} < /root/dump.sql"
-  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass)} -e 'select User,Host from mysql.user' | grep repl"
+  code "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass_slave)} < /root/dump.sql"
+  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass_slave)} -e 'select User,Host from mysql.user' | grep repl"
   action :run
 end
 
 bash 'slave-2 import' do
   user 'root'
-  code "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass)} < /root/dump.sql"
-  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass)} -e 'select User,Host from mysql.user' | grep repl"
+  code "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass_slave)} < /root/dump.sql"
+  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass_slave)} -e 'select User,Host from mysql.user' | grep repl"
   action :run
 end
 
 # start replication on slave-1
 ruby_block 'start_slave_1' do
-  block { start_slave_1(root_pass) } # libraries/helpers.rb
-  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
+  block { start_slave_1(root_pass_slave) } # libraries/helpers.rb
+  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass_slave)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
   action :run
 end
 
 # start replication on slave-2
 ruby_block 'start_slave_2' do
-  block { start_slave_2(root_pass) } # libraries/helpers.rb
-  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
+  block { start_slave_2(root_pass_slave) } # libraries/helpers.rb
+  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass_slave)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
   action :run
 end
 
 # create databass on master
 bash 'create databass' do
   code <<-EOF
-  echo 'CREATE DATABASE databass;' | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass)};
-  echo 'CREATE TABLE databass.table1 (name VARCHAR(20), rank VARCHAR(20));' | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass)};
-  echo "INSERT INTO databass.table1 (name,rank) VALUES('captain','awesome');" | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass)};
+  echo 'CREATE DATABASE databass;' | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)};
+  echo 'CREATE TABLE databass.table1 (name VARCHAR(20), rank VARCHAR(20));' | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)};
+  echo "INSERT INTO databass.table1 (name,rank) VALUES('captain','awesome');" | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)};
   EOF
-  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass)} -e 'show databases' | grep databass"
+  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -e 'show databases' | grep databass"
   action :run
 end

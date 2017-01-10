@@ -35,7 +35,6 @@ suites:
   #
   # client
   #
-
   - name: installation_client_package-51
     run_list:
     - recipe[mysql_test::installation_client]
@@ -43,7 +42,7 @@ suites:
       mysql:
        version: '5.1'
     includes: [
-      'centos-5.11',
+      'centos-5',
       'centos-6.8'
     ]
 
@@ -54,7 +53,7 @@ suites:
       mysql:
        version: '5.5'
     includes: [
-      'centos-5.11',
+      'centos-5',
       'centos-6.8',
       'centos-7.2',
       'debian-7.11',
@@ -70,10 +69,10 @@ suites:
       mysql:
        version: '5.6'
     includes: [
-      'centos-5.11',
+      'centos-5',
       'centos-6.8',
       'centos-7.2',
-      'fedora-25',
+      'fedora-24',
       'ubuntu-14.04',
       'opensuse-13.2',
       'opensuse-leap-42.1'
@@ -86,286 +85,66 @@ suites:
       mysql:
        version: '5.7'
     includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'fedora-25',
-      'ubuntu-16.04'
-    ]
-
-  #
-  # server
-  #
-  - name: installation_server_package-51
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.1'
-    includes: [
-      'centos-5.11',
-      'centos-6.8'
-    ]
-
-  - name: installation_server_package-55
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.5'
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'debian-7.11',
-      'debian-8.6',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-    ]
-
-  - name: installation_server_package-56
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.6'
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'fedora-25',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap-42.1'
-    ]
-
-  - name: installation_server_package-57
-    run_list:
-    - recipe[mysql_test::installation_server]
-    attributes:
-      mysql:
-       version: '5.7'
-    includes: [
-      'centos-5.11',
+      'centos-5',
       'centos-6.8',
       'centos-7.2',
       'fedora-24',
       'ubuntu-16.04'
     ]
 
-  #
-  # service
-  #
-
-  # singles
-
-  - name: service51-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5.11',
-      'centos-6.8'
-     ]
-    attributes:
-      mysql:
-       version: '5.1'
-
-  - name: service55-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'debian-7.11',
-      'debian-8.6',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.5'
-
-  - name: service56-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'fedora-25',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap-42.1'
-     ]
-    attributes:
-      mysql:
-       version: '5.6'
-
-  - name: service57-single
-    run_list:
-    - recipe[mysql_test::service_single]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'fedora-25',
-      'ubuntu-16.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.7'
-
-  # multi
-
-  - name: service51-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.1'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
-
-  - name: service55-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'debian-7.11',
-      'debian-8.6',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.5'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
-
-  - name: service56-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'fedora-25',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap-42.1'
-     ]
-    attributes:
-      mysql:
-       version: '5.6'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
-
-  - name: service57-multi
-    run_list:
-    - recipe[mysql_test::service_multi]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'fedora-25',
-      'ubuntu-16.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.7'
-       port: '3308'
-       data_dir: '/data/instance-2'
-       run_user: 'bob'
-       run_group: 'bob'
-       initial_root_password: 'string with spaces'
-  #
-  # config
-  #
-  - name: config51
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5'
-     ]
-    attributes:
-      mysql:
-       version: '5.1'
-
-  - name: config55
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'debian-7.11',
-      'debian-8.6',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.5'
-
-  - name: config56
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'fedora-25',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap-42.1'
-     ]
-    attributes:
-      mysql:
-       version: '5.6'
-
-  - name: config57
-    run_list:
-    - recipe[mysql_test::config]
-    includes: [
-      'centos-5.11',
-      'centos-6.8',
-      'centos-7.2',
-      'fedora-25',
-      'ubuntu-16.04'
-     ]
-    attributes:
-      mysql:
-       version: '5.7'
 
   #
   # smoke
   #
-  - name: smoke
+  - name: smoke51
     run_list:
     - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.1'
     includes: [
-      'centos-5.11',
+      'centos-6.8'
+     ]
+
+  - name: smoke55
+    run_list:
+    - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.5'
+    includes: [
       'centos-6.8',
       'centos-7.2',
-      'fedora-25',
+      'debian-7.11',
+      'debian-8.6',
       'ubuntu-12.04',
+      'ubuntu-14.04'
+     ]
+
+  - name: smoke56
+    run_list:
+    - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.6'
+    includes: [
+      'centos-6.8',
+      'centos-7.2',
+      'fedora-24',
       'ubuntu-14.04',
-      'ubuntu-16.04',
       'opensuse-13.2',
       'opensuse-leap-42.1'
+     ]
+
+  - name: smoke57
+    run_list:
+    - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.7'
+    includes: [
+      'centos-6.8',
+      'centos-7.2',
+      'fedora-24',
+      'ubuntu-16.04'
      ]
