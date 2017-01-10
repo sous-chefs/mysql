@@ -5,7 +5,7 @@ root_pass_master = 'MyPa$$word\Has_"Special\'Chars%!'
 root_pass_slave = 'An0th3r_Pa%%w0rd!'
 
 # Debug message
-Chef::Log.error '=' * 80 + "\n\n#{node['mysql']['version']}\n\n" + '=' * 80
+Chef::Log.error "\n\n" + '=' * 80 + "\n\nTesting MySQL version '#{node['mysql']['version']}'\n\n" + '=' * 80
 
 # master
 mysql_service 'master' do
