@@ -6,7 +6,7 @@ module MysqlCookbook
       Chef::Platform::ServiceHelpers.service_resource_providers.include?(:upstart) &&
         !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd) &&
         !Chef::Platform::ServiceHelpers.service_resource_providers.include?(:redhat) &&
-        ::File.exists?('/sbin/status') # Fix for Docker, in 7 and 8 images /sbin/status doesn't exists and Upstart provider doesn't work
+        ::File.exist?('/sbin/status') # Fix for Docker, in 7 and 8 images /sbin/status doesn't exists and Upstart provider doesn't work
     end
 
     action :create do

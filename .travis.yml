@@ -47,8 +47,7 @@ env:
   - INSTANCE=smoke57-centos-6
   - INSTANCE=smoke57-centos-7
   - INSTANCE=smoke57-fedora-24
-  - INSTANCE=smoke57-ubuntu-1204
-  - INSTANCE=smoke57-ubuntu-1404
+  - INSTANCE=smoke57-ubuntu-1604
   - INSTANCE=installation-client-package-51-centos-6
   - INSTANCE=installation-client-package-55-centos-6
   - INSTANCE=installation-client-package-55-centos-7
