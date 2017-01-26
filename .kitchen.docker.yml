@@ -36,7 +36,7 @@ platforms:
 
 - name: fedora-25
   driver:
-    image: fedora:24
+    image: fedora:25
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
       - RUN dnf -y install yum which systemd-sysv initscripts wget net-tools
