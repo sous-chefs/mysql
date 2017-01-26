@@ -40,7 +40,7 @@ The following platforms have been tested with Test Kitchen:
 |----------------+-----+-----+-----+-----|
 | openSUSE 13.2  |     |     | X   |     |
 |----------------+-----+-----+-----+-----|
-| openSUSE 42.1  |     |     | X   |     |
+| openSUSE Leap  |     |     | X   |     |
 |----------------+-----+-----+-----+-----|
 ```
 

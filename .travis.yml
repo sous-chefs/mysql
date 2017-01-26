@@ -25,7 +25,6 @@ env:
   - INSTANCE=smoke55-centos-7
   - INSTANCE=smoke55-debian-7
   - INSTANCE=smoke55-debian-8
-  - INSTANCE=smoke55-ubuntu-1204
   - INSTANCE=smoke55-ubuntu-1404
   - INSTANCE=smoke56-centos-6
   - INSTANCE=smoke56-centos-7
@@ -42,7 +41,6 @@ env:
   - INSTANCE=installation-client-package-55-centos-7
   - INSTANCE=installation-client-package-55-debian-7
   - INSTANCE=installation-client-package-55-debian-8
-  - INSTANCE=installation-client-package-55-ubuntu-1204
   - INSTANCE=installation-client-package-55-ubuntu-1404
   - INSTANCE=installation-client-package-56-centos-6
   - INSTANCE=installation-client-package-56-centos-7

@@ -14,20 +14,19 @@ platforms:
     run_list:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
-  - name: centos-7.2
+  - name: centos-7.3
     run_list:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
   - name: debian-7.11
   - name: debian-8.6
   - name: opensuse-13.2
-  - name: opensuse-leap-42.1
+  - name: opensuse-leap-42.2
   - name: fedora-24 # there is not a 25 repo yet
     run_list:
       - recipe[yum::dnf_yum_compat]
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
-  - name: ubuntu-12.04
   - name: ubuntu-14.04
   - name: ubuntu-16.04
 
@@ -42,7 +41,6 @@ suites:
       mysql:
        version: '5.1'
     includes: [
-      'centos-5',
       'centos-6.8'
     ]
 
@@ -53,12 +51,10 @@ suites:
       mysql:
        version: '5.5'
     includes: [
-      'centos-5',
       'centos-6.8',
-      'centos-7.2',
+      'centos-7.3',
       'debian-7.11',
       'debian-8.6',
-      'ubuntu-12.04',
       'ubuntu-14.04'
     ]
 
@@ -69,13 +65,12 @@ suites:
       mysql:
        version: '5.6'
     includes: [
-      'centos-5',
       'centos-6.8',
-      'centos-7.2',
+      'centos-7.3',
       'fedora-24',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-leap-42.1'
+      'opensuse-leap-42.2'
     ]
 
   - name: installation_client_package-57
@@ -85,9 +80,8 @@ suites:
       mysql:
        version: '5.7'
     includes: [
-      'centos-5',
       'centos-6.8',
-      'centos-7.2',
+      'centos-7.3',
       'fedora-24',
       'ubuntu-16.04'
     ]
@@ -114,10 +108,9 @@ suites:
        version: '5.5'
     includes: [
       'centos-6.8',
-      'centos-7.2',
+      'centos-7.3',
       'debian-7.11',
       'debian-8.6',
-      'ubuntu-12.04',
       'ubuntu-14.04'
      ]
 
@@ -129,11 +122,11 @@ suites:
        version: '5.6'
     includes: [
       'centos-6.8',
-      'centos-7.2',
+      'centos-7.3',
       'fedora-24',
       'ubuntu-14.04',
       'opensuse-13.2',
-      'opensuse-leap-42.1'
+      'opensuse-leap-42.2'
      ]
 
   - name: smoke57
@@ -144,7 +137,7 @@ suites:
        version: '5.7'
     includes: [
       'centos-6.8',
-      'centos-7.2',
+      'centos-7.3',
       'fedora-24',
       'ubuntu-16.04'
      ]
