@@ -34,9 +34,9 @@ platforms:
   run_list:
     - recipe[mysql_test::yum_repo]
 
-- name: fedora-25
+- name: fedora-24
   driver:
-    image: fedora:25
+    image: fedora:24
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
       - RUN dnf -y install yum which systemd-sysv initscripts wget net-tools
