@@ -284,9 +284,5 @@ EOSQL
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
       cmd
     end
-
-    def sensitive_supported?
-      Gem::Version.new(Chef::VERSION) >= Gem::Version.new('11.14.0')
-    end
   end
 end
