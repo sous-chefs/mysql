@@ -47,7 +47,7 @@ platforms:
         - RUN /usr/bin/apt-get update
         - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
 
-  - name: fedora-25
+  - name: fedora-24
     driver:
       image: fedora:25
       pid_one_command: /usr/lib/systemd/systemd
