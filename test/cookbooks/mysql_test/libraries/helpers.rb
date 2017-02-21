@@ -12,7 +12,7 @@ def start_slave_1(root_pass)
   query << ' MASTER_PORT=3306,'
   query << " MASTER_LOG_POS=#{::File.open('/root/position').read.chomp};"
   query << ' START SLAVE;'
-  shell_out("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3307 -p#{Shellwords.escape(root_pass)}")
+  shell_out!("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3307 -p#{Shellwords.escape(root_pass)}")
 end
 
 def start_slave_2(root_pass)
@@ -23,5 +23,5 @@ def start_slave_2(root_pass)
   query << ' MASTER_PORT=3306,'
   query << " MASTER_LOG_POS=#{::File.open('/root/position').read.chomp};"
   query << ' START SLAVE;'
-  shell_out("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3308 -p#{Shellwords.escape(root_pass)}")
+  shell_out!("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3308 -p#{Shellwords.escape(root_pass)}")
 end
