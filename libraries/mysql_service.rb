@@ -37,7 +37,7 @@ module MysqlCookbook
         when 'package'
           install = mysql_server_installation_package(name, &block)
         when 'none'
-          Chef::Log.info('Skipping Mysql installation. Assuming it was handled previously.')
+          Chef::Log.info('Skipping MySQL installation. Assuming it was handled previously.')
           return
         end
         copy_properties_to(install)
