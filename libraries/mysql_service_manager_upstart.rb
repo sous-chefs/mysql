@@ -68,12 +68,7 @@ module MysqlCookbook
       # http://upstart.ubuntu.com/cookbook/#restart
       service mysql_name do
         provider Chef::Provider::Service::Upstart
-        action :stop
-      end
-
-      service mysql_name do
-        provider Chef::Provider::Service::Upstart
-        action :start
+        action [:stop, :start]
       end
     end
 
@@ -83,12 +78,7 @@ module MysqlCookbook
       # supposed to, so we need to actually restart the service.
       service mysql_name do
         provider Chef::Provider::Service::Upstart
-        action :stop
-      end
-
-      service mysql_name do
-        provider Chef::Provider::Service::Upstart
-        action :start
+        action [:stop, :start]
       end
     end
 
