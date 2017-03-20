@@ -2,6 +2,9 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## 8.3.0 (2017-03-20)
+- Refactor mysql_service_manager_upstart.rb to eliminate use of cloned resource
+
 ## 8.2.0 (2016-12-03)
 
 - Include client development packages on RHEL/SUSE platforms
