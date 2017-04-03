@@ -1,4 +1,4 @@
-apt_update 'update'
+apt_update 'update' if platform_family?('debian')
 
 def configure_package_repositories
   # we need to enable the yum-mysql-community repository to get packages
