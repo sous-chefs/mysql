@@ -1,7 +1,6 @@
 sudo: required
 dist: trusty
 
-# install the pre-release chef-dk.  Use chef-stable-trusty to install the stable release
 addons:
   apt:
     sources:
@@ -21,7 +20,7 @@ services: docker
 env:
   global:
   - KITCHEN_YAML=.kitchen.yml
-  - KITCHEN_LOCAL_YAML=.kitchen.docker.yml
+  - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
   matrix:
   - INSTANCE=smoke51-centos-6
   - INSTANCE=smoke55-centos-6

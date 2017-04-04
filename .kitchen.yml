@@ -47,10 +47,6 @@ platforms:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
 
-  - name: opensuse-13.2
-    driver:
-      box: bento/opensuse-13.2
-
   - name: opensuse-leap
     driver:
       box: bento/opensuse-leap-42.1
