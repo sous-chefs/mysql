@@ -1,3 +1,10 @@
+<%
+dists_with_51 = %w(centos-6)
+dists_with_55 = %w(centos-6 centos-7 debian-7 debian-8 ubuntu-14.04)
+dists_with_56 = %w(centos-6 centos-7 fedora-24 ubuntu-14.04 opensuse-13.2 opensuse-leap)
+dists_with_57 = %w(centos-6 centos-7 fedora-24 ubuntu-16.04)
+%>
+---
 driver:
   name: vagrant
   customize:
@@ -11,25 +18,46 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6.8
+  - name: centos-6
+    driver:
+      box: bento/centos-6.8
     run_list:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
-  - name: centos-7.3
+
+  - name: centos-7
+    driver:
+      box: bento/centos-7.3
     run_list:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
-  - name: debian-7.11
-  - name: debian-8.6
-  - name: opensuse-13.2
-  - name: opensuse-leap-42.2
-  - name: fedora-24 # there is not a 25 repo yet
+
+  - name: debian-7
+    driver:
+      box: bento/debian-7.11
+
+  - name: debian-8
+    driver:
+      box: bento/debian-8.6
+
+  - name: fedora-24
+    driver:
+      box: bento/fedora-24
     run_list:
-      - recipe[yum::dnf_yum_compat]
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
+
+  - name: opensuse-leap
+    driver:
+      box: bento/opensuse-leap-42.1
+
   - name: ubuntu-14.04
+    driver:
+      box: bento/ubuntu-14.04
+
   - name: ubuntu-16.04
+    driver:
+      box: bento/ubuntu-16.04
 
 suites:
   #
@@ -41,9 +69,7 @@ suites:
     attributes:
       mysql:
        version: '5.1'
-    includes: [
-      'centos-6.8'
-    ]
+    includes: <%= dists_with_51 %>
 
   - name: installation_client_package-55
     run_list:
@@ -51,13 +77,7 @@ suites:
     attributes:
       mysql:
        version: '5.5'
-    includes: [
-      'centos-6.8',
-      'centos-7.3',
-      'debian-7.11',
-      'debian-8.6',
-      'ubuntu-14.04'
-    ]
+    includes: <%= dists_with_55 %>
 
   - name: installation_client_package-56
     run_list:
@@ -65,14 +85,7 @@ suites:
     attributes:
       mysql:
        version: '5.6'
-    includes: [
-      'centos-6.8',
-      'centos-7.3',
-      'fedora-24',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap-42.2'
-    ]
+    includes: <%= dists_with_56 %>
 
   - name: installation_client_package-57
     run_list:
@@ -80,16 +93,10 @@ suites:
     attributes:
       mysql:
        version: '5.7'
-    includes: [
-      'centos-6.8',
-      'centos-7.3',
-      'fedora-24',
-      'ubuntu-16.04'
-    ]
-
+    includes: <%= dists_with_57 %>
 
   #
-  # smoke
+  # server smoke
   #
   - name: smoke51
     run_list:
@@ -97,9 +104,7 @@ suites:
     attributes:
       mysql:
        version: '5.1'
-    includes: [
-      'centos-6.8'
-     ]
+    includes: <%= dists_with_51 %>
 
   - name: smoke55
     run_list:
@@ -107,13 +112,7 @@ suites:
     attributes:
       mysql:
        version: '5.5'
-    includes: [
-      'centos-6.8',
-      'centos-7.3',
-      'debian-7.11',
-      'debian-8.6',
-      'ubuntu-14.04'
-     ]
+    includes: <%= dists_with_55 %>
 
   - name: smoke56
     run_list:
@@ -121,14 +120,7 @@ suites:
     attributes:
       mysql:
        version: '5.6'
-    includes: [
-      'centos-6.8',
-      'centos-7.3',
-      'fedora-24',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap-42.2'
-     ]
+    includes: <%= dists_with_56 %>
 
   - name: smoke57
     run_list:
@@ -136,9 +128,4 @@ suites:
     attributes:
       mysql:
        version: '5.7'
-    includes: [
-      'centos-6.8',
-      'centos-7.3',
-      'fedora-24',
-      'ubuntu-16.04'
-     ]
+    includes: <%= dists_with_57 %>
