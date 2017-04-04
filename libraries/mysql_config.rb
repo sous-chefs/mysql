@@ -42,7 +42,7 @@ module MysqlCookbook
         mode '0640'
         variables(new_resource.variables)
         source new_resource.source
-        cookbook cookbook
+        cookbook new_resource.cookbook
         action :create
       end
     end
