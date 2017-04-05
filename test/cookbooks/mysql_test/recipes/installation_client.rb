@@ -1,4 +1,4 @@
-apt_update 'update' if platform_family?('debian')
+apt_update 'update'
 
 mysql_client_installation_package 'default' do
   version node['mysql']['version']

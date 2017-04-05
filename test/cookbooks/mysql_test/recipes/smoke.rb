@@ -1,6 +1,6 @@
 require 'shellwords'
 
-apt_update 'update' if platform_family?('debian')
+apt_update 'update'
 
 # variables
 root_pass_master = 'MyPa$$word\Has_"Special\'Chars%!'
