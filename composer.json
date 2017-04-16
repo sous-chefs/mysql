@@ -1,0 +1,11 @@
+{
+    "name": "opscode-cookbooks/mysql",
+    "description": "Cookbook to install and configure MySQL server",
+    "type": "chef-cookbook",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "installer-name": "mysql"
+    }
+}
