@@ -20,7 +20,7 @@ verifier:
 platforms:
   - name: centos-6
     driver:
-      box: bento/centos-6.8
+      box: bento/centos-6.9
     run_list:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
