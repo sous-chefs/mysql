@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## 8.4.0 (2017-05-30)
+
+- Fix client/server install on Amazon Linux and add testing
+- Remove support for Ubuntu Precise since it's EOL
+- Add Amazon Linux testing
+
 ## 8.3.1 (2017-04-04)
 
 - Fix an ignoring of 'cookbook' attribute by 'mysql_config' resource
