@@ -1,7 +1,7 @@
 <%
 dists_with_51 = %w(centos-6)
 dists_with_55 = %w(centos-6 centos-7 debian-7 debian-8 ubuntu-14.04)
-dists_with_56 = %w(centos-6 centos-7 fedora-24 ubuntu-14.04 opensuse-13.2 opensuse-leap)
+dists_with_56 = %w(centos-6 centos-7 fedora-24 ubuntu-14.04 opensuse-leap amazon-linux)
 dists_with_57 = %w(centos-6 centos-7 fedora-24 ubuntu-16.04)
 %>
 ---
@@ -58,6 +58,10 @@ platforms:
   - name: ubuntu-16.04
     driver:
       box: bento/ubuntu-16.04
+      
+  - name: amazon-linux
+    driver_config:
+      box: mvbcoding/awslinux
 
 suites:
   #
