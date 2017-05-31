@@ -60,7 +60,7 @@ module MysqlCookbook
       # rhelish
       return '5.1' if el6?
       return '5.6' if el7?
-      return '5.5' if node['platform'] == 'amazon'
+      return '5.6' if node['platform'] == 'amazon'
 
       # debian
       return '5.5' if wheezy?
@@ -91,6 +91,8 @@ module MysqlCookbook
 
     def default_client_package_name
       return ['mysql', 'mysql-devel'] if major_version == '5.1' && el6?
+      return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && node['platform'] == 'amazon'
+      return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && node['platform'] == 'amazon'
       return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
       return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && node['platform_family'] == 'debian'
       return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian'
@@ -100,6 +102,8 @@ module MysqlCookbook
 
     def default_server_package_name
       return 'mysql-server' if major_version == '5.1' && el6?
+      return 'mysql55-server' if major_version == '5.5' && node['platform'] == 'amazon'
+      return 'mysql56-server' if major_version == '5.6' && node['platform'] == 'amazon'
       return 'mysql-server-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
       return 'mysql-server-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
       return 'mysql-server-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
