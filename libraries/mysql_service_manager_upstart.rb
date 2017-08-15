@@ -37,9 +37,9 @@ module MysqlCookbook
         variables(
           defaults_file: defaults_file,
           mysql_name: mysql_name,
-          run_group: run_group,
-          run_user: run_user,
-          socket_dir: socket_dir
+          run_group: new_resource.run_group,
+          run_user: new_resource.run_user,
+          socket_dir: new_resource.socket_dir
         )
         cookbook 'mysql'
         action :create
