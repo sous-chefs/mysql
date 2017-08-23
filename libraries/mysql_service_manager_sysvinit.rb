@@ -59,7 +59,7 @@ module MysqlCookbook
       end
     end
 
-    declare_action_class do
+    action_class do
       def stop_system_service
         service system_service_name do
           supports status: true

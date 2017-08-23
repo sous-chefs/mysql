@@ -19,7 +19,7 @@ module MysqlCookbook
 
     # action class methods are available within the actions and work as if the coded
     # was inline the action. No messing with classes or passing in the new_resource
-    declare_action_class do
+    action_class do
       def create_system_user
         group 'mysql' do
           action :create
