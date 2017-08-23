@@ -22,6 +22,11 @@ module MysqlCookbook
       false
     end
 
+    def stretch?
+      return true if node['platform'] == 'debian' && node['platform_version'].to_i == 9
+      false
+    end
+
     def trusty?
       return true if node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
       return true if node['platform'] == 'linuxmint' && node['platform_version'] =~ /^17\.[0-9]$/
