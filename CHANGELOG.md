@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## 8.5.0 (2017-08-23)
+
+- Require Chef 12.7+ since 12.5/12.6 has custom resource action_class issues
+- Resolve several Chef 14 deprecation warnings
+
 ## 8.4.0 (2017-05-30)
 
 - Fix client/server install on Amazon Linux and add testing
