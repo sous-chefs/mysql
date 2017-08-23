@@ -31,7 +31,7 @@ module MysqlCookbook
 
     action_class.class_eval do
       def installation(&block)
-        case install_method
+        case new_resource.install_method
         when 'auto'
           install = mysql_server_installation(name, &block)
         when 'package'
@@ -45,7 +45,7 @@ module MysqlCookbook
       end
 
       def svc_manager(&block)
-        case service_manager
+        case new_resource.service_manager
         when 'auto'
           svc = mysql_service_manager(name, &block)
         when 'sysvinit'
