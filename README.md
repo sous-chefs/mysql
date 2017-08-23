@@ -10,7 +10,7 @@ This cookbook is concerned with the "MySQL Community Server", particularly those
 
 ## Requirements
 
-- Chef 12.5 or higher
+- Chef 12.7 or higher
 - Network accessible package repositories
 - 'recipe[selinux::disabled]' on RHEL platforms
 
