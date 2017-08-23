@@ -116,7 +116,7 @@ module MysqlCookbook
       end
     end
 
-    declare_action_class.class_eval do
+    declare_action_class do
       def stop_system_service
         # service management resource
         service 'mysql' do
