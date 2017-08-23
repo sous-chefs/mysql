@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## 8.5.1 (2017-08-23)
+
+- Fix the remainder of the namespace collision deprecation warnings
+- Remove the class_eval in the action class as this causes issues with some releases of Chef 12
+
 ## 8.5.0 (2017-08-23)
 
 - Require Chef 12.7+ since 12.5/12.6 has custom resource action_class issues
