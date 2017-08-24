@@ -10,7 +10,7 @@ This cookbook is concerned with the "MySQL Community Server", particularly those
 
 ## Requirements
 
-- Chef 12.5 or higher
+- Chef 12.7 or higher
 - Network accessible package repositories
 - 'recipe[selinux::disabled]' on RHEL platforms
 
@@ -400,6 +400,10 @@ These network or socket ssettings can also be put in you $HOME/.my.cnf, if prefe
 MySQL forks are purposefully out of scope for this cookbook. This is mostly to reduce the testing matrix to a manageable size. Cookbooks for these technologies can easily be created by copying and adapting this cookbook. However, there will be differences.
 
 Package repository locations, package version names, software major version numbers, supported platform matrices, and the availability of software such as XtraDB and Galera are the main reasons that creating multiple cookbooks to make sense.
+
+## Maintainers
+
+This cookbook is maintained by Chef's Community Cookbook Engineering team. Our goal is to improve cookbook quality and to aid the community in contributing to cookbooks. To learn more about our team, process, and design goals see our [team documentation](https://github.com/chef-cookbooks/community_cookbook_documentation/blob/master/COOKBOOK_TEAM.MD). To learn more about contributing to cookbooks like this see our [contributing documentation](https://github.com/chef-cookbooks/community_cookbook_documentation/blob/master/CONTRIBUTING.MD), or if you have general questions about this cookbook come chat with us in #cookbok-engineering on the [Chef Community Slack](http://community-slack.chef.io/)
 
 ## License
 
