@@ -20,14 +20,14 @@ verifier:
 platforms:
   - name: centos-6
     driver:
-      box: bento/centos-6.9
+      box: bento/centos-6
     run_list:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
 
   - name: centos-7
     driver:
-      box: bento/centos-7.3
+      box: bento/centos-7
     run_list:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
@@ -59,7 +59,7 @@ platforms:
     driver:
       box: bento/ubuntu-16.04
 
-  - name: amazon-linux
+  - name: amazonlinux
     driver_config:
       box: mvbcoding/awslinux
 
