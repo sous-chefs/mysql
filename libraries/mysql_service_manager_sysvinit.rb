@@ -22,11 +22,11 @@ module MysqlCookbook
         variables(
           config: new_resource,
           defaults_file: defaults_file,
-          error_log: error_log,
+          error_log: new_resource.error_log,
           mysql_name: mysql_name,
           mysqladmin_bin: mysqladmin_bin,
           mysqld_safe_bin: mysqld_safe_bin,
-          pid_file: pid_file,
+          pid_file: new_resource.pid_file,
           scl_name: scl_name
         )
         cookbook 'mysql'
@@ -59,7 +59,7 @@ module MysqlCookbook
       end
     end
 
-    declare_action_class.class_eval do
+    action_class do
       def stop_system_service
         service system_service_name do
           supports status: true

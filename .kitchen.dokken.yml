@@ -8,200 +8,73 @@ transport:
 
 provisioner:
   name: dokken
-
-verifier:
-  name: inspec
+  deprecations_as_errors: true
 
 platforms:
-- name: centos-6
-  driver:
-    image: centos:6
-    platform: rhel
-    pid_one_command: /sbin/init
-    intermediate_instructions:
-      - RUN yum -y install which initscripts net-tools wget
-  run_list:
-    - recipe[mysql_test::yum_repo]
-
-- name: centos-7
-  driver:
-    image: centos:7
-    platform: rhel
-    pid_one_command: /usr/lib/systemd/systemd
-    intermediate_instructions:
-      - RUN yum clean all
-      - RUN yum -y install lsof which systemd-sysv initscripts wget net-tools
-  run_list:
-    - recipe[mysql_test::yum_repo]
-
-- name: fedora-24
-  driver:
-    image: fedora:24
-    pid_one_command: /usr/lib/systemd/systemd
-    intermediate_instructions:
-      - RUN dnf -y install yum which systemd-sysv initscripts wget net-tools
-  run_list:
-    - recipe[mysql_test::yum_repo]
-
-- name: debian-7
-  driver:
-    image: debian:7
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
-
-- name: debian-8
-  driver:
-    image: debian:8
-    pid_one_command: /bin/systemd
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
-
-- name: ubuntu-14.04
-  driver:
-    image: ubuntu-upstart:14.04
-    pid_one_command: /sbin/init
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
-
-- name: ubuntu-16.04
-  driver:
-    image: ubuntu:16.04
-    pid_one_command: /bin/systemd
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
-
-- name: opensuse-13.2
-  driver:
-    image: opensuse:13.2
-    pid_one_command: /bin/systemd
-    intermediate_instructions:
-      - RUN zypper --non-interactive install aaa_base perl-Getopt-Long-Descriptive which net-tools
-
-- name: opensuse-leap
-  driver:
-    image: opensuse:leap
-    pid_one_command: /bin/systemd
-    intermediate_instructions:
-      - RUN zypper --non-interactive install aaa_base perl-Getopt-Long-Descriptive which hostname
-
-suites:
-  #
-  # client
-  #
-  - name: installation_client_package-51
+  - name: centos-6
+    driver:
+      image: centos:6
+      platform: rhel
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN yum -y install which initscripts net-tools wget
     run_list:
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.1'
-    includes: [
-      'centos-5',
-      'centos-6'
-    ]
+      - recipe[mysql_test::yum_repo]
 
-  - name: installation_client_package-55
+  - name: centos-7
+    driver:
+      image: centos:7
+      platform: rhel
+      pid_one_command: /usr/lib/systemd/systemd
+      intermediate_instructions:
+        - RUN yum -y install lsof which systemd-sysv initscripts wget net-tools
     run_list:
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.5'
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'debian-7',
-      'debian-8',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-    ]
+      - recipe[mysql_test::yum_repo]
 
-  - name: installation_client_package-56
+  - name: debian-7
+    driver:
+      image: debian:7
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
+
+  - name: debian-8
+    driver:
+      image: debian:8
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
+
+  - name: fedora-24
+    driver:
+      image: fedora:24
+      pid_one_command: /usr/lib/systemd/systemd
+      intermediate_instructions:
+        - RUN dnf -y install which systemd-sysv initscripts wget net-tools
+
+  - name: ubuntu-14.04
+    driver:
+      image: ubuntu-upstart:14.04
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
     run_list:
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.6'
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap'
-    ]
+      - recipe[mysql_test::yum_repo]
 
-  - name: installation_client_package-57
-    run_list:
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.7'
-    includes: [
-      'centos-5',
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-16.04'
-    ]
+  - name: ubuntu-16.04
+    driver:
+      image: ubuntu:16.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
 
-
-  #
-  # smoke
-  #
-  - name: smoke51
-    run_list:
-    - recipe[mysql_test::smoke]
-    attributes:
-      mysql:
-       version: '5.1'
-    includes: [
-      'centos-6'
-     ]
-
-  - name: smoke55
-    run_list:
-    - recipe[mysql_test::smoke]
-    attributes:
-      mysql:
-       version: '5.5'
-    includes: [
-      'centos-6',
-      'centos-7',
-      'debian-7',
-      'debian-8',
-      'ubuntu-12.04',
-      'ubuntu-14.04'
-     ]
-
-  - name: smoke56
-    run_list:
-    - recipe[mysql_test::smoke]
-    attributes:
-      mysql:
-       version: '5.6'
-    includes: [
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-14.04',
-      'opensuse-13.2',
-      'opensuse-leap'
-     ]
-
-  - name: smoke57
-    run_list:
-    - recipe[mysql_test::smoke]
-    attributes:
-      mysql:
-       version: '5.7'
-    includes: [
-      'centos-6',
-      'centos-7',
-      'fedora-24',
-      'ubuntu-16.04'
-     ]
+  - name: opensuse-leap
+    driver:
+      image: opensuse:leap
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN zypper --non-interactive install aaa_base perl-Getopt-Long-Descriptive which hostname
