@@ -16,7 +16,7 @@ module MysqlCookbook
     # Actions
     action :create do
       package new_resource.package_name do
-        version new_resource.package_version if new_resource.package_version
+        version Array.new(package_name.length, package_version) if package_version
         options new_resource.package_options if new_resource.package_options
         action :install
       end
