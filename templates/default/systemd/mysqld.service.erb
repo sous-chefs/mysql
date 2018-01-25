@@ -3,14 +3,20 @@ Description=mysql_service[mysql-<%= @config.instance %>]
 After=syslog.target
 After=network.target
 
+
 [Service]
 Type=simple
 User=<%= @config.run_user %>
 Group=<%= @config.run_group %>
+PermissionsStartOnly=true
+ExecStartPre=/usr/share/mysql/mysql-systemd-start pre
+
 ExecStart=<%= @mysqld_bin %> --defaults-file=<%= @etc_dir %>/my.cnf --basedir=<%= @base_dir %>
-ExecStartPost=/usr/libexec/mysql-<%= @config.instance %>-wait-ready $MAINPID
+ExecStartPost=<%= @mysql_systemd %>
 TimeoutSec=300
-PrivateTmp=true
+Restart=on-failure
+RuntimeDirectory=mysqld
+RuntimeDirectoryMode=755
 
 [Install]
 WantedBy=multi-user.target
