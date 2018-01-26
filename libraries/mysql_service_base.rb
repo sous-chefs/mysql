@@ -111,9 +111,10 @@ module MysqlCookbook
         # initialize database and create initial records
         bash "#{new_resource.name} initial records" do
           code init_records_script
+          user 'root'
           umask '022'
-          returns [0, 1, 2] # facepalm
-          not_if "/usr/bin/test -f #{new_resource.data_dir}/mysql/user.frm"
+          #returns [0, 1, 2] # facepalm
+          #not_if "/usr/bin/test -f #{new_resource.data_dir}/mysql/user.frm"
           action :run
         end
       end
