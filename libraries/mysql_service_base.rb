@@ -114,7 +114,7 @@ module MysqlCookbook
           user 'root'
           umask '022'
           #returns [0, 1, 2] # facepalm
-          #not_if "/usr/bin/test -f #{new_resource.data_dir}/mysql/user.frm"
+          not_if "/usr/bin/test -f #{new_resource.data_dir}/mysql/user.frm"
           action :run
         end
       end
