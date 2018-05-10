@@ -171,7 +171,7 @@ module MysqlCookbook
 
         template '/etc/apparmor.d/usr.sbin.mysqld' do
           cookbook 'mysql'
-          source 'apparmor/usr.sbin.mysqld.erb'
+          source "apparmor/#{node['platform']}-#{node['platform_version']}/usr.sbin.mysqld.erb"
           owner 'root'
           group 'root'
           mode '0644'
