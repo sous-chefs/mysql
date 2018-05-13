@@ -56,6 +56,8 @@ env:
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+  - which ruby
+  - echo $GEM_PATH
   - chef --version
   - cookstyle --version
   - foodcritic --version
