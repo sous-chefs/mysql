@@ -55,8 +55,7 @@ env:
 
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
-  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - echo 'export PATH="/opt/chefdk/embedded/bin:$PATH"' >> ~/.bash_profile && source ~/.bash_profile    
+  - echo 'eval "$(/opt/chefdk/bin/chef shell-init bash)"' >> ~/.bash_profile && source ~/.bash_profile
   - cat ~/.bash_profile
   - which ruby
   - echo $GEM_PATH
