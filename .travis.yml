@@ -6,7 +6,7 @@ addons:
     sources:
       - chef-current-trusty
     packages:
-      - chefdk
+      - chefdk=2.5.8-1
 
 # Don't `bundle install` which takes about 1.5 mins
 install: echo "skip bundle install"
