@@ -33,6 +33,11 @@ module MysqlCookbook
       false
     end
 
+    def bionic?
+      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '18.04'
+      false
+    end
+
     def defaults_file
       "#{etc_dir}/my.cnf"
     end
