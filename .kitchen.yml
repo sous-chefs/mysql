@@ -1,8 +1,8 @@
 <%
 dists_with_51 = %w(centos-6)
 dists_with_55 = %w(centos-6 centos-7 debian-8 ubuntu-14.04)
-dists_with_56 = %w(centos-6 centos-7 fedora-27 ubuntu-14.04 opensuse-leap amazon-linux)
-dists_with_57 = %w(centos-6 centos-7 fedora-27 ubuntu-16.04)
+dists_with_56 = %w(centos-6 centos-7 fedora-28 ubuntu-14.04 opensuse-leap amazon-linux)
+dists_with_57 = %w(centos-6 centos-7 fedora-28 ubuntu-16.04)
 %>
 ---
 driver:
@@ -33,7 +33,7 @@ platforms:
   
   - name: debian-9
 
-  - name: fedora-27
+  - name: fedora-28
     run_list:
       - recipe[selinux::disabled]
       - recipe[mysql_test::yum_repo]
