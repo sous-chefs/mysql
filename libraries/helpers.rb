@@ -101,6 +101,7 @@ module MysqlCookbook
 
     def default_server_package_name
       return 'mysql-server' if major_version == '5.1' && el6?
+      return 'mysql-server' if el7?
       return 'mysql55-server' if major_version == '5.5' && node['platform'] == 'amazon'
       return 'mysql56-server' if major_version == '5.6' && node['platform'] == 'amazon'
       return 'mysql-server-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
