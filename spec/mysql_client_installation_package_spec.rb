@@ -15,7 +15,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.1' do
       installation_client_package_centos_6.node.normal['mysql']['version'] = '5.1'
       installation_client_package_centos_6.converge(described_recipe)
-      expect(installation_client_package_centos_6).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_centos_6).to create_mysql_client_installation_package('default').with(
         version: '5.1',
         package_name: ['mysql', 'mysql-devel']
       )
@@ -24,7 +24,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
       installation_client_package_centos_6.node.normal['mysql']['version'] = '5.5'
       installation_client_package_centos_6.converge(described_recipe)
-      expect(installation_client_package_centos_6).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_centos_6).to create_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: ['mysql-community-client', 'mysql-community-devel']
       )
@@ -33,7 +33,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.6' do
       installation_client_package_centos_6.node.normal['mysql']['version'] = '5.6'
       installation_client_package_centos_6.converge(described_recipe)
-      expect(installation_client_package_centos_6).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_centos_6).to create_mysql_client_installation_package('default').with(
         version: '5.6',
         package_name: ['mysql-community-client', 'mysql-community-devel']
       )
@@ -42,7 +42,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.7' do
       installation_client_package_centos_6.node.normal['mysql']['version'] = '5.7'
       installation_client_package_centos_6.converge(described_recipe)
-      expect(installation_client_package_centos_6).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_centos_6).to create_mysql_client_installation_package('default').with(
         version: '5.7',
         package_name: ['mysql-community-client', 'mysql-community-devel']
       )
@@ -53,7 +53,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
       installation_client_package_centos_7.node.normal['mysql']['version'] = '5.5'
       installation_client_package_centos_7.converge(described_recipe)
-      expect(installation_client_package_centos_7).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_centos_7).to create_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: ['mysql-community-client', 'mysql-community-devel']
       )
@@ -62,7 +62,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.6' do
       installation_client_package_centos_7.node.normal['mysql']['version'] = '5.6'
       installation_client_package_centos_7.converge(described_recipe)
-      expect(installation_client_package_centos_7).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_centos_7).to create_mysql_client_installation_package('default').with(
         version: '5.6',
         package_name: ['mysql-community-client', 'mysql-community-devel']
       )
@@ -71,7 +71,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.7' do
       installation_client_package_centos_7.node.normal['mysql']['version'] = '5.7'
       installation_client_package_centos_7.converge(described_recipe)
-      expect(installation_client_package_centos_7).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_centos_7).to create_mysql_client_installation_package('default').with(
         version: '5.7',
         package_name: ['mysql-community-client', 'mysql-community-devel']
       )
@@ -82,7 +82,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.7' do
       installation_client_package_fedora.node.normal['mysql']['version'] = '5.7'
       installation_client_package_fedora.converge(described_recipe)
-      expect(installation_client_package_fedora).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_fedora).to create_mysql_client_installation_package('default').with(
         version: '5.7',
         package_name: ['mysql-community-client', 'mysql-community-devel']
       )
@@ -93,7 +93,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
       installation_client_package_debian_7.node.normal['mysql']['version'] = '5.5'
       installation_client_package_debian_7.converge(described_recipe)
-      expect(installation_client_package_debian_7).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_debian_7).to create_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: ['mysql-client-5.5', 'libmysqlclient-dev']
       )
@@ -104,7 +104,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
       installation_client_package_debian_8.node.normal['mysql']['version'] = '5.5'
       installation_client_package_debian_8.converge(described_recipe)
-      expect(installation_client_package_debian_8).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_debian_8).to create_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: ['mysql-client-5.5', 'libmysqlclient-dev']
       )
@@ -115,7 +115,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
       installation_client_package_ubuntu_1204.node.normal['mysql']['version'] = '5.5'
       installation_client_package_ubuntu_1204.converge(described_recipe)
-      expect(installation_client_package_ubuntu_1204).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_ubuntu_1204).to create_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: ['mysql-client-5.5', 'libmysqlclient-dev']
       )
@@ -126,7 +126,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.5' do
       installation_client_package_ubuntu_1404.node.normal['mysql']['version'] = '5.5'
       installation_client_package_ubuntu_1404.converge(described_recipe)
-      expect(installation_client_package_ubuntu_1404).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_ubuntu_1404).to create_mysql_client_installation_package('default').with(
         version: '5.5',
         package_name: ['mysql-client-5.5', 'libmysqlclient-dev']
       )
@@ -137,7 +137,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.6' do
       installation_client_package_ubuntu_1404.node.normal['mysql']['version'] = '5.6'
       installation_client_package_ubuntu_1404.converge(described_recipe)
-      expect(installation_client_package_ubuntu_1404).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_ubuntu_1404).to create_mysql_client_installation_package('default').with(
         version: '5.6',
         package_name: ['mysql-client-5.6', 'libmysqlclient-dev']
       )
@@ -148,7 +148,7 @@ describe 'mysql_test::installation_client' do
     it 'installs mysql_client_installation_package[default] when version is 5.7' do
       installation_client_package_ubuntu_1604.node.normal['mysql']['version'] = '5.7'
       installation_client_package_ubuntu_1604.converge(described_recipe)
-      expect(installation_client_package_ubuntu_1604).to install_mysql_client_installation_package('default').with(
+      expect(installation_client_package_ubuntu_1604).to create_mysql_client_installation_package('default').with(
         version: '5.7',
         package_name: ['mysql-client-5.7', 'libmysqlclient-dev']
       )
