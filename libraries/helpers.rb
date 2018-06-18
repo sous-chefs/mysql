@@ -12,11 +12,6 @@ module MysqlCookbook
       false
     end
 
-    def wheezy?
-      return true if node['platform'] == 'debian' && node['platform_version'].to_i == 7
-      false
-    end
-
     def jessie?
       return true if node['platform'] == 'debian' && node['platform_version'].to_i == 8
       false
@@ -35,6 +30,11 @@ module MysqlCookbook
 
     def xenial?
       return true if node['platform'] == 'ubuntu' && node['platform_version'] == '16.04'
+      false
+    end
+
+    def bionic?
+      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '18.04'
       false
     end
 
@@ -63,7 +63,6 @@ module MysqlCookbook
       return '5.6' if node['platform'] == 'amazon'
 
       # debian
-      return '5.5' if wheezy?
       return '5.5' if jessie?
 
       # ubuntu
@@ -81,7 +80,11 @@ module MysqlCookbook
     end
 
     def mysql_name
-      "mysql-#{instance}"
+      if instance == 'default'
+        'mysql'
+      else
+        "mysql-#{instance}"
+      end
     end
 
     def default_socket_file

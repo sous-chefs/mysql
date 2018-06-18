@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'mysql_test::installation_server' do
   let(:installation_server_package_centos_5) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') }
-  let(:installation_server_package_centos_6) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.7') }
+  let(:installation_server_package_centos_6) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.9') }
   let(:installation_server_package_centos_7) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7.0') }
   let(:installation_server_package_fedora) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '23') }
   let(:installation_server_package_debian_7) { ChefSpec::ServerRunner.new(platform: 'debian', version: '7.9') }
