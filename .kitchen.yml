@@ -19,24 +19,14 @@ verifier:
 
 platforms:
   - name: centos-6
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[mysql_test::yum_repo]
 
   - name: centos-7
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[mysql_test::yum_repo]
-
 
   - name: debian-8
   
   - name: debian-9
 
   - name: fedora-28
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[mysql_test::yum_repo]
 
   - name: opensuse-leap
     driver:
@@ -88,12 +78,42 @@ suites:
        version: '5.7'
     includes: <%= dists_with_57 %>
 
+  - name: installation_client_package-55-yum
+    run_list:
+    - recipe[selinux::disabled]
+    - recipe[mysql_test::yum_repo]
+    - recipe[mysql_test::installation_client]
+    attributes:
+      mysql:
+       version: '5.5'
+    includes: <%= dists_with_55 %>
+
+  - name: installation_client_package-56-yum
+    run_list:
+    - recipe[selinux::disabled]
+    - recipe[mysql_test::yum_repo]
+    - recipe[mysql_test::installation_client]
+    attributes:
+      mysql:
+       version: '5.6'
+    includes: <%= dists_with_56 %>
+
+  - name: installation_client_package-57-yum
+    run_list:
+    - recipe[selinux::disabled]
+    - recipe[mysql_test::yum_repo]
+    - recipe[mysql_test::installation_client]
+    attributes:
+      mysql:
+       version: '5.7'
+    includes: <%= dists_with_57 %>
+
   #
   # server smoke
   #
   - name: smoke51
     run_list:
-    - recipe[mysql_test::smoke]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.1'
@@ -101,7 +121,7 @@ suites:
 
   - name: smoke55
     run_list:
-    - recipe[mysql_test::smoke]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.5'
@@ -109,7 +129,7 @@ suites:
 
   - name: smoke56
     run_list:
-    - recipe[mysql_test::smoke]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.6'
@@ -117,8 +137,40 @@ suites:
 
   - name: smoke57
     run_list:
-    - recipe[mysql_test::smoke]
+      - recipe[mysql_test::smoke]
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
     attributes:
       mysql:
        version: '5.7'
     includes: <%= dists_with_57 %>
+
+  - name: smoke55-yum
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
+      - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.5'
+    includes: <%= dists_with_55 %>
+
+  - name: smoke56-yum
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
+      - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.6'
+    includes: <%= dists_with_56 %>
+
+  - name: smoke57-yum
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
+      - recipe[mysql_test::smoke]
+    attributes:
+      mysql:
+       version: '5.7'
+    includes: <%= dists_with_57 %>    
