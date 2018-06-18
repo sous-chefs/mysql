@@ -113,7 +113,7 @@ suites:
   #
   - name: smoke51
     run_list:
-    - recipe[mysql_test::smoke]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.1'
@@ -121,7 +121,7 @@ suites:
 
   - name: smoke55
     run_list:
-    - recipe[mysql_test::smoke]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.5'
@@ -129,7 +129,7 @@ suites:
 
   - name: smoke56
     run_list:
-    - recipe[mysql_test::smoke]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.6'
@@ -137,9 +137,9 @@ suites:
 
   - name: smoke57
     run_list:
-    - recipe[mysql_test::smoke]
-    - recipe[selinux::disabled]
-    - recipe[mysql_test::yum_repo]
+      - recipe[mysql_test::smoke]
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
     attributes:
       mysql:
        version: '5.7'
@@ -147,9 +147,9 @@ suites:
 
   - name: smoke55-yum
     run_list:
-    - recipe[selinux::disabled]
-    - recipe[mysql_test::yum_repo]
-    - recipe[mysql_test::smoke]
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.5'
@@ -157,9 +157,9 @@ suites:
 
   - name: smoke56-yum
     run_list:
-    - recipe[selinux::disabled]
-    - recipe[mysql_test::yum_repo]
-    - recipe[mysql_test::smoke]
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.6'
@@ -167,9 +167,9 @@ suites:
 
   - name: smoke57-yum
     run_list:
-    - recipe[selinux::disabled]
-    - recipe[mysql_test::yum_repo]
-    - recipe[mysql_test::smoke]
+      - recipe[selinux::disabled]
+      - recipe[mysql_test::yum_repo]
+      - recipe[mysql_test::smoke]
     attributes:
       mysql:
        version: '5.7'
