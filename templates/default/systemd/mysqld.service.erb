@@ -8,7 +8,7 @@ Type=simple
 User=<%= @config.run_user %>
 Group=<%= @config.run_group %>
 ExecStart=<%= @mysqld_bin %> --defaults-file=<%= @etc_dir %>/my.cnf --basedir=<%= @base_dir %>
-ExecStartPost=/usr/libexec/mysql-<%= @config.instance %>-wait-ready $MAINPID
+ExecStartPost=/usr/libexec/<%= @config.mysql_name %>-wait-ready $MAINPID
 TimeoutSec=300
 PrivateTmp=true
 

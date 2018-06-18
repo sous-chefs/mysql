@@ -63,6 +63,8 @@ end
 
 The service name on the OS is `mysql-foo`. You can manually start and stop it with `service mysql-foo start` and `service mysql-foo stop`.
 
+If you use `default` as the name the service name will be `mysql` instead of `mysql-default`.
+
 The configuration file is at `/etc/mysql-foo/my.cnf`. It contains the minimum options to get the service running. It looks like this.
 
 ```
