@@ -1,6 +1,6 @@
 # MySQL Cookbook
 
-[![Build Status](https://travis-ci.org/chef-cookbooks/mysql.svg?branch=master)](https://travis-ci.org/chef-cookbooks/mysql) [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
+[![Build Status](https://travis-ci.org/chef-cookbooks/mysql.svg?branch=master)](https://travis-ci.org/sous-chefs/mysql) [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
 
 The MySQL Cookbook is a library cookbook that provides resource primitives (LWRPs) for use in recipes. It is designed to be a reference example for creating highly reusable cross-platform cookbooks.
 
@@ -21,8 +21,6 @@ The following platforms have been tested with Test Kitchen:
 ```
 |----------------+-----+-----+-----+-----|
 |                | 5.1 | 5.5 | 5.6 | 5.7 |
-|----------------+-----+-----+-----+-----|
-| debian-7       |     | X   |     |     |
 |----------------+-----+-----+-----+-----|
 | debian-8       |     | X   |     |     |
 |----------------+-----+-----+-----+-----|
@@ -64,6 +62,8 @@ end
 ```
 
 The service name on the OS is `mysql-foo`. You can manually start and stop it with `service mysql-foo start` and `service mysql-foo stop`.
+
+If you use `default` as the name the service name will be `mysql` instead of `mysql-default`.
 
 The configuration file is at `/etc/mysql-foo/my.cnf`. It contains the minimum options to get the service running. It looks like this.
 

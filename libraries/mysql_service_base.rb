@@ -55,42 +55,20 @@ module MysqlCookbook
         end
 
         # Support directories
-        directory etc_dir do
-          owner new_resource.run_user
-          group new_resource.run_group
-          mode '0750'
-          recursive true
-          action :create
-        end
-
-        directory new_resource.include_dir do
-          owner new_resource.run_user
-          group new_resource.run_group
-          mode '0750'
-          recursive true
-          action :create
+        [etc_dir, new_resource.include_dir, log_dir, new_resource.data_dir].each do |dir|
+          directory dir do
+            owner new_resource.run_user
+            group new_resource.run_group
+            mode '0750'
+            recursive true
+            action :create
+          end
         end
 
         directory run_dir do
           owner new_resource.run_user
           group new_resource.run_group
           mode '0755'
-          recursive true
-          action :create
-        end
-
-        directory log_dir do
-          owner new_resource.run_user
-          group new_resource.run_group
-          mode '0750'
-          recursive true
-          action :create
-        end
-
-        directory new_resource.data_dir do
-          owner new_resource.run_user
-          group new_resource.run_group
-          mode '0750'
           recursive true
           action :create
         end
@@ -171,7 +149,7 @@ module MysqlCookbook
 
         template '/etc/apparmor.d/usr.sbin.mysqld' do
           cookbook 'mysql'
-          source 'apparmor/usr.sbin.mysqld.erb'
+          source "apparmor/#{node['platform']}-#{node['platform_version']}/usr.sbin.mysqld.erb"
           owner 'root'
           group 'root'
           mode '0644'

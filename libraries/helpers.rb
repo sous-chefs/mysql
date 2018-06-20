@@ -12,11 +12,6 @@ module MysqlCookbook
       false
     end
 
-    def wheezy?
-      return true if node['platform'] == 'debian' && node['platform_version'].to_i == 7
-      false
-    end
-
     def jessie?
       return true if node['platform'] == 'debian' && node['platform_version'].to_i == 8
       false
@@ -35,6 +30,11 @@ module MysqlCookbook
 
     def xenial?
       return true if node['platform'] == 'ubuntu' && node['platform_version'] == '16.04'
+      false
+    end
+
+    def bionic?
+      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '18.04'
       false
     end
 
@@ -63,7 +63,6 @@ module MysqlCookbook
       return '5.6' if node['platform'] == 'amazon'
 
       # debian
-      return '5.5' if wheezy?
       return '5.5' if jessie?
 
       # ubuntu
@@ -82,9 +81,9 @@ module MysqlCookbook
 
     def mysql_name
       if instance == 'default'
-      "mysql"
+        "mysql"
       else
-      "mysql-#{instance}"
+        "mysql-#{instance}"
       end 
     end
 
@@ -95,6 +94,7 @@ module MysqlCookbook
 
     def default_client_package_name
       return ['mysql', 'mysql-devel'] if major_version == '5.1' && el6?
+      return ['mysql', 'mysql-devel'] if el7?
       return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && node['platform'] == 'amazon'
       return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && node['platform'] == 'amazon'
       return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
