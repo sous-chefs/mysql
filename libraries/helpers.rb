@@ -84,7 +84,7 @@ module MysqlCookbook
         "mysql"
       else
         "mysql-#{instance}"
-      end 
+      end
     end
 
     def default_socket_file
