@@ -87,7 +87,6 @@ module MysqlCookbook
       end 
     end
 
-
     def default_socket_file
       "#{run_dir}/mysqld.sock"
     end
