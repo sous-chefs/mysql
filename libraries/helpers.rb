@@ -93,6 +93,7 @@ module MysqlCookbook
 
     def default_client_package_name
       return ['mysql', 'mysql-devel'] if major_version == '5.1' && el6?
+      return ['mysql', 'mysql-devel'] if el7?
       return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && node['platform'] == 'amazon'
       return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && node['platform'] == 'amazon'
       return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
