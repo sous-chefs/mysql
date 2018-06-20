@@ -193,20 +193,20 @@ module MysqlCookbook
         set -e
         rm -rf /tmp/#{mysql_name}
         mkdir /tmp/#{mysql_name}
-
         cat > /tmp/#{mysql_name}/my.sql <<-'EOSQL'
-#{cmd}
+UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';
 DELETE FROM mysql.user WHERE USER LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
 DELETE FROM mysql.db WHERE db LIKE 'test%';
 DROP DATABASE IF EXISTS test ;
 EOSQL
-
        #{db_init}
        #{record_init}
-       #{wait_for_init}
-
+       while [ ! -f #{pid_file} ] ; do sleep 1 ; done
+       kill `cat #{pid_file}`
+       while [ -f #{pid_file} ] ; do sleep 1 ; done
+       rm -rf /tmp/#{mysql_name}
        EOS
     end
 
