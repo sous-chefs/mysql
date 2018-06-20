@@ -81,7 +81,7 @@ module MysqlCookbook
 
     def mysql_name
       if instance == 'default'
-        "mysql"
+        'mysql'
       else
         "mysql-#{instance}"
       end
@@ -189,9 +189,6 @@ module MysqlCookbook
       # mysql will read \& as &, but \% as \%. Just escape bare-minimum \ and '
       sql_escaped_password = root_password.gsub('\\') { '\\\\' }.gsub("'") { '\\\'' }
 
-      cmd = "UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';"
-      cmd = "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '#{sql_escaped_password}';" if v57plus
-
       <<-EOS
         set -e
         rm -rf /tmp/#{mysql_name}
@@ -213,14 +210,15 @@ EOSQL
        EOS
     end
 
-    def wait_for_init 
+    def wait_for_init
       cmd = <<-EOS
        while [ ! -f #{pid_file} ] ; do sleep 1 ; done
        kill `cat #{pid_file}`
        while [ -f #{pid_file} ] ; do sleep 1 ; done
        rm -rf /tmp/#{mysql_name}
        EOS
-       cmd = "" if v57plus
+      cmd = '' if v57plus
+      cmd
     end
 
     def password_column_name
@@ -277,7 +275,7 @@ EOSQL
     end
 
     def mysql_systemd
-      return "/usr/share/mysql/mysql-systemd-start" if v57plus
+      return '/usr/share/mysql/mysql-systemd-start' if v57plus
       "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"
     end
 
