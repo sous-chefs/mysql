@@ -1,4 +1,4 @@
-name 'mysql_test'
+name 'test'
 version '0.0.1'
 
 depends 'mysql'
