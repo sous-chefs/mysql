@@ -1,6 +1,4 @@
 <%
-dists_with_51 = %w(centos-6)
-dists_with_55 = %w(centos-6 centos-7 debian-8 ubuntu-14.04)
 dists_with_56 = %w(centos-6 centos-7 fedora-28 ubuntu-14.04 opensuse-leap amazon-linux)
 dists_with_57 = %w(centos-6 centos-7 fedora-28 ubuntu-16.04)
 %>
@@ -19,25 +17,15 @@ verifier:
 
 platforms:
   - name: centos-6
-
   - name: centos-7
-
   - name: debian-8
-  
   - name: debian-9
-
   - name: fedora-28
-
   - name: opensuse-leap
     driver:
       box: bento/opensuse-leap-42
-
-  - name: ubuntu-14.04
-
   - name: ubuntu-16.04
-  
   - name: ubuntu-18.04
-
   - name: amazonlinux
     driver_config:
       box: mvbcoding/awslinux
@@ -46,22 +34,6 @@ suites:
   #
   # client
   #
-  - name: installation_client_package-51
-    run_list:
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.1'
-    includes: <%= dists_with_51 %>
-
-  - name: installation_client_package-55
-    run_list:
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.5'
-    includes: <%= dists_with_55 %>
-
   - name: installation_client_package-56
     run_list:
     - recipe[mysql_test::installation_client]
@@ -77,16 +49,6 @@ suites:
       mysql:
        version: '5.7'
     includes: <%= dists_with_57 %>
-
-  - name: installation_client_package-55-yum
-    run_list:
-    - recipe[selinux::disabled]
-    - recipe[mysql_test::yum_repo]
-    - recipe[mysql_test::installation_client]
-    attributes:
-      mysql:
-       version: '5.5'
-    includes: <%= dists_with_55 %>
 
   - name: installation_client_package-56-yum
     run_list:
@@ -111,21 +73,6 @@ suites:
   #
   # server smoke
   #
-  - name: smoke51
-    run_list:
-      - recipe[mysql_test::smoke]
-    attributes:
-      mysql:
-       version: '5.1'
-    includes: <%= dists_with_51 %>
-
-  - name: smoke55
-    run_list:
-      - recipe[mysql_test::smoke]
-    attributes:
-      mysql:
-       version: '5.5'
-    includes: <%= dists_with_55 %>
 
   - name: smoke56
     run_list:
@@ -145,16 +92,6 @@ suites:
        version: '5.7'
     includes: <%= dists_with_57 %>
 
-  - name: smoke55-yum
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[mysql_test::yum_repo]
-      - recipe[mysql_test::smoke]
-    attributes:
-      mysql:
-       version: '5.5'
-    includes: <%= dists_with_55 %>
-
   - name: smoke56-yum
     run_list:
       - recipe[selinux::disabled]
@@ -173,4 +110,4 @@ suites:
     attributes:
       mysql:
        version: '5.7'
-    includes: <%= dists_with_57 %>    
+    includes: <%= dists_with_57 %>
