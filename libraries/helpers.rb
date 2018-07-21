@@ -12,6 +12,16 @@ module MysqlCookbook
       false
     end
 
+    def fedora?
+      return true if node['platform_family'] == 'fedora'
+      false
+    end
+
+    def suse?
+      return true if node['platform_family'] == 'suse'
+      false
+    end
+
     def jessie?
       return true if node['platform'] == 'debian' && node['platform_version'].to_i == 8
       false
@@ -58,7 +68,7 @@ module MysqlCookbook
 
     def default_major_version
       # rhelish
-      return '5.1' if el6?
+      return '5.6' if el6?
       return '5.6' if el7?
       return '5.6' if node['platform'] == 'amazon'
 
@@ -68,11 +78,12 @@ module MysqlCookbook
       # ubuntu
       return '5.5' if trusty?
       return '5.7' if xenial?
+      return '5.7' if bionic?
 
       # misc
       return '5.6' if node['platform'] == 'freebsd'
-      return '5.6' if node['platform'] == 'fedora'
-      return '5.6' if node['platform_family'] == 'suse'
+      return '5.7' if fedora?
+      return '5.6' if suse?
     end
 
     def major_from_full(v)
@@ -268,13 +279,22 @@ EOSQL
     def mysqld_bin
       return "#{prefix_dir}/libexec/mysqld" if node['platform_family'] == 'smartos'
       return "#{base_dir}/bin/mysqld" if node['platform_family'] == 'omnios'
-      return '/usr/sbin/mysqld' if node['platform_family'] == 'fedora' && v56plus
-      return '/usr/libexec/mysqld' if node['platform_family'] == 'fedora'
+      return '/usr/sbin/mysqld' if fedora? && v56plus
+      return '/usr/libexec/mysqld' if fedora?
       return 'mysqld' if scl_package?
       "#{prefix_dir}/usr/sbin/mysqld"
     end
 
+    def mysql_systemd_start_pre
+      return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || fedora?)
+      return '/usr/bin/mysql-systemd-start pre' if node['platform_family'] == 'rhel'
+      return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
+      '/usr/share/mysql/mysql-systemd-start pre'
+    end
+
     def mysql_systemd
+      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || fedora?)
+      return '/usr/bin/mysql-systemd-start' if node['platform_family'] == 'rhel'
       return '/usr/share/mysql/mysql-systemd-start' if v57plus
       "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"
     end
