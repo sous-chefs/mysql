@@ -41,6 +41,7 @@ module MysqlCookbook
         # setting up multiple services.
         file "#{prefix_dir}/etc/mysql/my.cnf" do
           action :delete
+          not_if { node['init_package'] == 'systemd' }
         end
 
         file "#{prefix_dir}/etc/my.cnf" do
