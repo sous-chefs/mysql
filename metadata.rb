@@ -13,8 +13,6 @@ supports 'amazon'
 supports 'fedora'
 supports 'debian', '>= 7.0'
 supports 'ubuntu', '>= 14.04'
-
-supports 'opensuse', '>= 13.0'
 supports 'opensuseleap'
 supports 'suse', '>= 12.0'
 
