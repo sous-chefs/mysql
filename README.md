@@ -1,6 +1,7 @@
 # MySQL Cookbook
 
-[![Build Status](https://travis-ci.org/chef-cookbooks/mysql.svg?branch=master)](https://travis-ci.org/sous-chefs/mysql) [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
+[![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
+[![Build Status](https://img.shields.io/circleci/project/github/sous-chefs/mysql/master.svg)](https://circleci.com/gh/sous-chefs/mysql)
 
 The MySQL Cookbook is a library cookbook that provides resource primitives (LWRPs) for use in recipes. It is designed to be a reference example for creating highly reusable cross-platform cookbooks.
 
