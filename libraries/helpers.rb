@@ -175,14 +175,12 @@ module MysqlCookbook
     end
 
     def v56plus
-      return false if version.split('.')[0].to_i < 5
-      return false if version.split('.')[1].to_i < 6
+      return false if Gem::Version.new(version) < Gem::Version.new('5.6')
       true
     end
 
     def v57plus
-      return false if version.split('.')[0].to_i < 5
-      return false if version.split('.')[1].to_i < 7
+      return false if Gem::Version.new(version) < Gem::Version.new('5.7')
       true
     end
 
