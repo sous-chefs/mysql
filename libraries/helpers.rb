@@ -175,14 +175,12 @@ module MysqlCookbook
     end
 
     def v56plus
-      return false if version.split('.')[0].to_i < 5
-      return false if version.split('.')[1].to_i < 6
+      return false if Gem::Version.new(version) < Gem::Version.new('5.6')
       true
     end
 
     def v57plus
-      return false if version.split('.')[0].to_i < 5
-      return false if version.split('.')[1].to_i < 7
+      return false if Gem::Version.new(version) < Gem::Version.new('5.7')
       true
     end
 
@@ -201,13 +199,15 @@ module MysqlCookbook
       # Note: shell-escaping passwords in a SQL file may cause corruption - eg
       # mysql will read \& as &, but \% as \%. Just escape bare-minimum \ and '
       sql_escaped_password = root_password.gsub('\\') { '\\\\' }.gsub("'") { '\\\'' }
+      cmd = "UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';"
+      cmd = "ALTER USER 'root'@'localhost' IDENTIFIED BY '#{sql_escaped_password}';" if v57plus
 
       <<-EOS
         set -e
         rm -rf /tmp/#{mysql_name}
         mkdir /tmp/#{mysql_name}
         cat > /tmp/#{mysql_name}/my.sql <<-'EOSQL'
-UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';
+#{cmd}
 DELETE FROM mysql.user WHERE USER LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
