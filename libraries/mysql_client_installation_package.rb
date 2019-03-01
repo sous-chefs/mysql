@@ -15,6 +15,8 @@ module MysqlCookbook
 
     # Actions
     action :create do
+      enable_upstream_repository if requires_upstream_repository
+
       package new_resource.package_name do
         version new_resource.package_version if new_resource.package_version
         options new_resource.package_options if new_resource.package_options

@@ -95,7 +95,7 @@ module MysqlCookbook
         service mysql_name do
           provider Chef::Provider::Service::Upstart
           action [:disable, :stop]
-          only_if { ::File.exist?("#{etc_dir}/init/#{mysql_name}") }
+          only_if { ::File.exist?("#{etc_dir}/init/#{mysql_name}") || ::File.exist?("#{etc_dir}/init.d/#{mysql_name}") }
         end
       end
     end

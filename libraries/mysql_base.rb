@@ -26,5 +26,23 @@ module MysqlCookbook
     property :major_version, String, default: lazy { major_from_full(version) }, desired_state: false
 
     action_class
+
+    def enable_upstream_repository
+      #raise "Got to enable_upstream_repository with node platform: #{node['platform']}"
+      if node['platform'] == 'ubuntu'
+        apt_repository 'mysql-community-server' do
+          uri          'http://repo.mysql.com/apt/ubuntu/'
+          distribution ubuntu_codename
+          components   ["mysql-#{major_version}", 'mysql-tools']
+        end
+
+        apt_repository 'mysql-community-server-src' do
+          uri          'http://repo.mysql.com/apt/ubuntu/'
+          distribution ubuntu_codename
+          components   ["mysql-#{major_version}"]
+          deb_src      true
+        end
+      end
+    end
   end
 end

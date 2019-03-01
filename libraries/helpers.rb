@@ -48,6 +48,25 @@ module MysqlCookbook
       false
     end
 
+    def cosmic?
+      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '18.10'
+      false
+    end
+
+    def disco?
+      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '19.04'
+      false
+    end
+
+    def ubuntu_codename
+      return 'cosmic' if cosmic?
+      return 'bionic' if bionic?
+      return 'xenial' if xenial?
+      return 'trusty' if trusty?
+      return 'disco' if disco?
+      raise 'Unknown Ubuntu distribution or past end-of-life'
+    end
+
     def defaults_file
       "#{etc_dir}/my.cnf"
     end
@@ -102,6 +121,11 @@ module MysqlCookbook
       "#{run_dir}/mysqld.sock"
     end
 
+    def requires_upstream_repository
+      return true if major_version.to_f > 5.6 && node['platform'] == 'ubuntu' && node['platform_version'].to_f < 16.04
+      false
+    end
+
     def default_client_package_name
       return ['mysql', 'mysql-devel'] if major_version == '5.1' && el6?
       return ['mysql', 'mysql-devel'] if el7?
@@ -110,7 +134,8 @@ module MysqlCookbook
       return ['mysql57', 'mysql57-devel.x86_64'] if major_version == '5.7' && node['platform'] == 'amazon'
       return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
       return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && node['platform_family'] == 'debian'
-      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian'
+      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian' && !trusty?
+      return ['mysql-community-client', 'libmysqlclient-dev'] if major_version == '5.7' && trusty?
       return 'mysql-community-server-client' if major_version == '5.6' && node['platform_family'] == 'suse'
       ['mysql-community-client', 'mysql-community-devel']
     end
@@ -122,7 +147,8 @@ module MysqlCookbook
       return 'mysql57-server' if major_version == '5.7' && node['platform'] == 'amazon'
       return 'mysql-server-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
       return 'mysql-server-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
-      return 'mysql-server-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
+      return 'mysql-server-5.7' if major_version == '5.7' && node['platform_family'] == 'debian' && !trusty?
+      return 'mysql-community-server' if major_version == '5.7' && !trusty?
       return 'mysql-community-server' if major_version == '5.6' && node['platform_family'] == 'suse'
       'mysql-community-server'
     end
