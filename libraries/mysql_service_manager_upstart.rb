@@ -84,10 +84,17 @@ module MysqlCookbook
 
     action_class do
       def stop_system_service
-        service system_service_name do
-          provider Chef::Provider::Service::Upstart
-          supports status: true
-          action [:stop, :disable]
+        if ::File.exists?('/etc/init.d/mysql')
+          service system_service_name do
+            supports status: true
+            action [:stop, :disable]
+          end
+        else
+          service system_service_name do
+            provider Chef::Provider::Service::Upstart
+            supports status: true
+            action [:stop, :disable]
+          end
         end
       end
 
