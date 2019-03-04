@@ -3,7 +3,7 @@ maintainer 'Sous Chefs'
 maintainer_email 'help@sous-chefs.org'
 license 'Apache-2.0'
 description 'Provides mysql_service, mysql_config, and mysql_client resources'
-version '8.5.2'
+version '8.5.3'
 
 %w(redhat centos scientific oracle).each do |el|
   supports el, '>= 6.0'
