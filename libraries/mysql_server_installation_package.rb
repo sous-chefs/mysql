@@ -16,7 +16,6 @@ module MysqlCookbook
     action :install do
       if requires_upstream_repository
         if node['platform'] == 'ubuntu'
-          # Because pgp.mit.edu is not a reliable keyserver
           template '/tmp/mysql-apt-key.asc' do
             source 'mysql.asc.erb'
             cookbook 'mysql'
