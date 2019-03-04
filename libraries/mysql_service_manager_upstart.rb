@@ -84,7 +84,7 @@ module MysqlCookbook
 
     action_class do
       def stop_system_service
-        if ::File.exists?('/etc/init.d/mysql')
+        if ::File.exists?("/etc/init.d/#{system_service_name}")
           service system_service_name do
             supports status: true
             action [:stop, :disable]
