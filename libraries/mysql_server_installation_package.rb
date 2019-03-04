@@ -14,24 +14,27 @@ module MysqlCookbook
 
     # Actions
     action :install do
-      #enable_upstream_repository if requires_upstream_repository
-      apt_repository 'mysql-community-server' do
-        uri          'http://repo.mysql.com/apt/ubuntu/'
-        distribution ubuntu_codename
-        components   ["mysql-#{major_version}"]
-        #keyserver    'pgp.mit.edu'
-        #key          'A4A9406876FCBD3C456770C88C718D3B5072E1F5'
-        trusted      true # Because apparently pgp.mit.edu is the least reliable key server on earth
-        deb_src      true
-      end
+      if requires_upstream_repository
+        if node['platform'] == 'ubuntu'
+          apt_repository 'mysql-community-server' do
+            uri          'http://repo.mysql.com/apt/ubuntu/'
+            distribution ubuntu_codename
+            components   ["mysql-#{major_version}"]
+            keyserver    'pgp.mit.edu'
+            key          'A4A9406876FCBD3C456770C88C718D3B5072E1F5'
+            #trusted      true # Because apparently pgp.mit.edu is the least reliable key server on earth
+            deb_src      true
+          end
 
-      apt_repository 'mysql-tools' do
-        uri          'http://repo.mysql.com/apt/ubuntu/'
-        distribution ubuntu_codename
-        components   ['mysql-tools']
-        #keyserver    'pgp.mit.edu'
-        #key          'A4A9406876FCBD3C456770C88C718D3B5072E1F5'
-        trusted      true # Because apparently pgp.mit.edu is the least reliable key server on earth
+          apt_repository 'mysql-tools' do
+            uri          'http://repo.mysql.com/apt/ubuntu/'
+            distribution ubuntu_codename
+            components   ['mysql-tools']
+            keyserver    'pgp.mit.edu'
+            key          'A4A9406876FCBD3C456770C88C718D3B5072E1F5'
+            #trusted      true # Because apparently pgp.mit.edu is the least reliable key server on earth
+          end
+        end
       end
 
       package new_resource.package_name do
