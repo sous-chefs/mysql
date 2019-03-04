@@ -17,23 +17,32 @@ module MysqlCookbook
     action :create do
       if requires_upstream_repository
         if node['platform'] == 'ubuntu'
+          # Because pgp.mit.edu is not a reliable keyserver
+          template '/tmp/mysql-apt-key.asc' do
+            source 'mysql.asc.erb'
+            cookbook 'mysql'
+            owner 'root'
+            group 'root'
+            mode '0644'
+          end
+
+          bash 'Trust Oracle MySQL Distribution Key' do
+            code 'apt-key add /tmp/mysql-apt-key.asc'
+          end
+
+          file '/tmp/mysql-apt-key.asc' do
+            action :delete
+          end
+
           apt_repository 'mysql-community-server' do
             uri          'http://repo.mysql.com/apt/ubuntu/'
-            distribution ubuntu_codename
             components   ["mysql-#{major_version}"]
-            keyserver    'pgp.mit.edu'
-            key          'A4A9406876FCBD3C456770C88C718D3B5072E1F5'
-            #trusted      true # Because apparently pgp.mit.edu is the least reliable key server on earth
             deb_src      true
           end
 
           apt_repository 'mysql-tools' do
             uri          'http://repo.mysql.com/apt/ubuntu/'
-            distribution ubuntu_codename
             components   ['mysql-tools']
-            keyserver    'pgp.mit.edu'
-            key          'A4A9406876FCBD3C456770C88C718D3B5072E1F5'
-            #trusted      true # Because apparently pgp.mit.edu is the least reliable key server on earth
           end
         end
       end
