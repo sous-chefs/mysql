@@ -42,7 +42,12 @@
   /run/mysqld/mysqld.sock w,
   /run/mysqld/mysqld.sock.lock rw,
 
+  /proc/*/status r,
   /sys/devices/system/cpu/ r,
+  /sys/devices/system/node/ r,
+  /sys/devices/system/node/node*/meminfo r,
+  /sys/devices/system/node/*/* r, 
+  /sys/devices/system/node/* r,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.sbin.mysqld>
