@@ -11,4 +11,6 @@
 <%= @config.socket_file %> rw,
 /tmp/<%= @mysql_name %>/ r,
 /tmp/<%= @mysql_name %>/my.sql r,
+<% if @config.tmp_dir %>
 <%= @config.tmp_dir %>/* rw,
+<% end %>
