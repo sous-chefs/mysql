@@ -88,7 +88,7 @@ bash 'create /root/dump.sql' do
           --hex-blob \
           --master-data=2 \
           -A \ > /root/dump.sql;
-EOF
+      EOF
   not_if { ::File.exist?('/root/dump.sql') }
   action :run
 end
