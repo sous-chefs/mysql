@@ -2,5 +2,4 @@ AllCops:
   Exclude:
     - 'Dangerfile'
 Layout/ClosingHeredocIndentation:
-  enabled: false
-  
+  Enabled: false
