@@ -220,16 +220,16 @@ EOSQL
        kill `cat #{pid_file}`
        while [ -f #{pid_file} ] ; do sleep 1 ; done
        rm -rf /tmp/#{mysql_name}
-       EOS
+      EOS
     end
 
     def wait_for_init
       cmd = <<-EOS
-       while [ ! -f #{pid_file} ] ; do sleep 1 ; done
-       kill `cat #{pid_file}`
-       while [ -f #{pid_file} ] ; do sleep 1 ; done
-       rm -rf /tmp/#{mysql_name}
-       EOS
+              while [ ! -f #{pid_file} ] ; do sleep 1 ; done
+              kill `cat #{pid_file}`
+              while [ -f #{pid_file} ] ; do sleep 1 ; done
+              rm -rf /tmp/#{mysql_name}
+            EOS
       cmd = '' if v57plus
       cmd
     end

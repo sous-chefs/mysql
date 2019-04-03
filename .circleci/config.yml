@@ -8,5 +8,6 @@ workflows:
     jobs:
       - kitchen/danger:
           name: danger
+          context: Danger
       - kitchen/lint:
           name: lint
