@@ -4,7 +4,7 @@ module MysqlCookbook
     resource_name :mysql_service
 
     # installation type and service_manager
-    property :install_method, %w(package auto), default: 'auto', desired_state: false
+    property :install_method, %w(package auto none), default: 'auto', desired_state: false
     property :service_manager, %w(sysvinit upstart systemd auto), default: 'auto', desired_state: false
 
     # mysql_server_installation
