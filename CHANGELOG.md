@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the mysql cookbook.
 
+## Unreleased
+
+- Fix the failing linting tests
+
 ## 8.5.1 (2017-08-23)
 
 - Fix the remainder of the namespace collision deprecation warnings
