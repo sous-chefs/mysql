@@ -17,7 +17,7 @@ describe 'test::installation_client' do
       installation_client_package_centos_6.converge(described_recipe)
       expect(installation_client_package_centos_6).to create_mysql_client_installation_package('default').with(
         version: '5.6',
-        package_name: ['mysql-community-client', 'mysql-community-devel']
+        package_name: %w(mysql-community-client mysql-community-devel)
       )
     end
 
@@ -26,7 +26,7 @@ describe 'test::installation_client' do
       installation_client_package_centos_6.converge(described_recipe)
       expect(installation_client_package_centos_6).to create_mysql_client_installation_package('default').with(
         version: '5.7',
-        package_name: ['mysql-community-client', 'mysql-community-devel']
+        package_name: %w(mysql-community-client mysql-community-devel)
       )
     end
   end
@@ -37,7 +37,7 @@ describe 'test::installation_client' do
       installation_client_package_centos_7.converge(described_recipe)
       expect(installation_client_package_centos_7).to create_mysql_client_installation_package('default').with(
         version: '5.6',
-        package_name: ['mysql', 'mysql-devel']
+        package_name: %w(mysql mysql-devel)
       )
     end
 
@@ -46,7 +46,7 @@ describe 'test::installation_client' do
       installation_client_package_centos_7.converge(described_recipe)
       expect(installation_client_package_centos_7).to create_mysql_client_installation_package('default').with(
         version: '5.7',
-        package_name: ['mysql', 'mysql-devel']
+        package_name: %w(mysql mysql-devel)
       )
     end
   end
@@ -57,7 +57,7 @@ describe 'test::installation_client' do
       installation_client_package_fedora.converge(described_recipe)
       expect(installation_client_package_fedora).to create_mysql_client_installation_package('default').with(
         version: '5.7',
-        package_name: ['mysql-community-client', 'mysql-community-devel']
+        package_name: %w(mysql-community-client mysql-community-devel)
       )
     end
   end
