@@ -74,6 +74,7 @@ Rakefile
 */.bzr/*
 */.hg/*
 */.svn/*
+.github
 
 # Berkshelf #
 #############
@@ -87,16 +88,3 @@ tmp
 CONTRIBUTING*
 CHANGELOG*
 TESTING*
-MAINTAINERS.toml
-
-# Strainer #
-############
-Colanderfile
-Strainerfile
-.colander
-.strainer
-
-# Vagrant #
-###########
-.vagrant
-Vagrantfile

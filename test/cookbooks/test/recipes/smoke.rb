@@ -1,5 +1,7 @@
 require 'shellwords'
 
+apt_update 'update'
+
 # variables
 root_pass_master = 'MyPa$$word\Has_"Special\'Chars%!'
 root_pass_slave = 'An0th3r_Pa%%w0rd!'
@@ -75,18 +77,18 @@ end
 bash 'create /root/dump.sql' do
   user 'root'
   code <<-EOF
-    mysqldump \
-    --defaults-file=/etc/mysql-master/my.cnf \
-    -u root \
-    --protocol=tcp \
-    -p#{Shellwords.escape(root_pass_master)} \
-    --skip-lock-tables \
-    --single-transaction \
-    --flush-logs \
-    --hex-blob \
-    --master-data=2 \
-    -A \ > /root/dump.sql;
-   EOF
+          mysqldump \
+          --defaults-file=/etc/mysql-master/my.cnf \
+          -u root \
+          --protocol=tcp \
+          -p#{Shellwords.escape(root_pass_master)} \
+          --skip-lock-tables \
+          --single-transaction \
+          --flush-logs \
+          --hex-blob \
+          --master-data=2 \
+          -A \ > /root/dump.sql;
+      EOF
   not_if { ::File.exist?('/root/dump.sql') }
   action :run
 end

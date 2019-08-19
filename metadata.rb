@@ -1,22 +1,21 @@
 name 'mysql'
-maintainer 'Chef Software, Inc.'
-maintainer_email 'cookbooks@chef.io'
-license 'Apache 2.0'
+maintainer 'Sous Chefs'
+maintainer_email 'help@sous-chefs.org'
+license 'Apache-2.0'
 description 'Provides mysql_service, mysql_config, and mysql_client resources'
-version '8.3.0'
+version '8.5.2'
+
+%w(redhat centos scientific oracle).each do |el|
+  supports el, '>= 6.0'
+end
 
 supports 'amazon'
-supports 'redhat'
-supports 'centos'
-supports 'scientific'
-supports 'oracle'
 supports 'fedora'
-supports 'debian'
-supports 'ubuntu'
-supports 'suse'
-supports 'opensuse'
+supports 'debian', '>= 7.0'
+supports 'ubuntu', '>= 14.04'
 supports 'opensuseleap'
+supports 'suse', '>= 12.0'
 
-source_url 'https://github.com/chef-cookbooks/mysql'
-issues_url 'https://github.com/chef-cookbooks/mysql/issues'
-chef_version '>= 12.1' if respond_to?(:chef_version)
+source_url 'https://github.com/sous-chefs/mysql'
+issues_url 'https://github.com/sous-chefs/mysql/issues'
+chef_version '>= 12.7'

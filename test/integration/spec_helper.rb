@@ -108,7 +108,7 @@ def check_mysql_server_instance(port = '3306', password = 'ilikerandompasswords'
   end
 end
 
-# Check Master-Slave configuration defined by mysql_test::smoke recipe
+# Check Master-Slave configuration defined by test::smoke recipe
 #
 def check_master_slave
   root_pass = 'MyPa$$word\Has_"Special\'Chars%!'

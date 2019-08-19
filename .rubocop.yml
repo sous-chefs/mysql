@@ -1,0 +1,5 @@
+AllCops:
+  Exclude:
+    - 'Dangerfile'
+Layout/ClosingHeredocIndentation:
+  Enabled: false

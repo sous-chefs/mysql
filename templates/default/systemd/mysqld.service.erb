@@ -7,10 +7,15 @@ After=network.target
 Type=simple
 User=<%= @config.run_user %>
 Group=<%= @config.run_group %>
+PermissionsStartOnly=true
+ExecStartPre=<%= @mysql_systemd_start_pre %>
+
 ExecStart=<%= @mysqld_bin %> --defaults-file=<%= @etc_dir %>/my.cnf --basedir=<%= @base_dir %>
-ExecStartPost=/usr/libexec/mysql-<%= @config.instance %>-wait-ready $MAINPID
+ExecStartPost=<%= @mysql_systemd %>
 TimeoutSec=300
-PrivateTmp=true
+Restart=on-failure
+RuntimeDirectory=mysqld
+RuntimeDirectoryMode=755
 
 [Install]
 WantedBy=multi-user.target
