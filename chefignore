@@ -74,7 +74,7 @@ Rakefile
 */.bzr/*
 */.hg/*
 */.svn/*
-.github
+.github/*
 
 # Berkshelf #
 #############
