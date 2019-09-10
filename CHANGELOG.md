@@ -5,6 +5,14 @@ This file is used to list changes made in each version of the mysql cookbook.
 ## Unreleased
 
 - Fix the failing linting tests
+- Add mysql57 support for Amazon Linux AMI
+- Fix installation and testing on Ubuntu 18.04 bionic, EL7, Fedora and Opensuse
+- Ensure compatibility with mysql 5.7 on Ubtuntu 16.04
+- Add apparmor profile for ubuntu 16.04
+- Allow instance with 'mysql' as name
+- Add a helper for Ubuntu 18.04
+- Remove support for Debian 7
+- Remove ChefSpec matchers
 
 ## 8.5.1 (2017-08-23)
 
