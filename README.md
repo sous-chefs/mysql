@@ -154,7 +154,6 @@ Please note that when using `notifies` or `subscribes`, the resource to referenc
 - `error_log` - Tunable location of the error_log
 - `initial_root_password` - allows the user to specify the initial root password for mysql when initializing new databases. This can be set explicitly in a recipe, driven from a node attribute, or from data_bags. When omitted, it defaults to `ilikerandompasswords`. Please be sure to change it.
 - `instance` - A string to identify the MySQL service. By convention, to allow for multiple instances of the `mysql_service`, directories and files on disk are named `mysql-<instance_name>`. Defaults to the resource name.
-- `package_action` - Defaults to `:install`.
 - `package_name` - Defaults to a value looked up in an internal map.
 - `package_version` - Specific version of the package to install,passed onto the underlying package manager. Defaults to `nil`.
 - `bind_address` - determines the listen IP address for the mysqld service. When omitted, it will be determined by MySQL. If the address is "regular" IPv4/IPv6address (e.g 127.0.0.1 or ::1), the server accepts TCP/IP connections only for that particular address. If the address is "0.0.0.0" (IPv4) or "::" (IPv6), the server accepts TCP/IP connections on all IPv4 or IPv6 interfaces.
