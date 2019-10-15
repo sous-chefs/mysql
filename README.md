@@ -1,12 +1,20 @@
 # MySQL Cookbook
 
-[![Build Status](https://travis-ci.org/chef-cookbooks/mysql.svg?branch=master)](https://travis-ci.org/sous-chefs/mysql) [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
+[![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
+[![Build Status](https://img.shields.io/circleci/project/github/sous-chefs/mysql/master.svg)](https://circleci.com/gh/sous-chefs/mysql)
+[![OpenCollective](https://opencollective.com/sous-chefs/backers/badge.svg)](#backers)
+[![OpenCollective](https://opencollective.com/sous-chefs/sponsors/badge.svg)](#sponsors)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
 The MySQL Cookbook is a library cookbook that provides resource primitives (LWRPs) for use in recipes. It is designed to be a reference example for creating highly reusable cross-platform cookbooks.
 
 ## Scope
 
 This cookbook is concerned with the "MySQL Community Server", particularly those shipped with F/OSS Unix and Linux distributions. It does not address forks or value-added repackaged MySQL distributions like MariaDB or Percona.
+
+## Maintainers
+
+This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of Chef cookbook maintainers working together to maintain important cookbooks. If you’d like to know more please visit [sous-chefs.org](https://sous-chefs.org/) or come chat with us on the Chef Community Slack in [#sous-chefs](https://chefcommunity.slack.com/messages/C2V7B88SF).
 
 ## Requirements
 
@@ -18,25 +26,15 @@ This cookbook is concerned with the "MySQL Community Server", particularly those
 
 The following platforms have been tested with Test Kitchen:
 
-```
-|----------------+-----+-----+-----+-----|
-|                | 5.1 | 5.5 | 5.6 | 5.7 |
-|----------------+-----+-----+-----+-----|
+|  OS            | 5.1 | 5.5 | 5.6 | 5.7 |
+|----------------|-----|-----|-----|-----|
 | debian-8       |     | X   |     |     |
-|----------------+-----+-----+-----+-----|
 | ubuntu-14.04   |     | X   | X   |     |
-|----------------+-----+-----+-----+-----|
 | ubuntu-16.04   |     |     |     | X   |
-|----------------+-----+-----+-----+-----|
 | centos-6       | X   | X   | X   | X   |
-|----------------+-----+-----+-----+-----|
 | centos-7       |     | X   | X   | X   |
-|----------------+-----+-----+-----+-----|
 | fedora         |     |     | X   | X   |
-|----------------+-----+-----+-----+-----|
 | openSUSE Leap  |     |     | X   |     |
-|----------------+-----+-----+-----+-----|
-```
 
 ## Cookbook Dependencies
 
@@ -67,7 +65,7 @@ If you use `default` as the name the service name will be `mysql` instead of `my
 
 The configuration file is at `/etc/mysql-foo/my.cnf`. It contains the minimum options to get the service running. It looks like this.
 
-```
+```toml
 # Chef generated my.cnf for instance mysql-foo
 
 [client]
@@ -156,7 +154,6 @@ Please note that when using `notifies` or `subscribes`, the resource to referenc
 - `error_log` - Tunable location of the error_log
 - `initial_root_password` - allows the user to specify the initial root password for mysql when initializing new databases. This can be set explicitly in a recipe, driven from a node attribute, or from data_bags. When omitted, it defaults to `ilikerandompasswords`. Please be sure to change it.
 - `instance` - A string to identify the MySQL service. By convention, to allow for multiple instances of the `mysql_service`, directories and files on disk are named `mysql-<instance_name>`. Defaults to the resource name.
-- `package_action` - Defaults to `:install`.
 - `package_name` - Defaults to a value looked up in an internal map.
 - `package_version` - Specific version of the package to install,passed onto the underlying package manager. Defaults to `nil`.
 - `bind_address` - determines the listen IP address for the mysqld service. When omitted, it will be determined by MySQL. If the address is "regular" IPv4/IPv6address (e.g 127.0.0.1 or ::1), the server accepts TCP/IP connections only for that particular address. If the address is "0.0.0.0" (IPv4) or "::" (IPv6), the server accepts TCP/IP connections on all IPv4 or IPv6 interfaces.
@@ -353,7 +350,7 @@ Use multiple `mysql_service` instances to test a replication setup. This particu
 
 ## Frequently Asked Questions
 
-### How do I run this behind my firewall?
+### How do I run this behind my firewall
 
 On Linux, the `mysql_service` resource uses the platform's underlying package manager to install software. For this to work behind firewalls, you'll need to either:
 
@@ -395,26 +392,35 @@ Or to connect over the network, use something like this: connect over the networ
 
 These network or socket ssettings can also be put in you $HOME/.my.cnf, if preferred.
 
-### What about MariaDB, Percona, etc.
+### What about MariaDB, Percona, etc
 
 MySQL forks are purposefully out of scope for this cookbook. This is mostly to reduce the testing matrix to a manageable size. Cookbooks for these technologies can easily be created by copying and adapting this cookbook. However, there will be differences.
 
 Package repository locations, package version names, software major version numbers, supported platform matrices, and the availability of software such as XtraDB and Galera are the main reasons that creating multiple cookbooks to make sense.
 
-## License
+There are existing cookbooks to carter for these forks, check them out on the supermarket
 
-```text
-Copyright:: 2009-2018 Chef Software, Inc
+## Contributors
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+This project exists thanks to all the people who [contribute.](https://opencollective.com/sous-chefs/contributors.svg?width=890&button=false)
 
-    http://www.apache.org/licenses/LICENSE-2.0
+### Backers
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
+Thank you to all our backers!
+
+![https://opencollective.com/sous-chefs#backers](https://opencollective.com/sous-chefs/backers.svg?width=600&avatarHeight=40)
+
+### Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
+
+![https://opencollective.com/sous-chefs/sponsor/0/website](https://opencollective.com/sous-chefs/sponsor/0/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/1/website](https://opencollective.com/sous-chefs/sponsor/1/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/2/website](https://opencollective.com/sous-chefs/sponsor/2/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/3/website](https://opencollective.com/sous-chefs/sponsor/3/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/4/website](https://opencollective.com/sous-chefs/sponsor/4/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/5/website](https://opencollective.com/sous-chefs/sponsor/5/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/6/website](https://opencollective.com/sous-chefs/sponsor/6/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/7/website](https://opencollective.com/sous-chefs/sponsor/7/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/8/website](https://opencollective.com/sous-chefs/sponsor/8/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/9/website](https://opencollective.com/sous-chefs/sponsor/9/avatar.svg?avatarHeight=100)
