@@ -1,13 +1,111 @@
+---
+jobs:
+  final:
+    docker:
+      - image: bash:latest
+    steps:
+      - run:
+          name: Finish cooking
+          command: echo "Finished cooking"
+lint_and_unit: &lint_and_unit
+  - delivery
+  - danger
+  - lint-yaml
+  - lint-markdown
 version: 2.1
-
 orbs:
-  kitchen: sous-chefs/kitchen@1.0.0
-
+  kitchen: sous-chefs/kitchen@2
 workflows:
   kitchen:
     jobs:
+      - kitchen/yamllint:
+          name: lint-yaml
+      - kitchen/mdlint:
+          name: lint-markdown
       - kitchen/danger:
           name: danger
           context: Danger
-      - kitchen/lint:
-          name: lint
+      - kitchen/delivery:
+          name: delivery
+      - kitchen/dokken-single:
+          name: installation-client-package-57-ubuntu-1604
+          suite: installation-client-package-57-ubuntu-1604
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: installation-client-package-57-ubuntu-1804
+          suite: installation-client-package-57-ubuntu-1804
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: installation-client-package-56-yum-centos-6
+          suite: installation-client-package-56-yum-centos-6
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: installation-client-package-56-yum-centos-7
+          suite: installation-client-package-56-yum-centos-7
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: installation-client-package-56-suse-opensuse-leap
+          suite: installation-client-package-56-suse-opensuse-leap
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: installation-client-package-57-yum-centos-6
+          suite: installation-client-package-57-yum-centos-6
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: installation-client-package-57-yum-centos-7
+          suite: installation-client-package-57-yum-centos-7
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: installation-client-package-57-yum-fedora-latest
+          suite: installation-client-package-57-yum-fedora-latest
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: smoke57-ubuntu-1604
+          suite: smoke57-ubuntu-1604
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: smoke57-ubuntu-1804
+          suite: smoke57-ubuntu-1804
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: smoke56-yum-centos-6
+          suite: smoke56-yum-centos-6
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: smoke56-yum-centos-7
+          suite: smoke56-yum-centos-7
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: smoke56-suse-opensuse-leap
+          suite: smoke56-suse-opensuse-leap
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: smoke57-yum-centos-6
+          suite: smoke57-yum-centos-6
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: smoke57-yum-centos-7
+          suite: smoke57-yum-centos-7
+          requires: *lint_and_unit
+      - kitchen/dokken-single:
+          name: smoke57-yum-fedora-latest
+          suite: smoke57-yum-fedora-latest
+          requires: *lint_and_unit
+      - final:
+          requires:
+            - installation-client-package-57-ubuntu-1604
+            - installation-client-package-57-ubuntu-1804
+            - installation-client-package-56-yum-centos-6
+            - installation-client-package-56-yum-centos-7
+            - installation-client-package-56-suse-opensuse-leap
+            - installation-client-package-57-yum-centos-6
+            - installation-client-package-57-yum-centos-7
+            - installation-client-package-57-yum-fedora-latest
+            - smoke57-ubuntu-1604
+            - smoke57-ubuntu-1804
+            - smoke56-yum-centos-6
+            - smoke56-yum-centos-7
+            - smoke56-suse-opensuse-leap
+            - smoke57-yum-centos-6
+            - smoke57-yum-centos-7
+            - smoke57-yum-fedora-latest
