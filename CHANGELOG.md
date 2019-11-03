@@ -39,6 +39,7 @@ This file is used to list changes made in each version of the mysql cookbook.
 - Remove mention of the EOL opensuse 13.x in the readme
 
 ## 8.3.0 (2017-03-20)
+
 - Refactor mysql_service_manager_upstart.rb to eliminate use of cloned resource
 
 ## 8.2.0 (2016-12-03)
@@ -46,6 +47,7 @@ This file is used to list changes made in each version of the mysql cookbook.
 - Include client development packages on RHEL/SUSE platforms
 
 ## 8.1.1 (2016-10-31)
+
 - Fixing CVE-2016-6662 - Reverting execure bit on mysql config
 
 ## 8.1.0 (2016-10-29)
@@ -53,6 +55,7 @@ This file is used to list changes made in each version of the mysql cookbook.
 - Drop hardcoded, specific package version logic that broke many users
 
 ## 8.0.4 (2016-09-26)
+
 - Bump debian version
 - Updated packages for 12.04 and 14.04 too
 - Add chef_version metadata
@@ -61,18 +64,21 @@ This file is used to list changes made in each version of the mysql cookbook.
 - Make sure yum repos are setup in local Test Kitchen
 
 ## 8.0.3 (2016-09-14)
+
 - [GH-390] Fix #390 incorrect escaping of initial_root_password
 - Updated package versions for Ubuntu 16.04
 - Testing updates
 
-# v8.0.2 (2016-08-25)
+## v8.0.2 (2016-08-25)
+
 - Various bug fixed and updates to package version strings
 
-# v8.0.1 (2016-07-20)
+## v8.0.1 (2016-07-20)
+
 - Fixed a regression in the mysql_client resource where the action was changed from create to install in the 8.0 release
 - Added oracle, opensuse, and opensuseleap as supported platforms in the metadata
 
-# v8.0.0 (2016-07-11)
+## v8.0.0 (2016-07-11)
 
 - Converting from LWRP to custom resources
 - Removing yum-mysql and other dependencies.
@@ -488,7 +494,7 @@ Locking yum dependency to '< 3'
 
 ## v4.0.6
 
-# Bug
+### Bug
 
 - [COOK-3943] Notifying service restart on grants update
 
@@ -610,7 +616,7 @@ Locking yum dependency to '< 3'
 
 ## v2.0.0
 
-**Important note for this release**
+**Important** note for this release
 
 Under Chef Solo, you must set the node attributes for the root, debian and repl passwords or the run will completely fail. See COOK-1737 for background on this.
 
@@ -627,7 +633,7 @@ Under Chef Solo, you must set the node attributes for the root, debian and repl 
 
 ## v1.3.0
 
-**Important note for this release**
+**Important** note for this release
 
 This version no longer installs Ruby bindings in the client recipe by default. Use the ruby recipe if you'd like the RubyGem. If you'd like packages from your distribution, use them in your application's specific cookbook/recipe, or modify the client packages attribute. This resolves the following tickets:
 
