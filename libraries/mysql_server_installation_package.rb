@@ -1,6 +1,6 @@
 module MysqlCookbook
   class MysqlServerInstallationPackage < MysqlBase
-    # Resource properties
+    # Resource:: properties
     resource_name :mysql_server_installation_package
     provides :mysql_server_installation, os: 'linux'
 
