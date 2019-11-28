@@ -108,7 +108,7 @@ mysql_config 'foo' do
 end
 ```
 
-You are responsible for providing `my_extra_settings.erb` in your own cookbook's templates folder. The name of the mysql service insance must be provided in mysql config as this defaults to 'default'.
+You are responsible for providing `my_extra_settings.erb` in your own cookbook's templates folder. The name of the mysql service instance must be provided in mysql config as this defaults to 'default'.
 
 ## Connecting with the mysql CLI command
 
