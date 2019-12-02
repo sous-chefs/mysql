@@ -29,5 +29,4 @@ workflows:
       - kitchen/delivery:
           name: delivery
       - final:
-          requires:
-            - *lint_and_unit
+          requires: *lint_and_unit
