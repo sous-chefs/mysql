@@ -1,5 +1,5 @@
 ---
-  jobs:
+jobs:
   final:
     docker:
       - image: bash:latest
