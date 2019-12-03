@@ -3,9 +3,6 @@ module MysqlCookbook
     require_relative 'helpers'
 
     # All resources are composites
-    def whyrun_supported?
-      true
-    end
 
     ################
     # Type Constants
