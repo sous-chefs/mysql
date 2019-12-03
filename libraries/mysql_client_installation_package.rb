@@ -4,7 +4,7 @@ module MysqlCookbook
     require_relative 'helpers'
     include MysqlCookbook::HelpersBase
 
-    # Resource properties
+    # Resource:: properties
     resource_name :mysql_client_installation_package
     provides :mysql_client_installation, os: 'linux'
     provides :mysql_client, os: 'linux'
