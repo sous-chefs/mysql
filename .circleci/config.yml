@@ -1,13 +1,32 @@
+---
+jobs:
+  final:
+    docker:
+      - image: bash:latest
+    steps:
+      - run:
+          name: Finish cooking
+          command: echo "Finished cooking"
+
+lint_and_unit: &lint_and_unit
+  - delivery
+  - danger
+  - lint-yaml
+  - lint-markdown
 version: 2.1
-
 orbs:
-  kitchen: sous-chefs/kitchen@1.0.0
-
+  kitchen: sous-chefs/kitchen@2
 workflows:
   kitchen:
     jobs:
+      - kitchen/yamllint:
+          name: lint-yaml
+      - kitchen/mdlint:
+          name: lint-markdown
       - kitchen/danger:
           name: danger
           context: Danger
-      - kitchen/lint:
-          name: lint
+      - kitchen/delivery:
+          name: delivery
+      - final:
+          requires: *lint_and_unit

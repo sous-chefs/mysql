@@ -163,17 +163,17 @@ Please note that when using `notifies` or `subscribes`, the resource to referenc
 - `run_user` - The name of the system user the `mysql_service` should run as. Defaults to 'mysql'.
 - `pid_file` - Tunable location of the pid file.
 - `socket` - determines where to write the socket file for the `mysql_service` instance. Useful when configuring clients on the same machine to talk over socket and skip the networking stack. Defaults to a calculated value based on platform and instance name.
-- `tmp_dir` - Tunable location of the tmp_dir
+- `tmp_dir` - Tunable location of the tmp_dir.
 - `version` - allows the user to select from the versions available for the platform, where applicable. When omitted, it will install the default MySQL version for the target platform. Available version numbers are `5.0`, `5.1`, `5.5`, `5.6`, and `5.7`, depending on platform.
 
 #### Actions
 
 - `:create` - Configures everything but the underlying operating system service.
 - `:delete` - Removes everything but the package and data_dir.
-- `:start` - Starts the underlying operating system service
-- `:stop`- Stops the underlying operating system service
-- `:restart` - Restarts the underlying operating system service
-- `:reload` - Reloads the underlying operating system service
+- `:start` - Starts the underlying operating system service.
+- `:stop`- Stops the underlying operating system service.
+- `:restart` - Restarts the underlying operating system service.
+- `:reload` - Reloads the underlying operating system service.
 
 #### Providers
 
