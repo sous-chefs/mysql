@@ -52,12 +52,14 @@ spec/fixtures/*
 test/*
 features/*
 examples/*
+Dangerfile
 Guardfile
 Procfile
 .kitchen*
 .rubocop.yml
 spec/*
 Rakefile
+.circleci/*
 .travis.yml
 .foodcritic
 .codeclimate.yml
