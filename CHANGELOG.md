@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- migration to actions
 - Ability to include "none" as an installation method in mysql_service
 
 ## [8.6.0] - 2019-12-03

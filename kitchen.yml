@@ -53,7 +53,7 @@ suites:
       version: '5.7'
     includes: <%= apt_dists_with_57 %>
 
-  - name: installation_client_package-56-yum
+  - name: yum-installation_client_package-56
     run_list:
       - recipe[selinux::disabled]
       - recipe[test::yum_repo]
@@ -63,7 +63,7 @@ suites:
       version: '5.6'
     includes: <%= yum_dists_with_56 %>
 
-  - name: installation_client_package-56-suse
+  - name: suse-installation_client_package-56
     run_list:
       - recipe[test::yum_repo]
       - recipe[test::installation_client]
@@ -72,7 +72,7 @@ suites:
       version: '5.6'
     includes: <%= suse_dists_with_56 %>
 
-  - name: installation_client_package-57-yum
+  - name: yum-installation_client_package-57
     run_list:
       - recipe[selinux::disabled]
       - recipe[test::yum_repo]
@@ -102,7 +102,7 @@ suites:
       version: '5.7'
     includes: <%= apt_dists_with_57 %>
 
-  - name: smoke56-yum
+  - name: yum-smoke56
     run_list:
       - recipe[selinux::disabled]
       - recipe[test::yum_repo]
@@ -112,7 +112,7 @@ suites:
       version: '5.6'
     includes: <%= yum_dists_with_56 %>
 
-  - name: smoke56-suse
+  - name: suse-smoke56
     run_list:
       - recipe[test::yum_repo]
       - recipe[test::smoke]
@@ -121,7 +121,7 @@ suites:
       version: '5.6'
     includes: <%= suse_dists_with_56 %>
 
-  - name: smoke57-yum
+  - name: yum-smoke57
     run_list:
       - recipe[selinux::disabled]
       - recipe[test::yum_repo]
