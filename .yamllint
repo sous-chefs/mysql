@@ -7,3 +7,5 @@ rules:
   document-start:
     ignore: |
       kitchen.yml
+  truthy:
+    ignore: .github

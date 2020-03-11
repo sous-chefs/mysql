@@ -85,12 +85,12 @@ suites:
 
   - name: installation_client_package-80-yum
     run_list:
-    - recipe[selinux::disabled]
-    - recipe[test::yum_repo]
-    - recipe[test::installation_client]
+      - recipe[selinux::disabled]
+      - recipe[test::yum_repo]
+      - recipe[test::installation_client]
     attributes:
       mysql:
-       version: '8.0'
+        version: '8.0'
     includes: <%= yum_dists_with_80 %>
 
 
@@ -150,5 +150,5 @@ suites:
       - recipe[test::smoke]
     attributes:
       mysql:
-       version: '8.0'
+        version: '8.0'
     includes: <%= yum_dists_with_80 %>
