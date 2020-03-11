@@ -42,7 +42,8 @@ def check_mysql_client(version)
   # Version
   describe command("#{mysql_bin} --version") do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/Distrib #{version}/) }
+    its(:stdout) { should match(/Distrib #{version}/) } if Gem::Version.new(version) < Gem::Version.new('8.0')
+    its(:stdout) { should match(/Ver #{version}/) } if Gem::Version.new(version) >= Gem::Version.new('8.0')
     its(:stderr) { should eq '' }
   end
 

@@ -10,6 +10,7 @@ def start_slave_1(root_pass)
   query << " MASTER_USER='repl',"
   query << " MASTER_PASSWORD='REPLICAAATE',"
   query << ' MASTER_PORT=3306,'
+  query << ' GET_MASTER_PUBLIC_KEY=1,' if Gem::Version.new(node['mysql']['version']) >= Gem::Version.new('8.0')
   query << " MASTER_LOG_POS=#{::File.open('/root/position').read.chomp};"
   query << ' START SLAVE;'
   shell_out!("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3307 -p#{Shellwords.escape(root_pass)}")
@@ -21,6 +22,7 @@ def start_slave_2(root_pass)
   query << " MASTER_USER='repl',"
   query << " MASTER_PASSWORD='REPLICAAATE',"
   query << ' MASTER_PORT=3306,'
+  query << ' GET_MASTER_PUBLIC_KEY=1,' if Gem::Version.new(node['mysql']['version']) >= Gem::Version.new('8.0')
   query << " MASTER_LOG_POS=#{::File.open('/root/position').read.chomp};"
   query << ' START SLAVE;'
   shell_out!("echo \"#{query}\" | /usr/bin/mysql -u root -h 127.0.0.1 -P3308 -p#{Shellwords.escape(root_pass)}")
