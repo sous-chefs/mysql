@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - migration to actions
 - Ability to include "none" as an installation method in mysql_service
+- Adds and updates tests for 8.0 yum distros, I looked at adding 8.0 debian, but 8.0 was installing `mysql-systemd-start` script under `/usr/share/mysql/8.0` and didn't want to include too many changes here.
+
+### Changed
+
+- Modifies `v56plus` and `v57plus` methods to use `Gem::Version`
+- Modify the `init_records_script` to set the root password using `ALTER USER` for 5.7+, from [#518](https://github.com/sous-chefs/mysql/pull/518) and [#410](https://github.com/sous-chefs/mysql/issues/410).
 
 ## [8.6.0] - 2019-12-03
 
