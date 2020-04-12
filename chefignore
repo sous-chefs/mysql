@@ -52,14 +52,12 @@ spec/fixtures/*
 test/*
 features/*
 examples/*
-Dangerfile
 Guardfile
 Procfile
 .kitchen*
 .rubocop.yml
 spec/*
 Rakefile
-.circleci/*
 .travis.yml
 .foodcritic
 .codeclimate.yml
@@ -76,7 +74,6 @@ Rakefile
 */.bzr/*
 */.hg/*
 */.svn/*
-.github/*
 
 # Berkshelf #
 #############
@@ -85,8 +82,25 @@ Berksfile.lock
 cookbooks/*
 tmp
 
+# Policyfile #
+##############
+Policyfile.rb
+Policyfile.lock.json
+
 # Cookbooks #
 #############
 CONTRIBUTING*
 CHANGELOG*
 TESTING*
+
+# Strainer #
+############
+Colanderfile
+Strainerfile
+.colander
+.strainer
+
+# Vagrant #
+###########
+.vagrant
+Vagrantfile
