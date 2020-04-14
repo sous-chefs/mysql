@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'test::installation_client' do
   let(:installation_client_package_centos_5) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') }
   let(:installation_client_package_centos_6) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.9') }
-  let(:installation_client_package_centos_7) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7.5.1804') }
-  let(:installation_client_package_fedora) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '28') }
+  let(:installation_client_package_centos_7) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7') }
+  let(:installation_client_package_fedora) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '30') }
   let(:installation_client_package_debian_7) { ChefSpec::ServerRunner.new(platform: 'debian', version: '7.11') }
   let(:installation_client_package_debian_8) { ChefSpec::ServerRunner.new(platform: 'debian', version: '8.11') }
   let(:installation_client_package_ubuntu_1404) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') }
