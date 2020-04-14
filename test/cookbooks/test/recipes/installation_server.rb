@@ -2,7 +2,7 @@ apt_update 'update'
 
 def configure_package_repositories
   # we need to enable the yum-mysql-community repository to get packages
-  return unless %w(rhel fedora).include? node['platform_family']
+  return unless platform_family?('rhel', 'fedora')
   case node['mysql']['version']
   when '5.6'
     include_recipe 'yum-mysql-community::mysql56'
