@@ -104,6 +104,7 @@ module MysqlCookbook
 
     def default_client_package_name
       return %w(mysql mysql-devel) if major_version == '5.1' && el6?
+      return %w(mysql mysql-devel) if major_version == '5.6' && el6?
       return %w(mysql mysql-devel) if el7?
       return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && node['platform'] == 'amazon'
       return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && node['platform'] == 'amazon'
@@ -117,6 +118,7 @@ module MysqlCookbook
 
     def default_server_package_name
       return 'mysql-server' if major_version == '5.1' && el6?
+      return 'mysql-server' if major_version == '5.6' && el6?
       return 'mysql55-server' if major_version == '5.5' && node['platform'] == 'amazon'
       return 'mysql56-server' if major_version == '5.6' && node['platform'] == 'amazon'
       return 'mysql57-server' if major_version == '5.7' && node['platform'] == 'amazon'

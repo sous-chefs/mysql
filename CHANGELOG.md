@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Set default packages for el6/5.6 to mysql mysql-devel mysql-server
 - migration to actions
 - Ability to include "none" as an installation method in mysql_service
 
