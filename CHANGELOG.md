@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 8.7.1 - 2020-05-19
+- Properly initialize root password on MySQL 5.7+
+- Remove Fedora-28 from Kitchen test suite for MySQL 5.6
+- Fix indentation for attributes in `kitchen.yml` to allow tests to run properly
+- Misc fixes for smoke tests + add new smoke tests to test installed MySQL version
+This bugfix release includes no backwards compatibility breaks for users but you may
+still want to see PR #626 (and original PR #584) for full details.
+
 ## 8.7.0 - 2020-05-05
 
 - migration to Github Actions
