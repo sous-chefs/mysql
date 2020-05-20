@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- resolved cookstyle error: spec/mysql_client_installation_package_spec.rb:7:46 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
+- resolved cookstyle error: spec/mysql_server_installation_package_spec.rb:7:46 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
+
 ## 8.7.0 - 2020-05-05
 
 - migration to Github Actions
