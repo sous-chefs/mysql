@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- resolved cookstyle error: libraries/mysql_service.rb:4:5 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
+
 ## 8.7.1 - 2020-05-20
 
 - resolved cookstyle error: spec/mysql_client_installation_package_spec.rb:7:46 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
