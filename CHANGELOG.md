@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Remove the Upstart provider / support for EOL Ubuntu 14.04
+- Make sure we have both resource_name and provides in all resources
+- Remove an unused Boolean property type that wasn't actually called anywhere
+- Don't constrain the provides in resources to Linux since this whole recipe will already break on a non-Linux node
 - resolved cookstyle error: libraries/mysql_client_installation_package.rb:8:5 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
 - resolved cookstyle error: libraries/mysql_client_installation_package.rb:9:1 convention: `Layout/IndentationConsistency`
 - resolved cookstyle error: libraries/mysql_client_installation_package.rb:9:1 convention: `Layout/IndentationWidth`
