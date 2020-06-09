@@ -4,15 +4,6 @@ module MysqlCookbook
 
     # All resources are composites
 
-    ################
-    # Type Constants
-    ################
-
-    Boolean = property_type(
-      is: [true, false],
-      default: false
-    ) unless defined?(Boolean)
-
     ###################
     # Common Properties
     ###################
