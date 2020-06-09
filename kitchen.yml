@@ -1,7 +1,6 @@
 <%
 yum_dists_with_56 = %w(centos-6 centos-7 fedora-28 amazon-linux)
 suse_dists_with_56 = %w(opensuse-leap)
-apt_dists_with_56 = %w(ubuntu-14.04)
 yum_dists_with_57 = %w(centos-6 centos-7 fedora-28 fedora-latest)
 apt_dists_with_57 = %w(ubuntu-16.04 ubuntu-18.04)
 %>
@@ -37,14 +36,6 @@ suites:
   #
   # client
   #
-  - name: installation_client_package-56
-    run_list:
-      - recipe[test::installation_client]
-    attributes:
-      mysql:
-      version: '5.6'
-    includes: <%= apt_dists_with_56 %>
-
   - name: installation_client_package-57
     run_list:
       - recipe[test::installation_client]
@@ -85,14 +76,6 @@ suites:
   #
   # server smoke
   #
-
-  - name: smoke56
-    run_list:
-      - recipe[test::smoke]
-    attributes:
-      mysql:
-      version: '5.6'
-    includes: <%= apt_dists_with_56 %>
 
   - name: smoke57
     run_list:

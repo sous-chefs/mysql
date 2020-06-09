@@ -29,7 +29,6 @@ The following platforms have been tested with Test Kitchen:
 |  OS            | 5.1 | 5.5 | 5.6 | 5.7 |
 |----------------|-----|-----|-----|-----|
 | debian-8       |     | X   |     |     |
-| ubuntu-14.04   |     | X   | X   |     |
 | ubuntu-16.04   |     |     |     | X   |
 | centos-6       | X   | X   | X   | X   |
 | centos-7       |     | X   | X   | X   |

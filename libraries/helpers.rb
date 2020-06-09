@@ -32,12 +32,6 @@ module MysqlCookbook
       false
     end
 
-    def trusty?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
-      return true if node['platform'] == 'linuxmint' && node['platform_version'] =~ /^17\.[0-9]$/
-      false
-    end
-
     def xenial?
       return true if node['platform'] == 'ubuntu' && node['platform_version'] == '16.04'
       false
