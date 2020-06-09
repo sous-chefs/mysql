@@ -3,7 +3,7 @@ module MysqlCookbook
     resource_name :mysql_service_manager_sysvinit
     provides :mysql_service_manager_sysvinit
 
-    provides :mysql_service_manager, os: 'linux'
+    provides :mysql_service_manager
 
     action :create do
       # from base

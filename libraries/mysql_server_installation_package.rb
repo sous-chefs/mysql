@@ -3,7 +3,7 @@ module MysqlCookbook
     # Resource:: properties
     resource_name :mysql_server_installation_package
     provides :mysql_server_installation_package
-    provides :mysql_server_installation, os: 'linux'
+    provides :mysql_server_installation
 
     property :package_name, String, default: lazy { default_server_package_name }, desired_state: false
     property :package_options, [String, nil], desired_state: false

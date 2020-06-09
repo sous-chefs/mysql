@@ -7,8 +7,8 @@ module MysqlCookbook
     # Resource:: properties
     resource_name :mysql_client_installation_package
     provides :mysql_client_installation_package
-    provides :mysql_client_installation, os: 'linux'
-    provides :mysql_client, os: 'linux'
+    provides :mysql_client_installation
+    provides :mysql_client
 
     property :package_name, [String, Array], default: lazy { default_client_package_name }, desired_state: false
     property :package_options, [String, nil], desired_state: false
