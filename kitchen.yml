@@ -1,6 +1,6 @@
 <%
-yum_dists_with_56 = %w(centos-7 fedora-28 amazon-linux)
-yum_dists_with_57 = %w(centos-7 fedora-28 fedora-latest)
+yum_dists_with_56 = %w(centos-7)
+yum_dists_with_57 = %w(centos-7 fedora-28)
 apt_dists_with_57 = %w(ubuntu-16.04 ubuntu-18.04)
 %>
 ---
@@ -23,9 +23,6 @@ platforms:
   - name: fedora-28
   - name: ubuntu-16.04
   - name: ubuntu-18.04
-  - name: amazonlinux
-    driver_config:
-      box: mvbcoding/awslinux
 
 suites:
   #

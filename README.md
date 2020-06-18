@@ -32,7 +32,7 @@ The following platforms have been tested with Test Kitchen:
 | ubuntu-16.04   |     |     | X   |
 | ubuntu-18.04   |     |     | X   |
 | centos-7       | X   | X   | X   |
-| fedora         |     | X   | X   |
+| fedora         |     |     | X   |
 
 ## Cookbook Dependencies
 
