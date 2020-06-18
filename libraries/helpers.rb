@@ -62,7 +62,6 @@ module MysqlCookbook
 
       # misc
       return '5.7' if fedora?
-      return '5.6' if suse?
     end
 
     def major_from_full(v)

@@ -33,7 +33,6 @@ The following platforms have been tested with Test Kitchen:
 | ubuntu-18.04   |     |     | X   |
 | centos-7       | X   | X   | X   |
 | fedora         |     | X   | X   |
-| openSUSE Leap  |     | X   |     |
 
 ## Cookbook Dependencies
 
