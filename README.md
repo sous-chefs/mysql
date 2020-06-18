@@ -175,24 +175,6 @@ Please note that when using `notifies` or `subscribes`, the resource to referenc
 - `:restart` - Restarts the underlying operating system service.
 - `:reload` - Reloads the underlying operating system service.
 
-#### Providers
-
-Chef selects the appropriate provider based on platform and version, but you can specify one if your platform support it.
-
-```ruby
-mysql_service[instance-1] do
-  port '1234'
-  data_dir '/mnt/lottadisk'
-  provider Chef::Provider::MysqlServiceSysvinit
-  action [:create, :start]
-end
-```
-
-- `Chef::Provider::MysqlServiceBase` - Configures everything needed to run a MySQL service except the platform service facility. This provider should never be used directly. The `:start`, `:stop`, `:restart`, and `:reload` actions are stubs meant to be overridden by the providers below.
-- `Chef::Provider::MysqlServiceSystemd` - Starts a `mysql_service` using SystemD. Manages the unit file and activation state
-- `Chef::Provider::MysqlServiceSysvinit` - Starts a `mysql_service` using SysVinit. Manages the init script and status.
-- `Chef::Provider::MysqlServiceUpstart` - Starts a `mysql_service` using Upstart. Manages job definitions and status.
-
 ### mysql_config
 
 The `mysql_config` resource is a wrapper around the core Chef `template` resource. Instead of a `path` parameter, it uses the `instance` parameter to calculate the path on the filesystem where file is rendered.
