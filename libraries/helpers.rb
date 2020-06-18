@@ -40,7 +40,6 @@ module MysqlCookbook
 
     def default_data_dir
       return "/var/lib/#{mysql_name}" if node['os'] == 'linux'
-      return "/opt/local/lib/#{mysql_name}" if platform_family?('solaris2')
       return "/var/db/#{mysql_name}" if platform_family?('freebsd')
     end
 
@@ -124,8 +123,6 @@ module MysqlCookbook
     end
 
     def prefix_dir
-      return "/opt/mysql#{pkg_ver_string}" if node['platform_family'] == 'omnios'
-      return '/opt/local' if node['platform_family'] == 'smartos'
       return "/opt/rh/#{scl_name}/root" if scl_package?
     end
 
@@ -143,8 +140,6 @@ module MysqlCookbook
     end
 
     def etc_dir
-      return "/opt/mysql#{pkg_ver_string}/etc/#{mysql_name}" if node['platform_family'] == 'omnios'
-      return "#{prefix_dir}/etc/#{mysql_name}" if node['platform_family'] == 'smartos'
       "#{prefix_dir}/etc/#{mysql_name}"
     end
 
@@ -177,7 +172,6 @@ module MysqlCookbook
     end
 
     def log_dir
-      return "/var/adm/log/#{mysql_name}" if node['platform_family'] == 'omnios'
       "#{prefix_dir}/var/log/#{mysql_name}"
     end
 
@@ -244,8 +238,6 @@ EOSQL
     end
 
     def mysql_install_db_bin
-      return "#{base_dir}/scripts/mysql_install_db" if node['platform_family'] == 'omnios'
-      return "#{prefix_dir}/bin/mysql_install_db" if node['platform_family'] == 'smartos'
       'mysql_install_db'
     end
 
@@ -259,14 +251,11 @@ EOSQL
     end
 
     def mysqladmin_bin
-      return "#{prefix_dir}/bin/mysqladmin" if node['platform_family'] == 'smartos'
       return 'mysqladmin' if scl_package?
       "#{prefix_dir}/usr/bin/mysqladmin"
     end
 
     def mysqld_bin
-      return "#{prefix_dir}/libexec/mysqld" if node['platform_family'] == 'smartos'
-      return "#{base_dir}/bin/mysqld" if node['platform_family'] == 'omnios'
       return '/usr/sbin/mysqld' if fedora? && v56plus
       return '/usr/libexec/mysqld' if fedora?
       return 'mysqld' if scl_package?
@@ -297,8 +286,6 @@ EOSQL
     end
 
     def mysqld_safe_bin
-      return "#{prefix_dir}/bin/mysqld_safe" if node['platform_family'] == 'smartos'
-      return "#{base_dir}/bin/mysqld_safe" if node['platform_family'] == 'omnios'
       return 'mysqld_safe' if scl_package?
       "#{prefix_dir}/usr/bin/mysqld_safe"
     end

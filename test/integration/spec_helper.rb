@@ -1,24 +1,13 @@
 # MySQL Client bin path
 #
 def mysql_bin
-  case os[:family]
-  when 'smartos'
-    '/opt/local/bin/mysql'
-  when 'solaris'
-    '/opt/omni/bin/mysql'
-  else
-    '/usr/bin/mysql'
-  end
+  '/usr/bin/mysql'
 end
 
 # MySQL Server binary path
 #
 def mysqld_bin(version = nil)
   case os[:family]
-  when 'solaris'
-    "/opt/mysql#{version.delete('.')}/bin/mysqld"
-  when 'smartos'
-    '/opt/local/bin/mysqld'
   when 'redhat'
     version == '5.1' ? '/usr/libexec/mysqld' : '/usr/sbin/mysqld'
   else

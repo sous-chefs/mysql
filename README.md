@@ -189,7 +189,6 @@ end
 ```
 
 - `Chef::Provider::MysqlServiceBase` - Configures everything needed to run a MySQL service except the platform service facility. This provider should never be used directly. The `:start`, `:stop`, `:restart`, and `:reload` actions are stubs meant to be overridden by the providers below.
-- `Chef::Provider::MysqlServiceSmf` - Starts a `mysql_service` using the Service Management Facility, used by Solaris and Illumos. Manages the FMRI and method script.
 - `Chef::Provider::MysqlServiceSystemd` - Starts a `mysql_service` using SystemD. Manages the unit file and activation state
 - `Chef::Provider::MysqlServiceSysvinit` - Starts a `mysql_service` using SysVinit. Manages the init script and status.
 - `Chef::Provider::MysqlServiceUpstart` - Starts a `mysql_service` using Upstart. Manages job definitions and status.
@@ -216,7 +215,7 @@ end
 - `owner` - System user for file ownership. Defaults to 'mysql'.
 - `source` - Template in cookbook to be rendered.
 - `variables` - Variables to be passed to the underlying `template` resource.
-- `version` - Version of the `mysql_service` instance the config is meant for. Used to calculate path. Only necessary when using packages with unique configuration paths, such as RHEL Software Collections or OmniOS. Defaults to 'nil'
+- `version` - Version of the `mysql_service` instance the config is meant for. Used to calculate path. Only necessary when using packages with unique configuration paths, such as RHEL Software Collections. Defaults to 'nil'
 
 #### Actions
 
@@ -255,7 +254,7 @@ end
 
 The `mysql_client` resource manages the MySQL client binaries and development libraries.
 
-It is an example of a "singleton" resource. Declaring two `mysql_client` resources on a machine usually won't yield two separate copies of the client binaries, except for platforms that support multiple versions (RHEL SCL, OmniOS).
+It is an example of a "singleton" resource. Declaring two `mysql_client` resources on a machine usually won't yield two separate copies of the client binaries, except for platforms that support multiple versions (RHEL SCL).
 
 #### Example
 
@@ -269,7 +268,7 @@ end
 
 - `package_name` - An array of packages to be installed. Defaults to a value looked up in an internal map.
 - `package_version` - Specific versions of the package to install, passed onto the underlying package manager. Defaults to `nil`.
-- `version` - Major MySQL version number of client packages. Only valid on for platforms that support multiple versions, such as RHEL via Software Collections and OmniOS.
+- `version` - Major MySQL version number of client packages. Only valid on for platforms that support multiple versions, such as RHEL via Software Collections.
 
 #### Actions
 
