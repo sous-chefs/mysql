@@ -14,12 +14,12 @@ module MysqlCookbook
       platform_family?('suse')
     end
 
-    def jessie?
-      platform?('debian') && node['platform_version'].to_i == 8
-    end
-
     def stretch?
       platform?('debian') && node['platform_version'].to_i == 9
+    end
+
+    def buster?
+      platform?('debian') && node['platform_version'].to_i == 10
     end
 
     def xenial?
@@ -28,6 +28,10 @@ module MysqlCookbook
 
     def bionic?
       platform?('ubuntu') && node['platform_version'] == '18.04'
+    end
+
+    def focal?
+      platform?('ubuntu') && node['platform_version'] == '20.04'
     end
 
     def defaults_file
@@ -51,9 +55,6 @@ module MysqlCookbook
       # rhelish
       return '5.6' if el7?
       return '5.6' if node['platform'] == 'amazon'
-
-      # debian
-      return '5.5' if jessie?
 
       # ubuntu
       return '5.5' if trusty?
