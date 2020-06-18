@@ -3,43 +3,35 @@ module MysqlCookbook
     require 'shellwords'
 
     def el6?
-      return true if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 6
-      false
+      platform_family?('rhel') && node['platform_version'].to_i == 6
     end
 
     def el7?
-      return true if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 7
-      false
+      platform_family?('rhel') && node['platform_version'].to_i == 7
     end
 
     def fedora?
-      return true if node['platform_family'] == 'fedora'
-      false
+      platform_family?('fedora')
     end
 
     def suse?
-      return true if node['platform_family'] == 'suse'
-      false
+      platform_family?('suse')
     end
 
     def jessie?
-      return true if node['platform'] == 'debian' && node['platform_version'].to_i == 8
-      false
+      platform?('debian') && node['platform_version'].to_i == 8
     end
 
     def stretch?
-      return true if node['platform'] == 'debian' && node['platform_version'].to_i == 9
-      false
+      platform?('debian') && node['platform_version'].to_i == 9
     end
 
     def xenial?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '16.04'
-      false
+      platform?('ubuntu') && node['platform_version'] == '16.04'
     end
 
     def bionic?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '18.04'
-      false
+      platform?('ubuntu') && node['platform_version'] == '18.04'
     end
 
     def defaults_file
