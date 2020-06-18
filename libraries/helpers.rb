@@ -56,7 +56,6 @@ module MysqlCookbook
       return '5.6' if node['platform'] == 'amazon'
 
       # ubuntu
-      return '5.5' if trusty?
       return '5.7' if xenial?
       return '5.7' if bionic?
 
