@@ -39,8 +39,7 @@ module MysqlCookbook
     end
 
     def default_data_dir
-      return "/var/lib/#{mysql_name}" if node['os'] == 'linux'
-      return "/var/db/#{mysql_name}" if platform_family?('freebsd')
+      return "/var/lib/#{mysql_name}"
     end
 
     def default_error_log
@@ -62,7 +61,6 @@ module MysqlCookbook
       return '5.7' if bionic?
 
       # misc
-      return '5.6' if node['platform'] == 'freebsd'
       return '5.7' if fedora?
       return '5.6' if suse?
     end
