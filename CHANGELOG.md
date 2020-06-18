@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Remove support for non-systemd Linux distros (RHEl 6 at this point)
+- Remove support in code for Solaris/OmniOS/SmartOS
 - Remove the Upstart provider / support for EOL Ubuntu 14.04
 - Make sure we have both resource_name and provides in all resources
 - Remove an unused Boolean property type that wasn't actually called anywhere

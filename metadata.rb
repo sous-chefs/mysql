@@ -9,12 +9,12 @@ chef_version      '>= 12.7'
 version           '8.7.2'
 
 %w(redhat centos scientific oracle).each do |el|
-  supports el, '>= 6.0'
+  supports el, '>= 7.0'
 end
 
 supports 'amazon'
 supports 'fedora'
-supports 'debian', '>= 7.0'
+supports 'debian', '>= 9.0'
 supports 'ubuntu', '>= 16.04'
 supports 'opensuseleap'
-supports 'suse', '>= 12.0'
+supports 'suse', '>= 15.0'

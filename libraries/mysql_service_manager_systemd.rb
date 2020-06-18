@@ -1,11 +1,8 @@
 module MysqlCookbook
   class MysqlServiceManagerSystemd < MysqlServiceBase
-    resource_name :mysql_service_manager_systemd
-    provides :mysql_service_manager_systemd
-
-    provides :mysql_service_manager, os: 'linux' do |_node|
-      Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
-    end
+    resource_name :mysql_service_manager
+    provides :mysql_service_manager
+    provides :mysql_service_manager_systemd # legacy name
 
     action :create do
       # from base

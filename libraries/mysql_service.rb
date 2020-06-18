@@ -46,16 +46,7 @@ module MysqlCookbook
       end
 
       def svc_manager(&block)
-        case new_resource.service_manager
-        when 'auto'
-          svc = mysql_service_manager(new_resource.name, &block)
-        when 'sysvinit'
-          svc = mysql_service_manager_sysvinit(new_resource.name, &block)
-        when 'upstart'
-          svc = mysql_service_manager_upstart(new_resource.name, &block)
-        when 'systemd'
-          svc = mysql_service_manager_systemd(new_resource.name, &block)
-        end
+        svc = mysql_service_manager(new_resource.name, &block)
         copy_properties_to(svc)
         svc
       end

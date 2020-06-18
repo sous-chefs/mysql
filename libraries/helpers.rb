@@ -2,10 +2,6 @@ module MysqlCookbook
   module HelpersBase
     require 'shellwords'
 
-    def el6?
-      platform_family?('rhel') && node['platform_version'].to_i == 6
-    end
-
     def el7?
       platform_family?('rhel') && node['platform_version'].to_i == 7
     end
@@ -53,7 +49,6 @@ module MysqlCookbook
 
     def default_major_version
       # rhelish
-      return '5.6' if el6?
       return '5.6' if el7?
       return '5.6' if node['platform'] == 'amazon'
 
@@ -88,7 +83,6 @@ module MysqlCookbook
     end
 
     def default_client_package_name
-      return %w(mysql mysql-devel) if major_version == '5.1' && el6?
       return %w(mysql mysql-devel) if el7?
       return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && node['platform'] == 'amazon'
       return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && node['platform'] == 'amazon'
@@ -101,7 +95,6 @@ module MysqlCookbook
     end
 
     def default_server_package_name
-      return 'mysql-server' if major_version == '5.1' && el6?
       return 'mysql55-server' if major_version == '5.5' && node['platform'] == 'amazon'
       return 'mysql56-server' if major_version == '5.6' && node['platform'] == 'amazon'
       return 'mysql57-server' if major_version == '5.7' && node['platform'] == 'amazon'
