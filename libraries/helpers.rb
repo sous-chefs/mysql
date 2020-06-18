@@ -39,7 +39,7 @@ module MysqlCookbook
     end
 
     def default_data_dir
-      return "/var/lib/#{mysql_name}"
+      "/var/lib/#{mysql_name}"
     end
 
     def default_error_log
