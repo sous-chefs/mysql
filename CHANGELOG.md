@@ -26,15 +26,6 @@ All notable changes to this project will be documented in this file.
 - resolved cookstyle error: libraries/mysql_service_manager_systemd.rb:4:3 convention: `Layout/IndentationWidth`
 - resolved cookstyle error: libraries/mysql_service_manager_systemd.rb:4:9 convention: `Layout/IndentationConsistency`
 - resolved cookstyle error: libraries/mysql_service_manager_sysvinit.rb:3:5 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
-- resolved cookstyle error: libraries/mysql_service_manager_sysvinit.rb:4:1 convention: `Layout/IndentationConsistency`
-- resolved cookstyle error: libraries/mysql_service_manager_sysvinit.rb:4:1 convention: `Layout/IndentationWidth`
-- resolved cookstyle error: libraries/mysql_service_manager_sysvinit.rb:4:3 convention: `Layout/IndentationWidth`
-- resolved cookstyle error: libraries/mysql_service_manager_sysvinit.rb:4:9 convention: `Layout/IndentationConsistency`
-- resolved cookstyle error: libraries/mysql_service_manager_upstart.rb:3:5 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
-- resolved cookstyle error: libraries/mysql_service_manager_upstart.rb:4:1 convention: `Layout/IndentationConsistency`
-- resolved cookstyle error: libraries/mysql_service_manager_upstart.rb:4:1 convention: `Layout/IndentationWidth`
-- resolved cookstyle error: libraries/mysql_service_manager_upstart.rb:4:3 convention: `Layout/IndentationWidth`
-- resolved cookstyle error: libraries/mysql_service_manager_upstart.rb:4:9 convention: `Layout/IndentationConsistency`
 
 ## 8.7.2 - 2020-06-02
 
