@@ -1,6 +1,7 @@
 module MysqlCookbook
   class MysqlServiceManagerUpstart < MysqlServiceBase
     resource_name :mysql_service_manager_upstart
+    provides :mysql_service_manager_upstart
 
     provides :mysql_service_manager, platform_family: 'debian' do |_node|
       Chef::Platform::ServiceHelpers.service_resource_providers.include?(:upstart) &&

@@ -2,6 +2,7 @@ module MysqlCookbook
   class MysqlServerInstallationPackage < MysqlBase
     # Resource:: properties
     resource_name :mysql_server_installation_package
+    provides :mysql_server_installation_package
     provides :mysql_server_installation, os: 'linux'
 
     property :package_name, String, default: lazy { default_server_package_name }, desired_state: false
