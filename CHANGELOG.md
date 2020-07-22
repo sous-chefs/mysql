@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 8.7.3 - 2020-07-22
 
 - restore resource_name in mysql_service for Chef Infra Client < 16
 - resolved cookstyle error: libraries/mysql_client_installation_package.rb:8:5 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
