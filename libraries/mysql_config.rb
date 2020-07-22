@@ -1,6 +1,7 @@
 module MysqlCookbook
   class MysqlConfig < MysqlBase
     resource_name :mysql_config
+    provides :mysql_config
 
     property :config_name, String, name_property: true, desired_state: false
     property :cookbook, String, desired_state: false
@@ -13,8 +14,6 @@ module MysqlCookbook
 
     require_relative 'helpers'
     include MysqlCookbook::HelpersBase
-
-    provides :mysql_config
 
     action :create do
       # hax because group property
