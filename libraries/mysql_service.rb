@@ -2,6 +2,7 @@ module MysqlCookbook
   require_relative 'mysql_service_base'
   class MysqlService < MysqlServiceBase
     resource_name :mysql_service
+    provides :mysql_service
 
     # installation type and service_manager
     property :install_method, %w(package auto none), default: 'auto', desired_state: false

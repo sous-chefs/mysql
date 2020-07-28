@@ -1,6 +1,7 @@
 module MysqlCookbook
   class MysqlServiceManagerSysvinit < MysqlServiceBase
     resource_name :mysql_service_manager_sysvinit
+    provides :mysql_service_manager_sysvinit
 
     provides :mysql_service_manager, os: 'linux'
 

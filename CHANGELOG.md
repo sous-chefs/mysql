@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 8.7.2 - 2020-05-19
+## Unreleased
 
 - Properly initialize root password on MySQL 5.7+
 - Remove Fedora-28 from Kitchen test suite for MySQL 5.6
