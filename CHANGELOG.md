@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- resolved cookstyle error: spec/mysql_client_installation_package_spec.rb:4:48 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
+- resolved cookstyle error: spec/mysql_server_installation_package_spec.rb:4:48 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
+
 ## 8.7.3 - 2020-07-22
 
 - restore resource_name in mysql_service for Chef Infra Client < 16
