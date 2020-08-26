@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'test::installation_client' do
-  let(:installation_client_package_centos_6) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.9') }
+  let(:installation_client_package_centos_6) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6') }
   let(:installation_client_package_centos_7) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7') }
   let(:installation_client_package_fedora) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '31') }
   let(:installation_client_package_ubuntu_1804) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04') }
