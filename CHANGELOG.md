@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - resolved cookstyle error: spec/mysql_client_installation_package_spec.rb:4:48 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
 - resolved cookstyle error: spec/mysql_server_installation_package_spec.rb:4:48 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
+- Cookstyle Bot Auto Corrections with Cookstyle 6.17.5 (ChefStyle/UsePlatformHelpers)
 
 ## 8.7.3 - 2020-07-22
 
