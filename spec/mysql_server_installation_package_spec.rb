@@ -8,7 +8,7 @@ describe 'test::installation_server' do
 
   context 'using el6' do
     it 'installs mysql_server_installation_package[default] when version is 5.6' do
-      installation_server_package_centos_6.node.default['mysql']['version'] = '5.6'
+      installation_server_package_centos_6.node.default['mysql_test']['version'] = '5.6'
       installation_server_package_centos_6.converge(described_recipe)
       expect(installation_server_package_centos_6).to install_mysql_server_installation_package('default').with(
         version: '5.6',
@@ -17,7 +17,7 @@ describe 'test::installation_server' do
     end
 
     it 'installs mysql_server_installation_package[default] when version is 5.7' do
-      installation_server_package_centos_6.node.default['mysql']['version'] = '5.7'
+      installation_server_package_centos_6.node.default['mysql_test']['version'] = '5.7'
       installation_server_package_centos_6.converge(described_recipe)
       expect(installation_server_package_centos_6).to install_mysql_server_installation_package('default').with(
         version: '5.7',
@@ -28,7 +28,7 @@ describe 'test::installation_server' do
 
   context 'using el7' do
     it 'installs mysql_server_installation_package[default] when version is 5.6' do
-      installation_server_package_centos_7.node.default['mysql']['version'] = '5.6'
+      installation_server_package_centos_7.node.default['mysql_test']['version'] = '5.6'
       installation_server_package_centos_7.converge(described_recipe)
       expect(installation_server_package_centos_7).to install_mysql_server_installation_package('default').with(
         version: '5.6',
@@ -37,7 +37,7 @@ describe 'test::installation_server' do
     end
 
     it 'installs mysql_server_installation_package[default] when version is 5.7' do
-      installation_server_package_centos_7.node.default['mysql']['version'] = '5.7'
+      installation_server_package_centos_7.node.default['mysql_test']['version'] = '5.7'
       installation_server_package_centos_7.converge(described_recipe)
       expect(installation_server_package_centos_7).to install_mysql_server_installation_package('default').with(
         version: '5.7',
@@ -48,7 +48,7 @@ describe 'test::installation_server' do
 
   context 'using fedora' do
     it 'installs mysql_server_installation_package[default] when version is 5.6' do
-      installation_server_package_fedora.node.default['mysql']['version'] = '5.6'
+      installation_server_package_fedora.node.default['mysql_test']['version'] = '5.6'
       installation_server_package_fedora.converge(described_recipe)
       expect(installation_server_package_fedora).to install_mysql_server_installation_package('default').with(
         version: '5.6',
@@ -57,7 +57,7 @@ describe 'test::installation_server' do
     end
 
     it 'installs mysql_server_installation_package[default] when version is 5.7' do
-      installation_server_package_fedora.node.default['mysql']['version'] = '5.7'
+      installation_server_package_fedora.node.default['mysql_test']['version'] = '5.7'
       installation_server_package_fedora.converge(described_recipe)
       expect(installation_server_package_fedora).to install_mysql_server_installation_package('default').with(
         version: '5.7',
@@ -68,7 +68,7 @@ describe 'test::installation_server' do
 
   context 'using ubuntu 18.04' do
     it 'installs mysql_server_installation_package[default] when version is 5.7' do
-      installation_server_package_ubuntu_1804.node.default['mysql']['version'] = '5.7'
+      installation_server_package_ubuntu_1804.node.default['mysql_test']['version'] = '5.7'
       installation_server_package_ubuntu_1804.converge(described_recipe)
       expect(installation_server_package_ubuntu_1804).to install_mysql_server_installation_package('default').with(
         version: '5.7',

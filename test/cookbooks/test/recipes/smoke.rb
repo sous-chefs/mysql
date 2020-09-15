@@ -7,12 +7,12 @@ root_pass_master = 'MyPa$$word\Has_"Special\'Chars%!'
 root_pass_slave = 'An0th3r_Pa%%w0rd!'
 
 # Debug message
-Chef::Log.error "\n\n" + '=' * 80 + "\n\nTesting MySQL version '#{node['mysql']['version']}'\n\n" + '=' * 80
+Chef::Log.error "\n\n" + '=' * 80 + "\n\nTesting MySQL version '#{node['mysql_test']['version']}'\n\n" + '=' * 80
 
 # master
 mysql_service 'master' do
   port '3306'
-  version node['mysql']['version']
+  version node['mysql_test']['version']
   initial_root_password root_pass_master
   action [:create, :start]
 end
@@ -34,7 +34,7 @@ end
 # slave-1
 mysql_service 'slave-1' do
   port '3307'
-  version node['mysql']['version']
+  version node['mysql_test']['version']
   initial_root_password root_pass_slave
   action [:create, :start]
 end
@@ -50,7 +50,7 @@ end
 # slave-2
 mysql_service 'slave-2' do
   port '3308'
-  version node['mysql']['version']
+  version node['mysql_test']['version']
   initial_root_password root_pass_slave
   action [:create, :start]
 end

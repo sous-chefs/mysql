@@ -1,7 +1,7 @@
 ---
 name: ci
 
-on:
+"on":
   pull_request:
   push:
     branches:
@@ -53,6 +53,13 @@ jobs:
         uses: actions/checkout@master
       - name: Install Chef
         uses: actionshub/chef-install@master
+      # https://github.com/actions/virtual-environments/issues/181#issuecomment-610874237
+      - name: Disable apparmor for mysqld
+        run: |
+            set -x
+            sudo apt-get -y remove mysql-server --purge
+            sudo apt-get -y install apparmor-profiles
+            sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
       - name: Dokken
         uses: actionshub/kitchen-dokken@master
         env:

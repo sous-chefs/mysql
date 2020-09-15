@@ -1,7 +1,7 @@
 # Before that, we use "native" versions
 
-unless node['mysql'].nil?
-  case node['mysql']['version']
+unless node['mysql_test'].nil?
+  case node['mysql_test']['version']
   when '5.6'
     include_recipe 'yum-mysql-community::mysql56'
   when '5.7'
