@@ -3,48 +3,48 @@ module MysqlCookbook
     require 'shellwords'
 
     def el6?
-      return true if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 6
+      return true if platform_family?('rhel') && node['platform_version'].to_i == 6
       false
     end
 
     def el7?
-      return true if node['platform_family'] == 'rhel' && node['platform_version'].to_i == 7
+      return true if platform_family?('rhel') && node['platform_version'].to_i == 7
       false
     end
 
     def fedora?
-      return true if node['platform_family'] == 'fedora'
+      return true if platform_family?('fedora')
       false
     end
 
     def suse?
-      return true if node['platform_family'] == 'suse'
+      return true if platform_family?('suse')
       false
     end
 
     def jessie?
-      return true if node['platform'] == 'debian' && node['platform_version'].to_i == 8
+      return true if platform?('debian') && node['platform_version'].to_i == 8
       false
     end
 
     def stretch?
-      return true if node['platform'] == 'debian' && node['platform_version'].to_i == 9
+      return true if platform?('debian') && node['platform_version'].to_i == 9
       false
     end
 
     def trusty?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
-      return true if node['platform'] == 'linuxmint' && node['platform_version'] =~ /^17\.[0-9]$/
+      return true if platform?('ubuntu') && node['platform_version'] == '14.04'
+      return true if platform?('linuxmint') && node['platform_version'] =~ /^17\.[0-9]$/
       false
     end
 
     def xenial?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '16.04'
+      return true if platform?('ubuntu') && node['platform_version'] == '16.04'
       false
     end
 
     def bionic?
-      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '18.04'
+      return true if platform?('ubuntu') && node['platform_version'] == '18.04'
       false
     end
 
@@ -70,7 +70,7 @@ module MysqlCookbook
       # rhelish
       return '5.6' if el6?
       return '5.6' if el7?
-      return '5.6' if node['platform'] == 'amazon'
+      return '5.6' if platform?('amazon')
 
       # debian
       return '5.5' if jessie?
@@ -81,7 +81,7 @@ module MysqlCookbook
       return '5.7' if bionic?
 
       # misc
-      return '5.6' if node['platform'] == 'freebsd'
+      return '5.6' if platform?('freebsd')
       return '5.7' if fedora?
       return '5.6' if suse?
     end
@@ -105,25 +105,25 @@ module MysqlCookbook
     def default_client_package_name
       return %w(mysql mysql-devel) if major_version == '5.1' && el6?
       return %w(mysql mysql-devel) if el7?
-      return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && node['platform'] == 'amazon'
-      return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && node['platform'] == 'amazon'
-      return ['mysql57', 'mysql57-devel.x86_64'] if major_version == '5.7' && node['platform'] == 'amazon'
-      return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
-      return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && node['platform_family'] == 'debian'
-      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian'
-      return 'mysql-community-server-client' if major_version == '5.6' && node['platform_family'] == 'suse'
+      return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && platform?('amazon')
+      return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && platform?('amazon')
+      return ['mysql57', 'mysql57-devel.x86_64'] if major_version == '5.7' && platform?('amazon')
+      return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && platform_family?('debian')
+      return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && platform_family?('debian')
+      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && platform_family?('debian')
+      return 'mysql-community-server-client' if major_version == '5.6' && platform_family?('suse')
       %w(mysql-community-client mysql-community-devel)
     end
 
     def default_server_package_name
       return 'mysql-server' if major_version == '5.1' && el6?
-      return 'mysql55-server' if major_version == '5.5' && node['platform'] == 'amazon'
-      return 'mysql56-server' if major_version == '5.6' && node['platform'] == 'amazon'
-      return 'mysql57-server' if major_version == '5.7' && node['platform'] == 'amazon'
-      return 'mysql-server-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
-      return 'mysql-server-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
-      return 'mysql-server-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
-      return 'mysql-community-server' if major_version == '5.6' && node['platform_family'] == 'suse'
+      return 'mysql55-server' if major_version == '5.5' && platform?('amazon')
+      return 'mysql56-server' if major_version == '5.6' && platform?('amazon')
+      return 'mysql57-server' if major_version == '5.7' && platform?('amazon')
+      return 'mysql-server-5.5' if major_version == '5.5' && platform_family?('debian')
+      return 'mysql-server-5.6' if major_version == '5.6' && platform_family?('debian')
+      return 'mysql-server-5.7' if major_version == '5.7' && platform_family?('debian')
+      return 'mysql-community-server' if major_version == '5.6' && platform_family?('suse')
       'mysql-community-server'
     end
 
@@ -132,33 +132,33 @@ module MysqlCookbook
     end
 
     def run_dir
-      return "#{prefix_dir}/var/run/#{mysql_name}" if node['platform_family'] == 'rhel'
-      return "/run/#{mysql_name}" if node['platform_family'] == 'debian'
+      return "#{prefix_dir}/var/run/#{mysql_name}" if platform_family?('rhel')
+      return "/run/#{mysql_name}" if platform_family?('debian')
       "/var/run/#{mysql_name}"
     end
 
     def prefix_dir
-      return "/opt/mysql#{pkg_ver_string}" if node['platform_family'] == 'omnios'
-      return '/opt/local' if node['platform_family'] == 'smartos'
+      return "/opt/mysql#{pkg_ver_string}" if platform_family?('omnios')
+      return '/opt/local' if platform_family?('smartos')
       return "/opt/rh/#{scl_name}/root" if scl_package?
     end
 
     def scl_name
-      return unless node['platform_family'] == 'rhel'
+      return unless platform_family?('rhel')
       return 'mysql51' if version == '5.1' && node['platform_version'].to_i == 5
       return 'mysql55' if version == '5.5' && node['platform_version'].to_i == 5
     end
 
     def scl_package?
-      return unless node['platform_family'] == 'rhel'
+      return unless platform_family?('rhel')
       return true if version == '5.1' && node['platform_version'].to_i == 5
       return true if version == '5.5' && node['platform_version'].to_i == 5
       false
     end
 
     def etc_dir
-      return "/opt/mysql#{pkg_ver_string}/etc/#{mysql_name}" if node['platform_family'] == 'omnios'
-      return "#{prefix_dir}/etc/#{mysql_name}" if node['platform_family'] == 'smartos'
+      return "/opt/mysql#{pkg_ver_string}/etc/#{mysql_name}" if platform_family?('omnios')
+      return "#{prefix_dir}/etc/#{mysql_name}" if platform_family?('smartos')
       "#{prefix_dir}/etc/#{mysql_name}"
     end
 
@@ -167,10 +167,10 @@ module MysqlCookbook
     end
 
     def system_service_name
-      return 'mysql51-mysqld' if node['platform_family'] == 'rhel' && scl_name == 'mysql51'
-      return 'mysql55-mysqld' if node['platform_family'] == 'rhel' && scl_name == 'mysql55'
-      return 'mysqld' if node['platform_family'] == 'rhel'
-      return 'mysqld' if node['platform_family'] == 'fedora'
+      return 'mysql51-mysqld' if platform_family?('rhel') && scl_name == 'mysql51'
+      return 'mysql55-mysqld' if platform_family?('rhel') && scl_name == 'mysql55'
+      return 'mysqld' if platform_family?('rhel')
+      return 'mysqld' if platform_family?('fedora')
       'mysql' # not one of the above
     end
 
@@ -191,7 +191,7 @@ module MysqlCookbook
     end
 
     def log_dir
-      return "/var/adm/log/#{mysql_name}" if node['platform_family'] == 'omnios'
+      return "/var/adm/log/#{mysql_name}" if platform_family?('omnios')
       "#{prefix_dir}/var/log/#{mysql_name}"
     end
 
@@ -258,8 +258,8 @@ EOSQL
     end
 
     def mysql_install_db_bin
-      return "#{base_dir}/scripts/mysql_install_db" if node['platform_family'] == 'omnios'
-      return "#{prefix_dir}/bin/mysql_install_db" if node['platform_family'] == 'smartos'
+      return "#{base_dir}/scripts/mysql_install_db" if platform_family?('omnios')
+      return "#{prefix_dir}/bin/mysql_install_db" if platform_family?('smartos')
       'mysql_install_db'
     end
 
@@ -273,14 +273,14 @@ EOSQL
     end
 
     def mysqladmin_bin
-      return "#{prefix_dir}/bin/mysqladmin" if node['platform_family'] == 'smartos'
+      return "#{prefix_dir}/bin/mysqladmin" if platform_family?('smartos')
       return 'mysqladmin' if scl_package?
       "#{prefix_dir}/usr/bin/mysqladmin"
     end
 
     def mysqld_bin
-      return "#{prefix_dir}/libexec/mysqld" if node['platform_family'] == 'smartos'
-      return "#{base_dir}/bin/mysqld" if node['platform_family'] == 'omnios'
+      return "#{prefix_dir}/libexec/mysqld" if platform_family?('smartos')
+      return "#{base_dir}/bin/mysqld" if platform_family?('omnios')
       return '/usr/sbin/mysqld' if fedora? && v56plus
       return '/usr/libexec/mysqld' if fedora?
       return 'mysqld' if scl_package?
@@ -289,14 +289,14 @@ EOSQL
 
     def mysql_systemd_start_pre
       return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || fedora?)
-      return '/usr/bin/mysql-systemd-start pre' if node['platform_family'] == 'rhel'
+      return '/usr/bin/mysql-systemd-start pre' if platform_family?('rhel')
       return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
       '/usr/share/mysql/mysql-systemd-start pre'
     end
 
     def mysql_systemd
       return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || fedora?)
-      return '/usr/bin/mysql-systemd-start' if node['platform_family'] == 'rhel'
+      return '/usr/bin/mysql-systemd-start' if platform_family?('rhel')
       return '/usr/share/mysql/mysql-systemd-start' if v57plus
       "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"
     end
@@ -311,8 +311,8 @@ EOSQL
     end
 
     def mysqld_safe_bin
-      return "#{prefix_dir}/bin/mysqld_safe" if node['platform_family'] == 'smartos'
-      return "#{base_dir}/bin/mysqld_safe" if node['platform_family'] == 'omnios'
+      return "#{prefix_dir}/bin/mysqld_safe" if platform_family?('smartos')
+      return "#{base_dir}/bin/mysqld_safe" if platform_family?('omnios')
       return 'mysqld_safe' if scl_package?
       "#{prefix_dir}/usr/bin/mysqld_safe"
     end
