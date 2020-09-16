@@ -6,6 +6,10 @@ apt_update 'update'
 root_pass_master = 'MyPa$$word\Has_"Special\'Chars%!'
 root_pass_slave = 'An0th3r_Pa%%w0rd!'
 
+# TODO(ramereth): We should handle apparmor properly
+node.default['apparmor']['disable'] = true
+include_recipe 'apparmor'
+
 # Debug message
 Chef::Log.error "\n\n" + '=' * 80 + "\n\nTesting MySQL version '#{node['mysql_test']['version']}'\n\n" + '=' * 80
 
