@@ -41,16 +41,16 @@ suites:
     run_list:
       - recipe[test::installation_client]
     attributes:
-      mysql:
-      version: '5.6'
+      mysql_test:
+        version: '5.6'
     includes: <%= apt_dists_with_56 %>
 
   - name: installation_client_package-57
     run_list:
       - recipe[test::installation_client]
     attributes:
-      mysql:
-      version: '5.7'
+      mysql_test:
+        version: '5.7'
     includes: <%= apt_dists_with_57 %>
 
   - name: yum-installation_client_package-56
@@ -59,8 +59,8 @@ suites:
       - recipe[test::yum_repo]
       - recipe[test::installation_client]
     attributes:
-      mysql:
-      version: '5.6'
+      mysql_test:
+        version: '5.6'
     includes: <%= yum_dists_with_56 %>
 
   - name: suse-installation_client_package-56
@@ -68,8 +68,8 @@ suites:
       - recipe[test::yum_repo]
       - recipe[test::installation_client]
     attributes:
-      mysql:
-      version: '5.6'
+      mysql_test:
+        version: '5.6'
     includes: <%= suse_dists_with_56 %>
 
   - name: yum-installation_client_package-57
@@ -78,8 +78,8 @@ suites:
       - recipe[test::yum_repo]
       - recipe[test::installation_client]
     attributes:
-      mysql:
-      version: '5.7'
+      mysql_test:
+        version: '5.7'
     includes: <%= yum_dists_with_57 %>
 
   #
@@ -90,16 +90,16 @@ suites:
     run_list:
       - recipe[test::smoke]
     attributes:
-      mysql:
-      version: '5.6'
+      mysql_test:
+        version: '5.6'
     includes: <%= apt_dists_with_56 %>
 
   - name: smoke57
     run_list:
       - recipe[test::smoke]
     attributes:
-      mysql:
-      version: '5.7'
+      mysql_test:
+        version: '5.7'
     includes: <%= apt_dists_with_57 %>
 
   - name: yum-smoke56
@@ -108,8 +108,8 @@ suites:
       - recipe[test::yum_repo]
       - recipe[test::smoke]
     attributes:
-      mysql:
-      version: '5.6'
+      mysql_test:
+        version: '5.6'
     includes: <%= yum_dists_with_56 %>
 
   - name: suse-smoke56
@@ -117,8 +117,8 @@ suites:
       - recipe[test::yum_repo]
       - recipe[test::smoke]
     attributes:
-      mysql:
-      version: '5.6'
+      mysql_test:
+        version: '5.6'
     includes: <%= suse_dists_with_56 %>
 
   - name: yum-smoke57
@@ -127,6 +127,6 @@ suites:
       - recipe[test::yum_repo]
       - recipe[test::smoke]
     attributes:
-      mysql:
-      version: '5.7'
+      mysql_test:
+        version: '5.7'
     includes: <%= yum_dists_with_57 %>
