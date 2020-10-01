@@ -1,9 +1,9 @@
 <%
-yum_dists_with_56 = %w(centos-6 centos-7 fedora-28 amazon-linux)
+yum_dists_with_56 = %w(centos-6 centos-7 amazon-linux)
 suse_dists_with_56 = %w(opensuse-leap)
-apt_dists_with_56 = %w(ubuntu-14.04)
 yum_dists_with_57 = %w(centos-6 centos-7 fedora-28 fedora-latest)
 apt_dists_with_57 = %w(ubuntu-16.04 ubuntu-18.04)
+yum_dists_with_80 = %w(centos-7 centos-8 fedora-28 fedora-latest)
 %>
 ---
 driver:
@@ -21,6 +21,7 @@ verifier:
 platforms:
   - name: centos-6
   - name: centos-7
+  - name: centos-8
   - name: debian-8
   - name: debian-9
   - name: fedora-28
@@ -37,14 +38,6 @@ suites:
   #
   # client
   #
-  - name: installation_client_package-56
-    run_list:
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= apt_dists_with_56 %>
-
   - name: installation_client_package-57
     run_list:
       - recipe[test::installation_client]
@@ -82,18 +75,19 @@ suites:
         version: '5.7'
     includes: <%= yum_dists_with_57 %>
 
+  - name: yum-installation_client_package-80
+    run_list:
+    - recipe[selinux::disabled]
+    - recipe[test::yum_repo]
+    - recipe[test::installation_client]
+    attributes:
+      mysql_test:
+       version: '8.0'
+    includes: <%= yum_dists_with_80 %>
+
   #
   # server smoke
   #
-
-  - name: smoke56
-    run_list:
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= apt_dists_with_56 %>
-
   - name: smoke57
     run_list:
       - recipe[test::smoke]
@@ -130,3 +124,13 @@ suites:
       mysql_test:
         version: '5.7'
     includes: <%= yum_dists_with_57 %>
+
+  - name: yum-smoke80
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[test::yum_repo]
+      - recipe[test::smoke]
+    attributes:
+      mysql_test:
+       version: '8.0'
+    includes: <%= yum_dists_with_80 %>

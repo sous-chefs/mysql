@@ -12,6 +12,11 @@ module MysqlCookbook
       false
     end
 
+    def el8?
+      return true if platform_family?('rhel') && node['platform_version'].to_i == 8
+      false
+    end
+
     def fedora?
       return true if platform_family?('fedora')
       false
@@ -70,6 +75,7 @@ module MysqlCookbook
       # rhelish
       return '5.6' if el6?
       return '5.6' if el7?
+      return '8.0' if el8?
       return '5.6' if platform?('amazon')
 
       # debian
@@ -175,15 +181,15 @@ module MysqlCookbook
     end
 
     def v56plus
-      return false if version.split('.')[0].to_i < 5
-      return false if version.split('.')[1].to_i < 6
-      true
+      Gem::Version.new(version) >= Gem::Version.new('5.6')
     end
 
     def v57plus
-      return false if version.split('.')[0].to_i < 5
-      return false if version.split('.')[1].to_i < 7
-      true
+      Gem::Version.new(version) >= Gem::Version.new('5.7')
+    end
+
+    def v80plus
+      Gem::Version.new(version) >= Gem::Version.new('8.0')
     end
 
     def default_include_dir
@@ -201,13 +207,15 @@ module MysqlCookbook
       # NOTE: shell-escaping passwords in a SQL file may cause corruption - eg
       # mysql will read \& as &, but \% as \%. Just escape bare-minimum \ and '
       sql_escaped_password = root_password.gsub('\\') { '\\\\' }.gsub("'") { '\\\'' }
+      cmd = "UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';"
+      cmd = "ALTER USER 'root'@'localhost' IDENTIFIED BY '#{sql_escaped_password}';" if v57plus
 
       <<-EOS
         set -e
         rm -rf /tmp/#{mysql_name}
         mkdir /tmp/#{mysql_name}
         cat > /tmp/#{mysql_name}/my.sql <<-'EOSQL'
-UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';
+#{cmd}
 DELETE FROM mysql.user WHERE USER LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
@@ -288,14 +296,14 @@ EOSQL
     end
 
     def mysql_systemd_start_pre
-      return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || fedora?)
+      return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || el8? || fedora?)
       return '/usr/bin/mysql-systemd-start pre' if platform_family?('rhel')
       return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
       '/usr/share/mysql/mysql-systemd-start pre'
     end
 
     def mysql_systemd
-      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || fedora?)
+      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || el8? || fedora?)
       return '/usr/bin/mysql-systemd-start' if platform_family?('rhel')
       return '/usr/share/mysql/mysql-systemd-start' if v57plus
       "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"

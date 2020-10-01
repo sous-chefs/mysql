@@ -130,23 +130,23 @@ end
 # start replication on slave-1
 ruby_block 'start_slave_1' do
   block { start_slave_1(root_pass_slave) } # libraries/helpers.rb
-  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass_slave)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
+  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3307 -p#{Shellwords.escape(root_pass_slave)} -e 'SHOW SLAVE STATUS\\G' | grep Slave_IO_State"
   action :run
 end
 
 # start replication on slave-2
 ruby_block 'start_slave_2' do
   block { start_slave_2(root_pass_slave) } # libraries/helpers.rb
-  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass_slave)} -e 'SHOW SLAVE STATUS\G' | grep Slave_IO_State"
+  not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass_slave)} -e 'SHOW SLAVE STATUS\\G' | grep Slave_IO_State"
   action :run
 end
 
 # create databass on master
 bash 'create databass' do
   code <<-EOF
-  echo 'CREATE DATABASE databass;' | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)};
-  echo 'CREATE TABLE databass.table1 (name VARCHAR(20), rank VARCHAR(20));' | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)};
-  echo "INSERT INTO databass.table1 (name,rank) VALUES('captain','awesome');" | /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)};
+  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -e 'CREATE DATABASE databass';
+  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -e 'CREATE TABLE databass.table1 (name VARCHAR(20), userRank VARCHAR(20))';
+  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -e "INSERT INTO databass.table1 (name,userRank) VALUES ('captain','awesome')";
   EOF
   not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -e 'show databases' | grep databass"
   action :run
