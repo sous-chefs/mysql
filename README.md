@@ -1,3 +1,4 @@
+
 # MySQL Cookbook
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
