@@ -1,3 +1,4 @@
+---
 <%
 yum_dists_with_56 = %w(centos-6 centos-7 fedora-28 amazon-linux)
 suse_dists_with_56 = %w(opensuse-leap)
@@ -5,7 +6,6 @@ apt_dists_with_56 = %w(ubuntu-14.04)
 yum_dists_with_57 = %w(centos-6 centos-7 fedora-28 fedora-latest)
 apt_dists_with_57 = %w(ubuntu-16.04 ubuntu-18.04)
 %>
----
 driver:
   name: vagrant
   customize:
