@@ -65,7 +65,7 @@ If you use `default` as the name the service name will be `mysql` instead of `my
 
 The configuration file is at `/etc/mysql-foo/my.cnf`. It contains the minimum options to get the service running. It looks like this.
 
-```toml
+```cnf
 # Chef generated my.cnf for instance mysql-foo
 
 [client]
