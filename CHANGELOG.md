@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- resolved cookstyle error: libraries/helpers.rb:201:9 convention: `Style/CommentAnnotation`
+
 ## 8.7.4 - 2020-09-16
 
 - resolved cookstyle error: spec/mysql_client_installation_package_spec.rb:4:48 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
