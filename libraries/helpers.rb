@@ -198,7 +198,7 @@ module MysqlCookbook
     def lc_messages_dir; end
 
     def init_records_script
-      # Note: shell-escaping passwords in a SQL file may cause corruption - eg
+      # NOTE: shell-escaping passwords in a SQL file may cause corruption - eg
       # mysql will read \& as &, but \% as \%. Just escape bare-minimum \ and '
       sql_escaped_password = root_password.gsub('\\') { '\\\\' }.gsub("'") { '\\\'' }
 
