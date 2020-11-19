@@ -46,10 +46,19 @@ jobs:
           - 'ubuntu-1804'
           - 'ubuntu-2004'
         suite:
-          - 'installation-client-package-57'
-          - 'installation-client-package-80'
+          - 'client-install-57'
+          - 'client-install-80'
           - 'smoke57'
           - 'smoke80'
+      exclude:
+        - os: ubuntu-1604
+          suite: client-install-80
+        - os: ubuntu-1604
+          suite: smoke80
+        - os: ubuntu-2004
+          suite: client-install-57
+        - os: ubuntu-2004
+          suite: smoke57
       fail-fast: false
 
     steps:

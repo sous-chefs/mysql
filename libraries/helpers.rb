@@ -117,6 +117,7 @@ module MysqlCookbook
       return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && platform_family?('debian')
       return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && platform_family?('debian')
       return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && platform_family?('debian')
+      return ['mysql-client-8.0', 'libmysqlclient-dev'] if major_version == '8.0' && platform_family?('debian')
       return 'mysql-community-server-client' if major_version == '5.6' && platform_family?('suse')
       %w(mysql-community-client mysql-community-devel)
     end
@@ -129,6 +130,7 @@ module MysqlCookbook
       return 'mysql-server-5.5' if major_version == '5.5' && platform_family?('debian')
       return 'mysql-server-5.6' if major_version == '5.6' && platform_family?('debian')
       return 'mysql-server-5.7' if major_version == '5.7' && platform_family?('debian')
+      return 'mysql-server-8.0' if major_version == '8.0' && platform_family?('debian')
       return 'mysql-community-server' if major_version == '5.6' && platform_family?('suse')
       'mysql-community-server'
     end
