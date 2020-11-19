@@ -50,15 +50,15 @@ jobs:
           - 'client-install-80'
           - 'smoke57'
           - 'smoke80'
-      exclude:
-        - os: ubuntu-1604
-          suite: client-install-80
-        - os: ubuntu-1604
-          suite: smoke80
-        - os: ubuntu-2004
-          suite: client-install-57
-        - os: ubuntu-2004
-          suite: smoke57
+        exclude:
+          - os: ubuntu-1604
+            suite: client-install-80
+          - os: ubuntu-1604
+            suite: smoke80
+          - os: ubuntu-2004
+            suite: client-install-57
+          - os: ubuntu-2004
+            suite: smoke57
       fail-fast: false
 
     steps:

@@ -78,9 +78,9 @@ suites:
 
   - name: yum-client-install-80
     run_list:
-    - recipe[selinux::disabled]
-    - recipe[test::yum_repo]
-    - recipe[test::installation_client]
+      - recipe[selinux::disabled]
+      - recipe[test::yum_repo]
+      - recipe[test::installation_client]
     attributes:
       mysql_test:
         version: '8.0'
@@ -88,7 +88,7 @@ suites:
 
   - name: client-install-80
     run_list:
-    - recipe[test::installation_client]
+      - recipe[test::installation_client]
     attributes:
       mysql_test:
         version: '8.0'
