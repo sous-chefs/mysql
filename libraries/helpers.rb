@@ -97,7 +97,7 @@ module MysqlCookbook
     end
 
     def mysql_name
-      if instance == 'default'
+      if (defined? instance).nil? || instance == 'default'
         'mysql'
       else
         "mysql-#{instance}"
@@ -151,14 +151,10 @@ module MysqlCookbook
 
     def scl_name
       return unless platform_family?('rhel')
-      return 'mysql51' if version == '5.1' && node['platform_version'].to_i == 5
-      return 'mysql55' if version == '5.5' && node['platform_version'].to_i == 5
     end
 
     def scl_package?
       return unless platform_family?('rhel')
-      return true if version == '5.1' && node['platform_version'].to_i == 5
-      return true if version == '5.5' && node['platform_version'].to_i == 5
       false
     end
 
@@ -173,8 +169,6 @@ module MysqlCookbook
     end
 
     def system_service_name
-      return 'mysql51-mysqld' if platform_family?('rhel') && scl_name == 'mysql51'
-      return 'mysql55-mysqld' if platform_family?('rhel') && scl_name == 'mysql55'
       return 'mysqld' if platform_family?('rhel')
       return 'mysqld' if platform_family?('fedora')
       'mysql' # not one of the above

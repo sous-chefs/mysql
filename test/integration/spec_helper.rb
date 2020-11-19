@@ -42,7 +42,7 @@ def check_mysql_client(version)
   # Version
   describe command("#{mysql_bin} --version") do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/Distrib #{version}/) }
+    its(:stdout) { should match(/Distrib #{version}|Ver #{version}/) }
     its(:stderr) { should eq '' }
   end
 

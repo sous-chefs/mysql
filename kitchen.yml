@@ -39,14 +39,6 @@ suites:
   #
   # client
   #
-  - name: installation_client_package-57
-    run_list:
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    includes: <%= apt_dists_with_57 %>
-
   - name: yum-installation_client_package-56
     run_list:
       - recipe[selinux::disabled]
@@ -83,20 +75,12 @@ suites:
     - recipe[test::installation_client]
     attributes:
       mysql_test:
-       version: '8.0'
+        version: '8.0'
     includes: <%= yum_dists_with_80 %>
 
   #
   # server smoke
   #
-  - name: smoke57
-    run_list:
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    includes: <%= apt_dists_with_57 %>
-
   - name: yum-smoke56
     run_list:
       - recipe[selinux::disabled]
@@ -106,6 +90,17 @@ suites:
       mysql_test:
         version: '5.6'
     includes: <%= yum_dists_with_56 %>
+    verifier:
+      inspec_tests:
+        - path: test/integration/smoke56
+
+  - name: smoke57
+    run_list:
+      - recipe[test::smoke]
+    attributes:
+      mysql_test:
+        version: '5.7'
+    includes: <%= apt_dists_with_57 %>
 
   - name: suse-smoke56
     run_list:
@@ -133,5 +128,8 @@ suites:
       - recipe[test::smoke]
     attributes:
       mysql_test:
-       version: '8.0'
+        version: '8.0'
     includes: <%= yum_dists_with_80 %>
+    verifier:
+      inspec_tests:
+        - path: test/integration/smoke80
