@@ -51,9 +51,17 @@ jobs:
           - 'smoke57'
           - 'smoke80'
         exclude:
+          - os: centos-8
+            suite: client-install-57
+          - os: centos-8
+            suite: smoke57
           - os: ubuntu-1604
             suite: client-install-80
           - os: ubuntu-1604
+            suite: smoke80
+          - os: ubuntu-1804
+            suite: client-install-80
+          - os: ubuntu-1804
             suite: smoke80
           - os: ubuntu-2004
             suite: client-install-57

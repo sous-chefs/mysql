@@ -137,6 +137,14 @@ suites:
         version: '5.7'
     includes: <%= yum_dists_with_57 %>
 
+  - name: smoke80
+    run_list:
+      - recipe[test::smoke]
+    attributes:
+      mysql_test:
+        version: '8.0'
+    includes: <%= apt_dists_with_80 %>
+
   - name: yum-smoke80
     run_list:
       - recipe[selinux::disabled]

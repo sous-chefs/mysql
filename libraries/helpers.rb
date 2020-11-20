@@ -53,6 +53,11 @@ module MysqlCookbook
       false
     end
 
+    def focal?
+      return true if platform?('ubuntu') && node['platform_version'] == '20.04'
+      false
+    end
+
     def defaults_file
       "#{etc_dir}/my.cnf"
     end
@@ -85,6 +90,7 @@ module MysqlCookbook
       return '5.5' if trusty?
       return '5.7' if xenial?
       return '5.7' if bionic?
+      return '8.0' if focal?
 
       # misc
       return '5.6' if platform?('freebsd')
