@@ -27,15 +27,15 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 The following platforms have been tested with Test Kitchen:
 
-|  OS            | 5.1 | 5.5 | 5.6 | 5.7 |
-|----------------|-----|-----|-----|-----|
-| debian-8       |     | X   |     |     |
-| ubuntu-14.04   |     | X   | X   |     |
-| ubuntu-16.04   |     |     |     | X   |
-| centos-6       | X   | X   | X   | X   |
-| centos-7       |     | X   | X   | X   |
-| fedora         |     |     | X   | X   |
-| openSUSE Leap  |     |     | X   |     |
+|  OS            | 5.6 | 5.7 | 8.0 |
+|----------------|-----|-----|-----|
+| ubuntu-16.04   |     |  X  |     |
+| ubuntu-18.04   |     |  X  |     |
+| ubuntu-20.04   |     |     |  X  |
+| centos-7       |  X  |  X  |  X  |
+| centos-8       |     |  X  |  X  |
+| fedora         |  X  |  X  |  X  |
+| openSUSE Leap  |  X  |     |     |
 
 ## Cookbook Dependencies
 

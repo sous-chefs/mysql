@@ -67,7 +67,6 @@ mysql_config 'replication-slave-2' do
   action :create
 end
 
-
 wait_for_command = "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass_slave)} -e 'SELECT 0' >/dev/null 2>&1"
 # Wait for slave-2 to start up, the sql below may not run properly if it isn't started,
 # even if it will start properly eventually.
