@@ -67,6 +67,25 @@ mysql_config 'replication-slave-2' do
   action :create
 end
 
+
+wait_for_command = "/usr/bin/mysql -u root -h 127.0.0.1 -P 3308 -p#{Shellwords.escape(root_pass_slave)} -e 'SELECT 0' >/dev/null 2>&1"
+# Wait for slave-2 to start up, the sql below may not run properly if it isn't started,
+# even if it will start properly eventually.
+# Not worrying about master or slave-1 as starting slave-2 should provide enough buffer
+ruby_block 'wait for slave-2' do
+  block do
+    require 'English'
+    times = 0
+    system(wait_for_command)
+    until $CHILD_STATUS.exitstatus == 0 || times > 60 # don't wait over 60 seconds
+      sleep 1
+      times += 1
+      system(wait_for_command)
+    end
+  end
+  not_if wait_for_command
+end
+
 # Create user repl on master
 bash 'create replication user' do
   code <<-EOF
