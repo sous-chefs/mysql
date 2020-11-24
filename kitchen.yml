@@ -22,8 +22,8 @@ verifier:
 platforms:
   - name: centos-7
   - name: centos-8
-  - name: debian-8
   - name: debian-9
+  - name: debian-10
   - name: fedora-28
   - name: opensuse-leap
     driver:

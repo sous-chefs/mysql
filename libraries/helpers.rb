@@ -2,11 +2,6 @@ module MysqlCookbook
   module HelpersBase
     require 'shellwords'
 
-    def el6?
-      return true if platform_family?('rhel') && node['platform_version'].to_i == 6
-      false
-    end
-
     def el7?
       return true if platform_family?('rhel') && node['platform_version'].to_i == 7
       false
@@ -27,19 +22,13 @@ module MysqlCookbook
       false
     end
 
-    def jessie?
-      return true if platform?('debian') && node['platform_version'].to_i == 8
-      false
-    end
-
     def stretch?
       return true if platform?('debian') && node['platform_version'].to_i == 9
       false
     end
 
-    def trusty?
-      return true if platform?('ubuntu') && node['platform_version'] == '14.04'
-      return true if platform?('linuxmint') && node['platform_version'] =~ /^17\.[0-9]$/
+    def buster?
+      return true if platform?('debian') && node['platform_version'].to_i == 10
       false
     end
 
@@ -78,16 +67,15 @@ module MysqlCookbook
 
     def default_major_version
       # rhelish
-      return '5.6' if el6?
       return '5.6' if el7?
       return '8.0' if el8?
       return '5.6' if platform?('amazon')
 
       # debian
-      return '5.5' if jessie?
+      return '5.7' if stretch?
+      return '8.0' if buster?
 
       # ubuntu
-      return '5.5' if trusty?
       return '5.7' if xenial?
       return '5.7' if bionic?
       return '8.0' if focal?
@@ -115,12 +103,9 @@ module MysqlCookbook
     end
 
     def default_client_package_name
-      return %w(mysql mysql-devel) if major_version == '5.1' && el6?
       return %w(mysql mysql-devel) if el7?
-      return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && platform?('amazon')
       return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && platform?('amazon')
       return ['mysql57', 'mysql57-devel.x86_64'] if major_version == '5.7' && platform?('amazon')
-      return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && platform_family?('debian')
       return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && platform_family?('debian')
       return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && platform_family?('debian')
       return ['mysql-client-8.0', 'libmysqlclient-dev'] if major_version == '8.0' && platform_family?('debian')
@@ -129,11 +114,8 @@ module MysqlCookbook
     end
 
     def default_server_package_name
-      return 'mysql-server' if major_version == '5.1' && el6?
-      return 'mysql55-server' if major_version == '5.5' && platform?('amazon')
       return 'mysql56-server' if major_version == '5.6' && platform?('amazon')
       return 'mysql57-server' if major_version == '5.7' && platform?('amazon')
-      return 'mysql-server-5.5' if major_version == '5.5' && platform_family?('debian')
       return 'mysql-server-5.6' if major_version == '5.6' && platform_family?('debian')
       return 'mysql-server-5.7' if major_version == '5.7' && platform_family?('debian')
       return 'mysql-server-8.0' if major_version == '8.0' && platform_family?('debian')

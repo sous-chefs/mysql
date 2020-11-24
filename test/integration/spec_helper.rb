@@ -20,7 +20,7 @@ def mysqld_bin(version = nil)
   when 'smartos'
     '/opt/local/bin/mysqld'
   when 'redhat'
-    version == '5.1' ? '/usr/libexec/mysqld' : '/usr/sbin/mysqld'
+    '/usr/sbin/mysqld'
   else
     '/usr/sbin/mysqld'
   end

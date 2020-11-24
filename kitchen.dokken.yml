@@ -37,10 +37,12 @@ platforms:
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
 
-  - name: centos-6
+  - name: debian-10
     driver:
-      image: dokken/centos-6
-      pid_one_command: /sbin/init
+      image: dokken/debian-10
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
 
   - name: centos-7
     driver:
