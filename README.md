@@ -29,13 +29,15 @@ The following platforms have been tested with Test Kitchen:
 
 |  OS            | 5.6 | 5.7 | 8.0 |
 |----------------|-----|-----|-----|
+| centos-7       |  X  |  X  |  X  |
+| centos-8       |     |  X  |  X  |
+| debian-9       |     |  X  |     |
+| debian-10      |     |     |  X  |
+| fedora         |  X  |  X  |  X  |
+| openSUSE Leap  |  X  |     |     |
 | ubuntu-16.04   |     |  X  |     |
 | ubuntu-18.04   |     |  X  |     |
 | ubuntu-20.04   |     |     |  X  |
-| centos-7       |  X  |  X  |  X  |
-| centos-8       |     |  X  |  X  |
-| fedora         |  X  |  X  |  X  |
-| openSUSE Leap  |  X  |     |     |
 
 ## Cookbook Dependencies
 
