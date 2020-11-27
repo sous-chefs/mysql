@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 - resolved cookstyle error: libraries/helpers.rb:201:9 convention: `Style/CommentAnnotation`
+- Add support for MySQL 8
+- Add support for CentOS 8 and Ubuntu 20.04
+- Remove support for MySQL 5.1 and 5.5
+- Remove support for Centos 6 and Ubuntu 14.04
 
 ## 8.7.4 - 2020-09-16
 

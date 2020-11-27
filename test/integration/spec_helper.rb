@@ -20,7 +20,7 @@ def mysqld_bin(version = nil)
   when 'smartos'
     '/opt/local/bin/mysqld'
   when 'redhat'
-    version == '5.1' ? '/usr/libexec/mysqld' : '/usr/sbin/mysqld'
+    '/usr/sbin/mysqld'
   else
     '/usr/sbin/mysqld'
   end
@@ -42,7 +42,7 @@ def check_mysql_client(version)
   # Version
   describe command("#{mysql_bin} --version") do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/Distrib #{version}/) }
+    its(:stdout) { should match(/Distrib #{version}|Ver #{version}/) }
     its(:stderr) { should eq '' }
   end
 

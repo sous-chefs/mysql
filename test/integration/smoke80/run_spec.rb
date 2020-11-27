@@ -4,7 +4,7 @@
 require_relative '../spec_helper'
 
 # Extract version
-version = '5.1'
+version = '8.0'
 # Client version
 check_mysql_client(version)
 # Server version

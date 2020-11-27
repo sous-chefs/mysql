@@ -1,9 +1,10 @@
 <%
-yum_dists_with_56 = %w(centos-6 centos-7 fedora-28 amazon-linux)
+yum_dists_with_56 = %w(centos-7 amazon-linux)
 suse_dists_with_56 = %w(opensuse-leap)
-apt_dists_with_56 = %w(ubuntu-14.04)
-yum_dists_with_57 = %w(centos-6 centos-7 fedora-28 fedora-latest)
+yum_dists_with_57 = %w(centos-7 fedora-28 fedora-latest)
 apt_dists_with_57 = %w(ubuntu-16.04 ubuntu-18.04)
+yum_dists_with_80 = %w(centos-7 centos-8 fedora-28 fedora-latest)
+apt_dists_with_80 = %w(ubuntu-20.04)
 %>
 ---
 driver:
@@ -19,16 +20,17 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6
   - name: centos-7
-  - name: debian-8
+  - name: centos-8
   - name: debian-9
+  - name: debian-10
   - name: fedora-28
   - name: opensuse-leap
     driver:
       box: bento/opensuse-leap-42
   - name: ubuntu-16.04
   - name: ubuntu-18.04
+  - name: ubuntu-20.04
   - name: amazonlinux
     driver_config:
       box: mvbcoding/awslinux
@@ -37,23 +39,7 @@ suites:
   #
   # client
   #
-  - name: installation_client_package-56
-    run_list:
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= apt_dists_with_56 %>
-
-  - name: installation_client_package-57
-    run_list:
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    includes: <%= apt_dists_with_57 %>
-
-  - name: yum-installation_client_package-56
+  - name: yum-client-install-56
     run_list:
       - recipe[selinux::disabled]
       - recipe[test::yum_repo]
@@ -63,7 +49,7 @@ suites:
         version: '5.6'
     includes: <%= yum_dists_with_56 %>
 
-  - name: suse-installation_client_package-56
+  - name: suse-client-install-56
     run_list:
       - recipe[test::yum_repo]
       - recipe[test::installation_client]
@@ -72,7 +58,15 @@ suites:
         version: '5.6'
     includes: <%= suse_dists_with_56 %>
 
-  - name: yum-installation_client_package-57
+  - name: client-install-57
+    run_list:
+      - recipe[test::installation_client]
+    attributes:
+      mysql_test:
+        version: '5.7'
+    includes: <%= apt_dists_with_57 %>
+
+  - name: yum-client-install-57
     run_list:
       - recipe[selinux::disabled]
       - recipe[test::yum_repo]
@@ -82,26 +76,27 @@ suites:
         version: '5.7'
     includes: <%= yum_dists_with_57 %>
 
+  - name: yum-client-install-80
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[test::yum_repo]
+      - recipe[test::installation_client]
+    attributes:
+      mysql_test:
+        version: '8.0'
+    includes: <%= yum_dists_with_80 %>
+
+  - name: client-install-80
+    run_list:
+      - recipe[test::installation_client]
+    attributes:
+      mysql_test:
+        version: '8.0'
+    includes: <%= apt_dists_with_80 %>
+
   #
   # server smoke
   #
-
-  - name: smoke56
-    run_list:
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= apt_dists_with_56 %>
-
-  - name: smoke57
-    run_list:
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    includes: <%= apt_dists_with_57 %>
-
   - name: yum-smoke56
     run_list:
       - recipe[selinux::disabled]
@@ -111,6 +106,17 @@ suites:
       mysql_test:
         version: '5.6'
     includes: <%= yum_dists_with_56 %>
+    verifier:
+      inspec_tests:
+        - path: test/integration/smoke56
+
+  - name: smoke57
+    run_list:
+      - recipe[test::smoke]
+    attributes:
+      mysql_test:
+        version: '5.7'
+    includes: <%= apt_dists_with_57 %>
 
   - name: suse-smoke56
     run_list:
@@ -130,3 +136,24 @@ suites:
       mysql_test:
         version: '5.7'
     includes: <%= yum_dists_with_57 %>
+
+  - name: smoke80
+    run_list:
+      - recipe[test::smoke]
+    attributes:
+      mysql_test:
+        version: '8.0'
+    includes: <%= apt_dists_with_80 %>
+
+  - name: yum-smoke80
+    run_list:
+      - recipe[selinux::disabled]
+      - recipe[test::yum_repo]
+      - recipe[test::smoke]
+    attributes:
+      mysql_test:
+        version: '8.0'
+    includes: <%= yum_dists_with_80 %>
+    verifier:
+      inspec_tests:
+        - path: test/integration/smoke80

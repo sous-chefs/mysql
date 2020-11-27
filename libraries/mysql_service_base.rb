@@ -123,7 +123,7 @@ module MysqlCookbook
       def configure_apparmor
         # Do not add these resource if inside a container
         # Only valid on Ubuntu
-        return if ::File.exist?('/.dockerenv') || ::File.exist?('/.dockerinit') || !platform?('ubuntu')
+        return if ::File.exist?('/.dockerenv') || ::File.exist?('/.dockerinit') || !platform?('ubuntu') || node['apparmor']['disable']
 
         # Apparmor
         package 'apparmor' do

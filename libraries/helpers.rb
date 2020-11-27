@@ -2,13 +2,13 @@ module MysqlCookbook
   module HelpersBase
     require 'shellwords'
 
-    def el6?
-      return true if platform_family?('rhel') && node['platform_version'].to_i == 6
+    def el7?
+      return true if platform_family?('rhel') && node['platform_version'].to_i == 7
       false
     end
 
-    def el7?
-      return true if platform_family?('rhel') && node['platform_version'].to_i == 7
+    def el8?
+      return true if platform_family?('rhel') && node['platform_version'].to_i == 8
       false
     end
 
@@ -22,19 +22,13 @@ module MysqlCookbook
       false
     end
 
-    def jessie?
-      return true if platform?('debian') && node['platform_version'].to_i == 8
-      false
-    end
-
     def stretch?
       return true if platform?('debian') && node['platform_version'].to_i == 9
       false
     end
 
-    def trusty?
-      return true if platform?('ubuntu') && node['platform_version'] == '14.04'
-      return true if platform?('linuxmint') && node['platform_version'] =~ /^17\.[0-9]$/
+    def buster?
+      return true if platform?('debian') && node['platform_version'].to_i == 10
       false
     end
 
@@ -45,6 +39,11 @@ module MysqlCookbook
 
     def bionic?
       return true if platform?('ubuntu') && node['platform_version'] == '18.04'
+      false
+    end
+
+    def focal?
+      return true if platform?('ubuntu') && node['platform_version'] == '20.04'
       false
     end
 
@@ -68,17 +67,18 @@ module MysqlCookbook
 
     def default_major_version
       # rhelish
-      return '5.6' if el6?
       return '5.6' if el7?
+      return '8.0' if el8?
       return '5.6' if platform?('amazon')
 
       # debian
-      return '5.5' if jessie?
+      return '5.7' if stretch?
+      return '8.0' if buster?
 
       # ubuntu
-      return '5.5' if trusty?
       return '5.7' if xenial?
       return '5.7' if bionic?
+      return '8.0' if focal?
 
       # misc
       return '5.6' if platform?('freebsd')
@@ -91,7 +91,7 @@ module MysqlCookbook
     end
 
     def mysql_name
-      if instance == 'default'
+      if (defined? instance).nil? || instance == 'default'
         'mysql'
       else
         "mysql-#{instance}"
@@ -103,26 +103,22 @@ module MysqlCookbook
     end
 
     def default_client_package_name
-      return %w(mysql mysql-devel) if major_version == '5.1' && el6?
       return %w(mysql mysql-devel) if el7?
-      return ['mysql55', 'mysql55-devel.x86_64'] if major_version == '5.5' && platform?('amazon')
       return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && platform?('amazon')
       return ['mysql57', 'mysql57-devel.x86_64'] if major_version == '5.7' && platform?('amazon')
-      return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && platform_family?('debian')
       return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && platform_family?('debian')
       return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && platform_family?('debian')
+      return ['mysql-client-8.0', 'libmysqlclient-dev'] if major_version == '8.0' && platform_family?('debian')
       return 'mysql-community-server-client' if major_version == '5.6' && platform_family?('suse')
       %w(mysql-community-client mysql-community-devel)
     end
 
     def default_server_package_name
-      return 'mysql-server' if major_version == '5.1' && el6?
-      return 'mysql55-server' if major_version == '5.5' && platform?('amazon')
       return 'mysql56-server' if major_version == '5.6' && platform?('amazon')
       return 'mysql57-server' if major_version == '5.7' && platform?('amazon')
-      return 'mysql-server-5.5' if major_version == '5.5' && platform_family?('debian')
       return 'mysql-server-5.6' if major_version == '5.6' && platform_family?('debian')
       return 'mysql-server-5.7' if major_version == '5.7' && platform_family?('debian')
+      return 'mysql-server-8.0' if major_version == '8.0' && platform_family?('debian')
       return 'mysql-community-server' if major_version == '5.6' && platform_family?('suse')
       'mysql-community-server'
     end
@@ -145,14 +141,10 @@ module MysqlCookbook
 
     def scl_name
       return unless platform_family?('rhel')
-      return 'mysql51' if version == '5.1' && node['platform_version'].to_i == 5
-      return 'mysql55' if version == '5.5' && node['platform_version'].to_i == 5
     end
 
     def scl_package?
       return unless platform_family?('rhel')
-      return true if version == '5.1' && node['platform_version'].to_i == 5
-      return true if version == '5.5' && node['platform_version'].to_i == 5
       false
     end
 
@@ -167,23 +159,21 @@ module MysqlCookbook
     end
 
     def system_service_name
-      return 'mysql51-mysqld' if platform_family?('rhel') && scl_name == 'mysql51'
-      return 'mysql55-mysqld' if platform_family?('rhel') && scl_name == 'mysql55'
       return 'mysqld' if platform_family?('rhel')
       return 'mysqld' if platform_family?('fedora')
       'mysql' # not one of the above
     end
 
     def v56plus
-      return false if version.split('.')[0].to_i < 5
-      return false if version.split('.')[1].to_i < 6
-      true
+      Gem::Version.new(version) >= Gem::Version.new('5.6')
     end
 
     def v57plus
-      return false if version.split('.')[0].to_i < 5
-      return false if version.split('.')[1].to_i < 7
-      true
+      Gem::Version.new(version) >= Gem::Version.new('5.7')
+    end
+
+    def v80plus
+      Gem::Version.new(version) >= Gem::Version.new('8.0')
     end
 
     def default_include_dir
@@ -201,13 +191,15 @@ module MysqlCookbook
       # NOTE: shell-escaping passwords in a SQL file may cause corruption - eg
       # mysql will read \& as &, but \% as \%. Just escape bare-minimum \ and '
       sql_escaped_password = root_password.gsub('\\') { '\\\\' }.gsub("'") { '\\\'' }
+      cmd = "UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';"
+      cmd = "ALTER USER 'root'@'localhost' IDENTIFIED BY '#{sql_escaped_password}';" if v57plus
 
       <<-EOS
         set -e
         rm -rf /tmp/#{mysql_name}
         mkdir /tmp/#{mysql_name}
         cat > /tmp/#{mysql_name}/my.sql <<-'EOSQL'
-UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';
+#{cmd}
 DELETE FROM mysql.user WHERE USER LIKE '';
 DELETE FROM mysql.user WHERE user = 'root' and host NOT IN ('127.0.0.1', 'localhost');
 FLUSH PRIVILEGES;
@@ -288,14 +280,14 @@ EOSQL
     end
 
     def mysql_systemd_start_pre
-      return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || fedora?)
+      return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || el8? || fedora?)
       return '/usr/bin/mysql-systemd-start pre' if platform_family?('rhel')
       return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
       '/usr/share/mysql/mysql-systemd-start pre'
     end
 
     def mysql_systemd
-      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || fedora?)
+      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || el8? || fedora?)
       return '/usr/bin/mysql-systemd-start' if platform_family?('rhel')
       return '/usr/share/mysql/mysql-systemd-start' if v57plus
       "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"
