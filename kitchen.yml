@@ -157,3 +157,54 @@ suites:
     verifier:
       inspec_tests:
         - path: test/integration/smoke80
+
+  #
+  # resource tests
+  #
+  - name: resources-56
+    run_list:
+      - recipe[test::user_database]
+    attributes:
+      mysql_test:
+        version: '5.6'
+    includes: <%= yum_dists_with_56 %>
+    verifier:
+      controls:
+        - mysql_database
+        - mysql_user
+      inputs:
+        version: '5.6'
+      inspec_tests:
+        - path: test/integration/resources
+
+  - name: resources-57
+    run_list:
+      - recipe[test::user_database]
+    attributes:
+      mysql_test:
+        version: '5.7'
+    verifier:
+      controls:
+        - mysql_database
+        - mysql_user
+      inputs:
+        version: '5.8'
+      inspec_tests:
+        - path: test/integration/resources
+    includes: <%= yum_dists_with_57 + apt_dists_with_57 %>
+
+  - name: resources-80
+    run_list:
+      - recipe[test::user_database]
+    attributes:
+      mysql_test:
+        version: '8.0'
+    verifier:
+      controls:
+        - mysql_database
+        - mysql_user
+      inputs:
+        version: '8.0'
+      inspec_tests:
+        - path: test/integration/resources
+    includes: <%= yum_dists_with_80 + apt_dists_with_80 %>
