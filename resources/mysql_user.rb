@@ -1,5 +1,5 @@
 #
-# Cookbook:: percona
+# Cookbook:: mysql
 # Resource:: user
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
