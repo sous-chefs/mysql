@@ -1,7 +1,7 @@
 control 'mysql_database' do
   impact 1.0
   title 'test creation and removal of databases'
-  sql = mysql_session('root','arandompassword')
+  sql = mysql_session('root', 'arandompassword')
 
   describe sql.query('show databases') do
     its(:stdout) { should match(/databass/) }
@@ -15,7 +15,7 @@ control 'mysql_user' do
   version = input('version')
   password_column = version.to_f >= 5.7 ? 'authentication_string' : 'password'
 
-  sql = mysql_session('root','arandompassword')
+  sql = mysql_session('root', 'arandompassword')
 
   describe sql.query('select User,Host from mysql.user') do
     its(:stdout) { should match(/fozzie/) }

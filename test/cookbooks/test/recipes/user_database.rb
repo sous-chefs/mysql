@@ -15,7 +15,6 @@ mysql_service 'default' do
   action [:create, :start]
 end
 
-
 wait_for_command = "/usr/bin/mysql -u root -p#{Shellwords.escape(root_pass)} -e 'SELECT 0' >/dev/null 2>&1"
 # Wait for server to start up, the sql below may not run properly if it isn't started,
 # even if it will start properly eventually.

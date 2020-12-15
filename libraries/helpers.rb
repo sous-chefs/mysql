@@ -129,7 +129,7 @@ module MysqlCookbook
 
     def run_dir
       return "#{prefix_dir}/var/run/#{mysql_name}" if platform_family?('rhel')
-      return "/run/mysqld" if platform_family?('debian') && mysql_name == 'mysql'
+      return '/run/mysqld' if platform_family?('debian') && mysql_name == 'mysql'
       return "/run/#{mysql_name}" if platform_family?('debian')
       "/var/run/#{mysql_name}"
     end
