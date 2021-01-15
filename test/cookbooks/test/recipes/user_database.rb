@@ -142,6 +142,15 @@ mysql_user 'statler' do
   action :create
 end
 
+# test global permissions
+mysql_user 'camilla' do
+  password 'bokbokbok'
+  privileges [:select, :repl_client, :create_tmp_table, :show_db]
+  require_ssl true
+  ctrl_password root_pass
+  action [:create, :grant]
+end
+
 mysql_user 'fozzie' do
   database_name 'databass'
   password 'wokkawokka'

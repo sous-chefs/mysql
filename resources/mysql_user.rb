@@ -259,7 +259,10 @@ action :grant do
   # Repair
   if incorrect_privs
     converge_by "Granting privs for '#{new_resource.username}'@'#{new_resource.host}'" do
-      repair_sql = "GRANT #{new_resource.privileges.join(',')}"
+      formatted_privileges = new_resource.privileges.map do |p|
+        p.to_s.upcase.tr('_', ' ').gsub('REPL ', 'REPLICATION ').gsub('CREATE TMP TABLE', 'CREATE TEMPORARY TABLES').gsub('SHOW DB', 'SHOW DATABASES')
+      end
+      repair_sql = "GRANT #{formatted_privileges.join(',')}"
       repair_sql << " ON #{db_name}.#{tbl_name}"
       repair_sql << " TO '#{new_resource.username}'@'#{new_resource.host}'"
       if database_has_password_column
