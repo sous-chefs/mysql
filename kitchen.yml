@@ -77,8 +77,8 @@ suites:
 
   - name: yum-client-install-80
     run_list:
-      - recipe[selinux::disabled]
       - recipe[test::yum_repo]
+      - recipe[selinux::disabled]
       - recipe[test::installation_client]
     attributes:
       mysql_test:
@@ -146,8 +146,8 @@ suites:
 
   - name: yum-smoke80
     run_list:
-      - recipe[selinux::disabled]
       - recipe[test::yum_repo]
+      - recipe[selinux::disabled]
       - recipe[test::smoke]
     attributes:
       mysql_test:
