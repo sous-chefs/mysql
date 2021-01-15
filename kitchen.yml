@@ -2,7 +2,7 @@
 yum_dists_with_56 = %w(centos-7 amazon-linux)
 suse_dists_with_56 = %w(opensuse-leap)
 yum_dists_with_57 = %w(centos-7 fedora-28 fedora-latest)
-apt_dists_with_57 = %w(ubuntu-16.04 ubuntu-18.04)
+apt_dists_with_57 = %w(ubuntu-18.04)
 yum_dists_with_80 = %w(centos-7 centos-8 fedora-28 fedora-latest)
 apt_dists_with_80 = %w(ubuntu-20.04)
 %>
@@ -28,7 +28,6 @@ platforms:
   - name: opensuse-leap
     driver:
       box: bento/opensuse-leap-42
-  - name: ubuntu-16.04
   - name: ubuntu-18.04
   - name: ubuntu-20.04
   - name: amazonlinux

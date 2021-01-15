@@ -15,6 +15,6 @@ end
 supports 'amazon'
 supports 'fedora'
 supports 'debian', '>= 9.0'
-supports 'ubuntu', '>= 16.04'
+supports 'ubuntu', '>= 18.04'
 supports 'opensuseleap'
 supports 'suse', '>= 12.0'

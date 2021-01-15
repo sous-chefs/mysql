@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Add `mysql_database` resource for creating, querying and removing databases
 - Add `mysql_user` resource for creating, modifying and removing database users
+- Remove Ubuntu 16.04 support
 
 ## 9.0.0 - *2020-11-27*
 
