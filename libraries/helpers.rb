@@ -343,7 +343,7 @@ EOSQL
       cmd << " -p#{ctrl[:password]}"  if ctrl && ctrl.key?(:password) && !ctrl[:password].nil?
       cmd << " -h #{ctrl[:host]}"     if ctrl && ctrl.key?(:host) && !ctrl[:host].nil? && ctrl[:host] != 'localhost'
       cmd << " -P #{ctrl[:port]}"     if ctrl && ctrl.key?(:port) && !ctrl[:port].nil? && ctrl[:host] != 'localhost'
-      cmd << " -S #{default_socket_file}" if ctrl && ctrl.key?(:host) && !ctrl[:host].nil? && ctrl[:host] == 'localhost'
+      cmd << " -S #{ctrl[:socket].nil? ? default_socket_file : ctrl[:socket]}" if ctrl && ctrl.key?(:host) && !ctrl[:host].nil? && ctrl[:host] == 'localhost'
       cmd << " #{database}"            unless database.nil?
       cmd << " | grep #{grep_for}"     if grep_for
       Chef::Log.debug("Executing this command: [#{cmd}]\n")
