@@ -2,7 +2,7 @@
 yum_dists_with_56 = %w(centos-7 amazon-linux)
 suse_dists_with_56 = %w(opensuse-leap)
 yum_dists_with_57 = %w(centos-7 fedora-28 fedora-latest)
-apt_dists_with_57 = %w(ubuntu-16.04 ubuntu-18.04)
+apt_dists_with_57 = %w(ubuntu-18.04)
 yum_dists_with_80 = %w(centos-7 centos-8 fedora-28 fedora-latest)
 apt_dists_with_80 = %w(ubuntu-20.04)
 %>
@@ -28,7 +28,6 @@ platforms:
   - name: opensuse-leap
     driver:
       box: bento/opensuse-leap-42
-  - name: ubuntu-16.04
   - name: ubuntu-18.04
   - name: ubuntu-20.04
   - name: amazonlinux
@@ -78,8 +77,8 @@ suites:
 
   - name: yum-client-install-80
     run_list:
-      - recipe[selinux::disabled]
       - recipe[test::yum_repo]
+      - recipe[selinux::disabled]
       - recipe[test::installation_client]
     attributes:
       mysql_test:
@@ -147,8 +146,8 @@ suites:
 
   - name: yum-smoke80
     run_list:
-      - recipe[selinux::disabled]
       - recipe[test::yum_repo]
+      - recipe[selinux::disabled]
       - recipe[test::smoke]
     attributes:
       mysql_test:
@@ -157,3 +156,54 @@ suites:
     verifier:
       inspec_tests:
         - path: test/integration/smoke80
+
+  #
+  # resource tests
+  #
+  - name: resources-56
+    run_list:
+      - recipe[test::user_database]
+    attributes:
+      mysql_test:
+        version: '5.6'
+    includes: <%= yum_dists_with_56 %>
+    verifier:
+      controls:
+        - mysql_database
+        - mysql_user
+      inputs:
+        version: '5.6'
+      inspec_tests:
+        - path: test/integration/resources
+
+  - name: resources-57
+    run_list:
+      - recipe[test::user_database]
+    attributes:
+      mysql_test:
+        version: '5.7'
+    verifier:
+      controls:
+        - mysql_database
+        - mysql_user
+      inputs:
+        version: '5.8'
+      inspec_tests:
+        - path: test/integration/resources
+    includes: <%= yum_dists_with_57 + apt_dists_with_57 %>
+
+  - name: resources-80
+    run_list:
+      - recipe[test::user_database]
+    attributes:
+      mysql_test:
+        version: '8.0'
+    verifier:
+      controls:
+        - mysql_database
+        - mysql_user
+      inputs:
+        version: '8.0'
+      inspec_tests:
+        - path: test/integration/resources
+    includes: <%= yum_dists_with_80 + apt_dists_with_80 %>

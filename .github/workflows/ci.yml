@@ -42,7 +42,6 @@ jobs:
         os:
           - 'centos-7'
           - 'centos-8'
-          - 'ubuntu-1604'
           - 'ubuntu-1804'
           - 'ubuntu-2004'
         suite:
@@ -50,23 +49,27 @@ jobs:
           - 'client-install-80'
           - 'smoke57'
           - 'smoke80'
+          - 'resources-57'
+          - 'resources-80'
         exclude:
           - os: centos-8
             suite: client-install-57
           - os: centos-8
             suite: smoke57
-          - os: ubuntu-1604
-            suite: client-install-80
-          - os: ubuntu-1604
-            suite: smoke80
+          - os: centos-8
+            suite: resources-57
           - os: ubuntu-1804
             suite: client-install-80
           - os: ubuntu-1804
             suite: smoke80
+          - os: ubuntu-1804
+            suite: resources-80
           - os: ubuntu-2004
             suite: client-install-57
           - os: ubuntu-2004
             suite: smoke57
+          - os: ubuntu-2004
+            suite: resources-57
       fail-fast: false
 
     steps:
@@ -89,6 +92,14 @@ jobs:
         with:
           suite: ${{ matrix.suite }}
           os: ${{ matrix.os }}
+      - name: Print debug output on failure
+        if: failure()
+        run: |
+            set -x
+            sudo journalctl -l --since today
+            sudo docker version
+            sudo docker info
+            KITCHEN_LOCAL_YAML=kitchen.dokken.yml /usr/bin/kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "journalctl -l"
 
   final:
     needs: [dokken]
