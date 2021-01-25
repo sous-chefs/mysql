@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## 10.0.0 - *2021-01-25*
 
 - Add `mysql_database` resource for creating, querying and removing databases
