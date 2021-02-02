@@ -48,7 +48,7 @@ There are no hard coupled dependencies. However, there is a loose dependency on 
 Place a dependency on the mysql cookbook in your cookbook's metadata.rb
 
 ```ruby
-depends 'mysql', '~> 9.0'
+depends 'mysql', '~> 10.0'
 ```
 
 Then, in a recipe:
