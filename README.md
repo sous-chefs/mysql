@@ -35,7 +35,6 @@ The following platforms have been tested with Test Kitchen:
 | debian-10      |     |     |  X  |
 | fedora         |  X  |  X  |  X  |
 | openSUSE Leap  |  X  |     |     |
-| ubuntu-16.04   |     |  X  |     |
 | ubuntu-18.04   |     |  X  |     |
 | ubuntu-20.04   |     |     |  X  |
 
