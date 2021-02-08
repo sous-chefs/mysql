@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+  - Update README.md to reflect dropping ubuntu 16.04 support and fixing the cookbook version in the usage section
 
 ## 10.0.1 - *2021-01-25*
 
