@@ -35,7 +35,6 @@ The following platforms have been tested with Test Kitchen:
 | debian-10      |     |     |  X  |
 | fedora         |  X  |  X  |  X  |
 | openSUSE Leap  |  X  |     |     |
-| ubuntu-16.04   |     |  X  |     |
 | ubuntu-18.04   |     |  X  |     |
 | ubuntu-20.04   |     |     |  X  |
 
@@ -48,7 +47,7 @@ There are no hard coupled dependencies. However, there is a loose dependency on 
 Place a dependency on the mysql cookbook in your cookbook's metadata.rb
 
 ```ruby
-depends 'mysql', '~> 9.0'
+depends 'mysql'
 ```
 
 Then, in a recipe:
