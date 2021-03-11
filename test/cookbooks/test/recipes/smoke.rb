@@ -6,7 +6,7 @@ apt_update 'update'
 root_pass_master = 'MyPa$$word\Has_"Special\'Chars%!'
 root_pass_slave = 'An0th3r_Pa%%w0rd!'
 
-# TODO(ramereth): We should handle apparmor properly
+# We're not able to use apparmor with how this test is setup so disable it for now
 node.default['apparmor']['disable'] = true
 include_recipe 'apparmor'
 
