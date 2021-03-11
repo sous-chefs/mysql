@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## 10.1.1 - *2021-03-11*
 
 - Fix db initialization status correctly on MySQL 8.0
