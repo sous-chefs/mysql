@@ -92,7 +92,7 @@ module MysqlCookbook
           code init_records_script
           umask '022'
           returns [0, 1, 2] # facepalm
-          not_if "/usr/bin/test -f #{new_resource.data_dir}/mysql/user.frm"
+          not_if { db_initialized? }
           action :run
         end
       end
