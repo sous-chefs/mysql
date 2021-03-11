@@ -8,6 +8,8 @@ issues_url        'https://github.com/sous-chefs/mysql/issues'
 chef_version      '>= 12.7'
 version           '10.0.2'
 
+depends 'apparmor'
+
 %w(redhat centos scientific oracle).each do |el|
   supports el, '>= 7.0'
 end
