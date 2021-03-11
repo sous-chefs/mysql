@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Fix db initialization status correctly on MySQL 8.0
+
 ## 10.1.0 - *2021-03-11*
 
 - Add dependency on apparmor cookbook to fix #660
