@@ -42,7 +42,6 @@ action :create do
       unless database_has_password_column
         create_sql << ' REQUIRE SSL' if new_resource.require_ssl
         create_sql << ' REQUIRE X509' if new_resource.require_x509
-        create_sql << ' WITH GRANT OPTION' if new_resource.grant_option
       end
       run_query create_sql
       update_user_password if new_resource.password
