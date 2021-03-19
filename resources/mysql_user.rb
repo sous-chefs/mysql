@@ -66,7 +66,7 @@ action_class do
 
   def run_query(query)
     socket = new_resource.ctrl_host == 'localhost' ? default_socket_file : nil
-    ctrl_hash = { host: new_resource.ctrl_host, port: new_resource.ctrl_port, username: new_resource.ctrl_user, password: new_resource.ctrl_password, socket: socket }
+    ctrl_hash = { host: new_resource.ctrl_host, port: new_resource.ctrl_port, user: new_resource.ctrl_user, password: new_resource.ctrl_password, socket: socket }
     Chef::Log.debug("#{@new_resource}: Performing query [#{query}]")
     execute_sql(query, nil, ctrl_hash)
   end

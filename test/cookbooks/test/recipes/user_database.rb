@@ -173,6 +173,25 @@ mysql_user 'moozie' do
   action [:create, :grant]
 end
 
+# test non-default ctrl user
+mysql_user 'bunsen' do
+  password 'burner'
+  host 'localhost'
+  ctrl_password root_pass
+  privileges [:super]
+  grant_option true
+  action [:create, :grant]
+end
+
+mysql_user 'waldorf' do
+  password 'InTheBalcony'
+  database_name 'databass'
+  ctrl_user 'bunsen'
+  ctrl_password 'burner'
+  privileges [:select]
+  action [:create, :grant]
+end
+
 # all the grants exist ('Granting privs' should not show up), but the password is different
 # and should get updated
 mysql_user 'rizzo' do
