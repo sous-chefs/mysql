@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 10.1.2 - *2021-03-26*
 
 - Fix ctrl\_user always set as root for mysql\_user resource
 
