@@ -267,8 +267,8 @@ action :grant do
       if database_has_password_column
         repair_sql << ' REQUIRE SSL' if new_resource.require_ssl
         repair_sql << ' REQUIRE X509' if new_resource.require_x509
-        repair_sql << ' WITH GRANT OPTION' if new_resource.grant_option
       end
+      repair_sql << ' WITH GRANT OPTION' if new_resource.grant_option
 
       redacted_sql = redact_password(repair_sql, new_resource.password)
       Chef::Log.debug("#{@new_resource}: granting with sql [#{redacted_sql}]")
