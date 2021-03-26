@@ -178,11 +178,12 @@ mysql_user 'bunsen' do
   password 'burner'
   host 'localhost'
   ctrl_password root_pass
-  privileges [:super]
+  privileges [:all]
   grant_option true
   action [:create, :grant]
 end
 
+# try to create another user with non-default ctrl user
 mysql_user 'waldorf' do
   password 'InTheBalcony'
   database_name 'databass'
