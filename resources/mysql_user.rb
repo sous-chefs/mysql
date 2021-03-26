@@ -42,7 +42,6 @@ action :create do
       unless database_has_password_column
         create_sql << ' REQUIRE SSL' if new_resource.require_ssl
         create_sql << ' REQUIRE X509' if new_resource.require_x509
-        create_sql << ' WITH GRANT OPTION' if new_resource.grant_option
       end
       run_query create_sql
       update_user_password if new_resource.password
@@ -66,7 +65,7 @@ action_class do
 
   def run_query(query)
     socket = new_resource.ctrl_host == 'localhost' ? default_socket_file : nil
-    ctrl_hash = { host: new_resource.ctrl_host, port: new_resource.ctrl_port, username: new_resource.ctrl_user, password: new_resource.ctrl_password, socket: socket }
+    ctrl_hash = { host: new_resource.ctrl_host, port: new_resource.ctrl_port, user: new_resource.ctrl_user, password: new_resource.ctrl_password, socket: socket }
     Chef::Log.debug("#{@new_resource}: Performing query [#{query}]")
     execute_sql(query, nil, ctrl_hash)
   end
@@ -268,8 +267,8 @@ action :grant do
       if database_has_password_column
         repair_sql << ' REQUIRE SSL' if new_resource.require_ssl
         repair_sql << ' REQUIRE X509' if new_resource.require_x509
-        repair_sql << ' WITH GRANT OPTION' if new_resource.grant_option
       end
+      repair_sql << ' WITH GRANT OPTION' if new_resource.grant_option
 
       redacted_sql = redact_password(repair_sql, new_resource.password)
       Chef::Log.debug("#{@new_resource}: granting with sql [#{redacted_sql}]")
