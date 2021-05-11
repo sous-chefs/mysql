@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- resolved cookstyle error: resources/mysql_database.rb:1:1 refactor: `Chef/Deprecations/ResourceWithoutUnifiedTrue`
+- resolved cookstyle error: resources/mysql_user.rb:1:1 refactor: `Chef/Deprecations/ResourceWithoutUnifiedTrue`
+
 ## 10.1.4 - *2021-08-30*
 
 - Standardise files with files in sous-chefs/repo-management

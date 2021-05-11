@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 provides :mysql_database
+unified_mode true
 
 include MysqlCookbook::HelpersBase
 include MysqlCookbook
