@@ -5,7 +5,7 @@ license           'Apache-2.0'
 description       'Provides mysql_service, mysql_config, and mysql_client resources'
 source_url        'https://github.com/sous-chefs/mysql'
 issues_url        'https://github.com/sous-chefs/mysql/issues'
-chef_version      '>= 12.7'
+chef_version      '>= 15.3'
 version           '10.1.4'
 
 depends 'apparmor'
