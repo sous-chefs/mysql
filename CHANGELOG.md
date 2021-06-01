@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 10.1.3 - *2021-06-01*
 
 ## 10.1.2 - *2021-03-26*
 
