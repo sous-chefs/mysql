@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- resolved cookstyle error: libraries/mysql_service_base.rb:44:20 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
 - Chef 17 updates: enable `unified_mode` on all resources
 - Bump required Chef Infra Client to >= 15.3
 - resolved cookstyle error: resources/mysql_database.rb:1:1 refactor: `Chef/Deprecations/ResourceWithoutUnifiedTrue`
