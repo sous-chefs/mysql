@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 11.0.0 - *2021-09-16*
 
 - resolved cookstyle error: libraries/mysql_service_base.rb:44:20 refactor: `Chef/Modernize/UseChefLanguageSystemdHelper`
 - Chef 17 updates: enable `unified_mode` on all resources
