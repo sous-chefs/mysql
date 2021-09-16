@@ -19,7 +19,7 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 ## Requirements
 
-- Chef 12.7 or higher
+- Chef 15.5 or higher
 - Network accessible package repositories
 - 'recipe[selinux::disabled]' on RHEL platforms
 
