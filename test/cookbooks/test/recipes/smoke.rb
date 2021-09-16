@@ -5,6 +5,7 @@ apt_update 'update'
 # variables
 root_pass_master = 'MyPa$$word\Has_"Special\'Chars%!'
 root_pass_slave = 'An0th3r_Pa%%w0rd!'
+source_data = node['mysql_test']['version'].to_i >= 8 ? '--source-data' : '--master-data'
 
 # We're not able to use apparmor with how this test is setup so disable it for now
 node.default['apparmor']['disable'] = true
@@ -108,7 +109,7 @@ bash 'create /root/dump.sql' do
           --single-transaction \
           --flush-logs \
           --hex-blob \
-          --master-data=2 \
+          #{source_data}=2 \
           -A \ > /root/dump.sql;
       EOF
   not_if { ::File.exist?('/root/dump.sql') }
