@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 11.0.1 - *2022-01-08*
 
 - resolved cookstyle error: test/cookbooks/test/libraries/helpers.rb:14:31 convention: `Style/FileRead`
 - resolved cookstyle error: test/cookbooks/test/libraries/helpers.rb:26:31 convention: `Style/FileRead`
