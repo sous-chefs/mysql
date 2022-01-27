@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## 11.0.2 - *2022-01-27*
 
 - resolved cookstyle error: spec/mysql_client_installation_package_spec.rb:6:46 warning: `Chef/Deprecations/DeprecatedChefSpecPlatform`
