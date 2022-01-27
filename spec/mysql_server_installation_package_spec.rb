@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'test::installation_server' do
   let(:installation_server_package_centos_7) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7') }
   let(:installation_server_package_centos_8) { ChefSpec::ServerRunner.new(platform: 'centos', version: '8') }
-  let(:installation_server_package_fedora) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '31') }
+  let(:installation_server_package_fedora) { ChefSpec::ServerRunner.new(platform: 'fedora') }
   let(:installation_server_package_ubuntu_1804) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04') }
 
   context 'using el7' do
