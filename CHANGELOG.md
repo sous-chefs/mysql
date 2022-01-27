@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- resolved cookstyle error: spec/mysql_client_installation_package_spec.rb:6:46 warning: `Chef/Deprecations/DeprecatedChefSpecPlatform`
+- resolved cookstyle error: spec/mysql_server_installation_package_spec.rb:6:46 warning: `Chef/Deprecations/DeprecatedChefSpecPlatform`
 ## 11.0.1 - *2022-01-08*
 
 - resolved cookstyle error: test/cookbooks/test/libraries/helpers.rb:14:31 convention: `Style/FileRead`
