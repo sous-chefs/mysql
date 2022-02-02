@@ -17,8 +17,10 @@ jobs:
     strategy:
       matrix:
         os:
+          - 'almalinux-8'
           - 'centos-7'
-          - 'centos-8'
+          - 'centos-stream-8'
+          - 'rockylinux-8'
           - 'ubuntu-1804'
           - 'ubuntu-2004'
         suite:
@@ -29,11 +31,17 @@ jobs:
           - 'resources-57'
           - 'resources-80'
         exclude:
-          - os: centos-8
+          - os: almalinux-8
             suite: client-install-57
-          - os: centos-8
+          - os: almalinux-8
             suite: smoke57
-          - os: centos-8
+          - os: almalinux-8
+            suite: resources-57
+          - os: centos-stream-8
+            suite: client-install-57
+          - os: centos-stream-8
+            suite: smoke57
+          - os: centos-stream-8
             suite: resources-57
           - os: ubuntu-1804
             suite: client-install-80
@@ -46,6 +54,12 @@ jobs:
           - os: ubuntu-2004
             suite: smoke57
           - os: ubuntu-2004
+            suite: resources-57
+          - os: rockylinux-8
+            suite: client-install-57
+          - os: rockylinux-8
+            suite: smoke57
+          - os: rockylinux-8
             suite: resources-57
       fail-fast: false
 

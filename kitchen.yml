@@ -1,9 +1,9 @@
 <%
-yum_dists_with_56 = %w(centos-7 amazon-linux)
-suse_dists_with_56 = %w(opensuse-leap)
-yum_dists_with_57 = %w(centos-7 fedora-28 fedora-latest)
+yum_dists_with_56 = %w(centos-7 amazon-linux-2)
+suse_dists_with_56 = %w(opensuse-leap-15)
+yum_dists_with_57 = %w(centos-7 fedora-latest)
 apt_dists_with_57 = %w(ubuntu-18.04)
-yum_dists_with_80 = %w(centos-7 centos-8 fedora-28 fedora-latest)
+yum_dists_with_80 = %w(centos-7 centos-stream-8 almalinux-8 rockylinux-8 fedora-latest)
 apt_dists_with_80 = %w(ubuntu-20.04)
 %>
 ---
@@ -20,19 +20,17 @@ verifier:
   name: inspec
 
 platforms:
+  - name: almalinux-8
+  - name: amazonlinux-2
   - name: centos-7
-  - name: centos-8
-  - name: debian-9
+  - name: centos-stream-8
   - name: debian-10
-  - name: fedora-28
-  - name: opensuse-leap
-    driver:
-      box: bento/opensuse-leap-42
+  - name: debian-11
+  - name: fedora-latest
+  - name: opensuse-leap-15
+  - name: rockylinux-8
   - name: ubuntu-18.04
   - name: ubuntu-20.04
-  - name: amazonlinux
-    driver_config:
-      box: mvbcoding/awslinux
 
 suites:
   #
