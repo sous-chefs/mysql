@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Remove delivery and move to calling RSpec directly via a reusable workflow
+- Update tested platforms
+
 ## 11.0.2 - *2022-01-27*
 
 - resolved cookstyle error: spec/mysql_client_installation_package_spec.rb:6:46 warning: `Chef/Deprecations/DeprecatedChefSpecPlatform`
