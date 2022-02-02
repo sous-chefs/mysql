@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 11.0.3 - *2022-02-02*
 
 - Remove delivery and move to calling RSpec directly via a reusable workflow
 - Update tested platforms
