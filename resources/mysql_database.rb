@@ -57,7 +57,7 @@ action :drop do
 end
 
 action :query do
-  run_query(new_resource.sql, nil)
+  run_query(new_resource.sql, new_resource.database_name)
 end
 
 load_current_value do
