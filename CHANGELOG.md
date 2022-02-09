@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## 11.0.4 - *2022-02-09*
 
 - Allow run_query to take a database name as an argument
