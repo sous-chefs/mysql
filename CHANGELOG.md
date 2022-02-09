@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-## 11.0.3 - *2022-02-02*
+## 11.0.3 - *2022-02-09*
 
 - Remove delivery and move to calling RSpec directly via a reusable workflow
 - Update tested platforms
+- Update mysql_database.rb for query action
 
 ## 11.0.2 - *2022-01-27*
 
