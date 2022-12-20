@@ -4,13 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Fix CI issues
+
 ## 11.0.6 - *2022-12-05*
 
-Standardise files with files in sous-chefs/repo-management
+- Standardise files with files in sous-chefs/repo-management
 
 ## 11.0.5 - *2022-04-20*
 
-Standardise files with files in sous-chefs/repo-management
+- Standardise files with files in sous-chefs/repo-management
 
 ## 11.0.4 - *2022-02-09*
 
