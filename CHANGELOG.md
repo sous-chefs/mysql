@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 11.0.7 - *2022-12-21*
 
 - Fix CI issues
 
