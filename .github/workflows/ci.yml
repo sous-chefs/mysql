@@ -18,24 +18,24 @@ jobs:
       issues: write
 
   integration:
-    needs: 'lint-unit'
+    needs: "lint-unit"
     runs-on: ubuntu-20.04
     strategy:
       matrix:
         os:
-          - 'almalinux-8'
-          - 'centos-7'
-          - 'centos-stream-8'
-          - 'rockylinux-8'
-          - 'ubuntu-1804'
-          - 'ubuntu-2004'
+          - "almalinux-8"
+          - "centos-7"
+          - "centos-stream-8"
+          - "rockylinux-8"
+          - "ubuntu-1804"
+          - "ubuntu-2004"
         suite:
-          - 'client-install-57'
-          - 'client-install-80'
-          - 'smoke57'
-          - 'smoke80'
-          - 'resources-57'
-          - 'resources-80'
+          - "client-install-57"
+          - "client-install-80"
+          - "smoke57"
+          - "smoke80"
+          - "resources-57"
+          - "resources-80"
         exclude:
           - os: almalinux-8
             suite: client-install-57
@@ -73,16 +73,16 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
       - name: Install Chef
-        uses: actionshub/chef-install@main
+        uses: actionshub/chef-install@2.0.4
       # https://github.com/actions/virtual-environments/issues/181#issuecomment-610874237
       - name: Disable apparmor for mysqld
         run: |
-            set -x
-            sudo apt-get -y remove mysql-server --purge
-            sudo apt-get -y install apparmor-profiles
-            sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
+          set -x
+          sudo apt-get -y remove mysql-server --purge
+          sudo apt-get -y install apparmor-profiles
+          sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
       - name: Dokken
-        uses: actionshub/test-kitchen@main
+        uses: actionshub/test-kitchen@2.1.0
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.dokken.yml
@@ -92,8 +92,8 @@ jobs:
       - name: Print debug output on failure
         if: failure()
         run: |
-            set -x
-            sudo journalctl -l --since today
-            sudo docker version
-            sudo docker info
-            KITCHEN_LOCAL_YAML=kitchen.dokken.yml /usr/bin/kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "journalctl -l"
+          set -x
+          sudo journalctl -l --since today
+          sudo docker version
+          sudo docker info
+          KITCHEN_LOCAL_YAML=kitchen.dokken.yml /usr/bin/kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "journalctl -l"
