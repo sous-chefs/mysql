@@ -10,10 +10,10 @@ version           '11.0.12'
 
 depends 'apparmor'
 
-%w(redhat centos scientific oracle).each do |el|
-  supports el, '>= 7.0'
-end
-
+suppots 'redhat', '>= 7.0'
+supports 'centos', '>= 7.0'
+supports 'scientific', '>= 7.0'
+supports 'oracle', '>= 7.0'
 supports 'amazon'
 supports 'fedora'
 supports 'debian', '>= 9.0'
