@@ -637,11 +637,11 @@ Fixing style cops
 
 ### Bug
 
-- **[COOK-4068](https://tickets.chef.io/browse/COOK-4068)** - rework MySQL Windows recipe
+- [COOK-4068] - rework MySQL Windows recipe
 
 ### Improvement
 
-- **[COOK-3801](https://tickets.chef.io/browse/COOK-3801)** - Add innodb_adaptive_flushing_method and innodb_adaptive_checkpoint
+- [COOK-3801] - Add innodb_adaptive_flushing_method and innodb_adaptive_checkpoint
 
 ## [4.0.10]
 
@@ -684,7 +684,7 @@ Locking yum dependency to '< 3'
 
 ### Bug
 
-- **[COOK-3752](https://tickets.chef.io/browse/COOK-3752)** - mysql service fails to start in mysql::server recipe
+- [COOK-3752] - mysql service fails to start in mysql::server recipe
 
 ## [3.0.10]
 
@@ -694,34 +694,34 @@ Locking yum dependency to '< 3'
 
 ### Bug
 
-- **[COOK-3749](https://tickets.chef.io/browse/COOK-3749)** - Fix a regression with Chef 11-specific features
+- [COOK-3749] - Fix a regression with Chef 11-specific features
 
 ## [3.0.6]
 
 ### Bug
 
-- **[COOK-3674](https://tickets.chef.io/browse/COOK-3674)** - Fix an issue where the MySQL server fails to set the root password correctly when `data_dir` is a non-default value
-- **[COOK-3647](https://tickets.chef.io/browse/COOK-3647)** - Fix README typo (databas => database)
-- **[COOK-3477](https://tickets.chef.io/browse/COOK-3477)** - Fix log-queries-not-using-indexes not working
-- **[COOK-3436](https://tickets.chef.io/browse/COOK-3436)** - Pull percona repo in compilation phase
-- **[COOK-3208](https://tickets.chef.io/browse/COOK-3208)** - Fix README typo (LitenPort => ListenPort)
-- **[COOK-3149](https://tickets.chef.io/browse/COOK-3149)** - Create my.cnf before installing
-- **[COOK-2681](https://tickets.chef.io/browse/COOK-2681)** - Fix log_slow_queries for 5.5+
-- **[COOK-2606](https://tickets.chef.io/browse/COOK-2606)** - Use proper bind address on cloud providers
+- [COOK-3674] - Fix an issue where the MySQL server fails to set the root password correctly when `data_dir` is a non-default value
+- [COOK-3647] - Fix README typo (databas => database)
+- [COOK-3477] - Fix log-queries-not-using-indexes not working
+- [COOK-3436] - Pull percona repo in compilation phase
+- [COOK-3208] - Fix README typo (LitenPort => ListenPort)
+- [COOK-3149] - Create my.cnf before installing
+- [COOK-2681] - Fix log_slow_queries for 5.5+
+- [COOK-2606] - Use proper bind address on cloud providers
 
 ### Improvement
 
-- **[COOK-3498](https://tickets.chef.io/browse/COOK-3498)** - Add support for replicate_* variables in my.cnf
+- [COOK-3498] - Add support for replicate_* variables in my.cnf
 
 ## [3.0.4]
 
 ### Bug
 
-- **[COOK-3310](https://tickets.chef.io/browse/COOK-3310)** - Fix missing `GRANT` option
-- **[COOK-3233](https://tickets.chef.io/browse/COOK-3233)** - Fix escaping special characters
-- **[COOK-3156](https://tickets.chef.io/browse/COOK-3156)** - Fix GRANTS file when `remote_root_acl` is specified
-- **[COOK-3134](https://tickets.chef.io/browse/COOK-3134)** - Fix Chef 11 support
-- **[COOK-2318](https://tickets.chef.io/browse/COOK-2318)** - Remove redundant `if` block around `node.mysql.tunable.log_bin`
+- [COOK-3310] - Fix missing `GRANT` option
+- [COOK-3233] - Fix escaping special characters
+- [COOK-3156] - Fix GRANTS file when `remote_root_acl` is specified
+- [COOK-3134] - Fix Chef 11 support
+- [COOK-2318] - Remove redundant `if` block around `node.mysql.tunable.log_bin`
 
 ## [3.0.2]
 
