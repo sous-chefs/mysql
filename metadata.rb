@@ -6,7 +6,7 @@ description       'Provides mysql_service, mysql_config, and mysql_client resour
 source_url        'https://github.com/sous-chefs/mysql'
 issues_url        'https://github.com/sous-chefs/mysql/issues'
 chef_version      '>= 15.5'
-version           '11.0.8'
+version           '11.0.12'
 
 depends 'apparmor'
 
