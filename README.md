@@ -37,6 +37,7 @@ The following platforms have been tested with Test Kitchen:
 | openSUSE Leap  |  X  |     |     |
 | ubuntu-18.04   |     |  X  |     |
 | ubuntu-20.04   |     |     |  X  |
+| ubuntu-22.04   |     |     |  X  |
 
 ## Cookbook Dependencies
 
