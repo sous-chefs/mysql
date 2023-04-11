@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- feat: add support for ubuntu 22.04
+
 ## 11.0.13 - *2023-04-04*
 
 Standardise files with files in sous-chefs/repo-management
