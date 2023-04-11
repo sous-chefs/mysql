@@ -29,6 +29,7 @@ jobs:
           - "rockylinux-8"
           - "ubuntu-1804"
           - "ubuntu-2004"
+          - "ubuntu-2204"
         suite:
           - "client-install-57"
           - "client-install-80"
@@ -60,6 +61,12 @@ jobs:
           - os: ubuntu-2004
             suite: smoke57
           - os: ubuntu-2004
+            suite: resources-57
+          - os: ubuntu-2204
+            suite: client-install-57
+          - os: ubuntu-2204
+            suite: smoke57
+          - os: ubuntu-2204
             suite: resources-57
           - os: rockylinux-8
             suite: client-install-57
