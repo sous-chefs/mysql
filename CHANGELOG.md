@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## 11.1.0 - *2023-08-23*
 
 - feat: add support for ubuntu 22.04
