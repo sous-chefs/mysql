@@ -10,7 +10,7 @@ version           '11.0.15'
 
 depends 'apparmor'
 
-suppots 'redhat', '>= 7.0'
+supports 'redhat', '>= 7.0'
 supports 'centos', '>= 7.0'
 supports 'scientific', '>= 7.0'
 supports 'oracle', '>= 7.0'

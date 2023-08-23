@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- feat: add support for ubuntu 22.04
+
 ## 11.0.15 - *2023-07-10*
 
+- Update sous-chefs/.github action to v2.0.5
+
 ## 11.0.14 - *2023-05-17*
+
+- Update sous-chefs/.github action to v2.0.4
 
 ## 11.0.13 - *2023-04-04*
 
