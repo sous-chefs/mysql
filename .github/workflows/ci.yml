@@ -9,7 +9,7 @@ name: ci
 
 jobs:
   lint-unit:
-    uses: sous-chefs/.github/.github/workflows/lint-unit.yml@2.0.1
+    uses: sous-chefs/.github/.github/workflows/lint-unit.yml@2.0.6
     permissions:
       actions: write
       checks: write
@@ -19,7 +19,7 @@ jobs:
 
   integration:
     needs: "lint-unit"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         os:
@@ -29,6 +29,7 @@ jobs:
           - "rockylinux-8"
           - "ubuntu-1804"
           - "ubuntu-2004"
+          - "ubuntu-2204"
         suite:
           - "client-install-57"
           - "client-install-80"
@@ -61,6 +62,12 @@ jobs:
             suite: smoke57
           - os: ubuntu-2004
             suite: resources-57
+          - os: ubuntu-2204
+            suite: client-install-57
+          - os: ubuntu-2204
+            suite: smoke57
+          - os: ubuntu-2204
+            suite: resources-57
           - os: rockylinux-8
             suite: client-install-57
           - os: rockylinux-8
@@ -71,7 +78,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install Chef
         uses: actionshub/chef-install@2.0.4
       # https://github.com/actions/virtual-environments/issues/181#issuecomment-610874237

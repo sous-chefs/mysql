@@ -37,6 +37,7 @@ The following platforms have been tested with Test Kitchen:
 | openSUSE Leap  |  X  |     |     |
 | ubuntu-18.04   |     |  X  |     |
 | ubuntu-20.04   |     |     |  X  |
+| ubuntu-22.04   |     |     |  X  |
 
 ## Cookbook Dependencies
 
@@ -199,7 +200,7 @@ end
 
 Use multiple `mysql_service` instances to test a replication setup. This particular example serves as a smoke test in Test Kitchen because it exercises different resources and requires service restarts.
 
-<https://github.com/chef-cookbooks/mysql/blob/master/test/fixtures/cookbooks/mysql_replication_test/recipes/default.rb>
+<https://github.com/sous-chefs/mysql/blob/main/test/cookbooks/test/recipes/service_multi.rb>
 
 ## Frequently Asked Questions
 

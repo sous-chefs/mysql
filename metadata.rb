@@ -6,14 +6,14 @@ description       'Provides mysql_service, mysql_config, and mysql_client resour
 source_url        'https://github.com/sous-chefs/mysql'
 issues_url        'https://github.com/sous-chefs/mysql/issues'
 chef_version      '>= 15.5'
-version           '11.0.12'
+version           '11.1.3'
 
 depends 'apparmor'
 
-%w(redhat centos scientific oracle).each do |el|
-  supports el, '>= 7.0'
-end
-
+supports 'redhat', '>= 7.0'
+supports 'centos', '>= 7.0'
+supports 'scientific', '>= 7.0'
+supports 'oracle', '>= 7.0'
 supports 'amazon'
 supports 'fedora'
 supports 'debian', '>= 9.0'
