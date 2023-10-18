@@ -1,0 +1,25 @@
+{
+  "templateVersion": "0.2",
+  "product": {
+    "name": "mysql",
+    "description": "Development repository for Chef Software mysql cookbook"
+  },
+  "contacts": {
+    "team": {
+      "name": "MBI",
+      "DL": "Grp-magento-mbi-engineering",
+      "slackChannel": "mbi-dev"
+    }
+  },
+  "ticketTracker": {
+    "functionalJiraQueue": {
+      "projectKey": "MBI",
+      "component": ""
+    },
+    "securityJiraQueue": {
+      "projectKey": "MAGREQ",
+      "component": "Magento Business Intelligence"
+    }
+  },
+  "productionCodeBranches": ["master"]
+}
