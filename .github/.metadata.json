@@ -21,5 +21,5 @@
       "component": "Magento Business Intelligence"
     }
   },
-  "productionCodeBranches": ["master"]
+  "productionCodeBranches": ["main"]
 }
