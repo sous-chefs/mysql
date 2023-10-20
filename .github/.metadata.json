@@ -1,7 +1,7 @@
 {
   "templateVersion": "0.2",
   "product": {
-    "name": "mysql",
+    "name": "MBI",
     "description": "Development repository for Chef Software mysql cookbook"
   },
   "contacts": {
