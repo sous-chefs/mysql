@@ -1,4 +1,6 @@
+# rubocop:disable Style/FrozenStringLiteralComment
 module MysqlCookbook
+  # rubocop:disable Metrics/ClassLength, Style/Documentation
   class MysqlServiceManagerSystemd < MysqlServiceBase
     resource_name :mysql_service_manager_systemd
     provides :mysql_service_manager_systemd
@@ -16,6 +18,7 @@ module MysqlCookbook
       initialize_database
     end
 
+    # rubocop:disable Metrics/BlockLength
     action :start do
       # Needed for Debian / Ubuntu
       directory '/usr/libexec' do
@@ -38,24 +41,19 @@ module MysqlCookbook
         action :create
       end
 
-      # this is the main systemd unit file
-      template "/etc/systemd/system/#{mysql_name}.service" do
-        path "/etc/systemd/system/#{mysql_name}.service"
+      # Use an override.conf so that we override the values we care about and
+      # let the package do the heavy lifting
+      # this stops us from breaking during upgrades as we have done before
+      template '/etc/systemd/system/mysqld.service.d/override.conf' do
+        path '/etc/systemd/system/mysqld.service.d/override.conf'
         source 'systemd/mysqld.service.erb'
         owner 'root'
         group 'root'
         mode '0644'
-        variables(
-          config: new_resource,
-          etc_dir: etc_dir,
-          base_dir: base_dir,
-          mysqld_bin: mysqld_bin,
-          mysql_systemd_start_pre: mysql_systemd_start_pre,
-          mysql_systemd: mysql_systemd
-        )
+        variables(config: new_resource)
         cookbook 'mysql'
         notifies :run, "execute[#{new_resource.instance} systemctl daemon-reload]", :immediately
-        action :create
+        action :nothing
       end
 
       # avoid 'Unit file changed on disk' warning
@@ -85,9 +83,10 @@ module MysqlCookbook
         service_name mysql_name
         provider Chef::Provider::Service::Systemd
         supports restart: true, status: true
-        action [:enable, :start]
+        action %i[enable start]
       end
     end
+    # rubocop:enable Metrics/BlockLength
 
     action :stop do
       # service management resource
@@ -95,7 +94,7 @@ module MysqlCookbook
         service_name mysql_name
         provider Chef::Provider::Service::Systemd
         supports status: true
-        action [:disable, :stop]
+        action %i[disable stop]
         only_if { ::File.exist?("/usr/lib/systemd/system/#{mysql_name}.service") }
       end
     end
@@ -126,7 +125,7 @@ module MysqlCookbook
           service_name system_service_name
           provider Chef::Provider::Service::Systemd
           supports status: true
-          action [:stop, :disable]
+          action %i[disable stop]
         end
       end
 
@@ -136,10 +135,12 @@ module MysqlCookbook
           service_name mysql_name
           provider Chef::Provider::Service::Systemd
           supports status: true
-          action [:disable, :stop]
+          action %i[disable stop]
           only_if { ::File.exist?("/usr/lib/systemd/system/#{mysql_name}.service") }
         end
       end
     end
   end
+  # rubocop:enable Metrics/ClassLength, Style/Documentation
 end
+# rubocop:enable Style/FrozenStringLiteralComment

@@ -260,8 +260,7 @@ EOSQL
     end
 
     def mysql_systemd_start_pre
-      return '/usr/bin/mysqld_pre_systemd' if el7? || el8? || fedora?
-      return '/usr/bin/mysql-systemd-start pre' if platform_family?('rhel')
+      return '/usr/bin/mysqld_pre_systemd' if el7? || el8? || fedora? || platform_family?('rhel')
       return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
 
       '/usr/share/mysql/mysql-systemd-start pre'
