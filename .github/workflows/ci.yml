@@ -24,10 +24,8 @@ jobs:
       matrix:
         os:
           - "almalinux-8"
-          - "centos-7"
           - "centos-stream-8"
           - "rockylinux-8"
-          - "ubuntu-1804"
           - "ubuntu-2004"
           - "ubuntu-2204"
         suite:

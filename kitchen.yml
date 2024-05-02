@@ -1,9 +1,7 @@
 <%
-yum_dists_with_56 = %w(centos-7 amazon-linux-2)
-suse_dists_with_56 = %w(opensuse-leap-15)
-yum_dists_with_57 = %w(centos-7 fedora-latest)
+yum_dists_with_57 = %w(fedora-latest)
 apt_dists_with_57 = %w(ubuntu-18.04)
-yum_dists_with_80 = %w(centos-7 centos-stream-8 almalinux-8 rockylinux-8 fedora-latest)
+yum_dists_with_80 = %w(centos-stream-8 almalinux-8 rockylinux-8 fedora-latest)
 apt_dists_with_80 = %w(ubuntu-20.04)
 %>
 ---
@@ -12,49 +10,10 @@ driver:
   customize:
     memory: 1024
 
-provisioner:
-  name: chef_zero
-  deprecations_as_errors: true
-
-verifier:
-  name: inspec
-
-platforms:
-  - name: almalinux-8
-  - name: amazonlinux-2
-  - name: centos-7
-  - name: centos-stream-8
-  - name: debian-10
-  - name: debian-11
-  - name: fedora-latest
-  - name: opensuse-leap-15
-  - name: rockylinux-8
-  - name: ubuntu-18.04
-  - name: ubuntu-20.04
-
 suites:
   #
   # client
   #
-  - name: yum-client-install-56
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[test::yum_repo]
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= yum_dists_with_56 %>
-
-  - name: suse-client-install-56
-    run_list:
-      - recipe[test::yum_repo]
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= suse_dists_with_56 %>
-
   - name: client-install-57
     run_list:
       - recipe[test::installation_client]
@@ -94,19 +53,6 @@ suites:
   #
   # server smoke
   #
-  - name: yum-smoke56
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[test::yum_repo]
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= yum_dists_with_56 %>
-    verifier:
-      inspec_tests:
-        - path: test/integration/smoke56
-
   - name: smoke57
     run_list:
       - recipe[test::smoke]
@@ -114,15 +60,6 @@ suites:
       mysql_test:
         version: '5.7'
     includes: <%= apt_dists_with_57 %>
-
-  - name: suse-smoke56
-    run_list:
-      - recipe[test::yum_repo]
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= suse_dists_with_56 %>
 
   - name: yum-smoke57
     run_list:
@@ -158,22 +95,6 @@ suites:
   #
   # resource tests
   #
-  - name: resources-56
-    run_list:
-      - recipe[test::user_database]
-    attributes:
-      mysql_test:
-        version: '5.6'
-    includes: <%= yum_dists_with_56 %>
-    verifier:
-      controls:
-        - mysql_database
-        - mysql_user
-      inputs:
-        version: '5.6'
-      inspec_tests:
-        - path: test/integration/resources
-
   - name: resources-57
     run_list:
       - recipe[test::user_database]
