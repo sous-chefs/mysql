@@ -1,6 +1,5 @@
 <%
-yum_dists_with_57 = %w(fedora-latest)
-yum_dists_with_80 = %w(centos-stream-8 almalinux-8 rockylinux-8 fedora-latest)
+yum_dists_with_80 = %w(centos-stream-9 almalinux-9 rockylinux-9 fedora-latest)
 apt_dists_with_80 = %w(ubuntu-20.04 ubuntu-22.04 ubuntu-24.04)
 %>
 ---
@@ -13,16 +12,6 @@ suites:
   #
   # client
   #
-  - name: yum-client-install-57
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[test::yum_repo]
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    includes: <%= yum_dists_with_57 %>
-
   - name: yum-client-install-80
     run_list:
       - recipe[test::yum_repo]
@@ -44,16 +33,6 @@ suites:
   #
   # server smoke
   #
-  - name: yum-smoke57
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[test::yum_repo]
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    includes: <%= yum_dists_with_57 %>
-
   - name: smoke80
     run_list:
       - recipe[test::smoke]
@@ -78,22 +57,6 @@ suites:
   #
   # resource tests
   #
-  - name: resources-57
-    run_list:
-      - recipe[test::user_database]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    verifier:
-      controls:
-        - mysql_database
-        - mysql_user
-      inputs:
-        version: '5.8'
-      inspec_tests:
-        - path: test/integration/resources
-    includes: <%= yum_dists_with_57 %>
-
   - name: resources-80
     run_list:
       - recipe[test::user_database]
