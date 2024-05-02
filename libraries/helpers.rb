@@ -158,7 +158,7 @@ module MysqlCookbook
       # mysql will read \& as &, but \% as \%. Just escape bare-minimum \ and '
       sql_escaped_password = root_password.gsub('\\') { '\\\\' }.gsub("'") { '\\\'' }
       cmd = "UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';"
-      cmd = "ALTER USER 'root'@'localhost' IDENTIFIED BY '#{sql_escaped_password}';" if v57plus
+      cmd = "ALTER USER 'root'@'localhost' IDENTIFIED BY '#{sql_escaped_password}';"
 
       <<-EOS
         set -e
@@ -188,12 +188,12 @@ EOSQL
               while [ -f #{pid_file} ] ; do sleep 1 ; done
               rm -rf /tmp/#{mysql_name}
             EOS
-      cmd = '' if v57plus
+      cmd = ''
       cmd
     end
 
     def password_column_name
-      return 'authentication_string' if v57plus
+      return 'authentication_string'
       'password'
     end
 
@@ -206,12 +206,12 @@ EOSQL
     end
 
     def password_expired
-      return ", password_expired='N'" if v57plus
+      return ", password_expired='N'"
       ''
     end
 
     def db_init
-      return mysqld_initialize_cmd if v57plus
+      return mysqld_initialize_cmd
       mysql_install_db_cmd
     end
 
@@ -254,16 +254,16 @@ EOSQL
     end
 
     def mysql_systemd_start_pre
-      return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || el8? || fedora?)
+      return '/usr/bin/mysqld_pre_systemd' if el7? || el8? || fedora?
       return '/usr/bin/mysql-systemd-start pre' if platform_family?('rhel')
       return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
       '/usr/share/mysql/mysql-systemd-start pre'
     end
 
     def mysql_systemd
-      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || el8? || fedora?)
+      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if el7? || el8? || fedora?
       return '/usr/bin/mysql-systemd-start' if platform_family?('rhel')
-      return '/usr/share/mysql/mysql-systemd-start' if v57plus
+      return '/usr/share/mysql/mysql-systemd-start'
       "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"
     end
 
