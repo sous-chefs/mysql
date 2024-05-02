@@ -99,7 +99,7 @@ module MysqlCookbook
 
     def default_server_package_name
       return 'mysql-server-8.0' if major_version == '8.0' && platform_family?('debian')
-      
+
       'mysql-community-server'
     end
 
@@ -143,7 +143,7 @@ module MysqlCookbook
     end
 
     def system_service_name
-      return 'mysqld' if platform_family?('rhel') || platform_family?('fedora')
+      return 'mysqld' if platform_family?('rhel', 'fedora')
 
       'mysql'
     end
