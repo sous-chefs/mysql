@@ -99,6 +99,7 @@ module MysqlCookbook
 
     def default_server_package_name
       return 'mysql-server-8.0' if major_version == '8.0' && platform_family?('debian')
+      
       'mysql-community-server'
     end
 
@@ -110,6 +111,7 @@ module MysqlCookbook
       return "#{prefix_dir}/var/run/#{mysql_name}" if platform_family?('rhel')
       return '/run/mysqld' if platform_family?('debian') && mysql_name == 'mysql'
       return "/run/#{mysql_name}" if platform_family?('debian')
+
       "/var/run/#{mysql_name}"
     end
 
@@ -125,12 +127,14 @@ module MysqlCookbook
 
     def scl_package?
       return unless platform_family?('rhel')
+
       false
     end
 
     def etc_dir
       return "/opt/mysql#{pkg_ver_string}/etc/#{mysql_name}" if platform_family?('omnios')
       return "#{prefix_dir}/etc/#{mysql_name}" if platform_family?('smartos')
+
       "#{prefix_dir}/etc/#{mysql_name}"
     end
 
@@ -139,9 +143,9 @@ module MysqlCookbook
     end
 
     def system_service_name
-      return 'mysqld' if platform_family?('rhel')
-      return 'mysqld' if platform_family?('fedora')
-      'mysql' # not one of the above
+      return 'mysqld' if platform_family?('rhel') || platform_family?('fedora')
+
+      'mysql'
     end
 
     def v80plus
@@ -154,6 +158,7 @@ module MysqlCookbook
 
     def log_dir
       return "/var/adm/log/#{mysql_name}" if platform_family?('omnios')
+
       "#{prefix_dir}/var/log/#{mysql_name}"
     end
 
@@ -225,6 +230,7 @@ EOSQL
     def mysql_install_db_bin
       return "#{base_dir}/scripts/mysql_install_db" if platform_family?('omnios')
       return "#{prefix_dir}/bin/mysql_install_db" if platform_family?('smartos')
+
       'mysql_install_db'
     end
 
@@ -233,21 +239,23 @@ EOSQL
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << " --datadir=#{data_dir}"
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
+
       cmd
     end
 
     def mysqladmin_bin
       return "#{prefix_dir}/bin/mysqladmin" if platform_family?('smartos')
       return 'mysqladmin' if scl_package?
+
       "#{prefix_dir}/usr/bin/mysqladmin"
     end
 
     def mysqld_bin
       return "#{prefix_dir}/libexec/mysqld" if platform_family?('smartos')
       return "#{base_dir}/bin/mysqld" if platform_family?('omnios')
-      return '/usr/sbin/mysqld' if fedora? && v56plus
-      return '/usr/libexec/mysqld' if fedora?
+      return '/usr/sbin/mysqld' if fedora?
       return 'mysqld' if scl_package?
+
       "#{prefix_dir}/usr/sbin/mysqld"
     end
 
@@ -285,7 +293,7 @@ EOSQL
     end
 
     def record_init
-      cmd = v56plus ? mysqld_bin : mysqld_safe_bin
+      cmd = mysqld_bin
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << " --init-file=/tmp/#{mysql_name}/my.sql"
       cmd << ' --explicit_defaults_for_timestamp'
