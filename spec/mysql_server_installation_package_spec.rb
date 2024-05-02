@@ -11,7 +11,7 @@ describe 'test::installation_server' do
       installation_server_package_centos_8.converge(described_recipe)
       expect(installation_server_package_centos_8).to install_mysql_server_installation_package('default').with(
         version: '8.0',
-        package_name: 'mysql-community-server'
+        package_name: 'mysql-server'
       )
     end
   end

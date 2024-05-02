@@ -100,7 +100,7 @@ module MysqlCookbook
     def default_server_package_name
       return 'mysql-server-8.0' if major_version == '8.0' && platform_family?('debian')
 
-      'mysql-community-server'
+      'mysql-server'
     end
 
     def socket_dir
