@@ -10,7 +10,7 @@ module MysqlCookbook
     property :owner, String, default: 'mysql', desired_state: false
     property :source, String, desired_state: false
     property :variables, [Hash], desired_state: false
-    property :version, String, default: lazy { default_major_version }, desired_state: false
+    property :version, String, default: '8.0', desired_state: false
 
     require_relative 'helpers'
     include MysqlCookbook::HelpersBase

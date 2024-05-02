@@ -9,7 +9,7 @@ module MysqlCookbook
     property :service_manager, %w(sysvinit upstart systemd auto), default: 'auto', desired_state: false
 
     # mysql_server_installation
-    property :version, String, default: lazy { default_major_version }, desired_state: false
+    property :version, String, default: '8.0', desired_state: false
     property :major_version, String, default: lazy { major_from_full(version) }, desired_state: false
     property :package_name, String, default: lazy { default_package_name }, desired_state: false
     property :package_options, [String, nil], desired_state: false

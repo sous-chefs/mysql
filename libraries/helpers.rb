@@ -70,28 +70,6 @@ module MysqlCookbook
       "#{run_dir}/mysqld.pid"
     end
 
-    def default_major_version
-      # rhelish
-      return '5.6' if el7?
-      return '8.0' if el8?
-      return '5.6' if platform?('amazon')
-
-      # debian
-      return '5.7' if stretch?
-      return '8.0' if buster?
-
-      # ubuntu
-      return '5.7' if xenial?
-      return '5.7' if bionic?
-      return '8.0' if focal?
-      return '8.0' if jammy?
-
-      # misc
-      return '5.6' if platform?('freebsd')
-      return '5.7' if fedora?
-      return '5.6' if suse?
-    end
-
     def major_from_full(v)
       v.split('.').shift(2).join('.')
     end
@@ -109,23 +87,12 @@ module MysqlCookbook
     end
 
     def default_client_package_name
-      return %w(mysql mysql-devel) if el7?
-      return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && platform?('amazon')
-      return ['mysql57', 'mysql57-devel.x86_64'] if major_version == '5.7' && platform?('amazon')
-      return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && platform_family?('debian')
-      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && platform_family?('debian')
       return ['mysql-client-8.0', 'libmysqlclient-dev'] if major_version == '8.0' && platform_family?('debian')
-      return 'mysql-community-server-client' if major_version == '5.6' && platform_family?('suse')
       %w(mysql-community-client mysql-community-devel)
     end
 
     def default_server_package_name
-      return 'mysql56-server' if major_version == '5.6' && platform?('amazon')
-      return 'mysql57-server' if major_version == '5.7' && platform?('amazon')
-      return 'mysql-server-5.6' if major_version == '5.6' && platform_family?('debian')
-      return 'mysql-server-5.7' if major_version == '5.7' && platform_family?('debian')
       return 'mysql-server-8.0' if major_version == '8.0' && platform_family?('debian')
-      return 'mysql-community-server' if major_version == '5.6' && platform_family?('suse')
       'mysql-community-server'
     end
 
@@ -169,14 +136,6 @@ module MysqlCookbook
       return 'mysqld' if platform_family?('rhel')
       return 'mysqld' if platform_family?('fedora')
       'mysql' # not one of the above
-    end
-
-    def v56plus
-      Gem::Version.new(version) >= Gem::Version.new('5.6')
-    end
-
-    def v57plus
-      Gem::Version.new(version) >= Gem::Version.new('5.7')
     end
 
     def v80plus
