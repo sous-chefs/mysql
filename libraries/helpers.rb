@@ -1,54 +1,59 @@
 module MysqlCookbook
+  # rubocop:disable Metrics/ModuleLength, Style/Documentation
   module HelpersBase
     require 'shellwords'
 
     def el7?
       return true if platform_family?('rhel') && node['platform_version'].to_i == 7
+
       false
     end
 
     def el8?
       return true if platform_family?('rhel') && node['platform_version'].to_i == 8
+
       false
     end
 
     def fedora?
       return true if platform_family?('fedora')
+
       false
     end
 
     def suse?
       return true if platform_family?('suse')
-      false
-    end
 
-    def stretch?
-      return true if platform?('debian') && node['platform_version'].to_i == 9
       false
     end
 
     def buster?
       return true if platform?('debian') && node['platform_version'].to_i == 10
+
       false
     end
 
     def xenial?
       return true if platform?('ubuntu') && node['platform_version'] == '16.04'
+
       false
     end
 
     def bionic?
       return true if platform?('ubuntu') && node['platform_version'] == '18.04'
+
       false
     end
 
     def focal?
       return true if platform?('ubuntu') && node['platform_version'] == '20.04'
+
       false
     end
 
     def jammy?
       return true if platform?('ubuntu') && node['platform_version'] == '22.04'
+
       false
     end
 
@@ -88,6 +93,7 @@ module MysqlCookbook
 
     def default_client_package_name
       return ['mysql-client-8.0', 'libmysqlclient-dev'] if major_version == '8.0' && platform_family?('debian')
+
       %w(mysql-community-client mysql-community-devel)
     end
 
@@ -157,8 +163,10 @@ module MysqlCookbook
       # NOTE: shell-escaping passwords in a SQL file may cause corruption - eg
       # mysql will read \& as &, but \% as \%. Just escape bare-minimum \ and '
       sql_escaped_password = root_password.gsub('\\') { '\\\\' }.gsub("'") { '\\\'' }
+      # rubocop:disable Lint/UselessAssignment
       cmd = "UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';"
       cmd = "ALTER USER 'root'@'localhost' IDENTIFIED BY '#{sql_escaped_password}';"
+      # rubocop:enable Lint/UselessAssignment
 
       <<-EOS
         set -e
@@ -182,19 +190,16 @@ EOSQL
     end
 
     def wait_for_init
-      cmd = <<-EOS
-              while [ ! -f #{pid_file} ] ; do sleep 1 ; done
-              kill `cat #{pid_file}`
-              while [ -f #{pid_file} ] ; do sleep 1 ; done
-              rm -rf /tmp/#{mysql_name}
-            EOS
-      cmd = ''
-      cmd
+      <<~SCRIPT
+        while [ ! -f #{pid_file} ] ; do sleep 1 ; done
+        kill `cat #{pid_file}`
+        while [ -f #{pid_file} ] ; do sleep 1 ; done
+        rm -rf /tmp/#{mysql_name}
+      SCRIPT
     end
 
     def password_column_name
-      return 'authentication_string'
-      'password'
+      'authentication_string'
     end
 
     def root_password
@@ -206,21 +211,15 @@ EOSQL
     end
 
     def password_expired
-      return ", password_expired='N'"
-      ''
+      ", password_expired='N'"
     end
 
     def db_init
-      return mysqld_initialize_cmd
-      mysql_install_db_cmd
+      mysqld_initialize_cmd
     end
 
     def db_initialized?
-      if v80plus
-        ::File.exist? "#{data_dir}/mysql.ibd"
-      else
-        ::File.exist? "#{data_dir}/mysql/user.frm"
-      end
+      ::File.exist? "#{data_dir}/mysql.ibd"
     end
 
     def mysql_install_db_bin
@@ -233,7 +232,6 @@ EOSQL
       cmd = mysql_install_db_bin
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << " --datadir=#{data_dir}"
-      cmd << ' --explicit_defaults_for_timestamp' if v56plus && !v57plus
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
       cmd
     end
@@ -257,22 +255,24 @@ EOSQL
       return '/usr/bin/mysqld_pre_systemd' if el7? || el8? || fedora?
       return '/usr/bin/mysql-systemd-start pre' if platform_family?('rhel')
       return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
+
       '/usr/share/mysql/mysql-systemd-start pre'
     end
 
     def mysql_systemd
       return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if el7? || el8? || fedora?
       return '/usr/bin/mysql-systemd-start' if platform_family?('rhel')
-      return '/usr/share/mysql/mysql-systemd-start'
-      "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"
+
+      '/usr/share/mysql/mysql-systemd-start'
     end
 
     def mysqld_initialize_cmd
       cmd = mysqld_bin
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << ' --initialize'
-      cmd << ' --explicit_defaults_for_timestamp' if v56plus
+      cmd << ' --explicit_defaults_for_timestamp'
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
+
       cmd
     end
 
@@ -280,6 +280,7 @@ EOSQL
       return "#{prefix_dir}/bin/mysqld_safe" if platform_family?('smartos')
       return "#{base_dir}/bin/mysqld_safe" if platform_family?('omnios')
       return 'mysqld_safe' if scl_package?
+
       "#{prefix_dir}/usr/bin/mysqld_safe"
     end
 
@@ -287,9 +288,10 @@ EOSQL
       cmd = v56plus ? mysqld_bin : mysqld_safe_bin
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << " --init-file=/tmp/#{mysql_name}/my.sql"
-      cmd << ' --explicit_defaults_for_timestamp' if v56plus
+      cmd << ' --explicit_defaults_for_timestamp'
       cmd << ' &'
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
+
       cmd
     end
 
@@ -308,6 +310,7 @@ EOSQL
     #        - socket : String or nil
     #   Output: A String with cmd to execute the query (but do not execute it!)
     #
+    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
     def sql_command_string(query, database, ctrl, grep_for = nil)
       raw_query = query.is_a?(String) ? query : query.join(";\n")
       Chef::Log.debug("Control Hash: [#{ctrl.to_json}]\n")
@@ -322,6 +325,7 @@ EOSQL
       Chef::Log.debug("Executing this command: [#{cmd}]\n")
       cmd
     end
+    # rubocop:enable Metrics/AbcSize
 
     #######
     # Function to execute an SQL statement in the default database.
@@ -355,13 +359,14 @@ EOSQL
       return_hash
     end
 
+    # rubocop:disable Metrics/MethodLength
     def parse_mysql_batch_result(mysql_batch_result)
       results = mysql_batch_result.split("\n")
       titles = []
       index = 0
       return_array = []
       results.each do |row|
-        if index == 0
+        if index.zero?
           titles = row.split("\t")
         else
           return_array[index - 1] = parse_one_row(row, titles)
@@ -370,5 +375,6 @@ EOSQL
       end
       return_array
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end
