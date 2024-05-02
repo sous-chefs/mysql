@@ -1,8 +1,7 @@
 <%
 yum_dists_with_57 = %w(fedora-latest)
-apt_dists_with_57 = %w(ubuntu-18.04)
 yum_dists_with_80 = %w(centos-stream-8 almalinux-8 rockylinux-8 fedora-latest)
-apt_dists_with_80 = %w(ubuntu-20.04)
+apt_dists_with_80 = %w(ubuntu-20.04 ubuntu-22.04 ubuntu-24.04)
 %>
 ---
 driver:
@@ -14,14 +13,6 @@ suites:
   #
   # client
   #
-  - name: client-install-57
-    run_list:
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    includes: <%= apt_dists_with_57 %>
-
   - name: yum-client-install-57
     run_list:
       - recipe[selinux::disabled]
@@ -53,14 +44,6 @@ suites:
   #
   # server smoke
   #
-  - name: smoke57
-    run_list:
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '5.7'
-    includes: <%= apt_dists_with_57 %>
-
   - name: yum-smoke57
     run_list:
       - recipe[selinux::disabled]
@@ -109,7 +92,7 @@ suites:
         version: '5.8'
       inspec_tests:
         - path: test/integration/resources
-    includes: <%= yum_dists_with_57 + apt_dists_with_57 %>
+    includes: <%= yum_dists_with_57 %>
 
   - name: resources-80
     run_list:
