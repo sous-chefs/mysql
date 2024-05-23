@@ -23,22 +23,6 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 - Network accessible package repositories
 - 'recipe[selinux::disabled]' on RHEL platforms
 
-## Platform Support
-
-The following platforms have been tested with Test Kitchen:
-
-|  OS            | 5.6 | 5.7 | 8.0 |
-|----------------|-----|-----|-----|
-| centos-7       |  X  |  X  |  X  |
-| centos-8       |     |  X  |  X  |
-| debian-9       |     |  X  |     |
-| debian-10      |     |     |  X  |
-| fedora         |  X  |  X  |  X  |
-| openSUSE Leap  |  X  |     |     |
-| ubuntu-18.04   |     |  X  |     |
-| ubuntu-20.04   |     |     |  X  |
-| ubuntu-22.04   |     |     |  X  |
-
 ## Cookbook Dependencies
 
 There are no hard coupled dependencies. However, there is a loose dependency on `yum-mysql-community` for RHEL/CentOS platforms. As of the 8.0 version of this cookbook, configuration of the package repos is now the responsibility of the user.

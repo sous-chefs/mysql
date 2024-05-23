@@ -1,54 +1,59 @@
 module MysqlCookbook
+  # rubocop:disable Metrics/ModuleLength, Style/Documentation
   module HelpersBase
     require 'shellwords'
 
     def el7?
       return true if platform_family?('rhel') && node['platform_version'].to_i == 7
+
       false
     end
 
     def el8?
       return true if platform_family?('rhel') && node['platform_version'].to_i == 8
+
       false
     end
 
     def fedora?
       return true if platform_family?('fedora')
+
       false
     end
 
     def suse?
       return true if platform_family?('suse')
-      false
-    end
 
-    def stretch?
-      return true if platform?('debian') && node['platform_version'].to_i == 9
       false
     end
 
     def buster?
       return true if platform?('debian') && node['platform_version'].to_i == 10
+
       false
     end
 
     def xenial?
       return true if platform?('ubuntu') && node['platform_version'] == '16.04'
+
       false
     end
 
     def bionic?
       return true if platform?('ubuntu') && node['platform_version'] == '18.04'
+
       false
     end
 
     def focal?
       return true if platform?('ubuntu') && node['platform_version'] == '20.04'
+
       false
     end
 
     def jammy?
       return true if platform?('ubuntu') && node['platform_version'] == '22.04'
+
       false
     end
 
@@ -70,28 +75,6 @@ module MysqlCookbook
       "#{run_dir}/mysqld.pid"
     end
 
-    def default_major_version
-      # rhelish
-      return '5.6' if el7?
-      return '8.0' if el8?
-      return '5.6' if platform?('amazon')
-
-      # debian
-      return '5.7' if stretch?
-      return '8.0' if buster?
-
-      # ubuntu
-      return '5.7' if xenial?
-      return '5.7' if bionic?
-      return '8.0' if focal?
-      return '8.0' if jammy?
-
-      # misc
-      return '5.6' if platform?('freebsd')
-      return '5.7' if fedora?
-      return '5.6' if suse?
-    end
-
     def major_from_full(v)
       v.split('.').shift(2).join('.')
     end
@@ -109,24 +92,15 @@ module MysqlCookbook
     end
 
     def default_client_package_name
-      return %w(mysql mysql-devel) if el7?
-      return ['mysql56', 'mysql56-devel.x86_64'] if major_version == '5.6' && platform?('amazon')
-      return ['mysql57', 'mysql57-devel.x86_64'] if major_version == '5.7' && platform?('amazon')
-      return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && platform_family?('debian')
-      return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && platform_family?('debian')
       return ['mysql-client-8.0', 'libmysqlclient-dev'] if major_version == '8.0' && platform_family?('debian')
-      return 'mysql-community-server-client' if major_version == '5.6' && platform_family?('suse')
+
       %w(mysql-community-client mysql-community-devel)
     end
 
     def default_server_package_name
-      return 'mysql56-server' if major_version == '5.6' && platform?('amazon')
-      return 'mysql57-server' if major_version == '5.7' && platform?('amazon')
-      return 'mysql-server-5.6' if major_version == '5.6' && platform_family?('debian')
-      return 'mysql-server-5.7' if major_version == '5.7' && platform_family?('debian')
       return 'mysql-server-8.0' if major_version == '8.0' && platform_family?('debian')
-      return 'mysql-community-server' if major_version == '5.6' && platform_family?('suse')
-      'mysql-community-server'
+
+      'mysql-server'
     end
 
     def socket_dir
@@ -137,6 +111,7 @@ module MysqlCookbook
       return "#{prefix_dir}/var/run/#{mysql_name}" if platform_family?('rhel')
       return '/run/mysqld' if platform_family?('debian') && mysql_name == 'mysql'
       return "/run/#{mysql_name}" if platform_family?('debian')
+
       "/var/run/#{mysql_name}"
     end
 
@@ -152,12 +127,14 @@ module MysqlCookbook
 
     def scl_package?
       return unless platform_family?('rhel')
+
       false
     end
 
     def etc_dir
       return "/opt/mysql#{pkg_ver_string}/etc/#{mysql_name}" if platform_family?('omnios')
       return "#{prefix_dir}/etc/#{mysql_name}" if platform_family?('smartos')
+
       "#{prefix_dir}/etc/#{mysql_name}"
     end
 
@@ -166,17 +143,9 @@ module MysqlCookbook
     end
 
     def system_service_name
-      return 'mysqld' if platform_family?('rhel')
-      return 'mysqld' if platform_family?('fedora')
-      'mysql' # not one of the above
-    end
+      return 'mysqld' if platform_family?('rhel', 'fedora')
 
-    def v56plus
-      Gem::Version.new(version) >= Gem::Version.new('5.6')
-    end
-
-    def v57plus
-      Gem::Version.new(version) >= Gem::Version.new('5.7')
+      'mysql'
     end
 
     def v80plus
@@ -189,6 +158,7 @@ module MysqlCookbook
 
     def log_dir
       return "/var/adm/log/#{mysql_name}" if platform_family?('omnios')
+
       "#{prefix_dir}/var/log/#{mysql_name}"
     end
 
@@ -198,8 +168,10 @@ module MysqlCookbook
       # NOTE: shell-escaping passwords in a SQL file may cause corruption - eg
       # mysql will read \& as &, but \% as \%. Just escape bare-minimum \ and '
       sql_escaped_password = root_password.gsub('\\') { '\\\\' }.gsub("'") { '\\\'' }
+      # rubocop:disable Lint/UselessAssignment
       cmd = "UPDATE mysql.user SET #{password_column_name}=PASSWORD('#{sql_escaped_password}')#{password_expired} WHERE user = 'root';"
-      cmd = "ALTER USER 'root'@'localhost' IDENTIFIED BY '#{sql_escaped_password}';" if v57plus
+      cmd = "ALTER USER 'root'@'localhost' IDENTIFIED BY '#{sql_escaped_password}';"
+      # rubocop:enable Lint/UselessAssignment
 
       <<-EOS
         set -e
@@ -223,19 +195,16 @@ EOSQL
     end
 
     def wait_for_init
-      cmd = <<-EOS
-              while [ ! -f #{pid_file} ] ; do sleep 1 ; done
-              kill `cat #{pid_file}`
-              while [ -f #{pid_file} ] ; do sleep 1 ; done
-              rm -rf /tmp/#{mysql_name}
-            EOS
-      cmd = '' if v57plus
-      cmd
+      <<~SCRIPT
+        while [ ! -f #{pid_file} ] ; do sleep 1 ; done
+        kill `cat #{pid_file}`
+        while [ -f #{pid_file} ] ; do sleep 1 ; done
+        rm -rf /tmp/#{mysql_name}
+      SCRIPT
     end
 
     def password_column_name
-      return 'authentication_string' if v57plus
-      'password'
+      'authentication_string'
     end
 
     def root_password
@@ -247,26 +216,21 @@ EOSQL
     end
 
     def password_expired
-      return ", password_expired='N'" if v57plus
-      ''
+      ", password_expired='N'"
     end
 
     def db_init
-      return mysqld_initialize_cmd if v57plus
-      mysql_install_db_cmd
+      mysqld_initialize_cmd
     end
 
     def db_initialized?
-      if v80plus
-        ::File.exist? "#{data_dir}/mysql.ibd"
-      else
-        ::File.exist? "#{data_dir}/mysql/user.frm"
-      end
+      ::File.exist? "#{data_dir}/mysql.ibd"
     end
 
     def mysql_install_db_bin
       return "#{base_dir}/scripts/mysql_install_db" if platform_family?('omnios')
       return "#{prefix_dir}/bin/mysql_install_db" if platform_family?('smartos')
+
       'mysql_install_db'
     end
 
@@ -274,46 +238,48 @@ EOSQL
       cmd = mysql_install_db_bin
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << " --datadir=#{data_dir}"
-      cmd << ' --explicit_defaults_for_timestamp' if v56plus && !v57plus
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
+
       cmd
     end
 
     def mysqladmin_bin
       return "#{prefix_dir}/bin/mysqladmin" if platform_family?('smartos')
       return 'mysqladmin' if scl_package?
+
       "#{prefix_dir}/usr/bin/mysqladmin"
     end
 
     def mysqld_bin
       return "#{prefix_dir}/libexec/mysqld" if platform_family?('smartos')
       return "#{base_dir}/bin/mysqld" if platform_family?('omnios')
-      return '/usr/sbin/mysqld' if fedora? && v56plus
-      return '/usr/libexec/mysqld' if fedora?
+      return '/usr/sbin/mysqld' if fedora?
       return 'mysqld' if scl_package?
+
       "#{prefix_dir}/usr/sbin/mysqld"
     end
 
     def mysql_systemd_start_pre
-      return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || el8? || fedora?)
-      return '/usr/bin/mysql-systemd-start pre' if platform_family?('rhel')
+      return '/usr/bin/mysqld_pre_systemd' if el7? || el8? || fedora? || platform_family?('rhel')
       return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
+
       '/usr/share/mysql/mysql-systemd-start pre'
     end
 
     def mysql_systemd
-      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || el8? || fedora?)
+      return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if el7? || el8? || fedora?
       return '/usr/bin/mysql-systemd-start' if platform_family?('rhel')
-      return '/usr/share/mysql/mysql-systemd-start' if v57plus
-      "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"
+
+      '/usr/share/mysql/mysql-systemd-start'
     end
 
     def mysqld_initialize_cmd
       cmd = mysqld_bin
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << ' --initialize'
-      cmd << ' --explicit_defaults_for_timestamp' if v56plus
+      cmd << ' --explicit_defaults_for_timestamp'
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
+
       cmd
     end
 
@@ -321,16 +287,18 @@ EOSQL
       return "#{prefix_dir}/bin/mysqld_safe" if platform_family?('smartos')
       return "#{base_dir}/bin/mysqld_safe" if platform_family?('omnios')
       return 'mysqld_safe' if scl_package?
+
       "#{prefix_dir}/usr/bin/mysqld_safe"
     end
 
     def record_init
-      cmd = v56plus ? mysqld_bin : mysqld_safe_bin
+      cmd = mysqld_bin
       cmd << " --defaults-file=#{etc_dir}/my.cnf"
       cmd << " --init-file=/tmp/#{mysql_name}/my.sql"
-      cmd << ' --explicit_defaults_for_timestamp' if v56plus
+      cmd << ' --explicit_defaults_for_timestamp'
       cmd << ' &'
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
+
       cmd
     end
 
@@ -349,6 +317,7 @@ EOSQL
     #        - socket : String or nil
     #   Output: A String with cmd to execute the query (but do not execute it!)
     #
+    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
     def sql_command_string(query, database, ctrl, grep_for = nil)
       raw_query = query.is_a?(String) ? query : query.join(";\n")
       Chef::Log.debug("Control Hash: [#{ctrl.to_json}]\n")
@@ -363,6 +332,7 @@ EOSQL
       Chef::Log.debug("Executing this command: [#{cmd}]\n")
       cmd
     end
+    # rubocop:enable Metrics/AbcSize
 
     #######
     # Function to execute an SQL statement in the default database.
@@ -396,13 +366,14 @@ EOSQL
       return_hash
     end
 
+    # rubocop:disable Metrics/MethodLength
     def parse_mysql_batch_result(mysql_batch_result)
       results = mysql_batch_result.split("\n")
       titles = []
       index = 0
       return_array = []
       results.each do |row|
-        if index == 0
+        if index.zero?
           titles = row.split("\t")
         else
           return_array[index - 1] = parse_one_row(row, titles)
@@ -411,5 +382,6 @@ EOSQL
       end
       return_array
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

@@ -1,7 +1,5 @@
 ::Chef::DSL::Recipe.include MysqlCookbook::HashedPassword::Helper
 
-include_recipe 'test::yum_repo'
-
 # variables
 root_pass = 'arandompassword'
 
