@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- feat: add support for ubuntu 24.04 (noble numbat)
+
 ## 11.1.8 - *2024-11-18*
 
 ## 11.1.7 - *2024-11-18*
@@ -659,7 +661,7 @@ Adding Ubuntu 13.04 to Platforminfo
 - **[COOK-2966] - Address foodcritic failures'
 - **[COOK-4182] - Template parse failure in /etc/init/mysql.conf (data_dir)'
 - **[COOK-4198] - Added missing tunable'
-- **[COOK-4206] - create root@127.0.0.1, as well as root@localhost'
+- **[COOK-4206] - create `root@127.0.0.1`, as well as `root@localhost`'
 
 ## [4.0.20] - 2014-01-18
 
