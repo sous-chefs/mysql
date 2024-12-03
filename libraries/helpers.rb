@@ -52,6 +52,11 @@ module MysqlCookbook
       false
     end
 
+    def noble?
+      return true if platform?('ubuntu') && node['platform_version'] == '24.04'
+      false
+    end
+
     def defaults_file
       "#{etc_dir}/my.cnf"
     end
@@ -85,6 +90,7 @@ module MysqlCookbook
       return '5.7' if bionic?
       return '8.0' if focal?
       return '8.0' if jammy?
+      return '8.0' if noble?
 
       # misc
       return '5.6' if platform?('freebsd')
