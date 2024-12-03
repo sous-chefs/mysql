@@ -38,6 +38,7 @@ The following platforms have been tested with Test Kitchen:
 | ubuntu-18.04   |     |  X  |     |
 | ubuntu-20.04   |     |     |  X  |
 | ubuntu-22.04   |     |     |  X  |
+| ubuntu-24.04   |     |     |  X  |
 
 ## Cookbook Dependencies
 
