@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 11.1.9 - *2024-12-09*
+## Unreleased
 
 - feat: add support for ubuntu 24.04 (noble numbat)
 

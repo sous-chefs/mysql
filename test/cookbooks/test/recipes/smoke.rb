@@ -47,7 +47,7 @@ end
 mysql_config 'replication-slave-1' do
   instance 'slave-1'
   source 'replication-slave.erb'
-  variables(server_id: '2', mysql_instance: 'slave-1', port: '3307')
+  variables(server_id: '2', mysql_instance: 'slave-1')
   notifies :restart, 'mysql_service[slave-1]', :immediately
   action :create
 end
@@ -63,7 +63,7 @@ end
 mysql_config 'replication-slave-2' do
   instance 'slave-2'
   source 'replication-slave.erb'
-  variables(server_id: '3', mysql_instance: 'slave-2', port: '3308')
+  variables(server_id: '3', mysql_instance: 'slave-2')
   notifies :restart, 'mysql_service[slave-2]', :immediately
   action :create
 end
