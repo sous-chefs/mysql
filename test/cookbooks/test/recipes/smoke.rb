@@ -89,8 +89,9 @@ end
 # Create user repl on master
 bash 'create replication user' do
   code <<-EOF
-  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -D mysql -e "CREATE USER 'repl'@'127.0.0.1' IDENTIFIED BY 'REPLICAAATE';"
-  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -D mysql -e "GRANT REPLICATION SLAVE ON *.* TO 'repl'@'127.0.0.1';"
+  MYSQL_PWD=#{Shellwords.escape(root_pass_master)} /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -D mysql -e "CREATE USER 'repl'@'127.0.0.1' IDENTIFIED BY 'REPLICAAATE';"
+  MYSQL_PWD=#{Shellwords.escape(root_pass_master)} /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -D mysql -e "GRANT REPLICATION SLAVE ON *.* TO 'repl'@'127.0.0.1';"
+  /usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -e 'show grants'
   EOF
   not_if "/usr/bin/mysql -u root -h 127.0.0.1 -P 3306 -p#{Shellwords.escape(root_pass_master)} -e 'select User,Host from mysql.user' | grep repl"
   action :run
