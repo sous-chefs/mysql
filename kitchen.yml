@@ -4,7 +4,7 @@ suse_dists_with_56 = %w(opensuse-leap-15)
 yum_dists_with_57 = %w(centos-7 fedora-latest)
 apt_dists_with_57 = %w(ubuntu-18.04)
 yum_dists_with_80 = %w(centos-7 centos-stream-8 almalinux-8 rockylinux-8 fedora-latest)
-apt_dists_with_80 = %w(ubuntu-20.04)
+apt_dists_with_80 = %w(ubuntu-20.04 ubuntu-22.04 ubuntu-24.04)
 %>
 ---
 driver:
@@ -31,6 +31,8 @@ platforms:
   - name: rockylinux-8
   - name: ubuntu-18.04
   - name: ubuntu-20.04
+  - name: ubuntu-22.04
+  - name: ubuntu-24.04
 
 suites:
   #
