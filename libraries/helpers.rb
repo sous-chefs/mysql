@@ -257,21 +257,11 @@ EOSQL
     end
 
     def db_initialized?
-      cmd = shell_out("test \"#{db_initialized_check_cmd}\" -gt 0", user: 'root')
-      cmd.exitstatus == 0
-    end
-
-    def db_initialized_check_cmd
-      # If MySQL is running, mysqladmin ping will return 0 even with invalid credentials
-      # if MySQL is not running, mysqladmin will return 1 even with valid credentials
-      cmd = mysqladmin_bin
-      cmd << ' --user=UNKNOWN_MYSQL_USER'
-      cmd << ' ping > /dev/null 2>&1 &&'
-      cmd << " #{mysql_client_bin} #{defaults_file}"
-      cmd << ' --skip-column-names  --batch'
-      cmd << " --execute=\"SELECT count(*) FROM mysql.db WHERE db LIKE 'test%'\""
-      return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
-      cmd
+      if v80plus
+        ::File.exist? "#{data_dir}/mysql.ibd"
+      else
+        ::File.exist? "#{data_dir}/mysql/user.frm"
+      end
     end
 
     def mysql_install_db_bin
@@ -287,12 +277,6 @@ EOSQL
       cmd << ' --explicit_defaults_for_timestamp' if v56plus && !v57plus
       return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
       cmd
-    end
-
-    def mysql_client_bin
-      return "#{prefix_dir}/bin/mysql" if platform_family?('smartos')
-      return 'mysql' if scl_package?
-      "#{prefix_dir}/usr/bin/mysql"
     end
 
     def mysqladmin_bin
