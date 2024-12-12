@@ -256,14 +256,6 @@ EOSQL
       mysql_install_db_cmd
     end
 
-    def db_initialized?
-      if v80plus
-        ::File.exist? "#{data_dir}/mysql.ibd"
-      else
-        ::File.exist? "#{data_dir}/mysql/user.frm"
-      end
-    end
-
     def mysql_install_db_bin
       return "#{base_dir}/scripts/mysql_install_db" if platform_family?('omnios')
       return "#{prefix_dir}/bin/mysql_install_db" if platform_family?('smartos')
