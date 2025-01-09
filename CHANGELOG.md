@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- Make `mysql_systemd_start_pre` and `mysql_systemd` helper compatible with Amazon Linux 2023
+- Make `mysql_systemd_start_pre` and `mysql_systemd` helpers compatible with Amazon Linux 2023
 
 ## 11.1.9 - *2024-12-09*
 
