@@ -295,7 +295,7 @@ EOSQL
     end
 
     def mysql_systemd_start_pre
-      return '/usr/bin/mysqld_pre_systemd' if v57plus && (el7? || el8? || fedora?)
+      return '/usr/bin/mysqld_pre_systemd' if v57plus && (amazon? || el7? || el8? || fedora?)
       return '/usr/bin/mysql-systemd-start pre' if platform_family?('rhel')
       return '/usr/lib/mysql/mysql-systemd-helper install' if suse?
       '/usr/share/mysql/mysql-systemd-start pre'
@@ -303,6 +303,7 @@ EOSQL
 
     def mysql_systemd
       return "/usr/libexec/#{mysql_name}-wait-ready $MAINPID" if v57plus && (el7? || el8? || fedora?)
+      return '' if platform_family?('amazon') && platform_version.to_i == 2023
       return '/usr/bin/mysql-systemd-start' if platform_family?('rhel')
       return '/usr/share/mysql/mysql-systemd-start' if v57plus
       "/usr/libexec/#{mysql_name}-wait-ready $MAINPID"
