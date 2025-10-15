@@ -66,13 +66,13 @@ load_current_value do
                    }.merge!(lsocket.nil? ? { host: host, port: port } : { socket: lsocket })
   query = "SHOW DATABASES LIKE '#{database_name}'"
   results = execute_sql(query, nil, ctrl).split("\n")
-  current_value_does_not_exist! if results.count == 0
+  current_value_does_not_exist! if results.none?
 
   results = execute_sql("SELECT DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = '#{database_name}'", nil, ctrl)
   results.split("\n").each do |row|
     columns = row.split("\t")
-    if columns[0] != 'DEFAULT_CHARACTER_SET_NAME'
-      encoding  columns[0]
+    if columns.first != 'DEFAULT_CHARACTER_SET_NAME'
+      encoding  columns.first
       collation columns[1]
     end
   end
