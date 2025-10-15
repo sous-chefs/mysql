@@ -110,7 +110,7 @@ bash 'create /root/dump.sql' do
           --flush-logs \
           --hex-blob \
           #{source_data}=2 \
-          -A \ > /root/dump.sql;
+          -A  > /root/dump.sql;
       EOF
   not_if { ::File.exist?('/root/dump.sql') }
   action :run

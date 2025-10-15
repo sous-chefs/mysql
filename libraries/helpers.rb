@@ -59,7 +59,7 @@ module MysqlCookbook
     def default_data_dir
       return "/var/lib/#{mysql_name}" if node['os'] == 'linux'
       return "/opt/local/lib/#{mysql_name}" if platform_family?('solaris2')
-      return "/var/db/#{mysql_name}" if platform_family?('freebsd')
+      "/var/db/#{mysql_name}" if platform_family?('freebsd')
     end
 
     def default_error_log
@@ -89,7 +89,7 @@ module MysqlCookbook
       # misc
       return '5.6' if platform?('freebsd')
       return '5.7' if fedora?
-      return '5.6' if suse?
+      '5.6' if suse?
     end
 
     def major_from_full(v)
@@ -143,11 +143,11 @@ module MysqlCookbook
     def prefix_dir
       return "/opt/mysql#{pkg_ver_string}" if platform_family?('omnios')
       return '/opt/local' if platform_family?('smartos')
-      return "/opt/rh/#{scl_name}/root" if scl_package?
+      "/opt/rh/#{scl_name}/root" if scl_package?
     end
 
     def scl_name
-      return unless platform_family?('rhel')
+      nil unless platform_family?('rhel')
     end
 
     def scl_package?
