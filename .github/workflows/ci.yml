@@ -78,7 +78,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install Chef
         uses: actionshub/chef-install@3.0.1
       # https://github.com/actions/virtual-environments/issues/181#issuecomment-610874237
