@@ -15,22 +15,20 @@ module MysqlCookbook
     property :package_options, [String, nil], desired_state: false
     property :package_version, [String, nil], desired_state: false
 
-    ################
-    # Helper Methods
-    ################
-
-    def copy_properties_to(to, *properties)
-      properties = self.class.properties.keys if properties.empty?
-      properties.each do |p|
-        # If the property is set on from, and exists on to, set the
-        # property on to
-        if to.class.properties.include?(p) && property_is_set?(p)
-          to.send(p, send(p))
+    action_class do
+      # Copy properties from new_resource to another resource
+      # This must be in action_class for Chef 18+ unified mode compatibility
+      def copy_properties_to(to, *properties)
+        properties = new_resource.class.properties.keys if properties.empty?
+        properties.each do |p|
+          # If the property is set on new_resource, and exists on to, set the
+          # property on to
+          if to.class.properties.include?(p) && new_resource.property_is_set?(p)
+            to.send(p, new_resource.send(p))
+          end
         end
       end
-    end
 
-    action_class do
       def installation(&block)
         case new_resource.install_method
         when 'auto'
