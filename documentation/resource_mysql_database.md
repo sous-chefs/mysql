@@ -10,16 +10,18 @@ Manage MySQL databases and execute SQL queries on them. It works by establishing
 
 ## Properties
 
-Name              | Types             | Description                                                  | Default                                   | Required?
------------------ | ----------------- | ------------------------------------------------------------ | ----------------------------------------- | ---------
-`user`            | String            | the username of the control connection                       | `root`                                    | no
-`password`        | String            | password of the user used to connect to                      |                                           | no
-`host`            | String            | host to connect to                                           | `localhost`                               | no
-`port`            | String            | port of the host to connect to                               | `3306`                                    | no
-`database_name`   | String            | the name of the database to manage                           | `name` if not specified                   | no
-`encoding`        | String            |                                                              | `utf8`                                    | no
-`collation`       | String            |                                                              | `utf8_general_ci`                         | no
-`sql`             | String            | the SQL query to execute                                     |                                           | no
+Name            | Types   | Description                                    | Default                 | Required?
+----------------|---------|------------------------------------------------|-------------------------|----------
+`database_name` | String  | the name of the database to manage             | `name` if not specified | no
+`host`          | String  | host to connect to                             | `localhost`             | no
+`port`          | Integer | port of the host to connect to                 | `3306`                  | no
+`user`          | String  | the username of the control connection         | `root`                  | no
+`password`      | String  | password of the user used to connect to        |                         | no
+`socket`        | String  | Unix socket path for local connections         |                         | no
+`encoding`      | String  | default character set for the database         | `utf8`                  | no
+`collation`     | String  | default collation for the database             | `utf8_general_ci`       | no
+`sql`           | String  | the SQL query to execute (for `:query` action) |                         | no
+`instance`      | String  | the mysql service instance name                | `default`               | no
 
 When `host` has the value `localhost`, it will try to connect using a Unix socket, or TCP/IP if no socket is defined.
 

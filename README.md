@@ -2,7 +2,7 @@
 # MySQL Cookbook
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
-[![Build Status](https://img.shields.io/circleci/project/github/sous-chefs/mysql/master.svg)](https://circleci.com/gh/sous-chefs/mysql)
+[![CI State](https://github.com/sous-chefs/mysql/workflows/ci/badge.svg)](https://github.com/sous-chefs/mysql/actions?query=workflow%3Aci)
 [![OpenCollective](https://opencollective.com/sous-chefs/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/sous-chefs/sponsors/badge.svg)](#sponsors)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -19,25 +19,36 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 ## Requirements
 
-- Chef 15.5 or higher
+- Chef 17 or higher
 - Network accessible package repositories
-- 'recipe[selinux::disabled]' on RHEL platforms
+- 'recipe[selinux::disabled]' on RHEL platforms (or configure SELinux appropriately)
 
 ## Platform Support
 
 The following platforms have been tested with Test Kitchen:
 
-|  OS            | 5.6 | 5.7 | 8.0 |
-|----------------|-----|-----|-----|
-| centos-7       |  X  |  X  |  X  |
-| centos-8       |     |  X  |  X  |
-| debian-9       |     |  X  |     |
-| debian-10      |     |     |  X  |
-| fedora         |  X  |  X  |  X  |
-| openSUSE Leap  |  X  |     |     |
-| ubuntu-18.04   |     |  X  |     |
-| ubuntu-20.04   |     |     |  X  |
-| ubuntu-22.04   |     |     |  X  |
+| OS                | 8.0 | 8.4 |
+|-------------------|-----|-----|
+| AlmaLinux 8       | X   |     |
+| AlmaLinux 9       | X   | X   |
+| AlmaLinux 10      |     | X   |
+| Amazon Linux 2023 | X   | X   |
+| CentOS Stream 9   | X   | X   |
+| CentOS Stream 10  |     | X   |
+| Debian 12         | X   | X   |
+| Debian 13         |     | X   |
+| Fedora (latest)   | X   | X   |
+| openSUSE Leap 15  | X   |     |
+| Oracle Linux 8    | X   |     |
+| Oracle Linux 9    | X   | X   |
+| Rocky Linux 8     | X   |     |
+| Rocky Linux 9     | X   | X   |
+| Rocky Linux 10    |     | X   |
+| Ubuntu 20.04      | X   |     |
+| Ubuntu 22.04      | X   | X   |
+| Ubuntu 24.04      |     | X   |
+
+**Note:** MySQL 5.6 and 5.7 have reached end-of-life and are no longer supported by this cookbook.
 
 ## Cookbook Dependencies
 
@@ -56,7 +67,7 @@ Then, in a recipe:
 ```ruby
 mysql_service 'foo' do
   port '3306'
-  version '8.0'
+  version '8.4'
   initial_root_password 'change me'
   action [:create, :start]
 end
@@ -98,7 +109,7 @@ You can put extra configuration into the conf.d directory by using the `mysql_co
 ```ruby
 mysql_service 'foo' do
   port '3306'
-  version '8.0'
+  version '8.4'
   initial_root_password 'change me'
   action [:create, :start]
 end
@@ -124,11 +135,11 @@ Logging into the machine and typing `mysql` with no extra arguments will fail. Y
 
 ## Resources
 
-- [`mysql_service`](https://github.com/sous-chefs/mysql/blob/master/documentation/resource_mysql_service.md)
-- [`mysql_config`](https://github.com/sous-chefs/mysql/blob/master/documentation/resource_mysql_config.md)
-- [`mysql_client`](https://github.com/sous-chefs/mysql/blob/master/documentation/resource_mysql_client.md)
-- [`mysql_user`](https://github.com/sous-chefs/mysql/blob/master/documentation/resource_mysql_user.md)
-- [`mysql_database`](https://github.com/sous-chefs/mysql/blob/master/documentation/resource_mysql_database.md)
+- [`mysql_service`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_service.md)
+- [`mysql_config`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_config.md)
+- [`mysql_client`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_client.md)
+- [`mysql_user`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_user.md)
+- [`mysql_database`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_database.md)
 
 ## Advanced Usage Examples
 
