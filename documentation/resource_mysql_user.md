@@ -11,22 +11,22 @@ Manage MySQL users and grant them privileges on database objects.
 
 ## Properties
 
-Name              | Types                  | Description                                                  | Default                                   | Required?
------------------ | ---------------------- | ------------------------------------------------------------ | ----------------------------------------- | ---------
-`ctrl_user`       | String                 | the username of the control connection                       | `root`                                    | no
-`ctrl_password`   | String                 | password of the user used to connect to                      |                                           | no
-`ctrl_host`       | String                 | host to connect to                                           | `localhost`                               | no
-`ctrl_port`       | String                 | port of the host to connect to                               | `3306`                                    | no
-`username`        | String                 | The database user to be managed                              | `name` if not defined                     | no
-`host`            | String                 | The host from which the user is allowed to connect           | `localhost`                               | no
-`password`        | String, HashedPassword | password the user will be asked for to connect               |                                           | yes
-`privileges`      | Array                  |                                                              | `[:all]`                                  | no
-`database_name`   | String                 |                                                              |                                           | no
-`table`           | String                 |                                                              |                                           | no
-`grant_option`    | true/false             |                                                              | `false`                                   | no
-`require_ssl`     | true/false             |                                                              | `false`                                   | no
-`require_x509`    | true/false             |                                                              | `false`                                   | no
-`use_native_auth` | true/false             | if using MySQL >8, use `mysql_native_password` for auth      | `true`                                    | no
+Name              | Types                  | Description                                              | Default               | Required?
+------------------|------------------------|----------------------------------------------------------|-----------------------|----------
+`username`        | String                 | The database user to be managed                          | `name` if not defined | no
+`password`        | String, HashedPassword | password the user will be asked for to connect           |                       | yes
+`host`            | String                 | The host from which the user is allowed to connect       | `localhost`           | no
+`database_name`   | String                 | Database to grant privileges on                          |                       | no
+`table`           | String                 | Table to grant privileges on                             |                       | no
+`privileges`      | Array                  | Array of privileges to grant                             | `[:all]`              | no
+`grant_option`    | true/false             | Allow user to grant privileges to others                 | `false`               | no
+`require_ssl`     | true/false             | Require SSL for connections                              | `false`               | no
+`require_x509`    | true/false             | Require X509 certificate for connections                 | `false`               | no
+`use_native_auth` | true/false             | if using MySQL >=8, use `mysql_native_password` for auth | `true`                | no
+`ctrl_user`       | String                 | the username of the control connection                   | `root`                | no
+`ctrl_password`   | String                 | password of the user used to connect to                  |                       | no
+`ctrl_host`       | String                 | host to connect to                                       | `localhost`           | no
+`ctrl_port`       | Integer                | port of the host to connect to                           | `3306`                | no
 
 ### `use_native_auth`
 
