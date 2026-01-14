@@ -70,12 +70,12 @@ describe 'test::installation_client' do
   end
 
   context 'using ubuntu 24.04' do
-    it 'installs mysql_client_installation_package[default] when version is 8.4' do
-      installation_client_package_ubuntu_2404.node.default['mysql_test']['version'] = '8.4'
+    it 'installs mysql_client_installation_package[default] when version is 8.0' do
+      installation_client_package_ubuntu_2404.node.default['mysql_test']['version'] = '8.0'
       installation_client_package_ubuntu_2404.converge(described_recipe)
       expect(installation_client_package_ubuntu_2404).to create_mysql_client_installation_package('default').with(
-        version: '8.4',
-        package_name: %w(mysql-community-client mysql-community-devel)
+        version: '8.0',
+        package_name: ['mysql-client-8.0', 'libmysqlclient-dev']
       )
     end
   end

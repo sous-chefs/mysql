@@ -84,13 +84,13 @@ jobs:
             suite: smoke84
           - os: centos-stream-9
             suite: resources-84
-          # MySQL 8.0 not tested on Ubuntu 24.04 (uses 8.4)
+          # MySQL 8.4 not available on Ubuntu 24.04 (uses 8.0)
           - os: ubuntu-2404
-            suite: client-install-80
+            suite: client-install-84
           - os: ubuntu-2404
-            suite: smoke80
+            suite: smoke84
           - os: ubuntu-2404
-            suite: resources-80
+            suite: resources-84
       fail-fast: false
 
     steps:

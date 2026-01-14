@@ -103,6 +103,7 @@ suites:
     includes:
       - ubuntu-20.04
       - ubuntu-22.04
+      - ubuntu-24.04
       - debian-12
 
   - name: suse-client-install-80
@@ -128,7 +129,6 @@ suites:
     run_list: *apt_client_run_list
     attributes: *mysql84_attrs
     includes:
-      - ubuntu-24.04
       - debian-13
 
   # ============================================================================
@@ -140,6 +140,7 @@ suites:
     includes:
       - ubuntu-20.04
       - ubuntu-22.04
+      - ubuntu-24.04
       - debian-12
     verifier: *smoke80_verifier
 
@@ -169,7 +170,6 @@ suites:
     run_list: *apt_smoke_run_list
     attributes: *mysql84_attrs
     includes:
-      - ubuntu-24.04
       - debian-13
     verifier: *smoke80_verifier
 
@@ -199,6 +199,7 @@ suites:
       - centos-stream-9
       - ubuntu-20.04
       - ubuntu-22.04
+      - ubuntu-24.04
       - debian-12
     verifier: *resources80_verifier
 
@@ -214,6 +215,5 @@ suites:
       - rockylinux-9
       - rockylinux-10
       - centos-stream-10
-      - ubuntu-24.04
       - debian-13
     verifier: *resources84_verifier

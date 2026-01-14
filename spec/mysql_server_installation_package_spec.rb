@@ -70,12 +70,12 @@ describe 'test::installation_server' do
   end
 
   context 'using ubuntu 24.04' do
-    it 'installs mysql_server_installation_package[default] when version is 8.4' do
-      installation_server_package_ubuntu_2404.node.default['mysql_test']['version'] = '8.4'
+    it 'installs mysql_server_installation_package[default] when version is 8.0' do
+      installation_server_package_ubuntu_2404.node.default['mysql_test']['version'] = '8.0'
       installation_server_package_ubuntu_2404.converge(described_recipe)
       expect(installation_server_package_ubuntu_2404).to install_mysql_server_installation_package('default').with(
-        version: '8.4',
-        package_name: 'mysql-community-server'
+        version: '8.0',
+        package_name: 'mysql-server-8.0'
       )
     end
   end
