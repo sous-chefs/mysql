@@ -92,7 +92,7 @@ module MysqlCookbook
           code init_records_script
           umask '022'
           returns [0, 1, 2] # facepalm
-          not_if { db_initialized? }
+          not_if { ::File.exist?("#{new_resource.pid_file}") }
           action :run
         end
       end
