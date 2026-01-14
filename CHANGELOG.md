@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 Standardise files with files in sous-chefs/repo-management
 Standardise files with files in sous-chefs/repo-management
 
+## Unreleased
+
+- feat: add support for Ubuntu 24.04 (noble numbat)
+- feat: update kitchen.yml to use YAML anchors instead of ERB
+- feat: update CI matrix with current platforms and MySQL 8.0/8.4
+- fix: move copy_properties_to into action_class for Chef 18 compatibility
+
 ## [11.1.11](https://github.com/sous-chefs/mysql/compare/11.1.10...v11.1.11) (2025-10-15)
 
 
