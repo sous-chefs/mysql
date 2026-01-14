@@ -22,58 +22,75 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
+        suite:
+          - "client-install-80"
+          - "client-install-84"
+          - "smoke80"
+          - "smoke84"
+          - "resources-80"
+          - "resources-84"
         os:
           - "almalinux-8"
-          - "centos-7"
-          - "centos-stream-8"
+          - "almalinux-9"
+          - "centos-stream-9"
+          - "debian-12"
+          - "fedora-latest"
           - "rockylinux-8"
-          - "ubuntu-1804"
+          - "rockylinux-9"
           - "ubuntu-2004"
           - "ubuntu-2204"
-        suite:
-          - "client-install-57"
-          - "client-install-80"
-          - "smoke57"
-          - "smoke80"
-          - "resources-57"
-          - "resources-80"
+          - "ubuntu-2404"
         exclude:
+          # MySQL 8.4 not available on older platforms
           - os: almalinux-8
-            suite: client-install-57
+            suite: client-install-84
           - os: almalinux-8
-            suite: smoke57
+            suite: smoke84
           - os: almalinux-8
-            suite: resources-57
-          - os: centos-stream-8
-            suite: client-install-57
-          - os: centos-stream-8
-            suite: smoke57
-          - os: centos-stream-8
-            suite: resources-57
-          - os: ubuntu-1804
+            suite: resources-84
+          - os: rockylinux-8
+            suite: client-install-84
+          - os: rockylinux-8
+            suite: smoke84
+          - os: rockylinux-8
+            suite: resources-84
+          - os: ubuntu-2004
+            suite: client-install-84
+          - os: ubuntu-2004
+            suite: smoke84
+          - os: ubuntu-2004
+            suite: resources-84
+          - os: ubuntu-2204
+            suite: client-install-84
+          - os: ubuntu-2204
+            suite: smoke84
+          - os: ubuntu-2204
+            suite: resources-84
+          - os: debian-12
+            suite: client-install-84
+          - os: debian-12
+            suite: smoke84
+          - os: debian-12
+            suite: resources-84
+          - os: fedora-latest
+            suite: client-install-84
+          - os: fedora-latest
+            suite: smoke84
+          - os: fedora-latest
+            suite: resources-84
+          - os: centos-stream-9
+            suite: client-install-84
+          - os: centos-stream-9
+            suite: smoke84
+          - os: centos-stream-9
+            suite: resources-84
+          # MySQL 8.0 not tested on Ubuntu 24.04 (uses 8.4)
+          - os: ubuntu-2404
             suite: client-install-80
-          - os: ubuntu-1804
+          - os: ubuntu-2404
             suite: smoke80
-          - os: ubuntu-1804
+          - os: ubuntu-2404
             suite: resources-80
-          - os: ubuntu-2004
-            suite: client-install-57
-          - os: ubuntu-2004
-            suite: smoke57
-          - os: ubuntu-2004
-            suite: resources-57
-          - os: ubuntu-2204
-            suite: client-install-57
-          - os: ubuntu-2204
-            suite: smoke57
-          - os: ubuntu-2204
-            suite: resources-57
-          - os: rockylinux-8
-            suite: client-install-57
-          - os: rockylinux-8
-            suite: smoke57
-          - os: rockylinux-8
-            suite: resources-57
       fail-fast: false
 
     steps:
