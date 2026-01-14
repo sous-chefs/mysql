@@ -1,4 +1,7 @@
 ---
+ignore: |
+  .kitchen/**
+  .windsurf/**
 extends: default
 rules:
   line-length:

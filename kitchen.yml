@@ -1,13 +1,3 @@
-<%
-# MySQL 8.0 supported platforms
-yum_dists_with_80 = %w(almalinux-8 almalinux-9 rockylinux-8 rockylinux-9 fedora-latest centos-stream-9)
-apt_dists_with_80 = %w(ubuntu-20.04 ubuntu-22.04 debian-12)
-suse_dists_with_80 = %w(opensuse-leap-15)
-
-# MySQL 8.4 supported platforms
-yum_dists_with_84 = %w(almalinux-9 almalinux-10 rockylinux-9 rockylinux-10 centos-stream-10)
-apt_dists_with_84 = %w(ubuntu-24.04 debian-13)
-%>
 ---
 driver:
   name: vagrant
@@ -38,158 +28,192 @@ platforms:
   - name: ubuntu-22.04
   - name: ubuntu-24.04
 
+# Reusable YAML anchors for run_lists
+x-run_lists:
+  yum_client: &yum_client_run_list
+    - recipe[selinux::disabled]
+    - recipe[test::yum_repo]
+    - recipe[test::installation_client]
+  apt_client: &apt_client_run_list
+    - recipe[test::installation_client]
+  suse_client: &suse_client_run_list
+    - recipe[test::yum_repo]
+    - recipe[test::installation_client]
+  yum_smoke: &yum_smoke_run_list
+    - recipe[selinux::disabled]
+    - recipe[test::yum_repo]
+    - recipe[test::smoke]
+  apt_smoke: &apt_smoke_run_list
+    - recipe[test::smoke]
+  suse_smoke: &suse_smoke_run_list
+    - recipe[test::yum_repo]
+    - recipe[test::smoke]
+  resources: &resources_run_list
+    - recipe[test::user_database]
+
+# Reusable YAML anchors for attributes
+x-attributes:
+  mysql80: &mysql80_attrs
+    mysql_test:
+      version: "8.0"
+  mysql84: &mysql84_attrs
+    mysql_test:
+      version: "8.4"
+
+# Reusable YAML anchors for verifiers
+x-verifiers:
+  smoke80: &smoke80_verifier
+    inspec_tests:
+      - path: test/integration/smoke80
+  resources80: &resources80_verifier
+    controls:
+      - mysql_database
+      - mysql_user
+    inputs:
+      version: "8.0"
+    inspec_tests:
+      - path: test/integration/resources
+  resources84: &resources84_verifier
+    controls:
+      - mysql_database
+      - mysql_user
+    inputs:
+      version: "8.4"
+    inspec_tests:
+      - path: test/integration/resources
+
 suites:
-  #
-  # client - MySQL 8.0
-  #
+  # ============================================================================
+  # Client Installation - MySQL 8.0
+  # ============================================================================
   - name: yum-client-install-80
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[test::yum_repo]
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '8.0'
-    includes: <%= yum_dists_with_80 %>
+    run_list: *yum_client_run_list
+    attributes: *mysql80_attrs
+    includes:
+      - almalinux-8
+      - almalinux-9
+      - rockylinux-8
+      - rockylinux-9
+      - fedora-latest
+      - centos-stream-9
 
   - name: client-install-80
-    run_list:
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '8.0'
-    includes: <%= apt_dists_with_80 %>
+    run_list: *apt_client_run_list
+    attributes: *mysql80_attrs
+    includes:
+      - ubuntu-20.04
+      - ubuntu-22.04
+      - debian-12
 
   - name: suse-client-install-80
-    run_list:
-      - recipe[test::yum_repo]
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '8.0'
-    includes: <%= suse_dists_with_80 %>
+    run_list: *suse_client_run_list
+    attributes: *mysql80_attrs
+    includes:
+      - opensuse-leap-15
 
-  #
-  # client - MySQL 8.4
-  #
+  # ============================================================================
+  # Client Installation - MySQL 8.4
+  # ============================================================================
   - name: yum-client-install-84
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[test::yum_repo]
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '8.4'
-    includes: <%= yum_dists_with_84 %>
+    run_list: *yum_client_run_list
+    attributes: *mysql84_attrs
+    includes:
+      - almalinux-9
+      - almalinux-10
+      - rockylinux-9
+      - rockylinux-10
+      - centos-stream-10
 
   - name: client-install-84
-    run_list:
-      - recipe[test::installation_client]
-    attributes:
-      mysql_test:
-        version: '8.4'
-    includes: <%= apt_dists_with_84 %>
+    run_list: *apt_client_run_list
+    attributes: *mysql84_attrs
+    includes:
+      - ubuntu-24.04
+      - debian-13
 
-  #
-  # server smoke - MySQL 8.0
-  #
+  # ============================================================================
+  # Server Smoke Tests - MySQL 8.0
+  # ============================================================================
   - name: smoke80
-    run_list:
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '8.0'
-    includes: <%= apt_dists_with_80 %>
-    verifier:
-      inspec_tests:
-        - path: test/integration/smoke80
+    run_list: *apt_smoke_run_list
+    attributes: *mysql80_attrs
+    includes:
+      - ubuntu-20.04
+      - ubuntu-22.04
+      - debian-12
+    verifier: *smoke80_verifier
 
   - name: yum-smoke80
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[test::yum_repo]
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '8.0'
-    includes: <%= yum_dists_with_80 %>
-    verifier:
-      inspec_tests:
-        - path: test/integration/smoke80
+    run_list: *yum_smoke_run_list
+    attributes: *mysql80_attrs
+    includes:
+      - almalinux-8
+      - almalinux-9
+      - rockylinux-8
+      - rockylinux-9
+      - fedora-latest
+      - centos-stream-9
+    verifier: *smoke80_verifier
 
   - name: suse-smoke80
-    run_list:
-      - recipe[test::yum_repo]
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '8.0'
-    includes: <%= suse_dists_with_80 %>
-    verifier:
-      inspec_tests:
-        - path: test/integration/smoke80
+    run_list: *suse_smoke_run_list
+    attributes: *mysql80_attrs
+    includes:
+      - opensuse-leap-15
+    verifier: *smoke80_verifier
 
-  #
-  # server smoke - MySQL 8.4
-  #
+  # ============================================================================
+  # Server Smoke Tests - MySQL 8.4
+  # ============================================================================
   - name: smoke84
-    run_list:
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '8.4'
-    includes: <%= apt_dists_with_84 %>
-    verifier:
-      inspec_tests:
-        - path: test/integration/smoke80
+    run_list: *apt_smoke_run_list
+    attributes: *mysql84_attrs
+    includes:
+      - ubuntu-24.04
+      - debian-13
+    verifier: *smoke80_verifier
 
   - name: yum-smoke84
-    run_list:
-      - recipe[selinux::disabled]
-      - recipe[test::yum_repo]
-      - recipe[test::smoke]
-    attributes:
-      mysql_test:
-        version: '8.4'
-    includes: <%= yum_dists_with_84 %>
-    verifier:
-      inspec_tests:
-        - path: test/integration/smoke80
+    run_list: *yum_smoke_run_list
+    attributes: *mysql84_attrs
+    includes:
+      - almalinux-9
+      - almalinux-10
+      - rockylinux-9
+      - rockylinux-10
+      - centos-stream-10
+    verifier: *smoke80_verifier
 
-  #
-  # resource tests - MySQL 8.0
-  #
+  # ============================================================================
+  # Resource Tests - MySQL 8.0
+  # ============================================================================
   - name: resources-80
-    run_list:
-      - recipe[test::user_database]
-    attributes:
-      mysql_test:
-        version: '8.0'
-    includes: <%= yum_dists_with_80 + apt_dists_with_80 %>
-    verifier:
-      controls:
-        - mysql_database
-        - mysql_user
-      inputs:
-        version: '8.0'
-      inspec_tests:
-        - path: test/integration/resources
+    run_list: *resources_run_list
+    attributes: *mysql80_attrs
+    includes:
+      - almalinux-8
+      - almalinux-9
+      - rockylinux-8
+      - rockylinux-9
+      - fedora-latest
+      - centos-stream-9
+      - ubuntu-20.04
+      - ubuntu-22.04
+      - debian-12
+    verifier: *resources80_verifier
 
-  #
-  # resource tests - MySQL 8.4
-  #
+  # ============================================================================
+  # Resource Tests - MySQL 8.4
+  # ============================================================================
   - name: resources-84
-    run_list:
-      - recipe[test::user_database]
-    attributes:
-      mysql_test:
-        version: '8.4'
-    includes: <%= yum_dists_with_84 + apt_dists_with_84 %>
-    verifier:
-      controls:
-        - mysql_database
-        - mysql_user
-      inputs:
-        version: '8.4'
-      inspec_tests:
-        - path: test/integration/resources
+    run_list: *resources_run_list
+    attributes: *mysql84_attrs
+    includes:
+      - almalinux-9
+      - almalinux-10
+      - rockylinux-9
+      - rockylinux-10
+      - centos-stream-10
+      - ubuntu-24.04
+      - debian-13
+    verifier: *resources84_verifier
