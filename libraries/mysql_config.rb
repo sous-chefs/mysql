@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MysqlCookbook
   class MysqlConfig < MysqlBase
     resource_name :mysql_config

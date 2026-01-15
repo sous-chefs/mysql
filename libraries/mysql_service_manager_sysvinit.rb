@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MysqlCookbook
   class MysqlServiceManagerSysvinit < MysqlServiceBase
     resource_name :mysql_service_manager_sysvinit
@@ -36,7 +38,7 @@ module MysqlCookbook
 
       service mysql_name do
         supports restart: true, status: true
-        action [:enable, :start]
+        action %i(enable start)
       end
     end
 
@@ -64,14 +66,14 @@ module MysqlCookbook
       def stop_system_service
         service system_service_name do
           supports status: true
-          action [:stop, :disable]
+          action %i(stop disable)
         end
       end
 
       def delete_stop_service
         service mysql_name do
           supports status: true
-          action [:disable, :stop]
+          action %i(disable stop)
           only_if { ::File.exist?("#{etc_dir}/init.d/#{mysql_name}") }
         end
       end

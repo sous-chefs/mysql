@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This is only used by the replication recipe in the smoke test quite
 
 require 'chef/mixin/shell_out'

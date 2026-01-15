@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MysqlCookbook
   class MysqlServiceBase < MysqlBase
     property :bind_address, String, desired_state: false
@@ -123,7 +125,9 @@ module MysqlCookbook
       def configure_apparmor
         # Do not add these resource if inside a container
         # Only valid on Ubuntu
-        return if ::File.exist?('/.dockerenv') || ::File.exist?('/.dockerinit') || !platform?('ubuntu') || node['apparmor']['disable']
+        if ::File.exist?('/.dockerenv') || ::File.exist?('/.dockerinit') || !platform?('ubuntu') || node['apparmor']['disable']
+          return
+        end
 
         # Apparmor
         package 'apparmor' do

@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'test::installation_client' do
+  let(:installation_client_package_debian_12) { ChefSpec::ServerRunner.new(platform: 'debian', version: '12') }
   let(:installation_client_package_almalinux_8) { ChefSpec::ServerRunner.new(platform: 'almalinux', version: '8') }
   let(:installation_client_package_almalinux_9) { ChefSpec::ServerRunner.new(platform: 'almalinux', version: '9') }
   let(:installation_client_package_fedora) { ChefSpec::ServerRunner.new(platform: 'fedora') }
@@ -14,6 +17,17 @@ describe 'test::installation_client' do
       expect(installation_client_package_almalinux_8).to create_mysql_client_installation_package('default').with(
         version: '8.0',
         package_name: %w(mysql-community-client mysql-community-devel)
+      )
+    end
+  end
+
+  context 'using debian 12' do
+    it 'installs mysql_client_installation_package[default] when version is 8.0' do
+      installation_client_package_debian_12.node.default['mysql_test']['version'] = '8.0'
+      installation_client_package_debian_12.converge(described_recipe)
+      expect(installation_client_package_debian_12).to create_mysql_client_installation_package('default').with(
+        version: '8.0',
+        package_name: %w(default-mysql-client libmariadb-dev-compat)
       )
     end
   end

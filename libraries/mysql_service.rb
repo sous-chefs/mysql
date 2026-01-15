@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MysqlCookbook
   require_relative 'mysql_service_base'
   class MysqlService < MysqlServiceBase
@@ -23,9 +25,7 @@ module MysqlCookbook
         properties.each do |p|
           # If the property is set on new_resource, and exists on to, set the
           # property on to
-          if to.class.properties.include?(p) && new_resource.property_is_set?(p)
-            to.send(p, new_resource.send(p))
-          end
+          to.send(p, new_resource.send(p)) if to.class.properties.include?(p) && new_resource.property_is_set?(p)
         end
       end
 

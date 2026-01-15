@@ -19,7 +19,7 @@ chef exec kitchen list
 
 Review the output to understand:
 
-- Which suites exist (installer-mysql, installer-postgresql, standalone-mysql, standalone-postgresql)
+- Which suites exist
 - Which platforms are configured
 - Current state of any existing instances
 
@@ -28,20 +28,14 @@ Review the output to understand:
 Run all kitchen tests in parallel with destroy on completion:
 
 ```bash
-# Run a single suite first to validate
-chef exec kitchen test installer-mysql-ubuntu-2404 --destroy=always
-
-# Or run all tests (this takes a long time)
+# Run all tests (this takes a long time)
 chef exec kitchen test --concurrency=4 --destroy=always
 ```
 
 For faster iteration, test one platform per suite first:
 
-```bash
-chef exec kitchen test installer-mysql-ubuntu-2404 --destroy=always
-chef exec kitchen test installer-postgresql-ubuntu-2404 --destroy=always
-chef exec kitchen test standalone-mysql-ubuntu-2404 --destroy=always
-chef exec kitchen test standalone-postgresql-ubuntu-2404 --destroy=always
+```shell
+chef exec kitchen test <suite>-<platform> --destroy=always
 ```
 
 ### 3. Aggregate Failures

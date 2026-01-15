@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 group 'alice' do
   action :create
 end
@@ -26,7 +28,7 @@ mysql_service 'instance-1' do
   data_dir '/data/instance-1'
   run_user 'alice'
   run_group 'alice'
-  action [:create, :start]
+  action %i(create start)
 end
 
 # pass everything from node attributes
@@ -38,7 +40,7 @@ mysql_service 'instance-2' do
   run_user node['mysql']['run_user']
   run_group node['mysql']['run_group']
   initial_root_password node['mysql']['initial_root_password']
-  action [:create, :start]
+  action %i(create start)
 end
 
 # FIXME: :delete is busted for some reason

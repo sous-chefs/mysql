@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 apt_update 'update'
 
 mysql_client_installation_package 'default' do

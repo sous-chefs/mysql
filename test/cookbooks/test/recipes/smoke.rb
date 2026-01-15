@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'shellwords'
 
 apt_update 'update'
@@ -12,14 +14,16 @@ node.default['apparmor']['disable'] = true
 include_recipe 'apparmor'
 
 # Debug message
-Chef::Log.error "\n\n" + '=' * 80 + "\n\nTesting MySQL version '#{node['mysql_test']['version']}'\n\n" + '=' * 80
+Chef::Log.error "\n\n#{'=' * 80}\n\nTesting MySQL version '#{node['mysql_test']['version']}'
+
+#{'=' * 80}"
 
 # master
 mysql_service 'master' do
   port '3306'
   version node['mysql_test']['version']
   initial_root_password root_pass_master
-  action [:create, :start]
+  action %i(create start)
 end
 
 mysql_config 'master replication' do
@@ -41,7 +45,7 @@ mysql_service 'slave-1' do
   port '3307'
   version node['mysql_test']['version']
   initial_root_password root_pass_slave
-  action [:create, :start]
+  action %i(create start)
 end
 
 mysql_config 'replication-slave-1' do
@@ -57,7 +61,7 @@ mysql_service 'slave-2' do
   port '3308'
   version node['mysql_test']['version']
   initial_root_password root_pass_slave
-  action [:create, :start]
+  action %i(create start)
 end
 
 mysql_config 'replication-slave-2' do
@@ -77,7 +81,7 @@ ruby_block 'wait for slave-2' do
     require 'English'
     times = 0
     system(wait_for_command)
-    until $CHILD_STATUS.exitstatus == 0 || times > 60 # don't wait over 60 seconds
+    until $CHILD_STATUS.exitstatus.zero? || times > 60 # don't wait over 60 seconds
       sleep 1
       times += 1
       system(wait_for_command)

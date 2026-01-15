@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # an config
 
 mysql_config 'hello' do
