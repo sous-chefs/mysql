@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ::Chef::DSL::Recipe.include MysqlCookbook::HashedPassword::Helper
 
 include_recipe 'test::yum_repo'
@@ -12,7 +14,7 @@ include_recipe 'apparmor'
 mysql_service 'default' do
   version node['mysql_test']['version']
   initial_root_password root_pass
-  action [:create, :start]
+  action %i(create start)
 end
 
 wait_for_command = "/usr/bin/mysql -u root -p#{Shellwords.escape(root_pass)} -e 'SELECT 0' >/dev/null 2>&1"
@@ -23,7 +25,7 @@ ruby_block 'wait for server' do
     require 'English'
     times = 0
     system(wait_for_command)
-    until $CHILD_STATUS.exitstatus == 0 || times > 60 # don't wait over 60 seconds
+    until $CHILD_STATUS.exitstatus.zero? || times > 60 # don't wait over 60 seconds
       sleep 1
       times += 1
       system(wait_for_command)
@@ -145,20 +147,20 @@ end
 # test global permissions
 mysql_user 'camilla' do
   password 'bokbokbok'
-  privileges [:select, :repl_client, :create_tmp_table, :show_db]
+  privileges %i(select repl_client create_tmp_table show_db)
   require_ssl true
   ctrl_password root_pass
-  action [:create, :grant]
+  action %i(create grant)
 end
 
 mysql_user 'fozzie' do
   database_name 'databass'
   password 'wokkawokka'
   host 'mars'
-  privileges [:select, :update, :insert]
+  privileges %i(select update insert)
   require_ssl true
   ctrl_password root_pass
-  action [:create, :grant]
+  action %i(create grant)
 end
 
 hash2 = hashed_password('*F798E7C0681068BAE3242AA2297D2360DBBDA62B'); # 'zokkazokka'
@@ -168,9 +170,9 @@ mysql_user 'moozie' do
   password hash2
   ctrl_password root_pass
   host '127.0.0.1'
-  privileges [:select, :update, :insert]
+  privileges %i(select update insert)
   require_ssl false
-  action [:create, :grant]
+  action %i(create grant)
 end
 
 # test non-default ctrl user
@@ -180,7 +182,7 @@ mysql_user 'bunsen' do
   ctrl_password root_pass
   privileges [:all]
   grant_option true
-  action [:create, :grant]
+  action %i(create grant)
 end
 
 # try to create another user with non-default ctrl user
@@ -190,7 +192,7 @@ mysql_user 'waldorf' do
   ctrl_user 'bunsen'
   ctrl_password 'burner'
   privileges [:select]
-  action [:create, :grant]
+  action %i(create grant)
 end
 
 # all the grants exist ('Granting privs' should not show up), but the password is different

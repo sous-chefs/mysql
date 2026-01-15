@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: mysql
 # Resource:: user
@@ -54,8 +56,13 @@ end
 
 load_current_value do
   socket = ctrl_host == 'localhost' ? default_socket_file : nil
-  ctrl = { user: ctrl_user, password: ctrl_password
-         }.merge!(socket.nil? ? { host: ctrl_host, port: ctrl_port.to_s } : { socket: socket })
+  ctrl = { user: ctrl_user,
+           password: ctrl_password }.merge!(if socket.nil?
+                                              { host: ctrl_host,
+                                                                                                        port: ctrl_port.to_s }
+                                            else
+                                              { socket: socket }
+                                            end)
   query = "SELECT User,Host FROM mysql.user WHERE User='#{username}' AND Host='#{host}';"
   results = execute_sql(query, nil, ctrl)
   current_value_does_not_exist! if results.split("\n").count <= 1
@@ -66,7 +73,8 @@ action_class do
 
   def run_query(query)
     socket = new_resource.ctrl_host == 'localhost' ? default_socket_file : nil
-    ctrl_hash = { host: new_resource.ctrl_host, port: new_resource.ctrl_port, user: new_resource.ctrl_user, password: new_resource.ctrl_password, socket: socket }
+    ctrl_hash = { host: new_resource.ctrl_host, port: new_resource.ctrl_port, user: new_resource.ctrl_user,
+                  password: new_resource.ctrl_password, socket: socket }
     Chef::Log.debug("#{@new_resource}: Performing query [#{query}]")
     execute_sql(query, nil, ctrl_hash)
   end
@@ -74,7 +82,7 @@ action_class do
   def database_has_password_column
     begin
       result = run_query("SHOW COLUMNS FROM mysql.user WHERE Field='Password';")
-    rescue
+    rescue StandardError
       return false
     end
     result.split("\n").count > 1
@@ -101,10 +109,11 @@ action_class do
     else # Works for any authentication method as long as the host is localhost
       test_sql = "SELECT 'user can login'"
       socket = new_resource.ctrl_host == 'localhost' ? default_socket_file : nil
-      ctrl_hash = { host: new_resource.ctrl_host, port: new_resource.ctrl_port, user: new_resource.username, password: new_resource.password, socket: socket }
+      ctrl_hash = { host: new_resource.ctrl_host, port: new_resource.ctrl_port, user: new_resource.username,
+                    password: new_resource.password, socket: socket }
       Chef::Log.debug("#{@new_resource}: Performing query [#{test_sql}]")
 
-      if execute_sql_exitstatus(test_sql, ctrl_hash) == 0
+      if execute_sql_exitstatus(test_sql, ctrl_hash).zero?
         true
       else # handles mysql_native_password authentication method
         test_sql = 'SELECT User,Host,authentication_string FROM mysql.user ' \
@@ -148,55 +157,55 @@ action_class do
   end
 
   def desired_privs
-    possible_global_privs = [
-      :select,
-      :insert,
-      :update,
-      :delete,
-      :create,
-      :drop,
-      :references,
-      :index,
-      :alter,
-      :create_tmp_table,
-      :lock_tables,
-      :create_view,
-      :show_view,
-      :create_routine,
-      :alter_routine,
-      :execute,
-      :event,
-      :trigger,
-      :reload,
-      :shutdown,
-      :process,
-      :file,
-      :show_db,
-      :super,
-      :repl_slave,
-      :repl_client,
-      :create_user,
-    ]
-    possible_db_privs = [
-      :select,
-      :insert,
-      :update,
-      :delete,
-      :create,
-      :drop,
-      :references,
-      :index,
-      :alter,
-      :create_tmp_table,
-      :lock_tables,
-      :create_view,
-      :show_view,
-      :create_routine,
-      :alter_routine,
-      :execute,
-      :event,
-      :trigger,
-    ]
+    possible_global_privs = %i(
+      select
+      insert
+      update
+      delete
+      create
+      drop
+      references
+      index
+      alter
+      create_tmp_table
+      lock_tables
+      create_view
+      show_view
+      create_routine
+      alter_routine
+      execute
+      event
+      trigger
+      reload
+      shutdown
+      process
+      file
+      show_db
+      super
+      repl_slave
+      repl_client
+      create_user
+    )
+    possible_db_privs = %i(
+      select
+      insert
+      update
+      delete
+      create
+      drop
+      references
+      index
+      alter
+      create_tmp_table
+      lock_tables
+      create_view
+      show_view
+      create_routine
+      alter_routine
+      execute
+      event
+      trigger
+    )
 
     # convert :all to the individual db or global privs
     if new_resource.privileges == [:all] && new_resource.database_name
@@ -213,13 +222,16 @@ action_class do
 
     # Some keys need to be translated as outlined by the table found here:
     # https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html
-    result = key.to_s.downcase.tr('_', ' ').gsub('repl ', 'replication ').gsub('create tmp table', 'create temporary tables').gsub('show db', 'show databases')
+    result = key.to_s.downcase.tr('_', ' ').gsub('repl ', 'replication ').gsub('create tmp table', 'create temporary tables').gsub(
+      'show db', 'show databases'
+    )
     result.gsub(/ priv$/, '')
   end
 end
 
 action :drop do
   return if current_resource.nil?
+
   converge_by "Dropping user '#{new_resource.username}'@'#{new_resource.host}'" do
     drop_sql = 'DROP USER'
     drop_sql << " '#{new_resource.username}'@'#{new_resource.host}'"
@@ -247,7 +259,9 @@ action :grant do
     Chef::Log.debug(parsed_result)
     parsed_result.each do |r|
       desired_privs.each do |p|
-        key = p.to_s.capitalize.tr(' ', '_').gsub('Replication_', 'Repl_').gsub('Create_temporary_tables', 'Create_tmp_table').gsub('Show_databases', 'Show_db')
+        key = p.to_s.capitalize.tr(' ', '_').gsub('Replication_', 'Repl_').gsub('Create_temporary_tables', 'Create_tmp_table').gsub(
+          'Show_databases', 'Show_db'
+        )
         key = "#{key}_priv"
         incorrect_privs = true if r[key] != 'Y'
       end
@@ -260,7 +274,9 @@ action :grant do
   if incorrect_privs
     converge_by "Granting privs for '#{new_resource.username}'@'#{new_resource.host}'" do
       formatted_privileges = new_resource.privileges.map do |p|
-        p.to_s.upcase.tr('_', ' ').gsub('REPL ', 'REPLICATION ').gsub('CREATE TMP TABLE', 'CREATE TEMPORARY TABLES').gsub('SHOW DB', 'SHOW DATABASES')
+        p.to_s.upcase.tr('_', ' ').gsub('REPL ', 'REPLICATION ').gsub('CREATE TMP TABLE', 'CREATE TEMPORARY TABLES').gsub(
+          'SHOW DB', 'SHOW DATABASES'
+        )
       end
       repair_sql = "GRANT #{formatted_privileges.join(',')}"
       repair_sql << " ON #{db_name}.#{tbl_name}"
@@ -297,7 +313,9 @@ action :revoke do
   # These should all be 'N'
   test_sql_results.each do |r|
     desired_privs.each do |p|
-      key = p.to_s.capitalize.tr(' ', '_').gsub('Replication_', 'Repl_').gsub('Create_temporary_tables', 'Create_tmp_table').gsub('Show_databases', 'Show_db')
+      key = p.to_s.capitalize.tr(' ', '_').gsub('Replication_', 'Repl_').gsub('Create_temporary_tables', 'Create_tmp_table').gsub(
+        'Show_databases', 'Show_db'
+      )
       key = "#{key}_priv"
       privs_to_revoke << revokify_key(p) if r[key] != 'N'
     end

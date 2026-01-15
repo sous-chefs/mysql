@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MysqlCookbook
   class MysqlClientInstallationPackage < MysqlBase
     # helper methods

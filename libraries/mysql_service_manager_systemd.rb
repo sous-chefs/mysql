@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MysqlCookbook
   class MysqlServiceManagerSystemd < MysqlServiceBase
     resource_name :mysql_service_manager_systemd
@@ -85,7 +87,7 @@ module MysqlCookbook
         service_name mysql_name
         provider Chef::Provider::Service::Systemd
         supports restart: true, status: true
-        action [:enable, :start]
+        action %i(enable start)
       end
     end
 
@@ -95,7 +97,7 @@ module MysqlCookbook
         service_name mysql_name
         provider Chef::Provider::Service::Systemd
         supports status: true
-        action [:disable, :stop]
+        action %i(disable stop)
         only_if { ::File.exist?("/usr/lib/systemd/system/#{mysql_name}.service") }
       end
     end
@@ -126,7 +128,7 @@ module MysqlCookbook
           service_name system_service_name
           provider Chef::Provider::Service::Systemd
           supports status: true
-          action [:stop, :disable]
+          action %i(stop disable)
         end
       end
 
@@ -136,7 +138,7 @@ module MysqlCookbook
           service_name mysql_name
           provider Chef::Provider::Service::Systemd
           supports status: true
-          action [:disable, :stop]
+          action %i(disable stop)
           only_if { ::File.exist?("/usr/lib/systemd/system/#{mysql_name}.service") }
         end
       end

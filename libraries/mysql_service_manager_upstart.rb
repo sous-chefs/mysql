@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MysqlCookbook
   class MysqlServiceManagerUpstart < MysqlServiceBase
     resource_name :mysql_service_manager_upstart
@@ -69,7 +71,7 @@ module MysqlCookbook
       # http://upstart.ubuntu.com/cookbook/#restart
       service mysql_name do
         provider Chef::Provider::Service::Upstart
-        action [:stop, :start]
+        action %i(stop start)
       end
     end
 
@@ -79,7 +81,7 @@ module MysqlCookbook
       # supposed to, so we need to actually restart the service.
       service mysql_name do
         provider Chef::Provider::Service::Upstart
-        action [:stop, :start]
+        action %i(stop start)
       end
     end
 
@@ -88,14 +90,14 @@ module MysqlCookbook
         service system_service_name do
           provider Chef::Provider::Service::Upstart
           supports status: true
-          action [:stop, :disable]
+          action %i(stop disable)
         end
       end
 
       def delete_stop_service
         service mysql_name do
           provider Chef::Provider::Service::Upstart
-          action [:disable, :stop]
+          action %i(disable stop)
           only_if { ::File.exist?("#{etc_dir}/init/#{mysql_name}") }
         end
       end

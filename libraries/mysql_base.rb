@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MysqlCookbook
   class MysqlBase < Chef::Resource
     require_relative 'helpers'
@@ -8,10 +10,12 @@ module MysqlCookbook
     # Type Constants
     ################
 
-    Boolean = property_type(
-      is: [true, false],
-      default: false
-    ) unless defined?(Boolean)
+    unless defined?(Boolean)
+      Boolean = property_type(
+        is: [true, false],
+        default: false
+      )
+    end
 
     ###################
     # Common Properties
