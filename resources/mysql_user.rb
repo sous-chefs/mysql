@@ -310,13 +310,16 @@ action :revoke do
   test_sql_results = run_query test_sql
 
   # These should all be 'N'
-  test_sql_results.each do |r|
-    desired_privs.each do |p|
-      key = p.to_s.capitalize.tr(' ', '_').gsub('Replication_', 'Repl_').gsub('Create_temporary_tables', 'Create_tmp_table').gsub(
-        'Show_databases', 'Show_db'
-      )
-      key = "#{key}_priv"
-      privs_to_revoke << revokify_key(p) if r[key] != 'N'
+  unless test_sql_results.split("\n").count <= 1
+    parsed_result = parse_mysql_batch_result(test_sql_results)
+    parsed_result.each do |r|
+      desired_privs.each do |p|
+        key = p.to_s.capitalize.tr(' ', '_').gsub('Replication_', 'Repl_').gsub('Create_temporary_tables', 'Create_tmp_table').gsub(
+          'Show_databases', 'Show_db'
+        )
+        key = "#{key}_priv"
+        privs_to_revoke << revokify_key(p) if r[key] != 'N'
+      end
     end
   end
 

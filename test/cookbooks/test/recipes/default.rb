@@ -101,13 +101,35 @@ ruby_block 'capture distro-initialized root password' do
 end
 
 # Create a permanent option file for InSpec verification and subsequent commands
-ruby_block 'create root option file' do
+# We use the new mysql_client_config resource to demonstrate and test its functionality
+ruby_block 'read password for client config' do
   block do
-    pass = ::File.read(password_file).strip
-    sock = %w(/var/run/mysql/mysqld.sock /run/mysqld/mysqld.sock).find { |s| ::File.exist?(s) }
-    ::File.write('/etc/mysql/.my.cnf', "[client]\nuser=root\npassword=\"#{pass}\"\nsocket=#{sock}\n")
-    ::File.chmod(0o600, '/etc/mysql/.my.cnf')
+    node.run_state['mysql_root_password'] = ::File.read(password_file).strip
+    node.run_state['mysql_socket'] = %w(/var/run/mysql/mysqld.sock /run/mysqld/mysqld.sock).find { |s| ::File.exist?(s) }
   end
+  only_if { ::File.exist?(password_file) }
+end
+
+mysql_client_config 'client_integration_test' do
+  config_name 'client_integration_test'
+  options lazy {
+    {
+      'client' => {
+        'user' => 'root',
+        'password' => "\"#{node.run_state['mysql_root_password']}\"",
+        'socket' => node.run_state['mysql_socket']
+      }
+    }
+  }
+  mode '0600'
+  # We write to the global /etc/my.cnf.d or /etc/mysql/conf.d so the client picks it up by default
+  include_dir platform_family?('debian') ? '/etc/mysql/conf.d' : '/etc/my.cnf.d'
+  not_if { node.run_state['mysql_root_password'].nil? }
+end
+
+# Create a symlink to .my.cnf for InSpec tests that hardcode that path
+link '/etc/mysql/.my.cnf' do
+  to platform_family?('debian') ? '/etc/mysql/conf.d/client_integration_test.cnf' : '/etc/my.cnf.d/client_integration_test.cnf'
   only_if { ::File.exist?(password_file) }
 end
 

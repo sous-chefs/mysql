@@ -147,16 +147,12 @@ module MysqlCookbook
       "/var/run/#{mysql_name}"
     end
 
-    def prefix_dir
-      nil
-    end
-
     def etc_dir
       "/etc/#{mysql_name}"
     end
 
     def base_dir
-      prefix_dir || '/usr'
+      '/usr'
     end
 
     def system_service_name
