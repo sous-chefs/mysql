@@ -13,10 +13,10 @@ describe 'mysql_client_config' do
         options(
           'client' => {
             'port' => '3306',
-            'socket' => '/var/run/mysql/mysqld.sock'
+            'socket' => '/var/run/mysql/mysqld.sock',
           },
           'mysql' => {
-            'prompt' => 'mysql> '
+            'prompt' => 'mysql> ',
           }
         )
       end

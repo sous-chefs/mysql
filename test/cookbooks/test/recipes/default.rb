@@ -117,8 +117,8 @@ mysql_client_config 'client_integration_test' do
       'client' => {
         'user' => 'root',
         'password' => "\"#{node.run_state['mysql_root_password']}\"",
-        'socket' => node.run_state['mysql_socket']
-      }
+        'socket' => node.run_state['mysql_socket'],
+      },
     }
   }
   mode '0600'

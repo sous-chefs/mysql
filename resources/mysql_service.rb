@@ -57,14 +57,14 @@ action :create do
   end
 
   # Yak shaving — remove default config files that conflict with multi-instance
-  file "/etc/my.cnf" do
+  file '/etc/my.cnf' do
     action :delete
   end
 
   # mysql_install_db compat link
-  link "/usr/share/my-default.cnf" do
+  link '/usr/share/my-default.cnf' do
     to "#{etc_dir}/my.cnf"
-    not_if { ::File.exist? "/usr/share/my-default.cnf" }
+    not_if { ::File.exist? '/usr/share/my-default.cnf' }
     action :create
   end
 
@@ -233,9 +233,9 @@ action :delete do
   end
 
   # Remove compat link created by :create
-  link "/usr/share/my-default.cnf" do
+  link '/usr/share/my-default.cnf' do
     action :delete
-    only_if { ::File.symlink?("/usr/share/my-default.cnf") }
+    only_if { ::File.symlink?('/usr/share/my-default.cnf') }
   end
 
   directory etc_dir do
