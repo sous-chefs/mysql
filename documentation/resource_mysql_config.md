@@ -11,16 +11,16 @@ mysql_config[default] do
 end
 ```
 
-## Parameters
+## Properties
 
 - `config_name` - The base name of the configuration file to be rendered into the conf.d directory on disk. Defaults to the resource name.
-- `cookbook` - The name of the cookbook to look for the template source. Defaults to nil
-- `group` - System group for file ownership. Defaults to 'mysql'.
-- `instance` - Name of the `mysql_service` instance the config is meant for. Defaults to 'default'.
-- `owner` - System user for file ownership. Defaults to 'mysql'.
+- `cookbook` - The name of the cookbook to look for the template source. Defaults to `nil`.
+- `group` - System group for file ownership. Defaults to `mysql`.
+- `instance` - Name of the `mysql_service` instance the config is meant for. Defaults to `default`.
+- `owner` - System user for file ownership. Defaults to `mysql`.
 - `source` - Template in cookbook to be rendered.
 - `variables` - Variables to be passed to the underlying `template` resource.
-- `version` - Version of the `mysql_service` instance the config is meant for. Used to calculate path. Only necessary when using packages with unique configuration paths, such as RHEL Software Collections or OmniOS. Defaults to 'nil'
+- `version` - MySQL version string. Defaults to the platform default.
 
 ## Actions
 

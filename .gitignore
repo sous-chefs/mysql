@@ -47,3 +47,6 @@ Policyfile.lock.json
 # vagrant stuff
 .vagrant/
 .vagrant.d/
+.rubocop_cache/
+.claude/
+CONTEXT.txt
