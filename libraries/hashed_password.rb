@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Author:: Maksim Horbul (<max@gorbul.net>)
 # Cookbook:: mariadb

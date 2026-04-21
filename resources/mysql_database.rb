@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: mysql
 # Resource:: database
@@ -51,6 +53,7 @@ end
 
 action :drop do
   return if current_resource.nil?
+
   converge_by "Dropping database '#{new_resource.database_name}'" do
     run_query("DROP DATABASE IF EXISTS \\`#{new_resource.database_name}\\`", nil)
   end
@@ -61,14 +64,15 @@ action :query do
 end
 
 load_current_value do
-  lsocket = (socket && host == 'localhost') ? socket : nil
-  ctrl = { user: user, password: password
-                   }.merge!(lsocket.nil? ? { host: host, port: port } : { socket: lsocket })
+  lsocket = socket && host == 'localhost' ? socket : nil
+  ctrl = { user: user, password: password }.merge!(lsocket.nil? ? { host: host, port: port } : { socket: lsocket })
   query = "SHOW DATABASES LIKE '#{database_name}'"
   results = execute_sql(query, nil, ctrl).split("\n")
   current_value_does_not_exist! if results.none?
 
-  results = execute_sql("SELECT DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = '#{database_name}'", nil, ctrl)
+  results = execute_sql(
+    "SELECT DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = '#{database_name}'", nil, ctrl
+  )
   results.split("\n").each do |row|
     columns = row.split("\t")
     if columns.first != 'DEFAULT_CHARACTER_SET_NAME'
@@ -82,8 +86,9 @@ action_class do
   include MysqlCookbook::HelpersBase
 
   def run_query(query, database)
-    socket = (new_resource.socket && new_resource.host == 'localhost') ? new_resource.socket : nil
-    ctrl_hash = { host: new_resource.host, port: new_resource.port, user: new_resource.user, password: new_resource.password, socket: socket }
+    socket = new_resource.socket && new_resource.host == 'localhost' ? new_resource.socket : nil
+    ctrl_hash = { host: new_resource.host, port: new_resource.port, user: new_resource.user,
+                  password: new_resource.password, socket: socket }
     Chef::Log.debug("#{@new_resource}: Performing query [#{query}]")
     execute_sql(query, database, ctrl_hash)
   end
