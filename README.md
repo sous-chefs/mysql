@@ -209,9 +209,7 @@ end
 
 ### Replication Testing
 
-Use multiple `mysql_service` instances to test a replication setup. This particular example serves as a smoke test in Test Kitchen because it exercises different resources and requires service restarts.
-
-<https://github.com/sous-chefs/mysql/blob/main/test/cookbooks/test/recipes/service_multi.rb>
+Replication can be tested with multiple `mysql_service` instances, but the current Test Kitchen smoke test intentionally uses a single instance for better portability and lower flake rates across package platforms.
 
 ## Frequently Asked Questions
 

@@ -1,0 +1,9 @@
+# Chef generated client config for <%= @config_name %>
+
+<% @options.each do |group, conf| %>
+[<%= group %>]
+<% conf.each do |key, value| %>
+<%= key %> = <%= value %>
+<% end %>
+
+<% end %>

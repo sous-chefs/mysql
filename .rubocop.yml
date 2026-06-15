@@ -1,6 +1,2 @@
----
-AllCops:
-  Exclude:
-    - 'Dangerfile'
-Layout/ClosingHeredocIndentation:
-  Enabled: false
+require:
+  - cookstyle

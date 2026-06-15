@@ -1,0 +1,9 @@
+---
+name: default
+title: MySQL Cookbook Default Tests
+maintainer: Sous Chefs
+copyright: Sous Chefs
+copyright_email: help@sous-chefs.org
+license: Apache-2.0
+summary: Verify MySQL client, server, and service are installed and running
+version: 1.0.0

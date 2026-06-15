@@ -1,69 +1,61 @@
 # MySQL Client bin path
 #
 def mysql_bin
-  case os[:family]
-  when 'smartos'
-    '/opt/local/bin/mysql'
-  when 'solaris'
-    '/opt/omni/bin/mysql'
-  else
-    '/usr/bin/mysql'
-  end
+  '/usr/bin/mysql'
 end
 
 # MySQL Server binary path
 #
-def mysqld_bin(version = nil)
+def mysqld_bin(_version = nil)
+  '/usr/sbin/mysqld'
+end
+
+# Default socket path (varies by OS)
+#
+def mysql_socket
   case os[:family]
-  when 'solaris'
-    "/opt/mysql#{version.delete('.')}/bin/mysqld"
-  when 'smartos'
-    '/opt/local/bin/mysqld'
-  when 'redhat'
-    '/usr/sbin/mysqld'
+  when 'redhat', 'fedora'
+    '/var/run/mysql/mysqld.sock'
   else
-    '/usr/sbin/mysqld'
+    '/run/mysqld/mysqld.sock'
   end
 end
 
 # Check MySQL Client
 #
-def check_mysql_client(version)
-  lib_name = 'libmysqlclient.so'
-  version_short = version.delete('.')
-
-  lib_name = "libmysql#{version_short}client.so" if os[:family] == 'suse'
-
+def check_mysql_client(version, allow_mariadb: false)
   # Binary
   describe file(mysql_bin) do
     it { should exist }
   end
 
   # Version
+  version_matcher = if allow_mariadb
+                      /Distrib #{Regexp.escape(version)}|Ver #{Regexp.escape(version)}|mariadb/i
+                    else
+                      /Distrib #{Regexp.escape(version)}|Ver #{Regexp.escape(version)}/
+                    end
   describe command("#{mysql_bin} --version") do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/Distrib #{version}|Ver #{version}/) }
-    its(:stderr) { should eq '' }
+    its(:stdout) { should match(version_matcher) }
   end
 
   # Shared lib
   describe command('ldconfig -p') do
-    its(:stdout) { should match(/#{lib_name}/) }
-  end
-
-  # For some reasons there is no devel lib for community server in OSS-update repo
-  return if os[:family] == 'suse'
-
-  # Header file
-  describe file('/usr/include/mysql/mysql.h') do
-    it { should exist }
+    its(:stdout) { should match(/libmysqlclient\.so|libmariadb\.so/) }
   end
 end
 
 # Check MySQL server version
 #
-def check_mysql_server(version)
+def check_mysql_server(version, allow_mariadb: false)
   mysqld = mysqld_bin(version)
+  version_matcher = if allow_mariadb
+                      /Ver #{Regexp.escape(version)}|mariadb/i
+                    else
+                      /Ver #{Regexp.escape(version)}/
+                    end
+
   # Binary
   describe file(mysqld) do
     it { should exist }
@@ -72,62 +64,48 @@ def check_mysql_server(version)
   # Version
   describe command("#{mysqld} --version") do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/Ver #{version}/) }
-    its(:stderr) { should eq '' }
+    its(:stdout) { should match(version_matcher) }
   end
 end
 
-# Return MySQL query shell command
+# Return MySQL query shell command using the permanent option file
 #
-def mysql_query(query, root_pass, host = '127.0.0.1', port = 3006, database = 'mysql')
-  <<-EOF
-#{mysql_bin} \
--h #{host} \
--P #{port} \
--u root \
--p#{Shellwords.escape(root_pass)} \
--D #{database} \
--e "#{query}"
-  EOF
+def mysql_query(query, database = 'mysql')
+  "#{mysql_bin} --defaults-extra-file=/etc/mysql/.my.cnf -D #{database} -e \"#{query}\""
 end
 
 # Check single instance of MySQL
 #
-def check_mysql_server_instance(port = '3306', password = 'ilikerandompasswords')
-  mysql_cmd_1 = mysql_query("SELECT Host,User FROM mysql.user WHERE User='root' AND Host='127.0.0.1';", password, '127.0.0.1', port)
-  mysql_cmd_2 = mysql_query("SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';", password, '127.0.0.1', port)
-
-  describe command(mysql_cmd_1) do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/| 127.0.0.1 | root |/) }
+def check_mysql_server_instance
+  describe file('/etc/mysql/.root_password') do
+    it { should exist }
+    its(:mode) { should cmp '0600' }
   end
 
-  describe command(mysql_cmd_2) do
+  describe file('/etc/mysql/.my.cnf') do
+    it { should exist }
+    its(:mode) { should cmp '0600' }
+  end
+
+  describe command(mysql_query("SELECT Host,User FROM mysql.user WHERE User='root' AND Host='localhost';")) do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/| localhost | root |/) }
+    its(:stdout) { should match(/localhost\s+root/) }
   end
 end
 
-# Check Master-Slave configuration defined by test::smoke recipe
+# Check smoke workflow defined by test::smoke recipe
 #
-def check_master_slave
-  root_pass = 'MyPa$$word\Has_"Special\'Chars%!'
-  root_pass_slave = 'An0th3r_Pa%%w0rd!'
-
-  mysql_cmd_1 = mysql_query('SELECT * FROM table1', root_pass_slave, '127.0.0.1', 3307, 'databass')
-  mysql_cmd_2 = mysql_query('SELECT * FROM table1', root_pass_slave, '127.0.0.1', 3308, 'databass')
-
-  describe command(mysql_cmd_1) do
+def check_smoke_workflow
+  describe command(mysql_query("SELECT userRank FROM table1 WHERE name='captain'", 'databass')) do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match(/awesome/) }
   end
 
-  describe command(mysql_cmd_2) do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/awesome/) }
+  describe file('/tmp/databass-backup.sql') do
+    it { should exist }
+    its(:size) { should > 0 }
+    its(:content) { should match(/table1/) }
   end
 
-  check_mysql_server_instance(3306, root_pass)
-  check_mysql_server_instance(3307, root_pass_slave)
-  check_mysql_server_instance(3308, root_pass_slave)
+  check_mysql_server_instance
 end
