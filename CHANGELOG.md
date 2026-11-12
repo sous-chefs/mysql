@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 Standardise files with files in sous-chefs/repo-management
 Standardise files with files in sous-chefs/repo-management
 
+## [12.0.0](https://github.com/sous-chefs/mysql/compare/v11.1.11...v12.0.0) (2026-11-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* default to MySQL 8.4, require an explicit sensitive root bootstrap password, use current server authentication, and replace library resource inheritance and obsolete service managers with unified custom resources. Preserve instance data and retain explicit legacy authentication only when selected.
+
+### Features
+
+* add support for ubuntu 22.04 ([#685](https://github.com/sous-chefs/mysql/issues/685)) ([8c1678a](https://github.com/sous-chefs/mysql/commit/8c1678ac9a0e90c2995f16e5044faa1becc3ad16))
+* migrate MySQL resources to secure 8.4 instances ([#739](https://github.com/sous-chefs/mysql/issues/739)) ([a1af381](https://github.com/sous-chefs/mysql/commit/a1af381cf957a5442e662699091da4a91b64a730))
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#734](https://github.com/sous-chefs/mysql/issues/734)) ([46cb7a1](https://github.com/sous-chefs/mysql/commit/46cb7a1c09ad47eae3c32ac84f6551091b5398ea))
+
 ## [11.1.11](https://github.com/sous-chefs/mysql/compare/11.1.10...v11.1.11) (2025-10-15)
 
 

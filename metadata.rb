@@ -6,7 +6,7 @@ description       'Provides mysql_service, mysql_config, and mysql_client resour
 source_url        'https://github.com/sous-chefs/mysql'
 issues_url        'https://github.com/sous-chefs/mysql/issues'
 chef_version      '>= 17'
-version           '11.1.11'
+version           '12.0.0'
 
 supports 'almalinux', '>= 8.0'
 supports 'amazon', '>= 2023.0'
