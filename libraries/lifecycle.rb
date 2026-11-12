@@ -4,6 +4,12 @@ require 'json'
 
 module MysqlCookbook
   module Lifecycle
+    def self.paths_overlap?(left, right)
+      left = canonical_path(left)
+      right = canonical_path(right)
+      left == right || left == '/' || right == '/' || left.start_with?(right + '/') || right.start_with?(left + '/')
+    end
+
     def self.ensure_bootstrap_marker(path, data_dir:, series:)
       state = { 'data_dir' => canonical_path(data_dir), 'series' => series }
       begin

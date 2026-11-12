@@ -36,6 +36,10 @@ def lc_messages_dir; end
 action :create do
   raise ArgumentError, 'mysql_service requires systemd' unless systemd?
   raise ArgumentError, 'MySQL 8.0 or newer is required' if Gem::Version.new(new_resource.version) < Gem::Version.new('8.0')
+  writable_paths = [new_resource.etc_dir, new_resource.include_dir, new_resource.log_dir, new_resource.data_dir, ::File.dirname(new_resource.socket), ::File.dirname(new_resource.pid_file)].uniq
+  if writable_paths.any? { |path| MysqlCookbook::Lifecycle.paths_overlap?(path, '/var/lib/chef/mysql-bootstrap') }
+    raise ArgumentError, 'Instance directories must not overlap trusted MySQL bootstrap state'
+  end
 
   ruby_block "#{new_resource.name} verify installed MySQL series" do
     block { raise 'Installed MySQL series differs from version; upgrade explicitly before converging' }
@@ -66,7 +70,7 @@ action :create do
     manage_home false
   end
 
-  [new_resource.etc_dir, new_resource.include_dir, new_resource.log_dir, new_resource.data_dir, ::File.dirname(new_resource.socket), ::File.dirname(new_resource.pid_file)].uniq.each do |path|
+  writable_paths.each do |path|
     directory path do
       owner new_resource.run_user
       group new_resource.run_group
@@ -166,9 +170,7 @@ end
 end
 
 action :delete do
-  config_path = MysqlCookbook::Lifecycle.canonical_path(new_resource.etc_dir)
-  data_path = MysqlCookbook::Lifecycle.canonical_path(new_resource.data_dir)
-  raise 'Refusing to delete configuration containing the data directory' if data_path == config_path || data_path.start_with?(config_path + '/')
+  raise 'Refusing to delete configuration overlapping the data directory' if MysqlCookbook::Lifecycle.paths_overlap?(new_resource.etc_dir, new_resource.data_dir)
   systemd_unit "#{new_resource.mysql_name}.service" do
     action [:stop, :disable, :delete]
     only_if { ::File.exist?("/etc/systemd/system/#{new_resource.mysql_name}.service") }

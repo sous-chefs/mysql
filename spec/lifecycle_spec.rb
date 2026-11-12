@@ -5,6 +5,13 @@ require 'tmpdir'
 require_relative '../libraries/lifecycle'
 
 describe MysqlCookbook::Lifecycle do
+  it 'rejects ancestors, descendants and root as overlaps with trusted recovery state' do
+    expect(described_class.paths_overlap?('/var/lib/chef', '/var/lib/chef/mysql-bootstrap')).to be(true)
+    expect(described_class.paths_overlap?('/var/lib/chef/mysql-bootstrap/data', '/var/lib/chef/mysql-bootstrap')).to be(true)
+    expect(described_class.paths_overlap?('/', '/var/lib/chef/mysql-bootstrap')).to be(true)
+    expect(described_class.paths_overlap?('/var/lib/mysql-primary', '/var/lib/chef/mysql-bootstrap')).to be(false)
+  end
+
   it 'rejects a bootstrap marker symlink without truncating its target' do
     Dir.mktmpdir('chef-mysql-marker') do |directory|
       target = File.join(directory, 'protected')
