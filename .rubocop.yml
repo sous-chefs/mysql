@@ -2,5 +2,6 @@
 AllCops:
   Exclude:
     - 'Dangerfile'
+    - 'vendor/**/*'
 Layout/ClosingHeredocIndentation:
   Enabled: false

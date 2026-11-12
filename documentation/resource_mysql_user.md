@@ -1,63 +1,11 @@
-# mysql\_user
+# mysql_user
 
-Manage MySQL users and grant them privileges on database objects.
+Manage an account and additive grants. Actions: `:create` (default), `:drop`, `:grant`, `:revoke`.
 
-## Actions
+`username` defaults to the resource name; `host` defaults to `localhost` and identifies the account, not the control connection. Sensitive `password` can be a String, an explicit `MysqlCookbook::HashedPassword`, or unset to preserve an existing password. `use_native_auth` defaults to `false`, using the server's current authentication. Enable the legacy server plugin before explicitly selecting native authentication or a native password hash; MySQL 8.4 otherwise rejects it. No plugin is enabled silently.
 
-- create - (default) to create a user
-- drop - to drop a user
-- grant - to grant privileges to a user
-- revoke - to revoke privileges from a user
+`require_ssl` and `require_x509` default to false; X509 takes precedence. Existing TLS requirements are reconciled by `:create`. Password verification logs into the same server endpoint as the managed user, checks `CURRENT_USER()` and never logs credentials. Supply a connection endpoint and client TLS credentials that can authenticate that account; remote-only accounts or X509 accounts require matching connection settings.
 
-## Properties
+Control properties are `ctrl_user` (`root`), sensitive `ctrl_password`, `ctrl_host` (`localhost`), `ctrl_port` (`3306`) and optional `ctrl_socket`. Optional TLS properties are `ssl_mode`, `ssl_ca`, `ssl_cert` and sensitive `ssl_key`. Set an explicit socket for named instances.
 
-Name              | Types                  | Description                                              | Default               | Required?
-------------------|------------------------|----------------------------------------------------------|-----------------------|----------
-`username`        | String                 | The database user to be managed                          | `name` if not defined | no
-`password`        | String, HashedPassword | password the user will be asked for to connect           |                       | yes
-`host`            | String                 | The host from which the user is allowed to connect       | `localhost`           | no
-`database_name`   | String                 | Database to grant privileges on                          |                       | no
-`table`           | String                 | Table to grant privileges on                             |                       | no
-`privileges`      | Array                  | Array of privileges to grant                             | `[:all]`              | no
-`grant_option`    | true/false             | Allow user to grant privileges to others                 | `false`               | no
-`require_ssl`     | true/false             | Require SSL for connections                              | `false`               | no
-`require_x509`    | true/false             | Require X509 certificate for connections                 | `false`               | no
-`use_native_auth` | true/false             | if using MySQL >=8, use `mysql_native_password` for auth | `true`                | no
-`ctrl_user`       | String                 | the username of the control connection                   | `root`                | no
-`ctrl_password`   | String                 | password of the user used to connect to                  |                       | no
-`ctrl_host`       | String                 | host to connect to                                       | `localhost`           | no
-`ctrl_port`       | Integer                | port of the host to connect to                           | `3306`                | no
-
-### `use_native_auth`
-
-This property should be set to `false` if the user is local (host of `localhost`) to provide better security. The property still works for remote users but does not provide any idempotency guarantees. `use_native_auth` has no effect for percona <8.
-
-## Examples
-
-```ruby
-# Create an user but grant no privileges
-mysql_user 'disenfranchised' do
-  password 'super_secret'
-  action :create
-end
-
-# Create an user using a hashed password string instead of plain text one
-mysql_user 'disenfranchised' do
-  password hashed_password('md5eacdbf8d9847a76978bd515fae200a2a')
-  action :create
-end
-
-# Drop a user
-mysql_user 'foo_user' do
-  action :drop
-end
-
-# Grant SELECT, UPDATE, and INSERT privileges to all tables in foo db from all hosts
-mysql_user 'foo_user' do
-  password 'super_secret'
-  database_name 'foo'
-  host '%'
-  privileges [:select,:update,:insert]
-  action :grant
-end
-```
+`database_name` and optional `table` select the grant scope; absent database means global scope. `privileges` defaults to `[:all]`. Static aliases such as `:create_tmp_table`, `:show_db`, `:repl_client` remain accepted; the server validates other static and dynamic privilege names. `grant_option` defaults to false and adds grant authority when true. Grants preserve unrelated privileges. Revoke removes only requested privileges currently present at that exact scope. Create the account before granting; grant does not create accounts or rotate passwords. Drop and revoke are idempotent when the account or grants are absent.

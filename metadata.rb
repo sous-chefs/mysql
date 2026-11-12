@@ -8,8 +8,6 @@ issues_url        'https://github.com/sous-chefs/mysql/issues'
 chef_version      '>= 17'
 version           '11.1.11'
 
-depends 'apparmor'
-
 supports 'almalinux', '>= 8.0'
 supports 'amazon', '>= 2023.0'
 supports 'centos_stream', '>= 9.0'

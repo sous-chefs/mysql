@@ -52,9 +52,9 @@ platforms:
       image: dokken/fedora-latest
       pid_one_command: /usr/lib/systemd/systemd
 
-  - name: opensuse-leap-15
+  - name: opensuse-leap-16
     driver:
-      image: dokken/opensuse-leap-15
+      image: opensuse/leap:16.0
       pid_one_command: /usr/lib/systemd/systemd
 
   - name: oraclelinux-8

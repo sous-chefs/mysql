@@ -1,0 +1,15 @@
+# Chef managed access for MySQL instance <%= @config.instance %>
+<%= @config.etc_dir %>/ r,
+<%= @config.etc_dir %>/** r,
+<%= @config.log_dir %>/ r,
+<%= @config.log_dir %>/** rw,
+<%= @config.data_dir %>/ r,
+<%= @config.data_dir %>/** rwk,
+<%= @config.run_dir %>/ rw,
+<%= @config.run_dir %>/** rw,
+<%= @config.pid_file %> rw,
+<%= @config.socket %> rw,
+<% if @config.tmp_dir %>
+<%= @config.tmp_dir %>/ rw,
+<%= @config.tmp_dir %>/** rwk,
+<% end %>

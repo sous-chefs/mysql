@@ -22,76 +22,42 @@ jobs:
       issues: write
 
   integration:
-    needs: "lint-unit"
+    needs: lint-unit
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         os:
-          - "almalinux-8"
-          - "centos-7"
-          - "centos-stream-8"
-          - "rockylinux-8"
-          - "ubuntu-1804"
-          - "ubuntu-2004"
-          - "ubuntu-2204"
+          - almalinux-8
+          - almalinux-9
+          - almalinux-10
+          - amazonlinux-2023
+          - centos-stream-9
+          - centos-stream-10
+          - debian-12
+          - debian-13
+          - fedora-latest
+          - opensuse-leap-16
+          - oraclelinux-8
+          - oraclelinux-9
+          - rockylinux-8
+          - rockylinux-9
+          - rockylinux-10
+          - ubuntu-2004
+          - ubuntu-2204
+          - ubuntu-2404
         suite:
-          - "client-install-57"
-          - "client-install-80"
-          - "smoke57"
-          - "smoke80"
-          - "resources-57"
-          - "resources-80"
-        exclude:
-          - os: almalinux-8
-            suite: client-install-57
-          - os: almalinux-8
-            suite: smoke57
-          - os: almalinux-8
-            suite: resources-57
-          - os: centos-stream-8
-            suite: client-install-57
-          - os: centos-stream-8
-            suite: smoke57
-          - os: centos-stream-8
-            suite: resources-57
-          - os: ubuntu-1804
-            suite: client-install-80
-          - os: ubuntu-1804
-            suite: smoke80
-          - os: ubuntu-1804
-            suite: resources-80
-          - os: ubuntu-2004
-            suite: client-install-57
-          - os: ubuntu-2004
-            suite: smoke57
-          - os: ubuntu-2004
-            suite: resources-57
-          - os: ubuntu-2204
-            suite: client-install-57
-          - os: ubuntu-2204
-            suite: smoke57
-          - os: ubuntu-2204
-            suite: resources-57
-          - os: rockylinux-8
-            suite: client-install-57
-          - os: rockylinux-8
-            suite: smoke57
-          - os: rockylinux-8
-            suite: resources-57
-      fail-fast: false
-
+          - default
+        include:
+          - os: ubuntu-2404
+            suite: package
+          - os: almalinux-9
+            suite: package
     steps:
       - name: Check out code
         uses: actions/checkout@v7
       - name: Install Chef
         uses: actionshub/chef-install@6.0.0
-      # https://github.com/actions/virtual-environments/issues/181#issuecomment-610874237
-      - name: Disable apparmor for mysqld
-        run: |
-          set -x
-          sudo apt-get -y remove mysql-server --purge
-          sudo apt-get -y install apparmor-profiles
-          sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
       - name: Dokken
         uses: actionshub/test-kitchen@3.0.0
         env:
@@ -100,11 +66,3 @@ jobs:
         with:
           suite: ${{ matrix.suite }}
           os: ${{ matrix.os }}
-      - name: Print debug output on failure
-        if: failure()
-        run: |
-          set -x
-          sudo journalctl -l --since today
-          sudo docker version
-          sudo docker info
-          KITCHEN_LOCAL_YAML=kitchen.dokken.yml /usr/bin/kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "journalctl -l"

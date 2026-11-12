@@ -6,7 +6,6 @@ name: prevent-file-change
     types:
       - opened
       - reopened
-      - edited
       - synchronize
 
 jobs:
