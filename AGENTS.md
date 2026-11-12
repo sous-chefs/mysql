@@ -68,6 +68,15 @@
   path and root0600 permissions were tested with real immediate service restart notifications.
 * Local x86 containers cannot execute on this Docker configuration (`exec format error`). Native
   arm64 binaries/packages provide local lifecycle evidence; hosted x86 matrix results remain distinct.
+* Initial hosted matrix passed all 17 generic suites other than openSUSE; its official minimal image
+  lacked systemd. Installing systemd in that test image restored local openSUSE lifecycle and all
+  assertions. Package suites exposed runner AppArmor interaction: containers cannot reload policy
+  without a securityfs interface, and runner-global mysqld profiles are unrelated to the nested
+  instance. Production defaults still enforce vendor policy. Fixtures explicitly select offline
+  validation and execute an unmodified copy of the installed package binary at a fixture-local path,
+  with installed basedir/plugin paths. No host profiles are removed or disabled; kernel confinement
+  remains a separate verification requirement. Failure diagnostics emit only structured codes and
+  fixed OS error labels, not bootstrap SQL or authentication details.
 
 ## Primary references
 

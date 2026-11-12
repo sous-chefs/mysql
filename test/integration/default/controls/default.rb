@@ -2,6 +2,14 @@
 
 control 'mysql-instance' do
   impact 1.0
+  if file('/opt/mysql-package/mysqld').exist?
+    describe command('cmp /usr/sbin/mysqld /opt/mysql-package/mysqld') do
+      its('exit_status') { should eq 0 }
+    end
+    describe command('systemctl show mysql-primary --property=ExecStart --value') do
+      its('stdout') { should include('/opt/mysql-package/mysqld') }
+    end
+  end
   describe file('/etc/mysql-primary/conf.d/default-client-options.cnf') do
     its('owner') { should eq 'root' }
     its('mode') { should cmp '0600' }

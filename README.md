@@ -39,6 +39,8 @@ Retains AlmaLinux, Amazon Linux, CentOS Stream, Debian, Fedora, openSUSE Leap, O
 
 On hosts with a vendor AppArmor profile, the service adds instance-specific access rules and reloads that profile. It preserves existing policy and does not disable confinement. Configure SELinux policy for custom instance paths in your wrapper cookbook; the cookbook does not disable SELinux.
 
+The explicit `apparmor_mode 'validate'` option parses policy without loading it for image/container builds. Production defaults remain `enforce`; failed live loads still fail convergence. Docker tests use offline policy validation and isolated copies of package executables to avoid runner-global profiles. They verify package/bootstrap behaviour, not live host kernel confinement.
+
 ## Migration to version 12
 
 This is a full migration from library resource inheritance to flat custom resources. Resource names, instance paths, SQL actions and installation aliases remain. There are no root recipes or node attribute defaults.

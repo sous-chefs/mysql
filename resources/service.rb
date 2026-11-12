@@ -26,6 +26,7 @@ property :tmp_dir, String, desired_state: false
 property :mysqld_binary, String, default: '/usr/sbin/mysqld', desired_state: false
 property :mysql_binary, String, default: '/usr/bin/mysql', desired_state: false
 property :mysqladmin_binary, String, default: '/usr/bin/mysqladmin', desired_state: false
+property :apparmor_mode, String, equal_to: %w(enforce validate), default: 'enforce', desired_state: false
 
 def socket_file(*arguments)
   socket(*arguments)
@@ -90,12 +91,13 @@ action :create do
 
   # Extend an installed vendor profile without replacing operator policy or disabling confinement.
   if ::File.exist?('/etc/apparmor.d/usr.sbin.mysqld') && ::File.exist?('/sbin/apparmor_parser')
+    parser_command = apparmor_parser_command
     directory '/etc/apparmor.d/local/mysql' do
       recursive true
       mode '0755'
     end
     execute "#{new_resource.name} reload MySQL AppArmor" do
-      command ['/sbin/apparmor_parser', '-r', '/etc/apparmor.d/usr.sbin.mysqld']
+      command parser_command
       action :nothing
     end
     file '/etc/apparmor.d/local/usr.sbin.mysqld' do
@@ -186,13 +188,19 @@ action :delete do
       notifies :run, "execute[#{new_resource.name} remove MySQL AppArmor rules]", :delayed
     end
   end
+  parser_command = apparmor_parser_command
   execute "#{new_resource.name} remove MySQL AppArmor rules" do
-    command ['/sbin/apparmor_parser', '-r', '/etc/apparmor.d/usr.sbin.mysqld']
+    command parser_command
     action :nothing
   end
 end
 
 action_class do
+  def apparmor_parser_command
+    flags = new_resource.apparmor_mode == 'validate' ? ['--skip-kernel-load', '--skip-read-cache'] : ['-r']
+    ['/sbin/apparmor_parser', *flags, '/etc/apparmor.d/usr.sbin.mysqld']
+  end
+
   def mysql_ready?
     # mysqladmin ping returns success for a live server even when authentication is denied.
     shell_out(new_resource.mysqladmin_binary, '--no-defaults', '--no-login-paths', '--protocol=socket', "--socket=#{new_resource.socket}", '--user=chef-readiness', '--connect-timeout=1', 'ping', timeout: 5).exitstatus.zero?

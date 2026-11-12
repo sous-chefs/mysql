@@ -9,6 +9,7 @@ Manage an independent systemd MySQL instance. Actions: `:create` (default), `:st
 | `initial_root_password` | none | Required, non-empty sensitive secret for fresh bootstrap only |
 | `install_method` | `auto` | `auto`, `package` or `none` for caller-installed binaries |
 | `service_manager` | `auto` | `auto` or `systemd` |
+| `apparmor_mode` | `enforce` | Load installed vendor policy; explicit `validate` only parses policy without loading it |
 | `run_user`, `run_group` | `mysql` | System account and group |
 | `package_name` | `mysql-community-server` | Caller-configured Oracle package repository |
 | `package_version`, `package_options` | none | Exact package version and provider options |
@@ -31,3 +32,5 @@ Create writes configuration and enables the unit; start is explicit. Notify `:re
 For multiple instances, configure distinct classic ports, sockets and X Protocol ports, or explicitly disable X Protocol with `mysqld_options('mysqlx' => 0)`. The server's normal network defaults otherwise apply.
 
 Delete preserves data, logs, system accounts and packages. It refuses to remove configuration containing the configured data directory. Stop an existing vendor default instance before adopting its paths, and manage its credentials explicitly. See the README for AppArmor and SELinux requirements.
+
+The default AppArmor mode loads the installed vendor profile and fails real policy-load errors. `validate` is an explicit option for image builds or containers without a kernel policy interface; it writes and parses policy but provides no evidence of kernel confinement. Integration package fixtures use that mode and a fixture-local copy of the installed package binary so runner-global profiles do not apply to the nested test instance. Production binary/profile defaults remain unchanged.

@@ -14,6 +14,7 @@ describe 'test::default' do
     expect(resource.version).to eq('8.4')
     expect(resource.class.properties[:initial_root_password].options[:sensitive]).to be(true)
     expect(resource.class.properties[:initial_root_password].options).not_to have_key(:default)
+    expect(resource.class.properties[:apparmor_mode].options[:default]).to eq('enforce')
   end
 
   it 'keeps current server authentication as the default' do

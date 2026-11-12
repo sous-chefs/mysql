@@ -1,10 +1,24 @@
 # frozen_string_literal: true
 
 include_recipe node['mysql_test']['installation'] == 'package' ? 'test::repository' : 'test::binary'
+include_recipe 'test::package_binary' if node['mysql_test']['installation'] == 'package'
+
+cookbook_file '/root/mysql-test-diagnostics.rb' do
+  source 'mysql_diagnostics.rb'
+  mode '0700'
+end
+
+server_options = if node['mysql_test']['installation'] == 'package'
+                   { 'basedir' => '/usr', 'plugin_dir' => platform_family?('debian') ? '/usr/lib/mysql/plugin' : '/usr/lib64/mysql/plugin', 'mysqlx' => 0 }
+                 else
+                   { 'basedir' => '/opt/mysql', 'mysqlx' => 0 }
+                 end
 
 mysql_service 'primary' do
   install_method 'none' unless node['mysql_test']['installation'] == 'package'
-  mysqld_options node['mysql_test']['installation'] == 'package' ? { 'mysqlx' => 0 } : { 'basedir' => '/opt/mysql', 'mysqlx' => 0 }
+  mysqld_options server_options
+  mysqld_binary '/opt/mysql-package/mysqld' if node['mysql_test']['installation'] == 'package'
+  apparmor_mode 'validate'
   port 3307
   initial_root_password "Fixture-only-'quote\\slash!"
   bind_address '127.0.0.1'
@@ -13,7 +27,9 @@ end
 
 mysql_service 'secondary' do
   install_method 'none'
-  mysqld_options node['mysql_test']['installation'] == 'package' ? { 'mysqlx' => 0 } : { 'basedir' => '/opt/mysql', 'mysqlx' => 0 }
+  mysqld_options server_options
+  mysqld_binary '/opt/mysql-package/mysqld' if node['mysql_test']['installation'] == 'package'
+  apparmor_mode 'validate'
   run_user 'mysql_secondary'
   run_group 'mysql_secondary'
   port 3308
