@@ -62,9 +62,10 @@
   converge idempotency, including dynamic global privileges and grant options. Ubuntu 24.04 generic
   binary and AlmaLinux 9 Oracle RPM suites each completed two converges with no changes on the second.
   Expanded custom-user/multi-instance bootstrap also passed on both, with zero changes on the second
-  converge (Ubuntu 0/58; AlmaLinux 0/59 after retaining client configuration). The explicit secondary
-  root password includes a newline. Both complete fixtures passed 29 InSpec assertions each, including
-  an actual vendor-client login through the retained private mysql_client_config output.
+  converge (Ubuntu 0/61; AlmaLinux 0/62 after retaining client configuration). The explicit secondary
+  root password includes a newline. Both complete fixtures passed 33 InSpec assertions each, including
+  actual vendor-client login through both private mysql_client_config locations. Its default include
+  path and root0600 permissions were tested with real immediate service restart notifications.
 * Local x86 containers cannot execute on this Docker configuration (`exec format error`). Native
   arm64 binaries/packages provide local lifecycle evidence; hosted x86 matrix results remain distinct.
 
