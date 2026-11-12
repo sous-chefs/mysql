@@ -226,7 +226,7 @@ action_class do
     end
     Tempfile.create(['chef-mysql-bootstrap-', '.sql'], new_resource.etc_dir) do |file|
       file.chmod(0600)
-      ::File.chown(Etc.getpwnam(new_resource.run_user).uid, Etc.getgrnam(new_resource.run_group).gid, file.path)
+      file.chown(Etc.getpwnam(new_resource.run_user).uid, Etc.getgrnam(new_resource.run_group).gid)
       escapes = { '\\' => '\\\\', "'" => "\\'", "\n" => '\\n', "\r" => '\\r', "\0" => '\\0', "\u001a" => '\\Z' }
       password = new_resource.initial_root_password.gsub(/[\\'\n\r\x00\x1a]/) { |character| escapes.fetch(character) }
       file.write("SET SESSION sql_mode='';\nALTER USER 'root'@'localhost' IDENTIFIED BY '#{password}';\n")

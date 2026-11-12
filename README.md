@@ -26,6 +26,7 @@ Use your existing secret store; `secret_store` above represents your own integra
 
 - [mysql_service](documentation/resource_mysql_service.md)
 - [mysql_client](documentation/resource_mysql_client.md)
+- [mysql_client_config](documentation/resource_mysql_client_config.md)
 - [mysql_config](documentation/resource_mysql_config.md)
 - [mysql_database](documentation/resource_mysql_database.md)
 - [mysql_user](documentation/resource_mysql_user.md)

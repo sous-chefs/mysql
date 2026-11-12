@@ -5,12 +5,14 @@ require 'securerandom'
 require_relative '../libraries/sql_client'
 
 describe 'MySQL resources against an isolated real server', :real_mysql do
-  before do
+  before do |example|
     skip 'Set MYSQL_REAL_TEST_CLI to an isolated test client' unless ENV['MYSQL_REAL_TEST_CLI']
+    @cli = example.metadata[:legacy_mysql] ? ENV['MYSQL_LEGACY_TEST_CLI'] : ENV['MYSQL_REAL_TEST_CLI']
+    skip 'Set MYSQL_LEGACY_TEST_CLI to a deliberately legacy-enabled isolated server' unless @cli
     @database = "chef_database_#{SecureRandom.hex(4)}`quote"
     @username = "chef_user_#{SecureRandom.hex(4)}"
     allow(MysqlCookbook::SqlClient).to receive(:new).and_wrap_original do |original, connection, **_options|
-      original.call(connection, binary: ENV.fetch('MYSQL_REAL_TEST_CLI'), options_dir: '/private/tmp/mysql-754-options')
+      original.call(connection, binary: @cli, options_dir: '/private/tmp/mysql-754-options')
     end
   end
 
@@ -18,6 +20,7 @@ describe 'MySQL resources against an isolated real server', :real_mysql do
     ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '24.04', step_into: [:mysql_database, :mysql_user]) do |node|
       node.default['mysql_test']['database'] = @database
       node.default['mysql_test']['username'] = @username
+      node.default['mysql_test']['native_hash'] = @native_hash if @native_hash
     end.converge(recipe)
   end
 
@@ -53,5 +56,21 @@ describe 'MySQL resources against an isolated real server', :real_mysql do
     expect(dynamic.map { |row| row['PRIV'] }).to include('BACKUP_ADMIN')
   ensure
     client&.query("DROP USER IF EXISTS #{MysqlCookbook::SqlClient.quote(@username)}@'localhost'") if @username
+  end
+
+  it 'does not enable the disabled native plugin when legacy authentication is explicitly requested' do
+    expect { converge_sql('test::sql_native') }.to raise_error(MysqlCookbook::QueryError) { |error| expect(error.error_code).to eq(1524) }
+  end
+
+  it 'preserves explicit legacy password hashes when the operator enabled that server plugin', :legacy_mysql do
+    require 'digest/sha1'
+    @native_hash = '*' + Digest::SHA1.hexdigest(Digest::SHA1.digest('Explicit-native-fixture-only!')).upcase
+    converge_sql('test::sql_native')
+    expect(converge_sql('test::sql_native').resource_collection.select(&:updated_by_last_action?)).to be_empty
+  ensure
+    if @username
+      client = MysqlCookbook::SqlClient.new({ user: 'root', socket: '/var/run/mysqld/mysqld.sock' })
+      client.query("DROP USER IF EXISTS #{MysqlCookbook::SqlClient.quote(@username)}@'localhost'")
+    end
   end
 end

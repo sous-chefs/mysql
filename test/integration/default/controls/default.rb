@@ -2,6 +2,14 @@
 
 control 'mysql-instance' do
   impact 1.0
+  describe file('/root/mysql-clients/primary.cnf') do
+    its('owner') { should eq 'root' }
+    its('mode') { should cmp '0600' }
+  end
+  describe command('mysql --defaults-file=/root/mysql-clients/primary.cnf --batch --skip-column-names -e "SELECT CURRENT_USER()"') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should eq "root@localhost\n" }
+  end
   describe service('mysql-primary') do
     it { should be_enabled }
     it { should be_running }

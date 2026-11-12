@@ -33,5 +33,6 @@ describe 'test::default' do
     expect(chef_run).to create_mysql_user('application')
     expect(chef_run).to grant_mysql_user('application grants')
     expect(chef_run).to create_mysql_config('primary')
+    expect(chef_run).to create_mysql_client_config('primary')
   end
 end

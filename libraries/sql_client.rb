@@ -43,12 +43,12 @@ module MysqlCookbook
       nil
     end
 
-    private
-
-    def option_value(value)
+    def self.option_value(value)
       escapes = { '\\' => '\\\\', '"' => '\\"', "\n" => '\\n', "\r" => '\\r', "\t" => '\\t' }
       '"' + value.to_s.gsub(/[\\"\n\r\t]/) { |character| escapes.fetch(character) } + '"'
     end
+
+    private
 
     def run(sql, database:, managed:)
       Tempfile.create(['chef-mysql-', '.cnf'], @options_dir) do |file|
@@ -57,7 +57,7 @@ module MysqlCookbook
         OPTIONS.each do |key|
           next if @connection[key].nil?
 
-          file.write("#{key.to_s.tr('_', '-')}=#{option_value(@connection[key])}\n")
+          file.write("#{key.to_s.tr('_', '-')}=#{self.class.option_value(@connection[key])}\n")
         end
         file.flush
         arguments = [@binary, "--defaults-file=#{file.path}", '--no-login-paths', '--batch', '--xml', '--binary-mode', '--skip-reconnect']

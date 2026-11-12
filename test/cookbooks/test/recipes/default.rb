@@ -68,3 +68,8 @@ file '/root/mysql-integration.cnf' do
   mode '0600'
   sensitive true
 end
+
+mysql_client_config 'primary' do
+  include_dir '/root/mysql-clients'
+  options('client' => { 'user' => 'root', 'password' => "Fixture-only-'quote\\slash!", 'socket' => '/run/mysql-primary/mysqld.sock' })
+end

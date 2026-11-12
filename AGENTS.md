@@ -12,6 +12,11 @@
 * Preserve data and shared accounts/packages when deleting an instance. SQL database/user drop
   actions remain explicit destructive operations. No automatic database-engine upgrade is part
   of this cookbook migration.
+* Reuse existing user-authored migration PR #739 instead of creating a duplicate. Preserve its
+  three commits using a normal merge, retain its mysql_client_config API, and reconcile its old
+  implementation to the tested migration and current main. Keep #721 unchanged. Original #739
+  integration jobs failed in March 2026; the stale LIMITATIONS vendor matrix is not authoritative.
+  Client options now default to private mode 0600 and escape values rather than exposing secrets.
 
 ## Existing behaviour and defects
 
@@ -57,7 +62,9 @@
   converge idempotency, including dynamic global privileges and grant options. Ubuntu 24.04 generic
   binary and AlmaLinux 9 Oracle RPM suites each completed two converges with no changes on the second.
   Expanded custom-user/multi-instance bootstrap also passed on both, with zero changes on the second
-  converge (Ubuntu 0/55; AlmaLinux 0/56). The explicit secondary root password includes a newline.
+  converge (Ubuntu 0/58; AlmaLinux 0/59 after retaining client configuration). The explicit secondary
+  root password includes a newline. Both complete fixtures passed 29 InSpec assertions each, including
+  an actual vendor-client login through the retained private mysql_client_config output.
 * Local x86 containers cannot execute on this Docker configuration (`exec format error`). Native
   arm64 binaries/packages provide local lifecycle evidence; hosted x86 matrix results remain distinct.
 
