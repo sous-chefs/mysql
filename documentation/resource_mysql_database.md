@@ -1,51 +1,9 @@
-# mysql\_database
+# mysql_database
 
-Manage MySQL databases and execute SQL queries on them. It works by establishing a control connection to the MySQL server using the MySQL client (be sure it is installed before using this resource).
+Create or alter a schema's character set and collation, drop it, or run explicit SQL. Actions: `:create` (default), `:drop`, `:query`.
 
-## Actions
+`database_name` defaults to the resource name. `encoding` defaults to `utf8`, and `collation` to `utf8_general_ci`; MySQL's `utf8mb3` aliases are normalised for idempotency. Prefer explicitly selecting `utf8mb4` for new applications. Existing contents are not converted by changing the schema defaults.
 
-- create - (default) to create a named database
-- drop - to drop a named database
-- query - to execute a SQL query
+Connection properties are `host` (`localhost`), `port` (`3306`), `user` (`root`), sensitive `password`, and optional `socket`. Without a socket, the vendor client's normal host/socket selection applies. Set `socket` explicitly for named instances. Optional TLS properties are `ssl_mode`, `ssl_ca`, `ssl_cert`, sensitive `ssl_key`. `instance` remains a compatibility property; it does not replace an explicit connection endpoint.
 
-## Properties
-
-Name            | Types   | Description                                    | Default                 | Required?
-----------------|---------|------------------------------------------------|-------------------------|----------
-`database_name` | String  | the name of the database to manage             | `name` if not specified | no
-`host`          | String  | host to connect to                             | `localhost`             | no
-`port`          | Integer | port of the host to connect to                 | `3306`                  | no
-`user`          | String  | the username of the control connection         | `root`                  | no
-`password`      | String  | password of the user used to connect to        |                         | no
-`socket`        | String  | Unix socket path for local connections         |                         | no
-`encoding`      | String  | default character set for the database         | `utf8`                  | no
-`collation`     | String  | default collation for the database             | `utf8_general_ci`       | no
-`sql`           | String  | the SQL query to execute (for `:query` action) |                         | no
-`instance`      | String  | the mysql service instance name                | `default`               | no
-
-When `host` has the value `localhost`, it will try to connect using a Unix socket, or TCP/IP if no socket is defined.
-
-### Examples
-
-```ruby
-# Create a database
-mysql_database 'wordpress-cust01' do
-  host '127.0.0.1'
-  user 'root'
-  password node['wordpress-cust01']['mysql']['initial_root_password']
-  action :create
-end
-
-# Drop a database
-mysql_database 'baz' do
-  action :drop
-end
-
-# Query a database
-mysql_database 'flush the privileges' do
-  sql 'flush privileges'
-  action :query
-end
-```
-
-**The `query` action will NOT select a database before running the query, nor return the actual results from the SQL query.**
+Create/drop compare structured server metadata. Identifiers and SQL literals are quoted independently. `sql` is sensitive and required for `:query`; it executes unchanged on every converge. Add an application-specific guard when appropriate. SQL errors report an error number without exposing the query or credentials.

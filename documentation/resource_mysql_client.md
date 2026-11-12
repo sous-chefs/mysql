@@ -1,24 +1,7 @@
-# mysql\_client
+# mysql_client
 
-The `mysql_client` resource manages the MySQL client binaries and development libraries.
+Install a vendor client and development headers from repositories configured by the caller. Actions: `:create` (default), `:delete`.
 
-It is an example of a "singleton" resource. Declaring two `mysql_client` resources on a machine usually won't yield two separate copies of the client binaries, except for platforms that support multiple versions (RHEL SCL, OmniOS).
+`mysql_client_installation` and `mysql_client_installation_package` are aliases. `version` defaults to `8.4`; `major_version` remains derived. `package_name` defaults to `mysql-community-client` plus `libmysqlclient-dev` on Debian-family systems or `mysql-community-devel` elsewhere. Override package names where your repository differs. `package_version` and `package_options` pass through to the package provider.
 
-## Example
-
-```ruby
-mysql_client 'default' do
-  action :create
-end
-```
-
-## Properties
-
-- `package_name` - An array of packages to be installed. Defaults to a value looked up in an internal map.
-- `package_version` - Specific versions of the package to install, passed onto the underlying package manager. Defaults to `nil`.
-- `version` - Major MySQL version number of client packages. Only valid on for platforms that support multiple versions, such as RHEL via Software Collections and OmniOS.
-
-## Actions
-
-- `:create` - Installs the client software
-- `:delete` - Removes the client software
+`mysql_server_installation` and `mysql_server_installation_package` expose the same package properties for the server, with actions `:install` (default) and `:delete`. Their default package is `mysql-community-server`. Explicit package deletion affects every instance using that shared installation.

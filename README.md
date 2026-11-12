@@ -1,291 +1,62 @@
-
-# MySQL Cookbook
+# MySQL cookbook
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/mysql.svg)](https://supermarket.chef.io/cookbooks/mysql)
-[![CI State](https://github.com/sous-chefs/mysql/workflows/ci/badge.svg)](https://github.com/sous-chefs/mysql/actions?query=workflow%3Aci)
-[![OpenCollective](https://opencollective.com/sous-chefs/backers/badge.svg)](#backers)
-[![OpenCollective](https://opencollective.com/sous-chefs/sponsors/badge.svg)](#sponsors)
-[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
-The MySQL Cookbook is a library cookbook that provides resource primitives (LWRPs) for use in recipes. It is designed to be a reference example for creating highly reusable cross-platform cookbooks.
-
-## Scope
-
-This cookbook is concerned with the "MySQL Community Server", particularly those shipped with F/OSS Unix and Linux distributions. It does not address forks or value-added repackaged MySQL distributions like MariaDB or Percona.
-
-## Maintainers
-
-This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of Chef cookbook maintainers working together to maintain important cookbooks. If you’d like to know more please visit [sous-chefs.org](https://sous-chefs.org/) or come chat with us on the Chef Community Slack in [#sous-chefs](https://chefcommunity.slack.com/messages/C2V7B88SF).
-
-## Requirements
-
-- Chef 17 or higher
-- Network accessible package repositories
-- 'recipe[selinux::disabled]' on RHEL platforms (or configure SELinux appropriately)
-
-## Platform Support
-
-The following platforms have been tested with Test Kitchen:
-
-| OS                | 8.0 | 8.4 |
-|-------------------|-----|-----|
-| AlmaLinux 8       | X   |     |
-| AlmaLinux 9       | X   | X   |
-| AlmaLinux 10      |     | X   |
-| Amazon Linux 2023 | X   | X   |
-| CentOS Stream 9   | X   | X   |
-| CentOS Stream 10  |     | X   |
-| Debian 12         | X   | X   |
-| Debian 13         |     | X   |
-| Fedora (latest)   | X   | X   |
-| openSUSE Leap 15  | X   |     |
-| Oracle Linux 8    | X   |     |
-| Oracle Linux 9    | X   | X   |
-| Rocky Linux 8     | X   |     |
-| Rocky Linux 9     | X   | X   |
-| Rocky Linux 10    |     | X   |
-| Ubuntu 20.04      | X   |     |
-| Ubuntu 22.04      | X   | X   |
-| Ubuntu 24.04      |     | X   |
-
-**Note:** MySQL 5.6 and 5.7 have reached end-of-life and are no longer supported by this cookbook.
-
-## Cookbook Dependencies
-
-There are no hard coupled dependencies. However, there is a loose dependency on `yum-mysql-community` for RHEL/CentOS platforms. As of the 8.0 version of this cookbook, configuration of the package repos is now the responsibility of the user.
-
-## Usage
-
-Place a dependency on the mysql cookbook in your cookbook's metadata.rb
+Manage Oracle MySQL instances, configuration, clients, databases and accounts with unified custom resources. Requires Chef Infra 17 or later and systemd. MySQL 8.4 LTS is the default. Repository configuration remains the caller's responsibility; this cookbook does not substitute MariaDB or Percona.
 
 ```ruby
-depends 'mysql'
-```
-
-Then, in a recipe:
-
-```ruby
-mysql_service 'foo' do
-  port '3306'
+mysql_service 'application' do
   version '8.4'
-  initial_root_password 'change me'
-  action [:create, :start]
-end
-```
-
-The service name on the OS is `mysql-foo`. You can manually start and stop it with `service mysql-foo start` and `service mysql-foo stop`.
-
-If you use `default` as the name the service name will be `mysql` instead of `mysql-default`.
-
-The configuration file is at `/etc/mysql-foo/my.cnf`. It contains the minimum options to get the service running. It looks like this.
-
-```cnf
-# Chef generated my.cnf for instance mysql-foo
-
-[client]
-default-character-set          = utf8
-port                           = 3306
-socket                         = /var/run/mysql-foo/mysqld.sock
-
-[mysql]
-default-character-set          = utf8
-
-[mysqld]
-user                           = mysql
-pid-file                       = /var/run/mysql-foo/mysqld.pid
-socket                         = /var/run/mysql-foo/mysqld.sock
-port                           = 3306
-datadir                        = /var/lib/mysql-foo
-tmpdir                         = /tmp
-log-error                      = /var/log/mysql-foo/error.log
-!includedir /etc/mysql-foo/conf.d
-
-[mysqld_safe]
-socket                         = /var/run/mysql-foo/mysqld.sock
-```
-
-You can put extra configuration into the conf.d directory by using the `mysql_config` resource, like this:
-
-```ruby
-mysql_service 'foo' do
-  port '3306'
-  version '8.4'
-  initial_root_password 'change me'
+  initial_root_password secret_store.fetch('mysql-root-password')
+  bind_address '127.0.0.1'
   action [:create, :start]
 end
 
-mysql_config 'foo' do
-  source 'my_extra_settings.erb'
-  instance 'foo'
-  notifies :restart, 'mysql_service[foo]'
-  action :create
+mysql_database 'application' do
+  socket '/run/mysql-application/mysqld.sock'
+  password secret_store.fetch('mysql-root-password')
+  encoding 'utf8mb4'
+  collation 'utf8mb4_0900_ai_ci'
 end
 ```
 
-You are responsible for providing `my_extra_settings.erb` in your own cookbook's templates folder. The name of the mysql service instance must be provided in mysql config as this defaults to 'default'.
-
-## Connecting with the mysql CLI command
-
-Logging into the machine and typing `mysql` with no extra arguments will fail. You need to explicitly connect over the socket with `mysql -S /var/run/mysql-foo/mysqld.sock`, or over the network with `mysql -h 127.0.0.1`
-
-## Upgrading from older version of the mysql cookbook
-
-- It is strongly recommended that you rebuild the machine from scratch. This is easy if you have your `data_dir` on a dedicated mount point. If you _must_ upgrade in-place, follow the instructions below.
-- The 6.x series supports multiple service instances on a single machine. It dynamically names the support directories and service names. `/etc/mysql becomes /etc/mysql-instance_name`. Other support directories in `/var` `/run` etc work the same way. Make sure to specify the `data_dir` property on the `mysql_service` resource to point to the old `/var/lib/mysql` directory.
+Use your existing secret store; `secret_store` above represents your own integration. Password properties are sensitive. SQL runs through the vendor client with a temporary private options file, without shell interpolation or password arguments. Errors report the MySQL error number without query text or credentials.
 
 ## Resources
 
-- [`mysql_service`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_service.md)
-- [`mysql_config`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_config.md)
-- [`mysql_client`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_client.md)
-- [`mysql_user`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_user.md)
-- [`mysql_database`](https://github.com/sous-chefs/mysql/blob/main/documentation/resource_mysql_database.md)
+- [mysql_service](documentation/resource_mysql_service.md)
+- [mysql_client](documentation/resource_mysql_client.md)
+- [mysql_client_config](documentation/resource_mysql_client_config.md)
+- [mysql_config](documentation/resource_mysql_config.md)
+- [mysql_database](documentation/resource_mysql_database.md)
+- [mysql_user](documentation/resource_mysql_user.md)
 
-## Advanced Usage Examples
+The installation aliases `mysql_client_installation`, `mysql_client_installation_package`, `mysql_server_installation` and `mysql_server_installation_package` remain available. Server installation supports `:install` and `:delete`; client installation supports `:create` and `:delete`.
 
-There are a number of configuration scenarios supported by the use of resource primitives in recipes. For example, you might want to run multiple MySQL services, as different users, and mount block devices that contain pre-existing databases.
+## Platforms
 
-### Multiple Instances as Different Users
+Retains AlmaLinux, Amazon Linux, CentOS Stream, Debian, Fedora, openSUSE Leap, Oracle Linux, RHEL, Rocky Linux and Ubuntu support. See metadata for minimum versions. Operators must provide compatible Oracle MySQL packages or use `install_method 'none'` with a preinstalled server. Oracle's package availability varies by distribution and architecture.
 
-```ruby
-# instance-1
-user 'alice' do
-  action :create
-end
+On hosts with a vendor AppArmor profile, the service adds instance-specific access rules and reloads that profile. It preserves existing policy and does not disable confinement. Configure SELinux policy for custom instance paths in your wrapper cookbook; the cookbook does not disable SELinux.
 
-directory '/mnt/data/mysql/instance-1' do
-  owner 'alice'
-  action :create
-end
+The explicit `apparmor_mode 'validate'` option parses policy without loading it for image/container builds. Production defaults remain `enforce`; failed live loads still fail convergence. Docker tests use offline policy validation and isolated copies of package executables to avoid runner-global profiles. They verify package/bootstrap behaviour, not live host kernel confinement.
 
-mount '/mnt/data/mysql/instance-1' do
-  device '/dev/sdb1'
-  fstype 'ext4'
-  action [:mount, :enable]
-end
+## Migration to version 12
 
-mysql_service 'instance-1' do
-  port '3307'
-  run_user 'alice'
-  data_dir '/mnt/data/mysql/instance-1'
-  action [:create, :start]
-end
+This is a full migration from library resource inheritance to flat custom resources. Resource names, instance paths, SQL actions and installation aliases remain. There are no root recipes or node attribute defaults.
 
-mysql_config 'site config for instance-1' do
-  instance 'instance-1'
-  source 'instance-1.cnf.erb'
-  notifies :restart, 'mysql_service[instance-1]'
-end
+- The default server series is 8.4. Set `version` explicitly for an existing 8.0 installation. This does not authorise an engine or data upgrade: the service refuses an installed-series mismatch and starts with `--upgrade=NONE`. Plan and perform upgrades separately using Oracle's procedure.
+- New databases require an explicit, non-empty `initial_root_password`. The property is sensitive. Existing databases retain their credentials; this property is not a password rotation mechanism.
+- Current server authentication replaces implicit `mysql_native_password`. Set `use_native_auth true` or explicitly pass `MysqlCookbook::HashedPassword` only when you deliberately enable legacy authentication on the server. MySQL 8.4 disables that plugin by default.
+- Systemd replaces SysV, Upstart and Solaris service managers. These obsolete managers are not available on the retained supported platforms.
+- `mysql_service :delete` stops and removes its unit and configuration. It preserves the data directory, logs, shared packages and system account. Remove data or uninstall shared packages explicitly if required.
+- Configuration uses an explicit defaults file. The cookbook no longer deletes global vendor configuration, stops unrelated vendor instances or modifies global SQL mode. Vendor package post-install scripts may create a default instance; operators own that instance separately.
+- Explicit SQL `:query` actions always execute and report an update. Use Chef guards for application-specific idempotency.
 
-# instance-2
-user 'bob' do
-  action :create
-end
+## Testing
 
-directory '/mnt/data/mysql/instance-2' do
-  owner 'bob'
-  action :create
-end
+Run `chef install`, `chef exec cookstyle`, `chef exec rspec` and `KITCHEN_LOCAL_YAML=kitchen.dokken.yml kitchen test`. Kitchen performs two converges and verifies a real server, scoped grants, current authentication and private files. The default suite uses checksum-pinned Oracle binaries to exercise all retained Linux families independently of repository availability; package suites exercise Oracle repositories on Ubuntu and AlmaLinux. Optional real SQL specs require an isolated test client configured through `MYSQL_REAL_TEST_CLI`; never point these tests at a production server.
 
-mount '/mnt/data/mysql/instance-2' do
-  device '/dev/sdc1'
-  fstype 'ext3'
-  action [:mount, :enable]
-end
+## Licence
 
-mysql_service 'instance-2' do
-  port '3308'
-  run_user 'bob'
-  data_dir '/mnt/data/mysql/instance-2'
-  action [:create, :start]
-end
-
-mysql_config 'site config for instance-2' do
-  instance 'instance-2'
-  source 'instance-2.cnf.erb'
-  notifies :restart, 'mysql_service[instance-2]'
-end
-```
-
-### Replication Testing
-
-Use multiple `mysql_service` instances to test a replication setup. This particular example serves as a smoke test in Test Kitchen because it exercises different resources and requires service restarts.
-
-<https://github.com/sous-chefs/mysql/blob/main/test/cookbooks/test/recipes/service_multi.rb>
-
-## Frequently Asked Questions
-
-### How do I run this behind my firewall
-
-On Linux, the `mysql_service` resource uses the platform's underlying package manager to install software. For this to work behind firewalls, you'll need to either:
-
-- Configure the system yum/apt utilities to use a proxy server that
-- can reach the Internet
-- Host a package repository on a network that the machine can talk to
-
-On the RHEL platform_family, applying the `yum::default` recipe will allow you to drive the `yum_globalconfig` resource with attributes to change the global yum proxy settings.
-
-If hosting repository mirrors, applying one of the following recipes and adjust the settings with node attributes.
-
-- `recipe[yum-centos::default]` from the Supermarket
-
-  <https://supermarket.chef.io/cookbooks/yum-centos>
-
-  <https://github.com/chef-cookbooks/yum-centos>
-
-- `recipe[yum-mysql-community::default]` from the Supermarket
-
-  <https://supermarket.chef.io/cookbooks/yum-mysql-community>
-
-  <https://github.com/chef-cookbooks/yum-mysql-community>
-
-### The mysql command line doesn't work
-
-If you log into the machine and type `mysql`, you may see an error like this one:
-
-`Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'`
-
-This is because MySQL is hardcoded to read the defined default my.cnf file, typically at /etc/my.cnf, and this LWRP deletes it to prevent overlap among multiple MySQL configurations.
-
-To connect to the socket from the command line, check the socket in the relevant my.cnf file and use something like this:
-
-`mysql -S /var/run/mysql-foo/mysqld.sock -Pwhatever`
-
-Or to connect over the network, use something like this: connect over the network..
-
-`mysql -h 127.0.0.1 -Pwhatever`
-
-These network or socket ssettings can also be put in you $HOME/.my.cnf, if preferred.
-
-### What about MariaDB, Percona, etc
-
-MySQL forks are purposefully out of scope for this cookbook. This is mostly to reduce the testing matrix to a manageable size. Cookbooks for these technologies can easily be created by copying and adapting this cookbook. However, there will be differences.
-
-Package repository locations, package version names, software major version numbers, supported platform matrices, and the availability of software such as XtraDB and Galera are the main reasons that creating multiple cookbooks to make sense.
-
-There are existing cookbooks to carter for these forks, check them out on the supermarket
-
-## Contributors
-
-This project exists thanks to all the people who [contribute.](https://opencollective.com/sous-chefs/contributors.svg?width=890&button=false)
-
-### Backers
-
-Thank you to all our backers!
-
-![https://opencollective.com/sous-chefs#backers](https://opencollective.com/sous-chefs/backers.svg?width=600&avatarHeight=40)
-
-### Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
-
-![https://opencollective.com/sous-chefs/sponsor/0/website](https://opencollective.com/sous-chefs/sponsor/0/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/1/website](https://opencollective.com/sous-chefs/sponsor/1/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/2/website](https://opencollective.com/sous-chefs/sponsor/2/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/3/website](https://opencollective.com/sous-chefs/sponsor/3/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/4/website](https://opencollective.com/sous-chefs/sponsor/4/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/5/website](https://opencollective.com/sous-chefs/sponsor/5/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/6/website](https://opencollective.com/sous-chefs/sponsor/6/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/7/website](https://opencollective.com/sous-chefs/sponsor/7/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/8/website](https://opencollective.com/sous-chefs/sponsor/8/avatar.svg?avatarHeight=100)
-![https://opencollective.com/sous-chefs/sponsor/9/website](https://opencollective.com/sous-chefs/sponsor/9/avatar.svg?avatarHeight=100)
+Apache-2.0. Maintained by [Sous Chefs](https://sous-chefs.org/).
